@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
@@ -24,7 +25,7 @@ namespace Scar.Common.WPF.Startup
 {
     public abstract class BaseApplication : Application
     {
-        [NotNull]
+        [CanBeNull]
         private readonly Mutex _mutex;
 
         [NotNull]
@@ -52,11 +53,19 @@ namespace Scar.Common.WPF.Startup
             _subscriptionTokens.Add(Messenger.Subscribe<CultureInfo>(CultureUtilities.ChangeCulture));
 
             Logger = Container.Resolve<ILog>();
-            _mutex = CreateMutex();
+            // ReSharper disable once VirtualMemberCallInConstructor
+            if (NewInstanceHandling != NewInstanceHandling.AllowMultiple)
+            {
+                _mutex = CreateMutex();
+            }
 
             DispatcherUnhandledException += App_DispatcherUnhandledException;
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
         }
+
+        protected virtual NewInstanceHandling NewInstanceHandling => NewInstanceHandling.Restart;
+
+        protected virtual int WaitAfterOldInstanceKillMilliseconds => 0;
 
         [NotNull]
         protected virtual string AlreadyRunningCaption => "Cannot launch";
@@ -82,7 +91,7 @@ namespace Scar.Common.WPF.Startup
             }
 
             Container.Dispose();
-            _mutex.Dispose();
+            _mutex?.Dispose();
         }
 
         protected abstract void OnStartup();
@@ -90,16 +99,60 @@ namespace Scar.Common.WPF.Startup
         protected override void OnStartup(StartupEventArgs e)
         {
             SynchronizationContext = SynchronizationContext.Current;
-            if (!_mutex.WaitOne(0, false))
+            if (NewInstanceHandling != NewInstanceHandling.AllowMultiple)
             {
-                MessageBox.Show(AlreadyRunningMessage, AlreadyRunningCaption, MessageBoxButton.OK, MessageBoxImage.Warning);
-                Current.Shutdown();
-                return;
+                if (_mutex == null)
+                {
+                    throw new InvalidOperationException("Mutex should be initialized");
+                }
+
+                bool alreadyRunning;
+                try
+                {
+                    alreadyRunning = !_mutex.WaitOne(0, false);
+                }
+                catch (AbandonedMutexException)
+                {
+                    // No action required
+                    alreadyRunning = false;
+                }
+
+                if (alreadyRunning)
+                {
+                    switch (NewInstanceHandling)
+                    {
+                        case NewInstanceHandling.Throw:
+                            MessageBox.Show(AlreadyRunningMessage, AlreadyRunningCaption, MessageBoxButton.OK, MessageBoxImage.Warning);
+                            Current.Shutdown();
+                            return;
+                        case NewInstanceHandling.Restart:
+                        {
+                            KillAnotherInstance();
+                            break;
+                        }
+                    }
+                }
             }
 
+            //Prevent WPF tooltips from expiration
             ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(int.MaxValue));
 
             OnStartup();
+        }
+
+        private void KillAnotherInstance()
+        {
+            var anotherInstance = Process.GetProcesses()
+                .SingleOrDefault(proc => proc.ProcessName.Equals(Process.GetCurrentProcess().ProcessName) && proc.Id != Process.GetCurrentProcess().Id);
+            if (anotherInstance != null)
+            {
+                anotherInstance.Kill();
+                if (WaitAfterOldInstanceKillMilliseconds > 0)
+                {
+                    // Wait for process to close
+                    Thread.Sleep(WaitAfterOldInstanceKillMilliseconds);
+                }
+            }
         }
 
         protected virtual void RegisterDependencies(ContainerBuilder builder)
