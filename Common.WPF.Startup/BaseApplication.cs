@@ -101,35 +101,22 @@ namespace Scar.Common.WPF.Startup
             SynchronizationContext = SynchronizationContext.Current;
             if (NewInstanceHandling != NewInstanceHandling.AllowMultiple)
             {
-                if (_mutex == null)
+                switch (NewInstanceHandling)
                 {
-                    throw new InvalidOperationException("Mutex should be initialized");
-                }
-
-                bool alreadyRunning;
-                try
-                {
-                    alreadyRunning = !_mutex.WaitOne(0, false);
-                }
-                catch (AbandonedMutexException)
-                {
-                    // No action required
-                    alreadyRunning = false;
-                }
-
-                if (alreadyRunning)
-                {
-                    switch (NewInstanceHandling)
-                    {
-                        case NewInstanceHandling.Throw:
-                            MessageBox.Show(AlreadyRunningMessage, AlreadyRunningCaption, MessageBoxButton.OK, MessageBoxImage.Warning);
-                            Current.Shutdown();
-                            return;
-                        case NewInstanceHandling.Restart:
+                    case NewInstanceHandling.Throw:
+                        if (CheckAlreadyRunning())
                         {
-                            KillAnotherInstance();
-                            break;
+                            return;
                         }
+
+                        MessageBox.Show(AlreadyRunningMessage, AlreadyRunningCaption, MessageBoxButton.OK, MessageBoxImage.Warning);
+                        Current.Shutdown();
+
+                        return;
+                    case NewInstanceHandling.Restart:
+                    {
+                        KillAnotherInstanceIfExists();
+                        break;
                     }
                 }
             }
@@ -140,7 +127,28 @@ namespace Scar.Common.WPF.Startup
             OnStartup();
         }
 
-        private void KillAnotherInstance()
+        private bool CheckAlreadyRunning()
+        {
+            bool alreadyRunning;
+            if (_mutex == null)
+            {
+                throw new InvalidOperationException("Mutex should be initialized");
+            }
+
+            try
+            {
+                alreadyRunning = !_mutex.WaitOne(0, false);
+            }
+            catch (AbandonedMutexException)
+            {
+                // No action required
+                alreadyRunning = false;
+            }
+
+            return !alreadyRunning;
+        }
+
+        private void KillAnotherInstanceIfExists()
         {
             var anotherInstance = Process.GetProcesses()
                 .SingleOrDefault(proc => proc.ProcessName.Equals(Process.GetCurrentProcess().ProcessName) && proc.Id != Process.GetCurrentProcess().Id);
