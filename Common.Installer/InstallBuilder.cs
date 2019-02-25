@@ -167,7 +167,7 @@ namespace Scar.Common.Installer
                     UsesProperties = customActionParam
                 });
             _project.AddAction(
-                new ElevatedManagedAction(CustomActions.TerminateProcess, Return.check, When.Before, Step.RemoveFiles, Condition.BeingRemoved)
+                new ElevatedManagedAction(CustomActions.TerminateProcess, Return.check, When.Before, Step.RemoveFiles, Condition.BeingUninstalled)
                 {
                     UsesProperties = customActionParam
                 });
@@ -219,7 +219,7 @@ namespace Scar.Common.Installer
                 {
                     UsesProperties = customActionParam
                 },
-                new ElevatedManagedAction(CustomActions.UninstallService, Return.check, When.Before, Step.RemoveFiles, Condition.BeingRemoved)
+                new ElevatedManagedAction(CustomActions.UninstallService, Return.check, When.Before, Step.RemoveFiles, Condition.BeingUninstalled)
                 {
                     UsesProperties = customActionParam
                 }
