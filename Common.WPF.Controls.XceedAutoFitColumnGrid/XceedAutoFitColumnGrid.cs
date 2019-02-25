@@ -31,6 +31,7 @@ namespace Scar.Common.WPF.Xceed
         {
             IsVisibleChanged += XceedAutoFitColumnGrid_IsVisibleChanged;
             ItemsSourceChangeCompleted += XceedAutoFitColumnGrid_ItemsSourceChangeCompleted;
+            Loaded += XceedAutoFitColumnGrid_Loaded;
             _rateLimiter = new RateLimiter(SynchronizationContext.Current);
 
             Resources[typeof(DataCell)] = new Style(typeof(DataCell), (Style)TryFindResource(typeof(DataCell)))
@@ -40,6 +41,15 @@ namespace Scar.Common.WPF.Xceed
                     new EventSetter(LostFocusEvent, OnDataCellLostFocus)
                 }
             };
+        }
+
+        private void XceedAutoFitColumnGrid_Loaded([NotNull] object sender, RoutedEventArgs e)
+        {
+            var rowSelectorPane = TreeHelper.FindVisualChild<RowSelectorPane>((DependencyObject)sender);
+            if (rowSelectorPane != null)
+            {
+                rowSelectorPane.Background = Background;
+            }
         }
 
         public TimeSpan ColumnsWidthRecalculationInterval
@@ -107,6 +117,31 @@ namespace Scar.Common.WPF.Xceed
         private void XceedAutoFitColumnGrid_LayoutUpdated(object sender, EventArgs e)
         {
             _rateLimiter.Throttle(ColumnsWidthRecalculationInterval, AdjustColumnsWidths);
+        }
+    }
+
+    internal static class TreeHelper
+    {
+        [CanBeNull]
+        public static TChildItem FindVisualChild<TChildItem>([NotNull] DependencyObject obj) where TChildItem : DependencyObject
+        {
+            for (var i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                var child = VisualTreeHelper.GetChild(obj, i);
+
+                if (child is TChildItem item)
+                {
+                    return item;
+                }
+
+                var childOfChild = FindVisualChild<TChildItem>(child);
+
+                if (childOfChild != null)
+                {
+                    return childOfChild;
+                }
+            }
+            return null;
         }
     }
 }
