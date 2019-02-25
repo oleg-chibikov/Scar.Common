@@ -10,11 +10,10 @@
         x:Key="AnimatedWindowTemplate"
         TargetType="Window">
         <Border
-            Padding="6"
-            BorderBrush="Black"
-            Background="White"
-            BorderThickness="2"
-            CornerRadius="0">
+            Padding="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Padding, Mode=OneTime}"
+            Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Background, Mode=OneTime}"
+            BorderBrush="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=BorderBrush, Mode=OneTime}"
+            BorderThickness="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=BorderThickness, Mode=OneTime}">
             <Grid
                 commonView:MarginSetter.Margin="10"
                 commonView:MarginSetter.Orientation="Vertical">
@@ -28,7 +27,7 @@
                     Grid.Row="0">
                     <Image
                         Width="25"
-                        Source="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=Icon}" />
+                        Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Icon, Mode=OneTime}" />
                     <StackPanel
                         commonView:MarginSetter.Margin="10"
                         HorizontalAlignment="Right"
@@ -43,7 +42,7 @@
                             Visibility="Collapsed"
                             x:Name="Restore" />
                         <buttons:CloseButton
-                            Background="Red" />
+                            Foreground="OrangeRed" />
                     </StackPanel>
                 </DockPanel>
                 <ContentPresenter

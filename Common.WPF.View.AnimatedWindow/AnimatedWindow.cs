@@ -40,7 +40,11 @@ namespace Scar.Common.WPF.View
             SizeToContent = SizeToContent.WidthAndHeight;
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             AllowsTransparency = true;
-            Background = Brushes.Transparent;
+            Padding = new Thickness(6);
+            Background = new SolidColorBrush(Color.FromArgb(255, 40, 40, 40));
+            Foreground = Brushes.White;
+            BorderBrush = Brushes.Black;
+            BorderThickness = new Thickness(2);
             Closing += AnimatedWindow_Closing;
             Loaded += AnimatedWindow_Loaded;
             ContentRendered += AnimatedWindow_ContentRendered;
