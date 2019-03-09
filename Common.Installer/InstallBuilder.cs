@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 using JetBrains.Annotations;
 using WixSharp;
 using WixSharp.CommonTasks;
@@ -98,8 +99,18 @@ namespace Scar.Common.Installer
             };
         }
 
-        public void Build([CanBeNull] string outputMsiPath = null)
+        public void Build([CanBeNull] string outputMsiPath = null, [CanBeNull] string wixBinariesLocation = null)
         {
+            if (wixBinariesLocation != null)
+            {
+                Compiler.WixLocation = wixBinariesLocation;
+            }
+
+            if (outputMsiPath == null)
+            {
+                outputMsiPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _productName + ".msi");
+            }
+
             Compiler.BuildMsi(_project, outputMsiPath);
         }
 
