@@ -14,12 +14,16 @@ namespace Scar.Common.Installer
     {
         [NotNull]
         public const string CustomParam = nameof(CustomParam);
+        public const string FileName = nameof(FileName);
 
         [NotNull]
         private const string DesktopPath = "%Desktop%";
 
         [NotNull]
         private readonly string _productName;
+
+        [NotNull]
+        private readonly string _exeFileName;
 
         [NotNull]
         private readonly string _programMenuPath;
@@ -35,6 +39,7 @@ namespace Scar.Common.Installer
             }
 
             _productName = productName ?? throw new ArgumentNullException(nameof(productName));
+            _exeFileName = _productName + ".exe";
             var assembly = Assembly.GetEntryAssembly();
             var assemblyName = assembly.GetName();
             var version = assemblyName.Version;
@@ -61,7 +66,8 @@ namespace Scar.Common.Installer
                 },
                 Properties = new[]
                 {
-                    new Property("ALLUSERS", "1")
+                    new Property("ALLUSERS", "1"),
+                    new Property(FileName, _exeFileName)
                 },
                 UpgradeCode = upgradeCode,
                 Version = version,
@@ -115,19 +121,10 @@ namespace Scar.Common.Installer
         }
 
         [NotNull]
-        public InstallBuilder LaunchAfterInstallation([NotNull] string fileName)
+        public InstallBuilder LaunchAfterInstallation()
         {
-            if (fileName == null)
-            {
-                throw new ArgumentNullException(nameof(fileName));
-            }
-
-            var customActionParam = $"{CustomParam}=[INSTALLDIR]{fileName}";
             _project.AddAction(
-                new ElevatedManagedAction(CustomActions.LaunchProcess, Return.check, When.Before, Step.InstallFinalize, Condition.NOT_Installed)
-                {
-                    UsesProperties = customActionParam
-                });
+                new ManagedAction(CustomActions.LaunchProcess, Return.check, When.After, Step.InstallFinalize, Condition.NOT_Installed));
             return this;
         }
 
@@ -139,20 +136,15 @@ namespace Scar.Common.Installer
         }
 
         [NotNull]
-        public InstallBuilder WithAutostart([NotNull] string fileName)
+        public InstallBuilder WithAutostart([CanBeNull] string fileName = null)
         {
-            if (fileName == null)
-            {
-                throw new ArgumentNullException(nameof(fileName));
-            }
-
             _project.AddRegValue(
                 new RegValue(
                     new Id(_productName + "Autostart"),
                     RegistryHive.LocalMachine,
                     @"Software\Microsoft\Windows\CurrentVersion\Run",
                     _productName,
-                    $"[INSTALLDIR]{fileName}"));
+                    $"[INSTALLDIR]{fileName ?? _exeFileName}"));
             return this;
         }
 
@@ -164,14 +156,9 @@ namespace Scar.Common.Installer
         }
 
         [NotNull]
-        public InstallBuilder WithProcessTermination([NotNull] string fileName)
+        public InstallBuilder WithProcessTermination([CanBeNull] string fileName = null)
         {
-            if (fileName == null)
-            {
-                throw new ArgumentNullException(nameof(fileName));
-            }
-
-            var customActionParam = $"{CustomParam}={fileName}";
+            var customActionParam = $"{CustomParam}={fileName ?? _exeFileName}";
             _project.AddAction(
                 new ElevatedManagedAction(CustomActions.TerminateProcess, Return.check, When.Before, Step.InstallFiles, Condition.NOT_Installed)
                 {
@@ -186,14 +173,9 @@ namespace Scar.Common.Installer
         }
 
         [NotNull]
-        public InstallBuilder WithDesktopShortcut([NotNull] string fileName, [CanBeNull] string arguments = "")
+        public InstallBuilder WithDesktopShortcut([CanBeNull] string fileName = null, [CanBeNull] string arguments = "")
         {
-            if (fileName == null)
-            {
-                throw new ArgumentNullException(nameof(fileName));
-            }
-
-            var formattableString = $"[INSTALLDIR]{fileName}";
+            var formattableString = $"[INSTALLDIR]{fileName ?? _exeFileName}";
             var dir = _project.FindDir(DesktopPath);
             var shortcut = new ExeFileShortcut(_productName, formattableString, arguments);
             dir.Shortcuts = dir.Shortcuts.Combine(shortcut);
@@ -201,14 +183,9 @@ namespace Scar.Common.Installer
         }
 
         [NotNull]
-        public InstallBuilder WithProgramMenuShortcut([NotNull] string fileName, [CanBeNull] string arguments = "")
+        public InstallBuilder WithProgramMenuShortcut([CanBeNull] string fileName = null, [CanBeNull] string arguments = "")
         {
-            if (fileName == null)
-            {
-                throw new ArgumentNullException(nameof(fileName));
-            }
-
-            var formattableString = $"[INSTALLDIR]{fileName}";
+            var formattableString = $"[INSTALLDIR]{fileName ?? _exeFileName}";
             var dir = _project.FindDir(_programMenuPath);
             var shortcut = new ExeFileShortcut(_productName, formattableString, arguments);
             dir.Shortcuts = dir.Shortcuts.Combine(shortcut);
@@ -216,14 +193,9 @@ namespace Scar.Common.Installer
         }
 
         [NotNull]
-        public InstallBuilder WithWinService([NotNull] string serviceExecutableName)
+        public InstallBuilder WithWinService([CanBeNull] string fileName = null)
         {
-            if (serviceExecutableName == null)
-            {
-                throw new ArgumentNullException(nameof(serviceExecutableName));
-            }
-
-            var customActionParam = $"{CustomParam}=[INSTALLDIR]{serviceExecutableName}";
+            var customActionParam = $"{CustomParam}=[INSTALLDIR]{fileName ?? _exeFileName}";
             _project.Actions = new Action[]
             {
                 new ElevatedManagedAction(CustomActions.InstallService, Return.check, When.After, Step.InstallFiles, Condition.NOT_Installed)

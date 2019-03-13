@@ -17,26 +17,26 @@ namespace Scar.Common.Installer
                 () =>
                 {
                     // Debugger.Launch();
-                    var path = session.Property(InstallBuilder.CustomParam);
-                    if (string.IsNullOrEmpty(path))
+                    var filePath = session.Property(InstallBuilder.CustomParam);
+                    if (string.IsNullOrEmpty(filePath))
                     {
-                        throw new ArgumentNullException(nameof(path));
+                        throw new ArgumentNullException(nameof(filePath));
                     }
 
-                    if (!File.Exists(path))
+                    if (!File.Exists(filePath))
                     {
-                        return;
+                        throw new InvalidOperationException(filePath + " does not exist");
                     }
 
                     var externalTool = new ExternalTool
                     {
-                        ExePath = path,
+                        ExePath = filePath,
                         Arguments = "install"
                     };
-                    session.Log($"Executing '{path} install'...");
+                    session.Log($"Executing '{filePath} install'...");
                     externalTool.WinRun();
                     externalTool.Arguments = "start";
-                    session.Log($"Executing '{path} start'...");
+                    session.Log($"Executing '{filePath} start'...");
                     externalTool.WinRun();
                 });
         }
@@ -48,19 +48,21 @@ namespace Scar.Common.Installer
                 () =>
                 {
                     // Debugger.Launch();
-                    var path = session.Property(InstallBuilder.CustomParam);
-                    if (string.IsNullOrEmpty(path))
+                    var installDir = session.Property("INSTALLDIR");
+                    var fileName = session.Property(InstallBuilder.FileName);
+                    if (string.IsNullOrEmpty(fileName))
                     {
-                        throw new ArgumentNullException(nameof(path));
+                        throw new ArgumentNullException(nameof(fileName));
                     }
 
-                    if (!File.Exists(path))
+                    var filePath = Path.Combine(installDir, fileName);
+                    if (!File.Exists(filePath))
                     {
-                        return;
+                        throw new InvalidOperationException(filePath + " does not exist");
                     }
 
-                    session.Log($"Executing '{path}'...");
-                    Process.Start(path);
+                    session.Log($"Executing '{filePath}'...");
+                    Process.Start(filePath);
                 });
         }
 
@@ -116,23 +118,23 @@ namespace Scar.Common.Installer
                 {
                     // Debugger.Launch();
                     var installDir = session.Property("INSTALLDIR");
-                    var path = session.Property(InstallBuilder.CustomParam);
-                    if (string.IsNullOrEmpty(path))
+                    var filePath = session.Property(InstallBuilder.CustomParam);
+                    if (string.IsNullOrEmpty(filePath))
                     {
-                        throw new ArgumentNullException(nameof(path));
+                        throw new ArgumentNullException(nameof(filePath));
                     }
 
-                    if (!File.Exists(path))
+                    if (!File.Exists(filePath))
                     {
-                        return;
+                        throw new InvalidOperationException(filePath + " does not exist");
                     }
 
                     var externalTool = new ExternalTool
                     {
-                        ExePath = path,
+                        ExePath = filePath,
                         Arguments = "uninstall"
                     };
-                    session.Log($"Executing '{path}' uninstall...");
+                    session.Log($"Executing '{filePath}' uninstall...");
                     externalTool.WinRun();
                     session.Log($"Deleting '{installDir}'...");
                     Directory.Delete(installDir, true);
