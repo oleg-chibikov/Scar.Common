@@ -1,13 +1,11 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 
 namespace Scar.Common.Async
 {
     public sealed class CancellationTokenSourceProvider : IDisposable, ICancellationTokenSourceProvider
     {
-        [NotNull]
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
         public Task CurrentTask { get; private set; } = Task.CompletedTask;

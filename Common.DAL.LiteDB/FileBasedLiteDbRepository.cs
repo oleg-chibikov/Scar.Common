@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using JetBrains.Annotations;
 using LiteDB;
 
 namespace Scar.Common.DAL.LiteDB
@@ -23,16 +22,13 @@ namespace Scar.Common.DAL.LiteDB
             typeof(decimal)
         };
 
-        [NotNull]
         protected readonly LiteDatabase Db;
 
-        [NotNull]
         protected readonly Func<BsonValue, TId> FromBson;
 
-        [NotNull]
         protected readonly Func<TId, BsonValue> ToBson;
 
-        protected FileBasedLiteDbRepository([NotNull] string directoryPath, [NotNull] string fileName, bool shrink = true)
+        protected FileBasedLiteDbRepository(string directoryPath, string fileName, bool shrink = true)
         {
             DbFileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             DbDirectoryPath = directoryPath ?? throw new ArgumentNullException(nameof(directoryPath));
@@ -64,13 +60,10 @@ namespace Scar.Common.DAL.LiteDB
 
         protected virtual bool IsBson => false;
 
-        [NotNull]
         public string DbDirectoryPath { get; }
 
-        [NotNull]
         public string DbFileExtension { get; } = ".db";
 
-        [NotNull]
         public string DbFileName { get; }
 
         public void Dispose()
@@ -78,10 +71,9 @@ namespace Scar.Common.DAL.LiteDB
             Db.Dispose();
         }
 
-        [CanBeNull]
         protected virtual TId GenerateId()
         {
-            return default(TId);
+            return default!;
         }
     }
 }

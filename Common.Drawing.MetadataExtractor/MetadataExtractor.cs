@@ -48,7 +48,7 @@ namespace Scar.Common.Drawing.MetadataExtractor
                     DateTime? dateImageTaken = null;
                     var orientation = Orientation.Straight;
                     reader.GetTagValue(ExifTags.DateTimeOriginal, out DateTime d);
-                    if (d != default(DateTime))
+                    if (d != default)
                     {
                         dateImageTaken = d;
                     }

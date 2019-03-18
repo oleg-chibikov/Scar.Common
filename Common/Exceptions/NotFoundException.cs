@@ -1,5 +1,4 @@
-﻿using System;
-using JetBrains.Annotations;
+using System;
 
 namespace Scar.Common.Exceptions
 {
@@ -9,19 +8,18 @@ namespace Scar.Common.Exceptions
     /// </summary>
     public class LocalizableException : Exception
     {
-        public LocalizableException([NotNull] string localizedMessage, [CanBeNull] string message = null)
+        public LocalizableException(string localizedMessage, string? message = null)
             : base(message)
         {
             LocalizedMessage = localizedMessage ?? throw new ArgumentNullException(nameof(localizedMessage));
         }
 
-        public LocalizableException([NotNull] string localizedMessage, [NotNull] Exception innerException, [CanBeNull] string message = null)
+        public LocalizableException(string localizedMessage, Exception innerException, string? message = null)
             : base(message, innerException)
         {
             LocalizedMessage = localizedMessage ?? throw new ArgumentNullException(nameof(localizedMessage));
         }
 
-        [NotNull]
         public string LocalizedMessage { get; }
     }
 }

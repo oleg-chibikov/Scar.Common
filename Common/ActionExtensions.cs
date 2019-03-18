@@ -1,16 +1,14 @@
 using System;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 
 namespace Scar.Common
 {
     public static class ActionExtensions
     {
-        [CanBeNull]
         public static async Task<TReturn> RunFuncWithSeveralAttemptsAsync<TReturn>(
-            [NotNull] this Func<AttemptInfo, TReturn> func,
-            [CanBeNull] Func<AttemptInfo, Exception, bool> canRetryAtException = null,
-            [CanBeNull] TimeSpan? delay = null,
+            this Func<AttemptInfo, TReturn> func,
+            Func<AttemptInfo, Exception, bool>? canRetryAtException = null,
+            TimeSpan? delay = null,
             int maxAttempts = 3,
             bool throwOnAttemptLimit = false,
             bool configureAwait = false)
@@ -38,17 +36,16 @@ namespace Scar.Common
                     }
                     else
                     {
-                        return default(TReturn);
+                        return default!;
                     }
                 }
             }
         }
 
-        [CanBeNull]
         public static async Task<TReturn> RunTaskWithSeveralAttemptsAsync<TReturn>(
-            [NotNull] this Func<AttemptInfo, Task<TReturn>> taskFactory,
-            [CanBeNull] Func<AttemptInfo, Exception, bool> canRetryAtException = null,
-            [CanBeNull] TimeSpan? delay = null,
+            this Func<AttemptInfo, Task<TReturn>> taskFactory,
+            Func<AttemptInfo, Exception, bool>? canRetryAtException = null,
+            TimeSpan? delay = null,
             int maxAttempts = 3,
             bool throwOnAttemptLimit = false,
             bool configureAwait = false)
@@ -76,7 +73,7 @@ namespace Scar.Common
                     }
                     else
                     {
-                        return default(TReturn);
+                        return default!;
                     }
                 }
             }

@@ -1,14 +1,12 @@
 using System;
 using System.Linq;
 using System.Security.Cryptography;
-using JetBrains.Annotations;
 
 namespace Scar.Common.Cryptography
 {
     /// <summary>
     /// The implementation is taken from https://stackoverflow.com/a/20622428
     /// </summary>
-    [UsedImplicitly]
     internal sealed class PasswordHasher : IPasswordHasher
     {
         public string HashPassword(string password)

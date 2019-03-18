@@ -16,12 +16,13 @@ namespace Scar.Common.WPF.Controls.Behaviors
             ((INotifyCollectionChanged)AssociatedObject.Items).CollectionChanged -= OnCollectionChanged;
         }
 
-        void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action != NotifyCollectionChangedAction.Add)
             {
                 return;
             }
+
             var count = AssociatedObject.Items.Count;
             if (count == 0)
             {

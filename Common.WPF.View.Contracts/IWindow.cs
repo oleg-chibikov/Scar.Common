@@ -2,10 +2,11 @@ using System;
 using System.Drawing;
 using System.Windows;
 using JetBrains.Annotations;
+using Scar.Common.View.Contracts;
 
 namespace Scar.Common.WPF.View.Contracts
 {
-    public interface IWindow
+    public interface IWindow: IDisplayable
     {
         #region Properties
 
@@ -45,33 +46,6 @@ namespace Scar.Common.WPF.View.Contracts
         Rectangle ActiveScreenArea { get; }
 
         bool IsFullHeight { get; }
-
-        #endregion
-
-        #region Methods
-
-        [CanBeNull]
-        bool? ShowDialog();
-
-        void Show();
-
-        void Close();
-
-        void Restore();
-
-        void AssociateDisposable([NotNull] IDisposable disposable);
-
-        bool UnassociateDisposable([NotNull] IDisposable disposable);
-
-        #endregion
-
-        #region Events
-
-        event SizeChangedEventHandler SizeChanged;
-
-        event EventHandler Closed;
-
-        event RoutedEventHandler Loaded;
 
         #endregion
     }

@@ -14,16 +14,17 @@ namespace Scar.Common.Installer
     {
         [NotNull]
         public const string CustomParam = nameof(CustomParam);
+
         public const string FileName = nameof(FileName);
 
         [NotNull]
         private const string DesktopPath = "%Desktop%";
 
         [NotNull]
-        private readonly string _productName;
+        private readonly string _exeFileName;
 
         [NotNull]
-        private readonly string _exeFileName;
+        private readonly string _productName;
 
         [NotNull]
         private readonly string _programMenuPath;
@@ -123,8 +124,7 @@ namespace Scar.Common.Installer
         [NotNull]
         public InstallBuilder LaunchAfterInstallation()
         {
-            _project.AddAction(
-                new ManagedAction(CustomActions.LaunchProcess, Return.check, When.After, Step.InstallFinalize, Condition.NOT_Installed));
+            _project.AddAction(new ManagedAction(CustomActions.LaunchProcess, Return.check, When.After, Step.InstallFinalize, Condition.NOT_Installed));
             return this;
         }
 

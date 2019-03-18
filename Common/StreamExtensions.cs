@@ -1,12 +1,11 @@
-﻿using System;
+using System;
 using System.IO;
-using JetBrains.Annotations;
 
 namespace Scar.Common
 {
     public static class StreamExtensions
     {
-        public static void CopyBuffered([NotNull] this Stream input, [NotNull] Stream output)
+        public static void CopyBuffered(this Stream input, Stream output)
         {
             if (input == null)
             {
@@ -26,8 +25,7 @@ namespace Scar.Common
             }
         }
 
-        [NotNull]
-        public static MemoryStream CreateMemoryStream([NotNull] this Stream input)
+        public static MemoryStream CreateMemoryStream(this Stream input)
         {
             if (input == null)
             {

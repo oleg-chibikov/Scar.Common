@@ -116,7 +116,7 @@ namespace Scar.Common.WPF.Controls
             var min = (int)d.GetValue(MinValueProperty);
             var dVal = (int)value;
 
-            return dVal > max ? max : (dVal < min ? min : value);
+            return dVal > max ? max : dVal < min ? min : value;
         }
 
         /// <summary>

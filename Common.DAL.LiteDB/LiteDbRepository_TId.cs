@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using JetBrains.Annotations;
 using LiteDB;
 using Scar.Common.DAL.Model;
 
@@ -11,10 +10,9 @@ namespace Scar.Common.DAL.LiteDB
     public abstract class LiteDbRepository<T, TId> : FileBasedLiteDbRepository<TId>, IRepository<T, TId>, IChangeableRepository
         where T : IEntity<TId>, new()
     {
-        [NotNull]
         protected readonly LiteCollection<T> Collection;
 
-        protected LiteDbRepository([NotNull] string directoryPath, [CanBeNull] string fileName = null, bool shrink = true)
+        protected LiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true)
             : base(directoryPath, fileName ?? typeof(T).Name, shrink)
         {
             Collection = Db.GetCollection<T>();
@@ -23,7 +21,7 @@ namespace Scar.Common.DAL.LiteDB
 
         public event EventHandler Changed;
 
-        public bool Check([NotNull] TId id)
+        public bool Check(TId id)
         {
             if (Equals(id, default(TId)))
             {
@@ -33,7 +31,7 @@ namespace Scar.Common.DAL.LiteDB
             return Collection.Exists(Query.EQ("_id", ToBson(id)));
         }
 
-        public bool Delete([NotNull] TId id)
+        public bool Delete(TId id)
         {
             if (Equals(id, default(TId)))
             {
@@ -49,7 +47,7 @@ namespace Scar.Common.DAL.LiteDB
             return deleted;
         }
 
-        public bool Delete([NotNull] T entity)
+        public bool Delete(T entity)
         {
             if (Equals(entity, default(T)))
             {
@@ -70,7 +68,7 @@ namespace Scar.Common.DAL.LiteDB
             return deleted;
         }
 
-        public int Delete([NotNull] IEnumerable<T> entities)
+        public int Delete(IEnumerable<T> entities)
         {
             if (entities == null)
             {
@@ -87,7 +85,7 @@ namespace Scar.Common.DAL.LiteDB
             return deletedCount;
         }
 
-        public int Delete([NotNull] IEnumerable<TId> ids)
+        public int Delete(IEnumerable<TId> ids)
         {
             if (ids == null)
             {
@@ -104,8 +102,7 @@ namespace Scar.Common.DAL.LiteDB
             return deletedCount;
         }
 
-        [NotNull]
-        public ICollection<T> Get([NotNull] Expression<Func<T, bool>> predicate, int pageNumber, int pageSize)
+        public ICollection<T> Get(Expression<Func<T, bool>> predicate, int pageNumber, int pageSize)
         {
             if (predicate == null)
             {
@@ -115,14 +112,12 @@ namespace Scar.Common.DAL.LiteDB
             return Collection.Find(predicate, pageNumber * pageSize, pageSize).ToArray();
         }
 
-        [NotNull]
         public ICollection<T> GetAll()
         {
             return Collection.FindAll().ToArray();
         }
 
-        [NotNull]
-        public T GetById([NotNull] TId id)
+        public T GetById(TId id)
         {
             var entity = TryGetById(id);
             if (Equals(entity, default(T)))
@@ -134,13 +129,12 @@ namespace Scar.Common.DAL.LiteDB
             return entity;
         }
 
-        [NotNull]
-        public ICollection<T> GetPage(int pageNumber, int pageSize, [CanBeNull] string sortField, SortOrder sortOrder)
+        public ICollection<T> GetPage(int pageNumber, int pageSize, string? sortField, SortOrder sortOrder)
         {
             return Collection.Find(Query.All(sortField ?? "_id", sortOrder == SortOrder.Ascending ? Query.Ascending : Query.Descending), pageNumber * pageSize, pageSize).ToArray();
         }
 
-        public TId Insert([NotNull] T entity, bool skipCustomAction = false)
+        public TId Insert(T entity, bool skipCustomAction = false)
         {
             if (Equals(entity, default(T)))
             {
@@ -165,7 +159,7 @@ namespace Scar.Common.DAL.LiteDB
             return FromBson(insertedId);
         }
 
-        public int Insert([NotNull] IEnumerable<T> entities, bool skipCustomAction = false)
+        public int Insert(IEnumerable<T> entities, bool skipCustomAction = false)
         {
             if (entities == null)
             {
@@ -184,8 +178,7 @@ namespace Scar.Common.DAL.LiteDB
             return countInserted;
         }
 
-        [CanBeNull]
-        public T TryGetById([NotNull] TId id)
+        public T TryGetById(TId id)
         {
             if (Equals(id, default(TId)))
             {
@@ -195,7 +188,7 @@ namespace Scar.Common.DAL.LiteDB
             return Collection.FindById(ToBson(id));
         }
 
-        public bool Update([NotNull] T entity, bool skipCustomAction = false)
+        public bool Update(T entity, bool skipCustomAction = false)
         {
             if (Equals(entity, default(T)))
             {
@@ -216,7 +209,7 @@ namespace Scar.Common.DAL.LiteDB
             return updated;
         }
 
-        public int Update([NotNull] IEnumerable<T> entities, bool skipCustomAction = false)
+        public int Update(IEnumerable<T> entities, bool skipCustomAction = false)
         {
             if (entities == null)
             {
@@ -239,7 +232,7 @@ namespace Scar.Common.DAL.LiteDB
             return countUpdated;
         }
 
-        public bool Upsert([NotNull] T entity, bool skipCustomAction = false)
+        public bool Upsert(T entity, bool skipCustomAction = false)
         {
             if (Equals(entity, default(T)))
             {
@@ -256,7 +249,7 @@ namespace Scar.Common.DAL.LiteDB
             return inserted;
         }
 
-        public int Upsert([NotNull] IEnumerable<T> entities, bool skipCustomAction = false)
+        public int Upsert(IEnumerable<T> entities, bool skipCustomAction = false)
         {
             if (entities == null)
             {
@@ -275,11 +268,11 @@ namespace Scar.Common.DAL.LiteDB
             return countInserted;
         }
 
-        protected virtual void UpdateBeforeSave([NotNull] T entity)
+        protected virtual void UpdateBeforeSave(T entity)
         {
         }
 
-        protected virtual void UpdateBeforeSave([NotNull] IEnumerable<T> entities)
+        protected virtual void UpdateBeforeSave(IEnumerable<T> entities)
         {
         }
     }

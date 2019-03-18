@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using Scar.Common.Events;
 
 namespace Scar.Common.Processes
@@ -11,15 +10,13 @@ namespace Scar.Common.Processes
         event EventHandler<EventArgs<string>> ProcessErrorFired;
         event EventHandler<EventArgs<string>> ProcessMessageFired;
 
-        [NotNull]
         Task<ProcessResult> ExecuteCommandAsync(
-            [NotNull] string commandPath,
-            [CanBeNull] string arguments,
+            string commandPath,
+            string? arguments,
             CancellationToken token,
-            [CanBeNull] TimeSpan? timeout = null,
-            [CanBeNull] string workingDirectory = null);
+            TimeSpan? timeout = null,
+            string? workingDirectory = null);
 
-        [NotNull]
-        Task TaskKillAsync([NotNull] string processName, CancellationToken token);
+        Task TaskKillAsync(string processName, CancellationToken token);
     }
 }

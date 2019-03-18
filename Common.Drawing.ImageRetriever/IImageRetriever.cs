@@ -1,4 +1,4 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using JetBrains.Annotations;
@@ -17,10 +17,6 @@ namespace Scar.Common.Drawing.ImageRetriever
 
         [NotNull]
         [ItemCanBeNull]
-        Task<BitmapSource> LoadImageAsync(
-            [CanBeNull] byte[] imageData,
-            CancellationToken cancellationToken,
-            [CanBeNull] Orientation? orientation = default(Orientation?),
-            int sizeAnchor = 0);
+        Task<BitmapSource> LoadImageAsync([CanBeNull] byte[] imageData, CancellationToken cancellationToken, [CanBeNull] Orientation? orientation = default, int sizeAnchor = 0);
     }
 }

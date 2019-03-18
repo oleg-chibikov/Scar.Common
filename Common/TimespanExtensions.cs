@@ -1,11 +1,9 @@
-﻿using System;
-using JetBrains.Annotations;
+using System;
 
 namespace Scar.Common
 {
     public static class TimespanExtensions
     {
-        [NotNull]
         public static string ToReadableFormat(this TimeSpan t)
         {
             if (t.TotalSeconds < 1.0)

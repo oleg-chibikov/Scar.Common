@@ -1,21 +1,17 @@
 using System;
 using System.Threading;
-using JetBrains.Annotations;
 
 namespace Scar.Common
 {
     public class RateLimiter : IRateLimiter
     {
-        [NotNull]
         private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
 
-        [CanBeNull]
-        private readonly SynchronizationContext _synchronizationContext;
+        private readonly SynchronizationContext? _synchronizationContext;
 
-        [CanBeNull]
-        private Timer _timer;
+        private Timer? _timer;
 
-        public RateLimiter([CanBeNull] SynchronizationContext synchronizationContext = null)
+        public RateLimiter(SynchronizationContext? synchronizationContext = null)
         {
             _synchronizationContext = synchronizationContext;
         }
@@ -50,7 +46,7 @@ namespace Scar.Common
 
         public void Debounce(TimeSpan interval, Action action)
         {
-            Debounce<object>(interval, x => action(), null);
+            Debounce<object>(interval, x => action(), default!);
         }
 
         public async void Throttle<T>(TimeSpan interval, Action<T> action, T param, bool skipImmediateEvent = false, bool useFirstEvent = false)
@@ -98,7 +94,7 @@ namespace Scar.Common
 
         public void Throttle(TimeSpan interval, Action action, bool skipImmediate = false, bool skipLast = false)
         {
-            Throttle<object>(interval, x => action(), null, skipImmediate, skipLast);
+            Throttle<object>(interval, x => action(), default!, skipImmediate, skipLast);
         }
 
         private void ExecuteAction<T>(Action<T> action, T param)

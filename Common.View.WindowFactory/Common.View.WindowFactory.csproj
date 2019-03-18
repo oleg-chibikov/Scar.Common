@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Company>Scar</Company>
+    <Authors>Scar</Authors>
+    <Description>A factory to create windows</Description>
+    <Version>1.0.7015.39185</Version>
+    <LangVersion>8.0</LangVersion>
+    <NullableContextOptions>enable</NullableContextOptions>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AssemblyName>Scar.Common.View.WindowFactory</AssemblyName>
+    <RootNamespace>Scar.Common.View.WindowFactory</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Scar.Common.View.Contracts" Version="1.0.7015.38809" />
+  </ItemGroup>
+
+</Project>

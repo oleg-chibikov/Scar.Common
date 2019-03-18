@@ -1,5 +1,4 @@
-﻿using System;
-using JetBrains.Annotations;
+using System;
 
 namespace Scar.Common.Notification
 {
@@ -7,7 +6,7 @@ namespace Scar.Common.Notification
     {
         private readonly INotificationSupressable _notificationSupressable;
 
-        public NotificationSupresser([NotNull] INotificationSupressable notificationSupressable)
+        public NotificationSupresser(INotificationSupressable notificationSupressable)
         {
             _notificationSupressable = notificationSupressable ?? throw new ArgumentNullException(nameof(notificationSupressable));
             notificationSupressable.NotificationIsSupressed = true;

@@ -1,12 +1,10 @@
-﻿using System;
-using JetBrains.Annotations;
+using System;
 
 namespace Scar.Common
 {
     public static class ExceptionExtensions
     {
-        [NotNull]
-        public static Exception GetMostInnerException([NotNull] this Exception e)
+        public static Exception GetMostInnerException(this Exception e)
         {
             if (e == null)
             {

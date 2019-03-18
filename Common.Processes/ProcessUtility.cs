@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Common.Logging;
-using JetBrains.Annotations;
 using Scar.Common.Events;
 
 namespace Scar.Common.Processes
@@ -13,11 +12,9 @@ namespace Scar.Common.Processes
     public sealed class ProcessUtility : IProcessUtility
     {
         private static readonly TimeSpan TaskKillSleepTime = TimeSpan.FromSeconds(5);
-
-        [NotNull]
         private readonly ILog _logger;
 
-        public ProcessUtility([NotNull] ILog logger)
+        public ProcessUtility(ILog logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -26,7 +23,7 @@ namespace Scar.Common.Processes
 
         public event EventHandler<EventArgs<string>> ProcessErrorFired;
 
-        public async Task<ProcessResult> ExecuteCommandAsync(string commandPath, string arguments, CancellationToken token, TimeSpan? timeout, string workingDirectory)
+        public async Task<ProcessResult> ExecuteCommandAsync(string commandPath, string? arguments, CancellationToken token, TimeSpan? timeout, string? workingDirectory)
         {
             if (commandPath == null)
             {
@@ -91,7 +88,7 @@ namespace Scar.Common.Processes
                                 process.BeginOutputReadLine();
                                 process.BeginErrorReadLine();
 
-                                CancellationTokenSource linkedTokenSource = null;
+                                CancellationTokenSource? linkedTokenSource = null;
 
                                 if (timeout.HasValue)
                                 {
@@ -143,17 +140,17 @@ namespace Scar.Common.Processes
             await Task.Delay(TaskKillSleepTime, token).ConfigureAwait(false);
         }
 
-        private void OnError([NotNull] string message)
+        private void OnError(string message)
         {
             ProcessErrorFired?.Invoke(this, new EventArgs<string>(message));
         }
 
-        private void OnMessage([NotNull] string message)
+        private void OnMessage(string message)
         {
             ProcessMessageFired?.Invoke(this, new EventArgs<string>(message));
         }
 
-        private bool ProcessExists([NotNull] string processName)
+        private bool ProcessExists(string processName)
         {
             return Process.GetProcessesByName(processName).Any();
         }
@@ -165,7 +162,7 @@ namespace Scar.Common.Processes
         /// <param name="name">The name of the process for logging</param>
         /// <param name="cancellationToken">A cancellation token. If invoked, the task will return immediately as canceled</param>
         /// <returns>A Task representing waiting for the process to end</returns>
-        private Task WaitForExitAsync([NotNull] Process process, [NotNull] string name, CancellationToken cancellationToken)
+        private Task WaitForExitAsync(Process process, string name, CancellationToken cancellationToken)
         {
             if (process == null)
             {
@@ -182,7 +179,7 @@ namespace Scar.Common.Processes
                 throw new ArgumentNullException(nameof(_logger));
             }
 
-            var taskCompletionSource = new TaskCompletionSource<object>();
+            var taskCompletionSource = new TaskCompletionSource<object?>();
             process.EnableRaisingEvents = true;
 
             void OnProcessExited(object sender, EventArgs args)

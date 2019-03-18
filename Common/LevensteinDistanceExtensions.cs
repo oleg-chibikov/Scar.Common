@@ -1,11 +1,10 @@
-﻿using System;
-using JetBrains.Annotations;
+using System;
 
 namespace Scar.Common
 {
     public static class LevenshteinDistanceExtensions
     {
-        public static int LevenshteinDistance([CanBeNull] this string input, [CanBeNull] string comparedTo, bool caseSensitive = false)
+        public static int LevenshteinDistance(this string? input, string? comparedTo, bool caseSensitive = false)
         {
             if (string.IsNullOrWhiteSpace(input) || string.IsNullOrWhiteSpace(comparedTo))
             {

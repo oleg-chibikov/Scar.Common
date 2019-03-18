@@ -1,11 +1,8 @@
-﻿using JetBrains.Annotations;
-
 namespace Scar.Common
 {
     public static class StringExtensions
     {
-        [CanBeNull]
-        public static string Capitalize([CanBeNull] this string str)
+        public static string? Capitalize(this string? str)
         {
             str = str?.Trim();
             if (str != null && str.Length > 1)

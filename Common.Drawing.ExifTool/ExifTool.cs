@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Common.Logging;
-using JetBrains.Annotations;
 using Scar.Common.Drawing.Metadata;
 using Scar.Common.Events;
 using Scar.Common.Processes;
@@ -27,20 +26,13 @@ namespace Scar.Common.Drawing.ExifTool
         /// Allows only one exif operation at a time
         /// //TODO: Allow simultaneous operations for different paths? - dictionary of semaphores
         /// </summary>
-        [NotNull]
         private readonly SemaphoreSlim _exifOperationSemaphore = new SemaphoreSlim(1, 1);
-
-        [NotNull]
         private readonly string _exifToolPath = "exiftool.exe";
-
-        [NotNull]
         private readonly ILog _logger;
-
-        [NotNull]
         private readonly IProcessUtility _processUtility;
         //TODO: TEST BMP, png etc
 
-        public ExifTool([NotNull] IProcessUtility processUtility, [NotNull] ILog logger)
+        public ExifTool(IProcessUtility processUtility, ILog logger)
         {
             _processUtility = processUtility ?? throw new ArgumentNullException(nameof(processUtility));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -109,35 +101,32 @@ namespace Scar.Common.Drawing.ExifTool
                 .ConfigureAwait(false);
         }
 
-        [NotNull]
-        private static string DecodeFromUtf8([NotNull] string path)
+        private static string DecodeFromUtf8(string path)
         {
             return Encoding.UTF8.GetString(Encoding.Default.GetBytes(path));
         }
 
-        [NotNull]
-        private static string EncodeToUtf8([NotNull] string path)
+        private static string EncodeToUtf8(string path)
         {
             return Encoding.Default.GetString(Encoding.UTF8.GetBytes(path));
         }
 
-        [NotNull]
         private static string GetSign(bool plus)
         {
             return plus ? "+" : "-";
         }
 
-        private void OnError([NotNull] FilePathErrorEventArgs eventArgs)
+        private void OnError(FilePathErrorEventArgs eventArgs)
         {
             Error?.Invoke(this, eventArgs);
         }
 
-        private void OnProgress([NotNull] FilePathProgressEventArgs eventArgs)
+        private void OnProgress(FilePathProgressEventArgs eventArgs)
         {
             Progress?.Invoke(this, eventArgs);
         }
 
-        private async Task PerformExifOperation([NotNull] string[] paths, bool backup, [NotNull] string operation, CancellationToken token)
+        private async Task PerformExifOperation(string[] paths, bool backup, string operation, CancellationToken token)
         {
             if (paths == null)
             {
@@ -168,7 +157,7 @@ namespace Scar.Common.Drawing.ExifTool
             }
         }
 
-        private void ProcessUtility_ProcessErrorFired(object sender, [NotNull] EventArgs<string> e)
+        private void ProcessUtility_ProcessErrorFired(object sender, EventArgs<string> e)
         {
             _logger.Debug($"Received error from process utility: {e.Parameter}");
             var messages = e.Parameter.Split(MessageSplitters, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
@@ -190,7 +179,7 @@ namespace Scar.Common.Drawing.ExifTool
             }
         }
 
-        private void ProcessUtility_ProcessMessageFired(object sender, [NotNull] EventArgs<string> e)
+        private void ProcessUtility_ProcessMessageFired(object sender, EventArgs<string> e)
         {
             _logger.Debug($"Received message from process utility: {e.Parameter}");
             var messages = e.Parameter.Split(MessageSplitters, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());

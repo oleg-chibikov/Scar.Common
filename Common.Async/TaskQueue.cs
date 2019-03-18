@@ -1,24 +1,17 @@
+using Common.Logging;
 using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using Common.Logging;
-using JetBrains.Annotations;
 
 namespace Scar.Common.Async
 {
-    [UsedImplicitly]
     public sealed class TaskQueue : IAppendable<Func<Task>>, IDisposable
     {
-        [NotNull]
         private readonly ILog _logger;
-
-        [NotNull]
         private readonly BlockingCollection<Func<Task>> _queue = new BlockingCollection<Func<Task>>();
-
-        [NotNull]
         private readonly Task _worker;
 
-        public TaskQueue([NotNull] ILog logger)
+        public TaskQueue(ILog logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _worker = Task.Factory.StartNew(async () => await PollQueue(), TaskCreationOptions.LongRunning).Unwrap();
@@ -26,7 +19,7 @@ namespace Scar.Common.Async
 
         public int CurrentlyQueuedTasks => _queue.Count;
 
-        public void Append([NotNull] Func<Task> task)
+        public void Append(Func<Task> task)
         {
             if (task == null)
             {

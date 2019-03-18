@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Globalization;
-using System.Threading;
 using JetBrains.Annotations;
 using WPFLocalizeExtension.Engine;
 using WPFLocalizeExtension.Extensions;
@@ -45,12 +44,6 @@ namespace Scar.Common.WPF.Localization
                 LocalizeDictionary.Instance.SetCurrentThreadCulture = true;
                 LocalizeDictionary.Instance.Culture = cultureInfo;
             }
-        }
-
-        [NotNull]
-        public static CultureInfo GetCurrentCulture()
-        {
-            return Thread.CurrentThread.CurrentUICulture;
         }
 
         [CanBeNull]

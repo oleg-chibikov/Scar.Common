@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using Scar.Common.Drawing.Metadata;
 
 namespace Scar.Common.Drawing.ExifTool
@@ -10,17 +9,9 @@ namespace Scar.Common.Drawing.ExifTool
     {
         event EventHandler<FilePathErrorEventArgs> Error;
         event EventHandler<FilePathProgressEventArgs> Progress;
-
-        [NotNull]
-        Task SetOrientationAsync(Orientation orientation, [NotNull] string[] paths, bool backup, CancellationToken token);
-
-        [NotNull]
-        Task SetOrientationAsync(Orientation orientation, [NotNull] string path, bool backup, CancellationToken token);
-
-        [NotNull]
-        Task ShiftDateAsync(TimeSpan shiftBy, bool plus, [NotNull] string[] paths, bool backup, CancellationToken token);
-
-        [NotNull]
-        Task ShiftDateAsync(TimeSpan shiftBy, bool plus, [NotNull] string path, bool backup, CancellationToken token);
+        Task SetOrientationAsync(Orientation orientation, string[] paths, bool backup, CancellationToken token);
+        Task SetOrientationAsync(Orientation orientation, string path, bool backup, CancellationToken token);
+        Task ShiftDateAsync(TimeSpan shiftBy, bool plus, string[] paths, bool backup, CancellationToken token);
+        Task ShiftDateAsync(TimeSpan shiftBy, bool plus, string path, bool backup, CancellationToken token);
     }
 }

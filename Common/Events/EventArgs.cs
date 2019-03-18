@@ -1,16 +1,14 @@
-﻿using System;
-using JetBrains.Annotations;
+using System;
 
 namespace Scar.Common.Events
 {
     public class EventArgs<T> : EventArgs
     {
-        public EventArgs([CanBeNull] T parameter)
+        public EventArgs(T parameter)
         {
             Parameter = parameter;
         }
 
-        [CanBeNull]
         public T Parameter { get; }
     }
 }

@@ -2,13 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 
 namespace Scar.Common
 {
     public static class EnumerableExtensions
     {
-        public static void RunByBlocks<T>([NotNull] this IEnumerable<T> items, int maxBlockSize, [NotNull] Func<T[], int, int, bool> action)
+        public static void RunByBlocks<T>(this IEnumerable<T> items, int maxBlockSize, Func<T[], int, int, bool> action)
         {
             if (items == null)
             {
@@ -47,7 +46,7 @@ namespace Scar.Common
             }
         }
 
-        public static async Task RunByBlocksAsync<T>([NotNull] this IEnumerable<T> items, int maxBlockSize, [NotNull] Func<T[], int, int, Task<bool>> action)
+        public static async Task RunByBlocksAsync<T>(this IEnumerable<T> items, int maxBlockSize, Func<T[], int, int, Task<bool>> action)
         {
             if (items == null)
             {
@@ -86,9 +85,7 @@ namespace Scar.Common
             }
         }
 
-        [ItemCanBeNull]
-        [NotNull]
-        public static IEnumerable<T> WithoutLast<T>([NotNull] this IEnumerable<T> source)
+        public static IEnumerable<T> WithoutLast<T>(this IEnumerable<T> source)
         {
             using (var e = source.GetEnumerator())
             {

@@ -43,6 +43,12 @@ namespace Scar.Common.WPF.Xceed
             };
         }
 
+        public TimeSpan ColumnsWidthRecalculationInterval
+        {
+            get => (TimeSpan)GetValue(ColumnsWidthRecalculationIntervalProperty);
+            set => SetValue(ColumnsWidthRecalculationIntervalProperty, value);
+        }
+
         private void XceedAutoFitColumnGrid_Loaded([NotNull] object sender, RoutedEventArgs e)
         {
             var rowSelectorPane = TreeHelper.FindVisualChild<RowSelectorPane>((DependencyObject)sender);
@@ -50,12 +56,6 @@ namespace Scar.Common.WPF.Xceed
             {
                 rowSelectorPane.Background = Background;
             }
-        }
-
-        public TimeSpan ColumnsWidthRecalculationInterval
-        {
-            get => (TimeSpan)GetValue(ColumnsWidthRecalculationIntervalProperty);
-            set => SetValue(ColumnsWidthRecalculationIntervalProperty, value);
         }
 
         private void AdjustColumnsWidths()
@@ -123,7 +123,8 @@ namespace Scar.Common.WPF.Xceed
     internal static class TreeHelper
     {
         [CanBeNull]
-        public static TChildItem FindVisualChild<TChildItem>([NotNull] DependencyObject obj) where TChildItem : DependencyObject
+        public static TChildItem FindVisualChild<TChildItem>([NotNull] DependencyObject obj)
+            where TChildItem : DependencyObject
         {
             for (var i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
             {
@@ -141,6 +142,7 @@ namespace Scar.Common.WPF.Xceed
                     return childOfChild;
                 }
             }
+
             return null;
         }
     }

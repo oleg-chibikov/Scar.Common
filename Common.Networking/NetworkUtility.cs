@@ -3,7 +3,6 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using JetBrains.Annotations;
 
 namespace Scar.Common.Networking
 {
@@ -14,7 +13,6 @@ namespace Scar.Common.Networking
             return NetworkInterface.GetIsNetworkAvailable();
         }
 
-        [NotNull]
         public static string GetLocalIpAddress()
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());

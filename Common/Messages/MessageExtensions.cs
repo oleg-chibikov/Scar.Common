@@ -1,25 +1,21 @@
 using System;
-using JetBrains.Annotations;
 using Scar.Common.Exceptions;
 
 namespace Scar.Common.Messages
 {
     public static class MessageExtensions
     {
-        [NotNull]
-        public static Message ToError([NotNull] this string text, [CanBeNull] Exception exception = null)
+        public static Message ToError(this string text, Exception? exception = null)
         {
             return new Message(text, MessageType.Error, exception);
         }
 
-        [NotNull]
-        public static Message ToMessage([NotNull] this string text)
+        public static Message ToMessage(this string text)
         {
             return new Message(text, MessageType.Message);
         }
 
-        [NotNull]
-        public static Message ToMessage([NotNull] this LocalizableException localizableException)
+        public static Message ToMessage(this LocalizableException localizableException)
         {
             if (localizableException == null)
             {
@@ -29,8 +25,7 @@ namespace Scar.Common.Messages
             return new Message(localizableException);
         }
 
-        [NotNull]
-        public static Message ToMessage([NotNull] this Exception exception)
+        public static Message ToMessage(this Exception exception)
         {
             if (exception == null)
             {
@@ -40,14 +35,12 @@ namespace Scar.Common.Messages
             return exception is LocalizableException localizableException ? new Message(localizableException) : new Message(exception);
         }
 
-        [NotNull]
-        public static Message ToWarning([NotNull] this string text, [CanBeNull] Exception exception = null)
+        public static Message ToWarning(this string text, Exception? exception = null)
         {
             return new Message(text, MessageType.Warning, exception);
         }
 
-        [NotNull]
-        public static Message ToSuccess([NotNull] this string text)
+        public static Message ToSuccess(this string text)
         {
             return new Message(text, MessageType.Success);
         }

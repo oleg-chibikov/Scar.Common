@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Company>Scar</Company>
+    <Authors>Scar</Authors>
+    <Description>An autofac scoped (disposed when out of scope) window provider</Description>
+    <Version>1.0.7015.39185</Version>
+    <LangVersion>8.0</LangVersion>
+    <NullableContextOptions>enable</NullableContextOptions>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AssemblyName>Scar.Common.View.AutofacScopedWindowProvider</AssemblyName>
+    <RootNamespace>Scar.Common.View.AutofacScopedWindowProvider</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.1" />
+    <PackageReference Include="Scar.Common.View.WindowFactory" Version="1.0.7015.39185" />
+  </ItemGroup>
+
+</Project>
