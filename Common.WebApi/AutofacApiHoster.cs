@@ -25,11 +25,7 @@ namespace Scar.Common.WebApi
 
         protected AutofacApiHoster([NotNull] ILog logger, [NotNull] ILifetimeScope lifetimeScope)
         {
-            if (lifetimeScope == null)
-            {
-                throw new ArgumentNullException(nameof(lifetimeScope));
-            }
-
+            _ = lifetimeScope ?? throw new ArgumentNullException(nameof(lifetimeScope));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             logger.Trace("Starting WebApi...");
             _innerScope = lifetimeScope.BeginLifetimeScope(innerBuilder => innerBuilder.RegisterApiControllers(ControllersAssembly).InstancePerDependency());

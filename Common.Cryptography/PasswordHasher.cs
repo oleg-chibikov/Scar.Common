@@ -11,18 +11,10 @@ namespace Scar.Common.Cryptography
     {
         public string HashPassword(string password)
         {
-            if (password == null)
-            {
-                throw new ArgumentNullException(nameof(password));
-            }
-
+            _ = password ?? throw new ArgumentNullException(nameof(password));
             byte[] salt;
             byte[] buffer2;
-            if (password == null)
-            {
-                throw new ArgumentNullException(nameof(password));
-            }
-
+            _ = password ?? throw new ArgumentNullException(nameof(password));
             using (var bytes = new Rfc2898DeriveBytes(password, 0x10, 0x3e8))
             {
                 salt = bytes.Salt;
@@ -37,16 +29,8 @@ namespace Scar.Common.Cryptography
 
         public bool VerifyHashedPassword(string hashedPassword, string password)
         {
-            if (hashedPassword == null)
-            {
-                throw new ArgumentNullException(nameof(hashedPassword));
-            }
-
-            if (password == null)
-            {
-                throw new ArgumentNullException(nameof(password));
-            }
-
+            _ = hashedPassword ?? throw new ArgumentNullException(nameof(hashedPassword));
+            _ = password ?? throw new ArgumentNullException(nameof(password));
             byte[] buffer4;
             var src = Convert.FromBase64String(hashedPassword);
             if (src.Length != 0x31 || src[0] != 0)

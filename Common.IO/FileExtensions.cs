@@ -12,11 +12,7 @@ namespace Scar.Common.IO
         [NotNull]
         public static string GetFreeFileName([NotNull] string filePath)
         {
-            if (filePath == null)
-            {
-                throw new ArgumentNullException(nameof(filePath));
-            }
-
+            _ = filePath ?? throw new ArgumentNullException(nameof(filePath));
             var count = 1;
 
             var fileNameOnly = Path.GetFileNameWithoutExtension(filePath);
@@ -40,11 +36,7 @@ namespace Scar.Common.IO
 
         public static void OpenFile([NotNull] this string filePath)
         {
-            if (filePath == null)
-            {
-                throw new ArgumentNullException(nameof(filePath));
-            }
-
+            _ = filePath ?? throw new ArgumentNullException(nameof(filePath));
             if (!File.Exists(filePath))
             {
                 return;
@@ -55,11 +47,7 @@ namespace Scar.Common.IO
 
         public static void OpenFileInExplorer([NotNull] this string filePath)
         {
-            if (filePath == null)
-            {
-                throw new ArgumentNullException(nameof(filePath));
-            }
-
+            _ = filePath ?? throw new ArgumentNullException(nameof(filePath));
             if (!File.Exists(filePath))
             {
                 return;
@@ -90,16 +78,8 @@ namespace Scar.Common.IO
         [NotNull]
         public static string RenameFile([NotNull] this string oldFilePath, [NotNull] string newFilePath)
         {
-            if (oldFilePath == null)
-            {
-                throw new ArgumentNullException(nameof(oldFilePath));
-            }
-
-            if (newFilePath == null)
-            {
-                throw new ArgumentNullException(nameof(newFilePath));
-            }
-
+            _ = oldFilePath ?? throw new ArgumentNullException(nameof(oldFilePath));
+            _ = newFilePath ?? throw new ArgumentNullException(nameof(newFilePath));
             newFilePath = GetFreeFileName(newFilePath);
             File.Move(oldFilePath, newFilePath);
             return newFilePath;

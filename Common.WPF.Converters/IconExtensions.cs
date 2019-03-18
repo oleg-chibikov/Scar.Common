@@ -15,11 +15,7 @@ namespace Scar.Common.WPF.Converters
         [NotNull]
         public static ImageSource ToImageSource([NotNull] this Icon icon)
         {
-            if (icon == null)
-            {
-                throw new ArgumentNullException(nameof(icon));
-            }
-
+            _ = icon ?? throw new ArgumentNullException(nameof(icon));
             var bitmap = icon.ToBitmap();
             // ReSharper disable once StyleCop.SA1305
             var hBitmap = bitmap.GetHbitmap();

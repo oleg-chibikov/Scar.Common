@@ -10,11 +10,7 @@ namespace Scar.Common.IO
         [NotNull]
         public static string SanitizePath([NotNull] this string path)
         {
-            if (path == null)
-            {
-                throw new ArgumentNullException(nameof(path));
-            }
-
+            _ = path ?? throw new ArgumentNullException(nameof(path));
             return new Regex($"[{Regex.Escape(new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars()))}]", RegexOptions.Compiled).Replace(
                 path,
                 string.Empty);

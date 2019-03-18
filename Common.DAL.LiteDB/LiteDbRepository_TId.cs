@@ -70,11 +70,7 @@ namespace Scar.Common.DAL.LiteDB
 
         public int Delete(IEnumerable<T> entities)
         {
-            if (entities == null)
-            {
-                throw new ArgumentNullException(nameof(entities));
-            }
-
+            _ = entities ?? throw new ArgumentNullException(nameof(entities));
             // https://github.com/mbdavid/LiteDB/issues/318 - need to write _id instead of Id
             var deletedCount = Collection.Delete(Query.In("_id", entities.Select(entity => ToBson(entity.Id))));
             if (deletedCount > 0)
@@ -87,11 +83,7 @@ namespace Scar.Common.DAL.LiteDB
 
         public int Delete(IEnumerable<TId> ids)
         {
-            if (ids == null)
-            {
-                throw new ArgumentNullException(nameof(ids));
-            }
-
+            _ = ids ?? throw new ArgumentNullException(nameof(ids));
             // https://github.com/mbdavid/LiteDB/issues/318 - need to write _id instead of Id
             var deletedCount = Collection.Delete(Query.In("_id", ids.Select(id => ToBson(id))));
             if (deletedCount > 0)
@@ -104,11 +96,7 @@ namespace Scar.Common.DAL.LiteDB
 
         public ICollection<T> Get(Expression<Func<T, bool>> predicate, int pageNumber, int pageSize)
         {
-            if (predicate == null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-
+            _ = predicate ?? throw new ArgumentNullException(nameof(predicate));
             return Collection.Find(predicate, pageNumber * pageSize, pageSize).ToArray();
         }
 
@@ -161,11 +149,7 @@ namespace Scar.Common.DAL.LiteDB
 
         public int Insert(IEnumerable<T> entities, bool skipCustomAction = false)
         {
-            if (entities == null)
-            {
-                throw new ArgumentNullException(nameof(entities));
-            }
-
+            _ = entities ?? throw new ArgumentNullException(nameof(entities));
             var arr = entities.ToArray();
 
             if (!skipCustomAction)
@@ -211,11 +195,7 @@ namespace Scar.Common.DAL.LiteDB
 
         public int Update(IEnumerable<T> entities, bool skipCustomAction = false)
         {
-            if (entities == null)
-            {
-                throw new ArgumentNullException(nameof(entities));
-            }
-
+            _ = entities ?? throw new ArgumentNullException(nameof(entities));
             var arr = entities.ToArray();
 
             if (!skipCustomAction)
@@ -251,11 +231,7 @@ namespace Scar.Common.DAL.LiteDB
 
         public int Upsert(IEnumerable<T> entities, bool skipCustomAction = false)
         {
-            if (entities == null)
-            {
-                throw new ArgumentNullException(nameof(entities));
-            }
-
+            _ = entities ?? throw new ArgumentNullException(nameof(entities));
             var arr = entities.ToArray();
 
             if (!skipCustomAction)

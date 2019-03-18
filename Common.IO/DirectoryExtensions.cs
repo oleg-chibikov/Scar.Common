@@ -19,11 +19,7 @@ namespace Scar.Common.IO
         [NotNull]
         public static string AddTrailingBackslash([NotNull] this string directoryPath)
         {
-            if (directoryPath == null)
-            {
-                throw new ArgumentNullException(nameof(directoryPath));
-            }
-
+            _ = directoryPath ?? throw new ArgumentNullException(nameof(directoryPath));
             // They're always one character but EndsWith is shorter than
             // array style access to last directoryPath character. Change this
             // if performance are a (measured) issue.
@@ -67,16 +63,8 @@ namespace Scar.Common.IO
             [NotNull] string searchPatternExpression = "",
             SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
-            if (directoryPath == null)
-            {
-                throw new ArgumentNullException(nameof(directoryPath));
-            }
-
-            if (searchPatternExpression == null)
-            {
-                throw new ArgumentNullException(nameof(searchPatternExpression));
-            }
-
+            _ = directoryPath ?? throw new ArgumentNullException(nameof(directoryPath));
+            _ = searchPatternExpression ?? throw new ArgumentNullException(nameof(searchPatternExpression));
             var searchPatternRegex = new Regex(searchPatternExpression, RegexOptions.IgnoreCase);
             return Directory.EnumerateFiles(directoryPath, "*", searchOption)
                 .Where(
@@ -94,26 +82,14 @@ namespace Scar.Common.IO
             [NotNull] string[] searchPatterns,
             SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
-            if (directoryPath == null)
-            {
-                throw new ArgumentNullException(nameof(directoryPath));
-            }
-
-            if (searchPatterns == null)
-            {
-                throw new ArgumentNullException(nameof(searchPatterns));
-            }
-
+            _ = directoryPath ?? throw new ArgumentNullException(nameof(directoryPath));
+            _ = searchPatterns ?? throw new ArgumentNullException(nameof(searchPatterns));
             return searchPatterns.AsParallel().SelectMany(searchPattern => Directory.EnumerateFiles(directoryPath, searchPattern, searchOption));
         }
 
         public static void OpenDirectoryInExplorer([NotNull] this string directoryPath)
         {
-            if (directoryPath == null)
-            {
-                throw new ArgumentNullException(nameof(directoryPath));
-            }
-
+            _ = directoryPath ?? throw new ArgumentNullException(nameof(directoryPath));
             if (!Directory.Exists(directoryPath))
             {
                 return;
@@ -125,11 +101,7 @@ namespace Scar.Common.IO
         [NotNull]
         public static string RemoveTrailingBackslash([NotNull] this string directoryPath)
         {
-            if (directoryPath == null)
-            {
-                throw new ArgumentNullException(nameof(directoryPath));
-            }
-
+            _ = directoryPath ?? throw new ArgumentNullException(nameof(directoryPath));
             return directoryPath.TrimEnd(DirectorySeparators);
         }
     }

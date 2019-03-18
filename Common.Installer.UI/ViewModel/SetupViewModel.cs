@@ -18,11 +18,7 @@ namespace Scar.Common.Installer.UI.ViewModel
         public SetupViewModel([NotNull] string msiFile, bool enableLoging = true)
             : base(msiFile, enableLoging)
         {
-            if (msiFile == null)
-            {
-                throw new ArgumentNullException(nameof(msiFile));
-            }
-
+            _ = msiFile ?? throw new ArgumentNullException(nameof(msiFile));
             InitialCanInstall = CanInstall;
             InitialCanUnInstall = CanUnInstall;
             InitialCanRepair = CanRepair;

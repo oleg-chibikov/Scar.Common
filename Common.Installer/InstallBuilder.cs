@@ -34,11 +34,7 @@ namespace Scar.Common.Installer
 
         public InstallBuilder([NotNull] string productName, [CanBeNull] string companyName, [NotNull] string buildDir, Guid upgradeCode)
         {
-            if (buildDir == null)
-            {
-                throw new ArgumentNullException(nameof(buildDir));
-            }
-
+            _ = buildDir ?? throw new ArgumentNullException(nameof(buildDir));
             _productName = productName ?? throw new ArgumentNullException(nameof(productName));
             _exeFileName = _productName + ".exe";
             var assembly = Assembly.GetEntryAssembly();

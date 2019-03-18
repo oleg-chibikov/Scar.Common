@@ -8,11 +8,7 @@ namespace Scar.Common.WPF.ViewModel
     {
         public static void HandleDisposableViewModel([NotNull] this FrameworkElement element)
         {
-            if (element == null)
-            {
-                throw new ArgumentNullException(nameof(element));
-            }
-
+            _ = element ?? throw new ArgumentNullException(nameof(element));
             RoutedEventHandler unloadedHandler = null;
             EventHandler shutdownStartedHandler = null;
 

@@ -12,16 +12,8 @@ namespace Scar.Common.Logging.Autofac
     {
         protected override void AttachToComponentRegistration(IComponentRegistry componentRegistry, IComponentRegistration registration)
         {
-            if (componentRegistry == null)
-            {
-                throw new ArgumentNullException(nameof(componentRegistry));
-            }
-
-            if (registration == null)
-            {
-                throw new ArgumentNullException(nameof(registration));
-            }
-
+            _ = componentRegistry ?? throw new ArgumentNullException(nameof(componentRegistry));
+            _ = registration ?? throw new ArgumentNullException(nameof(registration));
             registration.Preparing += OnComponentPreparing;
             registration.Activated += (sender, e) => InjectLoggerProperties(e.Instance);
         }
@@ -56,11 +48,7 @@ namespace Scar.Common.Logging.Autofac
 
         private static void InjectLoggerProperties(object instance)
         {
-            if (instance == null)
-            {
-                throw new ArgumentNullException(nameof(instance));
-            }
-
+            _ = instance ?? throw new ArgumentNullException(nameof(instance));
             var instanceType = instance.GetType();
 
             // Get all the injectable properties to set.
@@ -83,16 +71,8 @@ namespace Scar.Common.Logging.Autofac
 
         private static void OnComponentPreparing(object sender, PreparingEventArgs e)
         {
-            if (sender == null)
-            {
-                throw new ArgumentNullException(nameof(sender));
-            }
-
-            if (e == null)
-            {
-                throw new ArgumentNullException(nameof(e));
-            }
-
+            _ = sender ?? throw new ArgumentNullException(nameof(sender));
+            _ = e ?? throw new ArgumentNullException(nameof(e));
             var limitType = e.Component.Activator.LimitType;
             if (limitType.IsArray)
             {

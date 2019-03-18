@@ -9,16 +9,8 @@ namespace Scar.Common
     {
         public static void RunByBlocks<T>(this IEnumerable<T> items, int maxBlockSize, Func<T[], int, int, bool> action)
         {
-            if (items == null)
-            {
-                throw new ArgumentNullException(nameof(items));
-            }
-
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
-
+            _ = items ?? throw new ArgumentNullException(nameof(items));
+            _ = action ?? throw new ArgumentNullException(nameof(action));
             var objArray = items as T[] ?? items.ToArray();
             if (objArray.Length == 0)
             {
@@ -48,16 +40,8 @@ namespace Scar.Common
 
         public static async Task RunByBlocksAsync<T>(this IEnumerable<T> items, int maxBlockSize, Func<T[], int, int, Task<bool>> action)
         {
-            if (items == null)
-            {
-                throw new ArgumentNullException(nameof(items));
-            }
-
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
-
+            _ = items ?? throw new ArgumentNullException(nameof(items));
+            _ = action ?? throw new ArgumentNullException(nameof(action));
             var objArray = items as T[] ?? items.ToArray();
             if (objArray.Length == 0)
             {

@@ -25,11 +25,7 @@ namespace Scar.Common.Processes
 
         public async Task<ProcessResult> ExecuteCommandAsync(string commandPath, string? arguments, CancellationToken token, TimeSpan? timeout, string? workingDirectory)
         {
-            if (commandPath == null)
-            {
-                throw new ArgumentNullException(nameof(commandPath));
-            }
-
+            _ = commandPath ?? throw new ArgumentNullException(nameof(commandPath));
             return await Task.Run(
                     async () =>
                     {
@@ -123,11 +119,7 @@ namespace Scar.Common.Processes
 
         public async Task TaskKillAsync(string processName, CancellationToken token)
         {
-            if (processName == null)
-            {
-                throw new ArgumentNullException(nameof(processName));
-            }
-
+            _ = processName ?? throw new ArgumentNullException(nameof(processName));
             if (!ProcessExists(processName))
             {
                 return;
@@ -164,21 +156,9 @@ namespace Scar.Common.Processes
         /// <returns>A Task representing waiting for the process to end</returns>
         private Task WaitForExitAsync(Process process, string name, CancellationToken cancellationToken)
         {
-            if (process == null)
-            {
-                throw new ArgumentNullException(nameof(process));
-            }
-
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
-            if (_logger == null)
-            {
-                throw new ArgumentNullException(nameof(_logger));
-            }
-
+            _ = process ?? throw new ArgumentNullException(nameof(process));
+            _ = name ?? throw new ArgumentNullException(nameof(name));
+            _ = _logger ?? throw new ArgumentNullException(nameof(_logger));
             var taskCompletionSource = new TaskCompletionSource<object?>();
             process.EnableRaisingEvents = true;
 

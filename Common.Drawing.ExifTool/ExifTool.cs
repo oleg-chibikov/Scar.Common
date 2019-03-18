@@ -53,11 +53,7 @@ namespace Scar.Common.Drawing.ExifTool
 
         public async Task SetOrientationAsync(Orientation orientation, string[] paths, bool backup, CancellationToken token)
         {
-            if (paths == null)
-            {
-                throw new ArgumentNullException(nameof(paths));
-            }
-
+            _ = paths ?? throw new ArgumentNullException(nameof(paths));
             _logger.Info($"Setting orientation to {orientation} for {paths.Length} paths...");
             await PerformExifOperation(paths, backup, $"-Orientation={(int)orientation}", token).ConfigureAwait(false);
         }
@@ -77,11 +73,7 @@ namespace Scar.Common.Drawing.ExifTool
 
         public async Task ShiftDateAsync(TimeSpan shiftBy, bool plus, string[] paths, bool backup, CancellationToken token)
         {
-            if (paths == null)
-            {
-                throw new ArgumentNullException(nameof(paths));
-            }
-
+            _ = paths ?? throw new ArgumentNullException(nameof(paths));
             var sign = GetSign(plus);
             _logger.Info($"Shifting date by {sign}{shiftBy} for {paths.Length} paths...");
             await PerformExifOperation(paths, backup, $"-AllDates{sign}=\"{shiftBy:dd\\ hh\\:mm\\:ss}\"", token).ConfigureAwait(false);
@@ -128,16 +120,8 @@ namespace Scar.Common.Drawing.ExifTool
 
         private async Task PerformExifOperation(string[] paths, bool backup, string operation, CancellationToken token)
         {
-            if (paths == null)
-            {
-                throw new ArgumentNullException(nameof(paths));
-            }
-
-            if (operation == null)
-            {
-                throw new ArgumentNullException(nameof(operation));
-            }
-
+            _ = paths ?? throw new ArgumentNullException(nameof(paths));
+            _ = operation ?? throw new ArgumentNullException(nameof(operation));
             var backupArg = backup ? null : " -overwrite_original -progress";
             await _exifOperationSemaphore.WaitAsync(token).ConfigureAwait(false);
             //By default exif tool receives ??? instead of valid cyrillic paths - need to reencode

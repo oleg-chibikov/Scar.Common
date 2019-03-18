@@ -5,14 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Common.Logging;
 using ExifLib;
-using JetBrains.Annotations;
 using Scar.Common.Drawing.Metadata;
 
 namespace Scar.Common.Drawing.MetadataExtractor
 {
     public sealed class MetadataExtractor : IMetadataExtractor
     {
-        [NotNull]
         private static readonly string[] JpegExtensions =
         {
             ".jpg",
@@ -20,22 +18,16 @@ namespace Scar.Common.Drawing.MetadataExtractor
         };
 
         private static readonly TimeSpan DefaultAttemptDelay = TimeSpan.FromMilliseconds(100);
-
-        [NotNull]
         private readonly ILog _logger;
 
-        public MetadataExtractor([NotNull] ILog logger)
+        public MetadataExtractor(ILog logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<ExifMetadata> ExtractAsync(string filePath)
         {
-            if (filePath == null)
-            {
-                throw new ArgumentNullException(nameof(filePath));
-            }
-
+            _ = filePath ?? throw new ArgumentNullException(nameof(filePath));
             if (!JpegExtensions.Any(x => filePath.EndsWith(x, true, CultureInfo.CurrentCulture)))
             {
                 return new ExifMetadata();

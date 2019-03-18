@@ -17,21 +17,13 @@ namespace Scar.Common.Messages
 
         public static Message ToMessage(this LocalizableException localizableException)
         {
-            if (localizableException == null)
-            {
-                throw new ArgumentNullException(nameof(localizableException));
-            }
-
+            _ = localizableException ?? throw new ArgumentNullException(nameof(localizableException));
             return new Message(localizableException);
         }
 
         public static Message ToMessage(this Exception exception)
         {
-            if (exception == null)
-            {
-                throw new ArgumentNullException(nameof(exception));
-            }
-
+            _ = exception ?? throw new ArgumentNullException(nameof(exception));
             return exception is LocalizableException localizableException ? new Message(localizableException) : new Message(exception);
         }
 

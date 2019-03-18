@@ -13,22 +13,14 @@ namespace Scar.Common.WPF.Localization
 
         public static void ChangeCulture([NotNull] string uiLanguage)
         {
-            if (uiLanguage == null)
-            {
-                throw new ArgumentNullException(nameof(uiLanguage));
-            }
-
+            _ = uiLanguage ?? throw new ArgumentNullException(nameof(uiLanguage));
             var cultureInfo = CultureInfo.GetCultureInfo(uiLanguage);
             ChangeCulture(cultureInfo);
         }
 
         public static void ChangeCulture([NotNull] CultureInfo cultureInfo)
         {
-            if (cultureInfo == null)
-            {
-                throw new ArgumentNullException(nameof(cultureInfo));
-            }
-
+            _ = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
             if (Equals(LocalizeDictionary.Instance.Culture, cultureInfo))
             {
                 return;
@@ -49,11 +41,7 @@ namespace Scar.Common.WPF.Localization
         [CanBeNull]
         public static T GetLocalizedValue<T, TResources>([NotNull] string key)
         {
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-
+            _ = key ?? throw new ArgumentNullException(nameof(key));
             var type = typeof(TResources);
             return LocExtension.GetLocalizedValue<T>($"{type.Namespace}:{type.Name}:" + key);
         }

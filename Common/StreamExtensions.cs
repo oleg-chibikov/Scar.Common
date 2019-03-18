@@ -7,16 +7,8 @@ namespace Scar.Common
     {
         public static void CopyBuffered(this Stream input, Stream output)
         {
-            if (input == null)
-            {
-                throw new ArgumentNullException(nameof(input));
-            }
-
-            if (output == null)
-            {
-                throw new ArgumentNullException(nameof(output));
-            }
-
+            _ = input ?? throw new ArgumentNullException(nameof(input));
+            _ = output ?? throw new ArgumentNullException(nameof(output));
             var buffer = new byte[byte.MaxValue];
             int count;
             while ((count = input.Read(buffer, 0, buffer.Length)) > 0)
@@ -27,11 +19,7 @@ namespace Scar.Common
 
         public static MemoryStream CreateMemoryStream(this Stream input)
         {
-            if (input == null)
-            {
-                throw new ArgumentNullException(nameof(input));
-            }
-
+            _ = input ?? throw new ArgumentNullException(nameof(input));
             var memoryStream = new MemoryStream();
             input.CopyBuffered(memoryStream);
             memoryStream.Seek(0L, SeekOrigin.Begin);

@@ -10,11 +10,7 @@ namespace Scar.Common.WPF.Converters
     {
         public object Convert(object value, [NotNull] Type targetType, object parameter, [NotNull] CultureInfo culture)
         {
-            if (parameter == null)
-            {
-                throw new ArgumentNullException(nameof(parameter));
-            }
-
+            _ = parameter ?? throw new ArgumentNullException(nameof(parameter));
             var result = value;
             if (value != null && int.TryParse((string)parameter, NumberStyles.Integer, culture, out var parameterValue))
             {

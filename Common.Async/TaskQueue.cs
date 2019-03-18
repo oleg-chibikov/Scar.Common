@@ -21,11 +21,7 @@ namespace Scar.Common.Async
 
         public void Append(Func<Task> task)
         {
-            if (task == null)
-            {
-                throw new ArgumentNullException(nameof(task));
-            }
-
+            _ = task ?? throw new ArgumentNullException(nameof(task));
             _queue.Add(task);
         }
 

@@ -49,11 +49,7 @@ namespace Scar.Common.WPF.Controls.Behaviors
 
         public static void SetOn([NotNull] UIElement element, FrameworkElement value)
         {
-            if (element == null)
-            {
-                throw new ArgumentNullException(nameof(element));
-            }
-
+            _ = element ?? throw new ArgumentNullException(nameof(element));
             element.SetValue(OnProperty, value);
         }
     }

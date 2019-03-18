@@ -14,11 +14,7 @@ namespace Scar.Common.Async
 
         public async Task StartNewTask(Action<CancellationToken> action, bool cancelCurrent)
         {
-            if (action == null)
-            {
-                throw new ArgumentNullException(nameof(action));
-            }
-
+            _ = action ?? throw new ArgumentNullException(nameof(action));
             await ExecuteAsyncOperation(token => Task.Run(() => action(token), token), cancelCurrent).ConfigureAwait(false);
         }
 
@@ -29,11 +25,7 @@ namespace Scar.Common.Async
 
         public async Task ExecuteAsyncOperation(Func<CancellationToken, Task> func, bool cancelCurrent)
         {
-            if (func == null)
-            {
-                throw new ArgumentNullException(nameof(func));
-            }
-
+            _ = func ?? throw new ArgumentNullException(nameof(func));
             if (!cancelCurrent && !CheckCompleted())
             {
                 return;
