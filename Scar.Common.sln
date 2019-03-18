@@ -13,13 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.DAL", "Common.DAL\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.DAL.LiteDB", "Common.DAL.LiteDB\Common.DAL.LiteDB.csproj", "{76DAD7BD-942F-4614-8A23-15D0F0FBC737}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Drawing.ExifTool", "Common.Drawing.ExifTool\Common.Drawing.ExifTool.csproj", "{CE3F7FAD-0531-48C3-84FF-F1E02FF93B9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Drawing.ExifTool", "Common.Drawing.ExifTool\Common.Drawing.ExifTool.csproj", "{CE3F7FAD-0531-48C3-84FF-F1E02FF93B9A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Drawing.ImageRetriever", "Common.Drawing.ImageRetriever\Common.Drawing.ImageRetriever.csproj", "{9FDEC5F5-4996-45BD-9EFC-CAE6AAD74FB5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Drawing.Metadata", "Common.Drawing.Metadata\Common.Drawing.Metadata.csproj", "{B6CAD499-6245-41C9-879A-1F7391038FE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Drawing.MetadataExtractor", "Common.Drawing.MetadataExtractor\Common.Drawing.MetadataExtractor.csproj", "{494A0A26-8FD6-4816-8479-21AC0AA61D8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Drawing.MetadataExtractor", "Common.Drawing.MetadataExtractor\Common.Drawing.MetadataExtractor.csproj", "{494A0A26-8FD6-4816-8479-21AC0AA61D8F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Installer", "Common.Installer\Common.Installer.csproj", "{2B8B9221-628C-4A32-AB3B-61A1B59DCF85}"
 EndProject
@@ -29,9 +29,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.IO", "Common.IO\Comm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.NamedPipes", "Common.NamedPipes\Common.NamedPipes.csproj", "{3BD0EA64-6304-4468-BAFA-58C48898BB1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Networking", "Common.Networking\Common.Networking.csproj", "{B60A0DD3-D82E-4005-B04F-E0361D075260}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Networking", "Common.Networking\Common.Networking.csproj", "{B60A0DD3-D82E-4005-B04F-E0361D075260}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Processes", "Common.Processes\Common.Processes.csproj", "{E3771109-8E1E-4305-A788-2647AA291AAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Processes", "Common.Processes\Common.Processes.csproj", "{E3771109-8E1E-4305-A788-2647AA291AAF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.WebApi", "Common.WebApi\Common.WebApi.csproj", "{3D99C2EB-3B31-4696-917F-0BB8B36710D7}"
 EndProject
@@ -82,6 +82,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.RateLimiter", "Common.RateLimiter\Common.RateLimiter.csproj", "{47790A60-2007-4A59-909F-24128740CD46}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".NetStandard", ".NetStandard", "{74558523-84FA-4567-9305-E0D55054950E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.AutofacNamedInstancesFactory", "Common.AutofacNamedInstancesFactory\Common.AutofacNamedInstancesFactory.csproj", "{824905B6-25A4-4F4D-8E6D-3498174F03E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -245,6 +247,10 @@ Global
 		{47790A60-2007-4A59-909F-24128740CD46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47790A60-2007-4A59-909F-24128740CD46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47790A60-2007-4A59-909F-24128740CD46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{824905B6-25A4-4F4D-8E6D-3498174F03E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{824905B6-25A4-4F4D-8E6D-3498174F03E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{824905B6-25A4-4F4D-8E6D-3498174F03E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{824905B6-25A4-4F4D-8E6D-3498174F03E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -265,6 +271,7 @@ Global
 		{77FD16F2-2CBC-437D-BC6F-409804230CC2} = {74558523-84FA-4567-9305-E0D55054950E}
 		{9CEFE5F5-A973-479B-AC31-B21F3810246A} = {74558523-84FA-4567-9305-E0D55054950E}
 		{47790A60-2007-4A59-909F-24128740CD46} = {74558523-84FA-4567-9305-E0D55054950E}
+		{824905B6-25A4-4F4D-8E6D-3498174F03E3} = {74558523-84FA-4567-9305-E0D55054950E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {24C9D89F-376A-40CA-9846-76B97230738A}

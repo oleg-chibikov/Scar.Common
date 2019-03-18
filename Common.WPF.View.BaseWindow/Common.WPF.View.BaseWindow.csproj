@@ -30,22 +30,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations, Version=2018.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>packages\JetBrains.Annotations.2018.2.1\lib\net20\JetBrains.Annotations.dll</HintPath>
+    <Reference Include="JetBrains.Annotations, Version=2018.3.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.2018.3.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Scar.Common.RateLimiter, Version=1.0.6789.21362, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Scar.Common.RateLimiter.1.0.6789.21362\lib\net47\Scar.Common.RateLimiter.dll</HintPath>
+    <Reference Include="Scar.Common.RateLimiter, Version=1.0.7016.37702, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Scar.Common.RateLimiter.1.0.7016.37702\lib\netstandard2.0\Scar.Common.RateLimiter.dll</HintPath>
+    </Reference>
+    <Reference Include="Scar.Common.View.Contracts, Version=1.0.7016.37709, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Scar.Common.View.Contracts.1.0.7016.37709\lib\netstandard2.0\Scar.Common.View.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="Scar.Common.WPF.View, Version=1.0.6812.21943, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Scar.Common.WPF.View.1.0.6812.21943\lib\net47\Scar.Common.WPF.View.dll</HintPath>
     </Reference>
-    <Reference Include="Scar.Common.WPF.View.Contracts, Version=1.0.6719.21680, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Scar.Common.WPF.View.Contracts.1.0.6719.21680\lib\net47\Scar.Common.WPF.View.Contracts.dll</HintPath>
+    <Reference Include="Scar.Common.WPF.View.Contracts, Version=1.0.7016.37974, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Scar.Common.WPF.View.Contracts.1.0.7016.37974\lib\net47\Scar.Common.WPF.View.Contracts.dll</HintPath>
     </Reference>
-    <Reference Include="Scar.Common.WPF.ViewModel, Version=1.0.6719.21806, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Scar.Common.WPF.ViewModel.1.0.6719.21806\lib\net47\Scar.Common.WPF.ViewModel.dll</HintPath>
+    <Reference Include="Scar.Common.WPF.ViewModel, Version=1.0.7016.38534, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Scar.Common.WPF.ViewModel.1.0.7016.38534\lib\net47\Scar.Common.WPF.ViewModel.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

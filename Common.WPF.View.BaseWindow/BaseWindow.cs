@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
 using JetBrains.Annotations;
+using Scar.Common.View.Contracts;
 using Scar.Common.WPF.View.Contracts;
 using Scar.Common.WPF.ViewModel;
 using Point = System.Windows.Point;
@@ -54,12 +55,60 @@ namespace Scar.Common.WPF.View
             Closing += BaseWindow_Closing;
             Closed += BaseWindow_Closed;
             SizeChanged += BaseWindow_SizeChanged_IsFullHeight;
+            Loaded += BaseWindow_Loaded;
 
             // KeyDown += BaseWindow_KeyDown;
             ContentRendered += BaseWindow_ContentRendered;
             LocationChanged += LocationChangedAction;
             LocationChangedAction(this, new EventArgs());
             _rateLimiter = new RateLimiter(SynchronizationContext.Current);
+        }
+
+        private void BaseWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            _loaded?.Invoke(sender, e);
+        }
+
+        private EventHandler _sizeChanged;
+        private EventHandler _loaded;
+        private readonly object _sizeChangedLock = new object();
+        private readonly object _loadedLock = new object();
+        event EventHandler IDisplayable.SizeChanged
+        {
+            add
+            {
+                lock (_sizeChangedLock)
+                {
+                    _sizeChanged += value;
+                }
+            }
+
+            remove
+            {
+                lock (_sizeChangedLock)
+                {
+                    _sizeChanged -= value;
+                }
+            }
+        }
+
+        event EventHandler IDisplayable.Loaded
+        {
+            add
+            {
+                lock (_loadedLock)
+                {
+                    _loaded += value;
+                }
+            }
+
+            remove
+            {
+                lock (_loadedLock)
+                {
+                    _loaded -= value;
+                }
+            }
         }
 
         public Rectangle ActiveScreenArea { get; private set; }
@@ -134,42 +183,42 @@ namespace Scar.Common.WPF.View
                 case AdvancedWindowStartupLocation.Default:
                     break;
                 case AdvancedWindowStartupLocation.TopLeft:
-                {
-                    var screenArea = SystemParameters.WorkArea;
-                    Left = screenArea.Left;
-                    Top = screenArea.Top;
-                    break;
-                }
+                    {
+                        var screenArea = SystemParameters.WorkArea;
+                        Left = screenArea.Left;
+                        Top = screenArea.Top;
+                        break;
+                    }
 
                 case AdvancedWindowStartupLocation.TopRight:
-                {
-                    var screenArea = SystemParameters.WorkArea;
-                    Left = screenArea.Right - Width;
-                    Top = screenArea.Top;
-                    break;
-                }
+                    {
+                        var screenArea = SystemParameters.WorkArea;
+                        Left = screenArea.Right - Width;
+                        Top = screenArea.Top;
+                        break;
+                    }
 
                 case AdvancedWindowStartupLocation.BottomLeft:
-                {
-                    var screenArea = SystemParameters.WorkArea;
-                    Left = screenArea.Left;
-                    Top = screenArea.Bottom - Height;
-                    break;
-                }
+                    {
+                        var screenArea = SystemParameters.WorkArea;
+                        Left = screenArea.Left;
+                        Top = screenArea.Bottom - Height;
+                        break;
+                    }
 
                 case AdvancedWindowStartupLocation.BottomRight:
-                {
-                    var screenArea = SystemParameters.WorkArea;
-                    Left = screenArea.Right - Width;
-                    Top = screenArea.Bottom - Height;
-                    break;
-                }
+                    {
+                        var screenArea = SystemParameters.WorkArea;
+                        Left = screenArea.Right - Width;
+                        Top = screenArea.Bottom - Height;
+                        break;
+                    }
 
                 case AdvancedWindowStartupLocation.MouseCursor:
-                {
-                    MoveBottomRightEdgeOfWindowToMousePosition();
-                    break;
-                }
+                    {
+                        MoveBottomRightEdgeOfWindowToMousePosition();
+                        break;
+                    }
 
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -300,6 +349,7 @@ namespace Scar.Common.WPF.View
 
         private void BaseWindow_SizeChanged_IsFullHeight([NotNull] object sender, [NotNull] SizeChangedEventArgs e)
         {
+            _sizeChanged?.Invoke(sender, e);
             if (!e.HeightChanged)
             {
                 return;
