@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using JetBrains.Annotations;
 
 namespace Scar.Common.IO
 {
@@ -16,8 +15,7 @@ namespace Scar.Common.IO
             Path.AltDirectorySeparatorChar
         };
 
-        [NotNull]
-        public static string AddTrailingBackslash([NotNull] this string directoryPath)
+        public static string AddTrailingBackslash(this string directoryPath)
         {
             _ = directoryPath ?? throw new ArgumentNullException(nameof(directoryPath));
             // They're always one character but EndsWith is shorter than
@@ -57,10 +55,9 @@ namespace Scar.Common.IO
             return directoryPath + separator1;
         }
 
-        [NotNull]
         public static IEnumerable<string> GetFiles(
-            [NotNull] this string directoryPath,
-            [NotNull] string searchPatternExpression = "",
+            this string directoryPath,
+            string searchPatternExpression = "",
             SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
             _ = directoryPath ?? throw new ArgumentNullException(nameof(directoryPath));
@@ -76,10 +73,9 @@ namespace Scar.Common.IO
         }
 
         // Takes same patterns, and executes in parallel
-        [NotNull]
         public static IEnumerable<string> GetFiles(
-            [NotNull] this string directoryPath,
-            [NotNull] string[] searchPatterns,
+            this string directoryPath,
+            string[] searchPatterns,
             SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
             _ = directoryPath ?? throw new ArgumentNullException(nameof(directoryPath));
@@ -87,7 +83,7 @@ namespace Scar.Common.IO
             return searchPatterns.AsParallel().SelectMany(searchPattern => Directory.EnumerateFiles(directoryPath, searchPattern, searchOption));
         }
 
-        public static void OpenDirectoryInExplorer([NotNull] this string directoryPath)
+        public static void OpenDirectoryInExplorer(this string directoryPath)
         {
             _ = directoryPath ?? throw new ArgumentNullException(nameof(directoryPath));
             if (!Directory.Exists(directoryPath))
@@ -98,8 +94,7 @@ namespace Scar.Common.IO
             Process.Start(directoryPath);
         }
 
-        [NotNull]
-        public static string RemoveTrailingBackslash([NotNull] this string directoryPath)
+        public static string RemoveTrailingBackslash(this string directoryPath)
         {
             _ = directoryPath ?? throw new ArgumentNullException(nameof(directoryPath));
             return directoryPath.TrimEnd(DirectorySeparators);

@@ -47,8 +47,8 @@
     <Reference Include="Scar.Common.Drawing.Metadata, Version=1.0.7016.37681, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Scar.Common.Drawing.Metadata.1.0.7016.37681\lib\netstandard2.0\Scar.Common.Drawing.Metadata.dll</HintPath>
     </Reference>
-    <Reference Include="Scar.Common.IO, Version=1.0.6662.42670, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Scar.Common.IO.1.0.6662.42670\lib\net47\Scar.Common.IO.dll</HintPath>
+    <Reference Include="Scar.Common.IO, Version=1.0.7018.24639, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Scar.Common.IO.1.0.7018.24639\lib\netstandard2.0\Scar.Common.IO.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

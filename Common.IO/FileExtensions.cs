@@ -3,14 +3,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 
 namespace Scar.Common.IO
 {
     public static class FileExtensions
     {
-        [NotNull]
-        public static string GetFreeFileName([NotNull] string filePath)
+        public static string GetFreeFileName(string filePath)
         {
             _ = filePath ?? throw new ArgumentNullException(nameof(filePath));
             var count = 1;
@@ -34,7 +32,7 @@ namespace Scar.Common.IO
             return newFilePath;
         }
 
-        public static void OpenFile([NotNull] this string filePath)
+        public static void OpenFile(this string filePath)
         {
             _ = filePath ?? throw new ArgumentNullException(nameof(filePath));
             if (!File.Exists(filePath))
@@ -45,7 +43,7 @@ namespace Scar.Common.IO
             Process.Start(filePath);
         }
 
-        public static void OpenFileInExplorer([NotNull] this string filePath)
+        public static void OpenFileInExplorer(this string filePath)
         {
             _ = filePath ?? throw new ArgumentNullException(nameof(filePath));
             if (!File.Exists(filePath))
@@ -63,9 +61,7 @@ namespace Scar.Common.IO
             }.Start();
         }
 
-        [NotNull]
-        [ItemNotNull]
-        public static async Task<byte[]> ReadFileAsync([NotNull] this string filename, CancellationToken cancellationToken)
+        public static async Task<byte[]> ReadFileAsync(this string filename, CancellationToken cancellationToken)
         {
             using (var file = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
             {
@@ -75,8 +71,7 @@ namespace Scar.Common.IO
             }
         }
 
-        [NotNull]
-        public static string RenameFile([NotNull] this string oldFilePath, [NotNull] string newFilePath)
+        public static string RenameFile(this string oldFilePath, string newFilePath)
         {
             _ = oldFilePath ?? throw new ArgumentNullException(nameof(oldFilePath));
             _ = newFilePath ?? throw new ArgumentNullException(nameof(newFilePath));
