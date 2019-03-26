@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1691B9BF-838F-47C6-943A-2317678955DE}</ProjectGuid>
+    <ProjectGuid>{8D99C2EB-3B31-4696-917F-0BB8B36710D7}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Scar.Common.WPF.View</RootNamespace>
-    <AssemblyName>Scar.Common.WPF.View.AutofacScopedWindowProvider</AssemblyName>
+    <RootNamespace>Scar.Common.MVVM.CollectionView.WPF</RootNamespace>
+    <AssemblyName>Scar.Common.MVVM.CollectionView.WPF</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -29,35 +31,26 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.8.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>packages\Autofac.4.8.1\lib\net45\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="JetBrains.Annotations, Version=2018.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>packages\JetBrains.Annotations.2018.2.1\lib\net20\JetBrains.Annotations.dll</HintPath>
-    </Reference>
+    <Compile Include="CollectionViewAdapter.cs" />
+    <Compile Include="CollectionViewSourceAdapter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="PresentationCore" />
-    <Reference Include="Scar.Common.View.Contracts, Version=1.0.7015.38809, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Scar.Common.View.Contracts.1.0.7015.38809\lib\netstandard2.0\Scar.Common.View.Contracts.dll</HintPath>
-    </Reference>
-    <Reference Include="Scar.Common.WPF.View.WindowFactory, Version=1.0.6812.20901, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Scar.Common.WPF.View.WindowFactory.1.0.6812.20901\lib\net47\Scar.Common.WPF.View.WindowFactory.dll</HintPath>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Scar.Common.MVVM.CollectionView, Version=1.0.7024.40951, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Scar.Common.MVVM.CollectionView.1.0.7024.40951\lib\netstandard2.0\Scar.Common.MVVM.CollectionView.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
 </Project>

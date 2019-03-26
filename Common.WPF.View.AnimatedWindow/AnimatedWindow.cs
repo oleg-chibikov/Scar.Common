@@ -73,7 +73,7 @@ namespace Scar.Common.WPF.View
                 DragMove();
             }
 
-            if (ResizeMode != ResizeMode.CanResize)
+            if (ResizeMode != ResizeMode.CanResize && ResizeMode != ResizeMode.CanResizeWithGrip)
             {
                 return;
             }

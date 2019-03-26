@@ -1,11 +1,11 @@
 using System;
 
-namespace Scar.Common.WPF.Commands
+namespace Scar.Common.MVVM.Commands
 {
     public class CorrelationCommand : BaseCommand<Action, Func<bool>>
     {
-        public CorrelationCommand(Action executeFunc, Func<bool> canExecuteFunc = null)
-            : base(executeFunc, canExecuteFunc)
+        public CorrelationCommand(ICommandManager commandManager, Action executeFunc, Func<bool>? canExecuteFunc = null)
+            : base(commandManager, executeFunc, canExecuteFunc)
         {
         }
 

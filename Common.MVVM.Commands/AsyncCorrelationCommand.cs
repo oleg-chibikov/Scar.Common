@@ -1,12 +1,12 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Scar.Common.WPF.Commands
+namespace Scar.Common.MVVM.Commands
 {
     public class AsyncCorrelationCommand : BaseCommand<Func<Task>, Func<bool>>
     {
-        public AsyncCorrelationCommand(Func<Task> executeFunc, Func<bool> canExecuteFunc = null)
-            : base(executeFunc, canExecuteFunc)
+        public AsyncCorrelationCommand(ICommandManager commandManager, Func<Task> executeFunc, Func<bool>? canExecuteFunc = null)
+            : base(commandManager, executeFunc, canExecuteFunc)
         {
         }
 

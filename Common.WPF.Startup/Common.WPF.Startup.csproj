@@ -48,8 +48,8 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Scar.Common, Version=1.0.7016.37642, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Scar.Common.1.0.7016.37642\lib\netstandard2.0\Scar.Common.dll</HintPath>
+    <Reference Include="Scar.Common, Version=1.0.7018.41786, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Scar.Common.1.0.7018.41786\lib\netstandard2.0\Scar.Common.dll</HintPath>
     </Reference>
     <Reference Include="Scar.Common.Logging, Version=1.0.6719.22279, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Scar.Common.Logging.1.0.6719.22279\lib\net47\Scar.Common.Logging.dll</HintPath>

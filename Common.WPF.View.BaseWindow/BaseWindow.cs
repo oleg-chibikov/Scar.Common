@@ -8,9 +8,9 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
 using JetBrains.Annotations;
+using Scar.Common.MVVM.ViewModel;
 using Scar.Common.View.Contracts;
 using Scar.Common.WPF.View.Contracts;
-using Scar.Common.WPF.ViewModel;
 using Point = System.Windows.Point;
 
 namespace Scar.Common.WPF.View
@@ -42,7 +42,7 @@ namespace Scar.Common.WPF.View
         protected BaseWindow()
         {
             this.PreventFocusLoss();
-            this.HandleDisposableViewModel();
+            HandleDisposableViewModel();
             IRateLimiter rateLimiter = new RateLimiter(SynchronizationContext.Current);
 
             void LocationChangedAction(object s, EventArgs e)
@@ -371,6 +371,27 @@ namespace Scar.Common.WPF.View
             var mouse = transform.Value.Transform(GetMousePosition());
             Left = mouse.X - ActualWidth / 2;
             Top = mouse.Y - ActualHeight / 2;
+        }
+
+        private void HandleDisposableViewModel()
+        {
+            RoutedEventHandler unloadedHandler = null;
+            EventHandler shutdownStartedHandler = null;
+
+            void Dispose()
+            {
+                var dataContext = DataContext as IDisposable;
+                dataContext?.Dispose();
+                // ReSharper disable once AccessToModifiedClosure
+                Unloaded -= unloadedHandler;
+                // ReSharper disable once AccessToModifiedClosure
+                Dispatcher.ShutdownStarted -= shutdownStartedHandler;
+            }
+
+            unloadedHandler = (s, ea) => Dispose();
+            shutdownStartedHandler = (s, ea) => Dispose();
+            Unloaded += unloadedHandler;
+            Dispatcher.ShutdownStarted += shutdownStartedHandler;
         }
     }
 }

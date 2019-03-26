@@ -2,11 +2,12 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Input;
 using JetBrains.Annotations;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using Scar.Common.WPF.Commands;
-using Scar.Common.WPF.ViewModel;
+using Scar.Common.MVVM.Commands;
+using Scar.Common.MVVM.ViewModel;
 using WixSharp.UI;
 
 namespace Scar.Common.Installer.UI.ViewModel
@@ -15,19 +16,20 @@ namespace Scar.Common.Installer.UI.ViewModel
     {
         private string _installPath;
 
-        public SetupViewModel([NotNull] string msiFile, bool enableLoging = true)
-            : base(msiFile, enableLoging)
+        public SetupViewModel([NotNull] string msiFile, bool enableLogging = true)
+            : base(msiFile, enableLogging)
         {
             _ = msiFile ?? throw new ArgumentNullException(nameof(msiFile));
             InitialCanInstall = CanInstall;
             InitialCanUnInstall = CanUnInstall;
             InitialCanRepair = CanRepair;
-            InstallCommand = new CorrelationCommand<string>(Install);
-            UninstallCommand = new CorrelationCommand(Uninstall);
-            RepairCommand = new CorrelationCommand(Repair);
-            CancelCommand = new CorrelationCommand(Cancel);
-            ShowLogCommand = new CorrelationCommand(ShowLog);
-            BrowseInstallationPathCommand = new CorrelationCommand(BrowseInstallationPath);
+            var commandManager = new ApplicationCommandManager(SynchronizationContext.Current);
+            InstallCommand = new CorrelationCommand<string>(commandManager, Install);
+            UninstallCommand = new CorrelationCommand(commandManager, Uninstall);
+            RepairCommand = new CorrelationCommand(commandManager, Repair);
+            CancelCommand = new CorrelationCommand(commandManager, Cancel);
+            ShowLogCommand = new CorrelationCommand(commandManager, ShowLog);
+            BrowseInstallationPathCommand = new CorrelationCommand(commandManager, BrowseInstallationPath);
 
             var msiParser = new MsiParser(MsiFile);
             InstallPath = msiParser.GetDirectoryPath("INSTALLDIR");

@@ -1,6 +1,6 @@
 using System.Windows.Input;
 
-namespace Scar.Common.WPF.Commands
+namespace Scar.Common.MVVM.Commands
 {
     public interface IRefreshableCommand : ICommand
     {

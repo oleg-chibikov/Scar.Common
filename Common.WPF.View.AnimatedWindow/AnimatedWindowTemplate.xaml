@@ -91,6 +91,26 @@
                         Value="Collapsed" />
                 </MultiTrigger.Setters>
             </MultiTrigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition
+                        Property="WindowState"
+                        Value="Normal" />
+                    <Condition
+                        Property="ResizeMode"
+                        Value="CanResizeWithGrip" />
+                </MultiTrigger.Conditions>
+                <MultiTrigger.Setters>
+                    <Setter
+                        TargetName="Maximize"
+                        Property="Visibility"
+                        Value="Visible" />
+                    <Setter
+                        TargetName="Restore"
+                        Property="Visibility"
+                        Value="Collapsed" />
+                </MultiTrigger.Setters>
+            </MultiTrigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 </ResourceDictionary>

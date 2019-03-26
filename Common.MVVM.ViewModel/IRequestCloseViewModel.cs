@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace Scar.Common.WPF.ViewModel
+namespace Scar.Common.MVVM.ViewModel
 {
     public interface IRequestCloseViewModel
     {
