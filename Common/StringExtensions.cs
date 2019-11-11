@@ -4,7 +4,7 @@ namespace Scar.Common
     {
         public static string? CapitalizeIfNotEmpty(this string? str)
         {
-            return string.IsNullOrWhiteSpace(str) ? str : Capitalize(str);
+            return str == null || string.IsNullOrWhiteSpace(str) ? str : Capitalize(str);
         }
 
         public static string Capitalize(this string str)

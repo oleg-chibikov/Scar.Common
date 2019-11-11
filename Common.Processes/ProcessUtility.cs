@@ -19,9 +19,9 @@ namespace Scar.Common.Processes
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public event EventHandler<EventArgs<string>> ProcessMessageFired;
+        public event EventHandler<EventArgs<string>>? ProcessMessageFired;
 
-        public event EventHandler<EventArgs<string>> ProcessErrorFired;
+        public event EventHandler<EventArgs<string>>? ProcessErrorFired;
 
         public async Task<ProcessResult> ExecuteCommandAsync(string commandPath, string? arguments, CancellationToken token, TimeSpan? timeout, string? workingDirectory)
         {

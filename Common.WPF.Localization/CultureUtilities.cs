@@ -2,7 +2,6 @@ using System;
 using System.Globalization;
 using JetBrains.Annotations;
 using WPFLocalizeExtension.Engine;
-using WPFLocalizeExtension.Extensions;
 
 namespace Scar.Common.WPF.Localization
 {
@@ -43,7 +42,8 @@ namespace Scar.Common.WPF.Localization
         {
             _ = key ?? throw new ArgumentNullException(nameof(key));
             var type = typeof(TResources);
-            return LocExtension.GetLocalizedValue<T>($"{type.Namespace}:{type.Name}:" + key);
+            var obj = LocalizeDictionary.Instance.GetLocalizedObject($"{type.Namespace}:{type.Name}:" + key, null, LocalizeDictionary.Instance.Culture);
+            return obj == null ? default : (T)obj;
         }
     }
 }

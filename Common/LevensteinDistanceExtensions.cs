@@ -6,7 +6,7 @@ namespace Scar.Common
     {
         public static int LevenshteinDistance(this string? input, string? comparedTo, bool caseSensitive = false)
         {
-            if (string.IsNullOrWhiteSpace(input) || string.IsNullOrWhiteSpace(comparedTo))
+            if (input == null || comparedTo == null || string.IsNullOrWhiteSpace(input) || string.IsNullOrWhiteSpace(comparedTo))
             {
                 return -1;
             }

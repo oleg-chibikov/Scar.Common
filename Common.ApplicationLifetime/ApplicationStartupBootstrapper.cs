@@ -170,7 +170,7 @@ namespace Scar.Common.ApplicationLifetime
             var builder = new ContainerBuilder();
 
             builder.Register(x => SynchronizationContext).AsSelf().SingleInstance();
-            builder.RegisterInstance(MessageHub.Instance).AsImplementedInterfaces().SingleInstance();
+            builder.RegisterInstance(new MessageHub()).AsImplementedInterfaces().SingleInstance();
             builder.RegisterInstance(_assemblyInfoProvider).AsImplementedInterfaces().SingleInstance();
             builder.RegisterModule<LoggingModule>();
 

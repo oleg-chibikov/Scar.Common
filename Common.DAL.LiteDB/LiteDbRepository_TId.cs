@@ -19,7 +19,7 @@ namespace Scar.Common.DAL.LiteDB
             Collection.EnsureIndex(x => x.Id, true);
         }
 
-        public event EventHandler Changed;
+        public event EventHandler? Changed;
 
         public bool Check(TId id)
         {

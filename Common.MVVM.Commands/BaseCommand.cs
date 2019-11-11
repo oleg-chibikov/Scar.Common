@@ -27,7 +27,7 @@ namespace Scar.Common.MVVM.Commands
             CanExecuteChanged?.Invoke(this, new EventArgs());
         }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler? CanExecuteChanged;
 
         public void Execute(object parameter)
         {

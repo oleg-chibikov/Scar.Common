@@ -8,7 +8,7 @@
     <Description>Classes for localizing the application</Description>
     <Version>1.0.7027.23438</Version>
     <LangVersion>8.0</LangVersion>
-    <NullableContextOptions>enable</NullableContextOptions>
+    <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AssemblyName>Scar.Common.Localization</AssemblyName>
     <RootNamespace>Scar.Common.Localization</RootNamespace>

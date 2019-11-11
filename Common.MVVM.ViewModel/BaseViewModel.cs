@@ -105,7 +105,7 @@ namespace Scar.Common.MVVM.ViewModel
 
         #endregion
 
-        public event EventHandler RequestClose;
+        public event EventHandler? RequestClose;
 
         protected void CloseWindow()
         {

@@ -47,9 +47,9 @@ namespace Scar.Common.Drawing.ExifTool
             _exifOperationSemaphore.Dispose();
         }
 
-        public event EventHandler<FilePathProgressEventArgs> Progress;
+        public event EventHandler<FilePathProgressEventArgs>? Progress;
 
-        public event EventHandler<FilePathErrorEventArgs> Error;
+        public event EventHandler<FilePathErrorEventArgs>? Error;
 
         public async Task SetOrientationAsync(Orientation orientation, string[] paths, bool backup, CancellationToken token)
         {
