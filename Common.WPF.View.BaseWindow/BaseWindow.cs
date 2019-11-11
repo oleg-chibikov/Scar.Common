@@ -87,6 +87,7 @@ namespace Scar.Common.WPF.View
             {
                 lock (_sizeChangedLock)
                 {
+                    // ReSharper disable once DelegateSubtraction
                     _sizeChanged -= value;
                 }
             }
@@ -106,6 +107,7 @@ namespace Scar.Common.WPF.View
             {
                 lock (_loadedLock)
                 {
+                    // ReSharper disable once DelegateSubtraction
                     _loaded -= value;
                 }
             }

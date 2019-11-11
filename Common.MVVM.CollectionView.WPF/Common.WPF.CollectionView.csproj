@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8D99C2EB-3B31-4696-917F-0BB8B36710D7}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Scar.Common.MVVM.CollectionView.WPF</RootNamespace>
-    <AssemblyName>Scar.Common.MVVM.CollectionView.WPF</AssemblyName>
+    <RootNamespace>Scar.Common.WPF.CollectionView</RootNamespace>
+    <AssemblyName>Scar.Common.WPF.CollectionView</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

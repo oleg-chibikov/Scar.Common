@@ -33,16 +33,26 @@ namespace Scar.Common.Async
 
             try
             {
-                var newCts = new CancellationTokenSource();
-                var oldCts = Interlocked.Exchange(ref _cancellationTokenSource, newCts);
-                oldCts?.Cancel();
-                var token = newCts.Token;
+                var token = ResetToken();
                 CurrentTask = func(token);
                 await CurrentTask.ConfigureAwait(false);
             }
             catch (ObjectDisposedException)
             {
             }
+        }
+
+        public CancellationToken ResetTokenIfNeeded()
+        {
+            return _cancellationTokenSource.IsCancellationRequested ? ResetToken() : Token;
+        }
+
+        public CancellationToken ResetToken()
+        {
+            var newCts = new CancellationTokenSource();
+            var oldCts = Interlocked.Exchange(ref _cancellationTokenSource, newCts);
+            oldCts?.Cancel();
+            return newCts.Token;
         }
 
         public void Cancel()

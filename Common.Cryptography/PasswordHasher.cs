@@ -14,7 +14,6 @@ namespace Scar.Common.Cryptography
             _ = password ?? throw new ArgumentNullException(nameof(password));
             byte[] salt;
             byte[] buffer2;
-            _ = password ?? throw new ArgumentNullException(nameof(password));
             using (var bytes = new Rfc2898DeriveBytes(password, 0x10, 0x3e8))
             {
                 salt = bytes.Salt;

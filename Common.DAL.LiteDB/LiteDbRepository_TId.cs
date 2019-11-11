@@ -23,7 +23,7 @@ namespace Scar.Common.DAL.LiteDB
 
         public bool Check(TId id)
         {
-            if (Equals(id, default(TId)))
+            if (Equals(id, default))
             {
                 throw new ArgumentNullException(nameof(id));
             }
@@ -33,7 +33,7 @@ namespace Scar.Common.DAL.LiteDB
 
         public bool Delete(TId id)
         {
-            if (Equals(id, default(TId)))
+            if (Equals(id, default))
             {
                 throw new ArgumentNullException(nameof(id));
             }
@@ -49,12 +49,12 @@ namespace Scar.Common.DAL.LiteDB
 
         public bool Delete(T entity)
         {
-            if (Equals(entity, default(T)))
+            if (Equals(entity, default))
             {
                 throw new ArgumentNullException(nameof(entity));
             }
 
-            if (Equals(entity.Id, default(TId)))
+            if (Equals(entity.Id, default))
             {
                 throw new ArgumentNullException(nameof(entity.Id));
             }
@@ -108,7 +108,7 @@ namespace Scar.Common.DAL.LiteDB
         public T GetById(TId id)
         {
             var entity = TryGetById(id);
-            if (Equals(entity, default(T)))
+            if (Equals(entity, default))
             {
                 throw new InvalidOperationException($"No record for {id}");
             }
@@ -124,7 +124,7 @@ namespace Scar.Common.DAL.LiteDB
 
         public TId Insert(T entity, bool skipCustomAction = false)
         {
-            if (Equals(entity, default(T)))
+            if (Equals(entity, default))
             {
                 throw new ArgumentNullException(nameof(entity));
             }
@@ -136,7 +136,7 @@ namespace Scar.Common.DAL.LiteDB
 
             var generatedId = GenerateId();
 
-            if (!Equals(generatedId, default(TId)))
+            if (!Equals(generatedId, default))
             {
                 entity.Id = generatedId;
             }
@@ -164,7 +164,7 @@ namespace Scar.Common.DAL.LiteDB
 
         public T TryGetById(TId id)
         {
-            if (Equals(id, default(TId)))
+            if (Equals(id, default))
             {
                 throw new ArgumentNullException(nameof(id));
             }
@@ -174,7 +174,7 @@ namespace Scar.Common.DAL.LiteDB
 
         public bool Update(T entity, bool skipCustomAction = false)
         {
-            if (Equals(entity, default(T)))
+            if (Equals(entity, default))
             {
                 throw new ArgumentNullException(nameof(entity));
             }
@@ -214,7 +214,7 @@ namespace Scar.Common.DAL.LiteDB
 
         public bool Upsert(T entity, bool skipCustomAction = false)
         {
-            if (Equals(entity, default(T)))
+            if (Equals(entity, default))
             {
                 throw new ArgumentNullException(nameof(entity));
             }

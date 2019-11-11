@@ -1,6 +1,8 @@
 using System.Collections.Specialized;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Interactivity;
+using JetBrains.Annotations;
 
 namespace Scar.Common.WPF.Controls.Behaviors
 {
@@ -16,8 +18,13 @@ namespace Scar.Common.WPF.Controls.Behaviors
             ((INotifyCollectionChanged)AssociatedObject.Items).CollectionChanged -= OnCollectionChanged;
         }
 
-        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnCollectionChanged(object sender, [NotNull] NotifyCollectionChangedEventArgs e)
         {
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+            {
+                return;
+            }
+
             if (e.Action != NotifyCollectionChangedAction.Add)
             {
                 return;

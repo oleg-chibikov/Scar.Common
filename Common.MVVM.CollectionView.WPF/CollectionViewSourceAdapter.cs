@@ -1,4 +1,6 @@
-namespace Scar.Common.MVVM.CollectionView.WPF
+using Scar.Common.MVVM.CollectionView;
+
+namespace Scar.Common.WPF.CollectionView
 {
     public class CollectionViewSourceAdapter : ICollectionViewSource
     {

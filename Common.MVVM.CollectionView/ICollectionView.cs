@@ -63,12 +63,12 @@ namespace Scar.Common.MVVM.CollectionView
         ReadOnlyObservableCollection<object> Groups { get; }
 
         /// <summary>
-        /// Returns true if the resulting (filtered) view is emtpy.
+        /// Returns true if the resulting (filtered) view is empty.
         /// </summary>
         bool IsEmpty { get; }
 
         /// <summary>
-        /// Re-create the view, using any <seealso cref="SortDescriptions"/>.
+        /// Re-create the view, using any SortDescriptions.
         /// </summary>
         void Refresh();
 

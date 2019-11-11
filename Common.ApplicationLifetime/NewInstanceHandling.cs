@@ -1,4 +1,4 @@
-namespace Scar.Common.WPF.Startup
+namespace Scar.Common.ApplicationLifetime
 {
     public enum NewInstanceHandling
     {

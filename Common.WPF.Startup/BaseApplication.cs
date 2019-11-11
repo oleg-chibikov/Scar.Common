@@ -1,14 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -16,8 +12,7 @@ using Autofac;
 using Common.Logging;
 using Easy.MessageHub;
 using JetBrains.Annotations;
-using Scar.Common.Exceptions;
-using Scar.Common.Logging;
+using Scar.Common.ApplicationLifetime;
 using Scar.Common.Messages;
 using Scar.Common.WPF.Localization;
 
@@ -25,142 +20,58 @@ namespace Scar.Common.WPF.Startup
 {
     public abstract class BaseApplication : Application
     {
-        [CanBeNull]
-        private readonly Mutex _mutex;
+        [NotNull]
+        private readonly IApplicationStartupBootstrapper _applicationBootstrapper;
 
         [NotNull]
-        private readonly IList<Guid> _subscriptionTokens = new List<Guid>();
+        protected ILifetimeScope Container => _applicationBootstrapper.Container;
 
         [NotNull]
-        protected readonly ILifetimeScope Container;
+        protected ILog Logger => _applicationBootstrapper.Logger;
 
         [NotNull]
-        protected readonly ILog Logger;
-
-        [NotNull]
-        protected readonly IMessageHub Messenger;
+        protected IMessageHub Messenger => _applicationBootstrapper.Messenger;
 
         protected BaseApplication()
         {
-            Trace.CorrelationManager.ActivityId = Guid.NewGuid();
-            Container = BuildContainer();
-
-            // ReSharper disable once VirtualMemberCallInConstructor
-            CultureUtilities.ChangeCulture(GetStartupCulture());
-
-            Messenger = Container.Resolve<IMessageHub>();
-            _subscriptionTokens.Add(Messenger.Subscribe<Message>(LogAndShowMessage));
-            _subscriptionTokens.Add(Messenger.Subscribe<CultureInfo>(CultureUtilities.ChangeCulture));
-
-            Logger = Container.Resolve<ILog>();
-            // ReSharper disable once VirtualMemberCallInConstructor
-            if (NewInstanceHandling != NewInstanceHandling.AllowMultiple)
-            {
-                _mutex = CreateMutex();
-            }
+            var cultureManager = new CultureManager();
+            var applicationTerminator = new ApplicationTerminator();
+            var assemblyInfoProvider = new AssemblyInfoProvider(new EntryAssemblyProvider(), new SpecialPathsProvider());
+            // ReSharper disable VirtualMemberCallInConstructor
+            _applicationBootstrapper = new ApplicationStartupBootstrapper(cultureManager, applicationTerminator, ShowMessage, CreateMutex, RegisterDependencies, assemblyInfoProvider, AlreadyRunningMessage, WaitAfterOldInstanceKillMilliseconds, NewInstanceHandling, GetStartupCulture());
+            // ReSharper restore VirtualMemberCallInConstructor
 
             DispatcherUnhandledException += App_DispatcherUnhandledException;
-            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
         }
 
         protected virtual NewInstanceHandling NewInstanceHandling => NewInstanceHandling.Restart;
 
         protected virtual int WaitAfterOldInstanceKillMilliseconds => 0;
 
-        [NotNull]
-        protected virtual string AlreadyRunningCaption => "Cannot launch";
-
-        [NotNull]
-        protected virtual string AlreadyRunningMessage =>
-            ((AssemblyProductAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly(), typeof(AssemblyProductAttribute), false)).Product + " is already launched";
+        [CanBeNull]
+        protected virtual string AlreadyRunningMessage => null;
 
         [CanBeNull]
-        protected SynchronizationContext SynchronizationContext { get; private set; }
+        protected SynchronizationContext SynchronizationContext => _applicationBootstrapper.SynchronizationContext;
 
-        [NotNull]
-        protected virtual CultureInfo GetStartupCulture()
-        {
-            return CultureUtilities.GetCurrentCulture();
-        }
+        [CanBeNull]
+        protected virtual CultureInfo GetStartupCulture() => null;
 
         protected override void OnExit(ExitEventArgs e)
         {
-            foreach (var token in _subscriptionTokens)
-            {
-                Messenger.Unsubscribe(token);
-            }
-
-            Container.Dispose();
-            _mutex?.Dispose();
+            _applicationBootstrapper.OnExit();
         }
 
         protected abstract void OnStartup();
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            SynchronizationContext = SynchronizationContext.Current;
-            if (NewInstanceHandling != NewInstanceHandling.AllowMultiple)
-            {
-                switch (NewInstanceHandling)
-                {
-                    case NewInstanceHandling.Throw:
-                        if (CheckAlreadyRunning())
-                        {
-                            return;
-                        }
-
-                        MessageBox.Show(AlreadyRunningMessage, AlreadyRunningCaption, MessageBoxButton.OK, MessageBoxImage.Warning);
-                        Current.Shutdown();
-
-                        return;
-                    case NewInstanceHandling.Restart:
-                    {
-                        KillAnotherInstanceIfExists();
-                        break;
-                    }
-                }
-            }
+            _applicationBootstrapper.OnStart();
 
             //Prevent WPF tooltips from expiration
             ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(int.MaxValue));
 
             OnStartup();
-        }
-
-        private bool CheckAlreadyRunning()
-        {
-            bool alreadyRunning;
-            if (_mutex == null)
-            {
-                throw new InvalidOperationException("Mutex should be initialized");
-            }
-
-            try
-            {
-                alreadyRunning = !_mutex.WaitOne(0, false);
-            }
-            catch (AbandonedMutexException)
-            {
-                // No action required
-                alreadyRunning = false;
-            }
-
-            return !alreadyRunning;
-        }
-
-        private void KillAnotherInstanceIfExists()
-        {
-            var anotherInstance = Process.GetProcesses()
-                .SingleOrDefault(proc => proc.ProcessName.Equals(Process.GetCurrentProcess().ProcessName) && proc.Id != Process.GetCurrentProcess().Id);
-            if (anotherInstance != null)
-            {
-                anotherInstance.Kill();
-                if (WaitAfterOldInstanceKillMilliseconds > 0)
-                {
-                    // Wait for process to close
-                    Thread.Sleep(WaitAfterOldInstanceKillMilliseconds);
-                }
-            }
         }
 
         protected virtual void RegisterDependencies(ContainerBuilder builder)
@@ -197,24 +108,10 @@ namespace Scar.Common.WPF.Startup
 
         private void App_DispatcherUnhandledException(object sender, [NotNull] DispatcherUnhandledExceptionEventArgs e)
         {
-            HandleException(e.Exception);
+            _applicationBootstrapper.HandleException(e.Exception);
 
             // Prevent default unhandled exception processing
             e.Handled = true;
-        }
-
-        [NotNull]
-        private ILifetimeScope BuildContainer()
-        {
-            var builder = new ContainerBuilder();
-
-            builder.RegisterInstance(MessageHub.Instance).AsImplementedInterfaces().SingleInstance();
-            builder.RegisterModule<LoggingModule>();
-            builder.Register(x => SynchronizationContext).AsSelf().SingleInstance();
-
-            RegisterDependencies(builder);
-
-            return builder.Build();
         }
 
         [NotNull]
@@ -227,58 +124,6 @@ namespace Scar.Common.WPF.Startup
             mutexSecurity.AddAccessRule(new MutexAccessRule(sid, MutexRights.Delete, AccessControlType.Deny));
             var appGuid = ((GuidAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly(), typeof(GuidAttribute), false)).Value;
             return new Mutex(false, $"Global\\{appGuid}", out _, mutexSecurity);
-        }
-
-        private void HandleException(Exception e)
-        {
-            if (e is OperationCanceledException)
-            {
-                Logger.Trace("Operation canceled", e);
-            }
-            else if (e is ObjectDisposedException objectDisposedException && objectDisposedException.Source == nameof(Autofac))
-            {
-                Logger.Trace("Autofac lifetimescope has already been disposed", e);
-            }
-            else
-            {
-                Logger.Fatal("Unhandled exception", e);
-                NotifyError(e);
-            }
-        }
-
-        private void LogAndShowMessage([NotNull] Message message)
-        {
-            if (message.Exception is OperationCanceledException
-                || message.Exception is ObjectDisposedException objectDisposedException && objectDisposedException.Source == nameof(Autofac))
-            {
-                return;
-            }
-
-            switch (message.Type)
-            {
-                case MessageType.Warning:
-                    Logger.Warn(message.Text, message.Exception);
-                    break;
-                case MessageType.Error:
-                    Logger.Error(message.Text, message.Exception);
-                    break;
-            }
-
-            ShowMessage(message);
-        }
-
-        private void NotifyError(Exception e)
-        {
-            var localizable = e as LocalizableException;
-            var message = localizable?.ToMessage() ?? e.ToMessage();
-            Messenger.Publish(message);
-        }
-
-        private void TaskScheduler_UnobservedTaskException(object sender, [NotNull] UnobservedTaskExceptionEventArgs e)
-        {
-            HandleException(e.Exception.InnerException);
-            e.SetObserved();
-            e.Exception.Handle(ex => true);
         }
     }
 }

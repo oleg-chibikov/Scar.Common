@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Shell;
 using JetBrains.Annotations;
 
 namespace Scar.Common.WPF.View
@@ -31,6 +32,7 @@ namespace Scar.Common.WPF.View
 
         protected AnimatedWindow()
         {
+            WindowChrome.SetWindowChrome(this, new WindowChrome { ResizeBorderThickness = new Thickness(5), CaptionHeight = 0 });
             Opacity = 0;
 
             // ReSharper disable once VirtualMemberCallInConstructor

@@ -1,9 +1,10 @@
+using Scar.Common.MVVM.CollectionView;
 using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Globalization;
 
-namespace Scar.Common.MVVM.CollectionView.WPF
+namespace Scar.Common.WPF.CollectionView
 {
     public class CollectionViewAdapter : ICollectionView
     {

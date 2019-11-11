@@ -92,7 +92,8 @@ namespace Scar.Common.Processes
                                     token = linkedTokenSource.Token;
                                 }
 
-                                await WaitForExitAsync(process, commandPath, token).ConfigureAwait(false);
+                                var exitTask = WaitForExitAsync(process, commandPath, token);
+                                await exitTask.ConfigureAwait(false);
                                 linkedTokenSource?.Dispose();
 
                                 _logger.Debug($"The process {commandPath} has exited with exit code {process.ExitCode}");

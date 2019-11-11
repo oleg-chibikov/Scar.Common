@@ -1,5 +1,4 @@
 using Microsoft.Win32;
-using Scar.Common.Sync;
 using System;
 using System.IO;
 
