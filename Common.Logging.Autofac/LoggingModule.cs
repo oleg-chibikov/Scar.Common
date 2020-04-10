@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Autofac;
 using Autofac.Core;
+using Autofac.Core.Registration;
 using Common.Logging;
 using Module = Autofac.Module;
 
@@ -10,12 +11,13 @@ namespace Scar.Common.Logging.Autofac
 {
     public sealed class LoggingModule : Module
     {
-        protected override void AttachToComponentRegistration(IComponentRegistry componentRegistry, IComponentRegistration registration)
+        protected override void AttachToComponentRegistration(IComponentRegistryBuilder componentRegistry, IComponentRegistration registration)
         {
             _ = componentRegistry ?? throw new ArgumentNullException(nameof(componentRegistry));
             _ = registration ?? throw new ArgumentNullException(nameof(registration));
             registration.Preparing += OnComponentPreparing;
             registration.Activated += (sender, e) => InjectLoggerProperties(e.Instance);
+            base.AttachToComponentRegistration(componentRegistry, registration);
         }
 
         private static ILog GetLogger(Type t)

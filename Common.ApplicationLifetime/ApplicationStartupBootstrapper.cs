@@ -103,10 +103,10 @@ namespace Scar.Common.ApplicationLifetime
 
                     return;
                 case NewInstanceHandling.Restart:
-                {
-                    KillAnotherInstanceIfExists();
-                    break;
-                }
+                    {
+                        KillAnotherInstanceIfExists();
+                        break;
+                    }
             }
         }
 
@@ -169,7 +169,7 @@ namespace Scar.Common.ApplicationLifetime
         {
             var builder = new ContainerBuilder();
 
-            builder.Register(x => SynchronizationContext).AsSelf().SingleInstance();
+            builder.Register(x => SynchronizationContext ?? throw new InvalidOperationException("SyncContext should not be null at the moment of registration")).AsSelf().SingleInstance();
             builder.RegisterInstance(new MessageHub()).AsImplementedInterfaces().SingleInstance();
             builder.RegisterInstance(_assemblyInfoProvider).AsImplementedInterfaces().SingleInstance();
             builder.RegisterModule<LoggingModule>();

@@ -68,11 +68,13 @@ namespace Scar.Common.View.WindowFactory
                     void WindowClosed(object sender, EventArgs args)
                     {
                         _currentWindow = default;
+                        _ = window ?? throw new InvalidOperationException("Window is null");
                         window.Closed -= WindowClosed;
                     }
 
                     void WindowLoaded(object s, EventArgs e)
                     {
+                        _ = window ?? throw new InvalidOperationException("Window is null");
                         window.Loaded -= WindowLoaded;
                         splashWindow?.Close();
                         _currentWindow = window;

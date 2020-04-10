@@ -4,6 +4,7 @@ namespace Scar.Common.AutofacNamedInstancesFactory
 {
     public interface IAutofacNamedInstancesFactory
     {
-        T GetInstance<T>(params Parameter[] parameters);
+        T GetInstance<T>(params Parameter[] parameters)
+            where T : class;
     }
 }

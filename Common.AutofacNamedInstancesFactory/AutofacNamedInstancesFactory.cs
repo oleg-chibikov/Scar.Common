@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Autofac;
 using Autofac.Core;
 
@@ -14,6 +14,7 @@ namespace Scar.Common.AutofacNamedInstancesFactory
         }
 
         public T GetInstance<T>(params Parameter[] parameters)
+            where T : class
         {
             return _lifetimeScope.ResolveNamed<T>(typeof(T).FullName, parameters);
         }
