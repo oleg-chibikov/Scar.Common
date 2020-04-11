@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using JetBrains.Annotations;
 
 namespace Scar.Common.WPF.View
 {
@@ -19,12 +18,12 @@ namespace Scar.Common.WPF.View
             typeof(MarginSetter),
             new UIPropertyMetadata(MarginChangedCallback));
 
-        public static double GetMargin([NotNull] DependencyObject obj)
+        public static double GetMargin(DependencyObject obj)
         {
             return (double)obj.GetValue(MarginProperty);
         }
 
-        public static Orientation? GetOrientation([NotNull] DependencyObject obj)
+        public static Orientation? GetOrientation(DependencyObject obj)
         {
             return (Orientation?)obj.GetValue(OrientationProperty);
         }
@@ -39,12 +38,12 @@ namespace Scar.Common.WPF.View
             panel.Loaded += Panel_Loaded;
         }
 
-        public static void SetMargin([NotNull] DependencyObject obj, double value)
+        public static void SetMargin(DependencyObject obj, double value)
         {
             obj.SetValue(MarginProperty, value);
         }
 
-        public static void SetOrientation([NotNull] DependencyObject obj, Orientation? value)
+        public static void SetOrientation(DependencyObject obj, Orientation? value)
         {
             obj.SetValue(OrientationProperty, value);
         }

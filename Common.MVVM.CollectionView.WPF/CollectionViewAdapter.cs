@@ -19,7 +19,7 @@ namespace Scar.Common.WPF.CollectionView
 
         public IEnumerable SourceCollection => _adaptee.SourceCollection;
 
-        public Predicate<object> Filter { get => _adaptee.Filter; set => _adaptee.Filter = value; }
+        public Predicate<object>? Filter { get => _adaptee.Filter; set => _adaptee.Filter = value; }
 
         public bool CanFilter => _adaptee.CanFilter;
 

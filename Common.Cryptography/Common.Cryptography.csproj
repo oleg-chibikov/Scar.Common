@@ -1,17 +1,8 @@
-<?xml version="1.0" encoding="utf-16"?><Project Sdk="Microsoft.NET.Sdk">
+﻿<?xml version="1.0" encoding="utf-16"?><Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Company>Scar</Company>
-    <Authors>Scar</Authors>
     <Description>Several basic cryptographic tools</Description>
-    <Version>1.0.7016.37660</Version>
-    <AssemblyName>Scar.Common.Cryptography</AssemblyName>
-    <RootNamespace>Scar.Common.Cryptography</RootNamespace>
-    <LangVersion>8.0</LangVersion>
-    <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
 </Project>

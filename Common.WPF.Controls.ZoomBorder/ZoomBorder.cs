@@ -4,7 +4,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using JetBrains.Annotations;
 
 namespace Scar.Common.WPF.Controls
 {
@@ -19,12 +18,14 @@ namespace Scar.Common.WPF.Controls
         private readonly Duration _zoomAnimationDuration = new Duration(TimeSpan.FromMilliseconds(200));
 
         private UIElement _child;
-        private bool _isReseted;
+        private bool _isReset;
         private Point _originBottomRight;
         private Point _originTopLeft;
         private Point _start;
 
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable. Set to not null in Initialize method
         public ZoomBorder()
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         {
             //Unsubscribe not needed - same class
             MouseWheel += ZoomBorder_MouseWheel;
@@ -64,7 +65,7 @@ namespace Scar.Common.WPF.Controls
 
         public void Reset()
         {
-            if (_isReseted || _child == null)
+            if (_isReset || _child == null)
             {
                 return;
             }
@@ -77,17 +78,17 @@ namespace Scar.Common.WPF.Controls
             // reset pan
             _tt.X = 0.0;
             _tt.Y = 0.0;
-            _isReseted = true;
+            _isReset = true;
         }
 
-        private void ZoomBorder_MouseWheel(object sender, [NotNull] MouseWheelEventArgs e)
+        private void ZoomBorder_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             Zoom(e.Delta > 0 ? DefaultZoom : -DefaultZoom, e, false);
         }
 
         #region Events
 
-        private void ZoomBorder_MouseLeftButtonDown(object sender, [NotNull] MouseButtonEventArgs e)
+        private void ZoomBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (_child == null)
             {
@@ -109,7 +110,7 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        private void ZoomBorder_MouseLeftButtonUp(object sender, [NotNull] MouseButtonEventArgs e)
+        private void ZoomBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (_child == null || e.LeftButton == MouseButtonState.Pressed)
             {
@@ -120,7 +121,7 @@ namespace Scar.Common.WPF.Controls
             Cursor = Cursors.Arrow;
         }
 
-        private void ZoomBorder_PreviewMouseButtonDown(object sender, [NotNull] MouseButtonEventArgs e)
+        private void ZoomBorder_PreviewMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Middle)
             {
@@ -192,7 +193,7 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        private void ZoomBorder_SizeChanged(object sender, [NotNull] SizeChangedEventArgs e)
+        private void ZoomBorder_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             const double tolerance = 0.1;
             if (!e.PreviousSize.Height.Equals(0) && Math.Abs(e.PreviousSize.Height - e.NewSize.Height) >= tolerance)
@@ -227,22 +228,22 @@ namespace Scar.Common.WPF.Controls
 
             var position = e.GetPosition(_child);
 
-            var abosoluteX = position.X * _st.ScaleX + _tt.X;
-            var abosoluteY = position.Y * _st.ScaleY + _tt.Y;
+            var absoluteX = position.X * _st.ScaleX + _tt.X;
+            var absoluteY = position.Y * _st.ScaleY + _tt.Y;
             var newScaleX = _st.ScaleX + zoom;
             var newScaleY = _st.ScaleY + zoom;
 
             var diffX = position.X * newScaleX;
             var diffY = position.Y * newScaleY;
 
-            var newX = abosoluteX - diffX;
-            var newY = abosoluteY - diffY;
+            var newX = absoluteX - diffX;
+            var newY = absoluteY - diffY;
 
             #region Check Bounds For Zoom Out Only
 
             if (zoom <= 0)
             {
-                var bottomRight = new Point(abosoluteX + _child.RenderSize.Width * newScaleX, abosoluteY + _child.RenderSize.Height * newScaleY);
+                var bottomRight = new Point(absoluteX + _child.RenderSize.Width * newScaleX, absoluteY + _child.RenderSize.Height * newScaleY);
 
                 var newXRight = bottomRight.X - diffX;
                 var newYBottom = bottomRight.Y - diffY;
@@ -276,7 +277,7 @@ namespace Scar.Common.WPF.Controls
                 _tt.Y = newY;
             }
 
-            _isReseted = false;
+            _isReset = false;
         }
 
         private void Animate(double newScaleX, double newScaleY, double newX, double newY)

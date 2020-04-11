@@ -6,13 +6,12 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interactivity;
-using JetBrains.Annotations;
 
 namespace Scar.Common.WPF.Controls.Behaviors
 {
     public class InvokeCommandWithArgsAction : TriggerAction<DependencyObject>
     {
-        private string _commandName;
+        private string _commandName = string.Empty;
 
         public string CommandName
         {
@@ -50,10 +49,9 @@ namespace Scar.Common.WPF.Controls.Behaviors
             }
         }
 
-        [CanBeNull]
-        private ICommand ResolveCommand()
+        private ICommand? ResolveCommand()
         {
-            ICommand command = null;
+            ICommand? command = null;
             if (Command != null)
             {
                 return Command;
@@ -74,8 +72,7 @@ namespace Scar.Common.WPF.Controls.Behaviors
 
         #region Command
 
-        [CanBeNull]
-        public ICommand Command
+        public ICommand? Command
         {
             get => (ICommand)GetValue(CommandProperty);
             set => SetValue(CommandProperty, value);
@@ -92,8 +89,7 @@ namespace Scar.Common.WPF.Controls.Behaviors
 
         #region Command
 
-        [CanBeNull]
-        public IValueConverter CommandParameterConverter
+        public IValueConverter? CommandParameterConverter
         {
             get => (IValueConverter)GetValue(CommandParameterConverterProperty);
             set => SetValue(CommandParameterConverterProperty, value);

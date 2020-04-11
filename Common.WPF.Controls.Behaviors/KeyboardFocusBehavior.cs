@@ -2,7 +2,6 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using JetBrains.Annotations;
 
 namespace Scar.Common.WPF.Controls.Behaviors
 {
@@ -15,8 +14,7 @@ namespace Scar.Common.WPF.Controls.Behaviors
             OnProperty = DependencyProperty.RegisterAttached("On", typeof(FrameworkElement), typeof(KeyboardFocusBehavior), new PropertyMetadata(OnSetCallback));
         }
 
-        [CanBeNull]
-        public static FrameworkElement GetOn([NotNull] UIElement element)
+        public static FrameworkElement? GetOn(UIElement element)
         {
             return (FrameworkElement)element.GetValue(OnProperty);
         }
@@ -47,7 +45,7 @@ namespace Scar.Common.WPF.Controls.Behaviors
             };
         }
 
-        public static void SetOn([NotNull] UIElement element, FrameworkElement value)
+        public static void SetOn(UIElement element, FrameworkElement value)
         {
             _ = element ?? throw new ArgumentNullException(nameof(element));
             element.SetValue(OnProperty, value);

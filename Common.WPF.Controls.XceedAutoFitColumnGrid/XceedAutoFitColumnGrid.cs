@@ -3,10 +3,9 @@ using System.Globalization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
-using JetBrains.Annotations;
 using Xceed.Wpf.DataGrid;
 
-namespace Scar.Common.WPF.Xceed
+namespace Scar.Common.WPF.Controls
 {
     public sealed class XceedAutoFitColumnGrid : DataGridControl
     {
@@ -49,7 +48,7 @@ namespace Scar.Common.WPF.Xceed
             set => SetValue(ColumnsWidthRecalculationIntervalProperty, value);
         }
 
-        private void XceedAutoFitColumnGrid_Loaded([NotNull] object sender, RoutedEventArgs e)
+        private void XceedAutoFitColumnGrid_Loaded(object sender, RoutedEventArgs e)
         {
             var rowSelectorPane = TreeHelper.FindVisualChild<RowSelectorPane>((DependencyObject)sender);
             if (rowSelectorPane != null)
@@ -82,7 +81,7 @@ namespace Scar.Common.WPF.Xceed
             }
         }
 
-        private Size MeasureString([NotNull] string candidate)
+        private Size MeasureString(string candidate)
         {
             var dpiScale = VisualTreeHelper.GetDpi(this);
             var formattedText = new FormattedText(
@@ -122,8 +121,7 @@ namespace Scar.Common.WPF.Xceed
 
     internal static class TreeHelper
     {
-        [CanBeNull]
-        public static TChildItem FindVisualChild<TChildItem>([NotNull] DependencyObject obj)
+        public static TChildItem? FindVisualChild<TChildItem>(DependencyObject obj)
             where TChildItem : DependencyObject
         {
             for (var i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)

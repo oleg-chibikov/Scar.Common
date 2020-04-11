@@ -1,16 +1,7 @@
-<?xml version="1.0" encoding="utf-16"?>
+﻿<?xml version="1.0" encoding="utf-16"?>
 <Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Company>Scar</Company>
-    <Authors>Scar</Authors>
     <Description>Classes for localizing the application</Description>
-    <Version>1.0.7027.23438</Version>
-    <LangVersion>8.0</LangVersion>
-    <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <AssemblyName>Scar.Common.Localization</AssemblyName>
-    <RootNamespace>Scar.Common.Localization</RootNamespace>
   </PropertyGroup>
 </Project>

@@ -5,15 +5,16 @@ using System.Windows.Shell;
 
 namespace Scar.Common.WPF.Converters
 {
+    [ValueConversion(typeof(TaskbarItemProgressState), typeof(bool))]
     public sealed class ProgressStateToBooleanConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             // ReSharper disable once PossibleNullReferenceException
-            return (TaskbarItemProgressState)value != TaskbarItemProgressState.Normal;
+            return value != null && (TaskbarItemProgressState)value != TaskbarItemProgressState.Normal;
         }
 
-        public object ConvertBack(object value, Type targetTypes, object parameter, CultureInfo culture)
+        public object ConvertBack(object? value, Type targetTypes, object? parameter, CultureInfo culture)
         {
             throw new NotSupportedException();
         }

@@ -4,16 +4,14 @@ using System.IO.Compression;
 using System.IO.Pipes;
 using System.Runtime.Serialization.Formatters.Binary;
 using Common.Logging;
-using JetBrains.Annotations;
 
 namespace Scar.Common.NamedPipes
 {
     public sealed class NamedPipesClient<T> : INamedPipesClient<T>
     {
-        [NotNull]
         private readonly ILog _logger;
 
-        public NamedPipesClient([NotNull] ILog logger)
+        public NamedPipesClient(ILog logger)
         {
             _logger = logger;
         }
@@ -34,15 +32,13 @@ namespace Scar.Common.NamedPipes
                 {
                     bf.Serialize(ms, message);
                     ms.Seek(0, SeekOrigin.Begin);
-                    using (var compressedStream = new MemoryStream())
+                    using var compressedStream = new MemoryStream();
+                    using (var compressingStream = new DeflateStream(compressedStream, CompressionMode.Compress, true))
                     {
-                        using (var compressingStream = new DeflateStream(compressedStream, CompressionMode.Compress, true))
-                        {
-                            ms.CopyBuffered(compressingStream);
-                        }
-
-                        buffer = compressedStream.ToArray();
+                        ms.CopyBuffered(compressingStream);
                     }
+
+                    buffer = compressedStream.ToArray();
                 }
 
                 pipeClient.Write(buffer, 0, buffer.Length);

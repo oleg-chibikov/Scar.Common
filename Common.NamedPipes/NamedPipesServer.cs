@@ -5,7 +5,6 @@ using System.IO.Pipes;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using Common.Logging;
-using JetBrains.Annotations;
 
 namespace Scar.Common.NamedPipes
 {
@@ -13,13 +12,11 @@ namespace Scar.Common.NamedPipes
     {
         private const int ReadBufferSize = 255;
 
-        [NotNull]
         private readonly ILog _logger;
 
-        [NotNull]
         private NamedPipeServerStream _pipeServer;
 
-        public NamedPipesServer([NotNull] ILog logger)
+        public NamedPipesServer(ILog logger)
         {
             _logger = logger;
             try
@@ -33,10 +30,9 @@ namespace Scar.Common.NamedPipes
             }
         }
 
-        [NotNull]
         public static string PipeName => "NamedPipe_" + typeof(T).Name;
 
-        public event EventHandler<MessageEventArgs<T>> MessageReceived;
+        public event EventHandler<MessageEventArgs<T>>? MessageReceived;
 
         public void Dispose()
         {
@@ -44,7 +40,6 @@ namespace Scar.Common.NamedPipes
             _logger.Debug("Finished listening");
         }
 
-        [NotNull]
         private NamedPipeServerStream CreateListener()
         {
             _logger.Debug("Listening for the new message...");
@@ -85,11 +80,9 @@ namespace Scar.Common.NamedPipes
                     while (!_pipeServer.IsMessageComplete);
 
                     ms.Seek(0, SeekOrigin.Begin);
-                    using (var decompressingStream = new DeflateStream(ms, CompressionMode.Decompress))
-                    using (var decompressedStream = decompressingStream.CreateMemoryStream())
-                    {
-                        message = (T)bf.Deserialize(decompressedStream);
-                    }
+                    using var decompressingStream = new DeflateStream(ms, CompressionMode.Decompress);
+                    using var decompressedStream = decompressingStream.CreateMemoryStream();
+                    message = (T)bf.Deserialize(decompressedStream);
                 }
 
                 _pipeServer.Close();

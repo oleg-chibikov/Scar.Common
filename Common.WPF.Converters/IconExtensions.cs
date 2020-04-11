@@ -6,14 +6,12 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using JetBrains.Annotations;
 
 namespace Scar.Common.WPF.Converters
 {
     internal static class IconExtensions
     {
-        [NotNull]
-        public static ImageSource ToImageSource([NotNull] this Icon icon)
+        public static ImageSource ToImageSource(this Icon icon)
         {
             _ = icon ?? throw new ArgumentNullException(nameof(icon));
             var bitmap = icon.ToBitmap();

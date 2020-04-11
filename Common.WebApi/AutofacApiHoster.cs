@@ -5,25 +5,20 @@ using System.Web.Http.ExceptionHandling;
 using Autofac;
 using Autofac.Integration.WebApi;
 using Common.Logging;
-using JetBrains.Annotations;
 using Microsoft.Owin.Hosting;
 using Owin;
 
 namespace Scar.Common.WebApi
 {
-    [UsedImplicitly]
     public abstract class AutofacApiHoster : IDisposable
     {
-        [NotNull]
         private readonly IDisposable _apiHost;
 
-        [NotNull]
         private readonly ILifetimeScope _innerScope;
 
-        [NotNull]
         private readonly ILog _logger;
 
-        protected AutofacApiHoster([NotNull] ILog logger, [NotNull] ILifetimeScope lifetimeScope)
+        protected AutofacApiHoster(ILog logger, ILifetimeScope lifetimeScope)
         {
             _ = lifetimeScope ?? throw new ArgumentNullException(nameof(lifetimeScope));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -48,10 +43,8 @@ namespace Scar.Common.WebApi
             logger.Trace("WebApi is started");
         }
 
-        [NotNull]
         protected abstract string BaseAddress { get; }
 
-        [NotNull]
         protected abstract Assembly ControllersAssembly { get; }
 
         public void Dispose()
@@ -61,6 +54,6 @@ namespace Scar.Common.WebApi
             _logger.Trace("WebApi has been stopped...");
         }
 
-        protected abstract void RegisterRoutes([NotNull] HttpRouteCollection routes);
+        protected abstract void RegisterRoutes(HttpRouteCollection routes);
     }
 }

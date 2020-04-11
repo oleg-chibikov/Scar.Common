@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using JetBrains.Annotations;
 using WixSharp;
 using WixSharp.CommonTasks;
 using WixSharp.Forms;
@@ -12,32 +11,26 @@ namespace Scar.Common.Installer
 {
     public class InstallBuilder
     {
-        [NotNull]
         public const string CustomParam = nameof(CustomParam);
 
         public const string FileName = nameof(FileName);
 
-        [NotNull]
         private const string DesktopPath = "%Desktop%";
 
-        [NotNull]
         private readonly string _exeFileName;
 
-        [NotNull]
         private readonly string _productName;
 
-        [NotNull]
         private readonly string _programMenuPath;
 
-        [NotNull]
         private readonly ManagedProject _project;
 
-        public InstallBuilder([NotNull] string productName, [CanBeNull] string companyName, [NotNull] string buildDir, Guid upgradeCode)
+        public InstallBuilder(string productName, string? companyName, string buildDir, Guid upgradeCode)
         {
             _ = buildDir ?? throw new ArgumentNullException(nameof(buildDir));
             _productName = productName ?? throw new ArgumentNullException(nameof(productName));
             _exeFileName = _productName + ".exe";
-            var assembly = Assembly.GetEntryAssembly();
+            var assembly = Assembly.GetEntryAssembly() ?? throw new InvalidOperationException("EntryAssembly is null");
             var assemblyName = assembly.GetName();
             var version = assemblyName.Version;
 
@@ -102,7 +95,7 @@ namespace Scar.Common.Installer
             };
         }
 
-        public void Build([CanBeNull] string outputMsiPath = null, [CanBeNull] string wixBinariesLocation = null)
+        public void Build(string? outputMsiPath = null, string? wixBinariesLocation = null)
         {
             if (wixBinariesLocation != null)
             {
@@ -117,22 +110,19 @@ namespace Scar.Common.Installer
             Compiler.BuildMsi(_project, outputMsiPath);
         }
 
-        [NotNull]
         public InstallBuilder LaunchAfterInstallation()
         {
             _project.AddAction(new ManagedAction(CustomActions.LaunchProcess, Return.check, When.After, Step.InstallFinalize, Condition.NOT_Installed));
             return this;
         }
 
-        [NotNull]
         public InstallBuilder OpenFolderAfterInstallation()
         {
             _project.AddAction(new ManagedAction(CustomActions.OpenFolder, Return.check, When.After, Step.InstallFinalize, Condition.NOT_Installed));
             return this;
         }
 
-        [NotNull]
-        public InstallBuilder WithAutostart([CanBeNull] string fileName = null)
+        public InstallBuilder WithAutostart(string? fileName = null)
         {
             _project.AddRegValue(
                 new RegValue(
@@ -144,15 +134,13 @@ namespace Scar.Common.Installer
             return this;
         }
 
-        [NotNull]
-        public InstallBuilder WithIcon([NotNull] string iconFile)
+        public InstallBuilder WithIcon(string iconFile)
         {
             _project.ControlPanelInfo.ProductIcon = iconFile ?? throw new ArgumentNullException(nameof(iconFile));
             return this;
         }
 
-        [NotNull]
-        public InstallBuilder WithProcessTermination([CanBeNull] string fileName = null)
+        public InstallBuilder WithProcessTermination(string? fileName = null)
         {
             var customActionParam = $"{CustomParam}={fileName ?? _exeFileName}";
             _project.AddAction(
@@ -168,8 +156,7 @@ namespace Scar.Common.Installer
             return this;
         }
 
-        [NotNull]
-        public InstallBuilder WithDesktopShortcut([CanBeNull] string fileName = null, [CanBeNull] string arguments = "")
+        public InstallBuilder WithDesktopShortcut(string? fileName = null, string? arguments = "")
         {
             var formattableString = $"[INSTALLDIR]{fileName ?? _exeFileName}";
             var dir = _project.FindDir(DesktopPath);
@@ -178,8 +165,7 @@ namespace Scar.Common.Installer
             return this;
         }
 
-        [NotNull]
-        public InstallBuilder WithProgramMenuShortcut([CanBeNull] string fileName = null, [CanBeNull] string arguments = "")
+        public InstallBuilder WithProgramMenuShortcut(string? fileName = null, string? arguments = "")
         {
             var formattableString = $"[INSTALLDIR]{fileName ?? _exeFileName}";
             var dir = _project.FindDir(_programMenuPath);
@@ -188,8 +174,7 @@ namespace Scar.Common.Installer
             return this;
         }
 
-        [NotNull]
-        public InstallBuilder WithWinService([CanBeNull] string fileName = null)
+        public InstallBuilder WithWinService(string? fileName = null)
         {
             var customActionParam = $"{CustomParam}=[INSTALLDIR]{fileName ?? _exeFileName}";
             _project.Actions = new Action[]

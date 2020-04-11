@@ -63,12 +63,10 @@ namespace Scar.Common.IO
 
         public static async Task<byte[]> ReadFileAsync(this string filename, CancellationToken cancellationToken)
         {
-            using (var file = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
-            {
-                var buff = new byte[file.Length];
-                await file.ReadAsync(buff, 0, (int)file.Length, cancellationToken).ConfigureAwait(false);
-                return buff;
-            }
+            using var file = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true);
+            var buff = new byte[file.Length];
+            await file.ReadAsync(buff, 0, (int)file.Length, cancellationToken).ConfigureAwait(false);
+            return buff;
         }
 
         public static string RenameFile(this string oldFilePath, string newFilePath)

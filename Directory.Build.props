@@ -1,0 +1,31 @@
+﻿<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugType Condition=" '$(Configuration)' == 'Release' ">None</DebugType>
+    <SignAssembly>false</SignAssembly>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Company>Scar</Company>
+    <Authors>Scar</Authors>
+    <AssemblyName>$(Company).$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>$(Company).$(MSBuildProjectName)</RootNamespace>
+    <Build>$([System.DateTime]::op_Subtraction($([System.DateTime]::get_Now().get_Date()),$([System.DateTime]::new(2000,1,1))).get_TotalDays())</Build>
+    <Revision>$([MSBuild]::Divide($([System.DateTime]::get_Now().get_TimeOfDay().get_TotalSeconds()), 2).ToString('F0'))</Revision>
+    <Version>1.1.$(Build).$(Revision)</Version>
+  </PropertyGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="del &quot;$(TargetDir)*.nupkg&quot; /S /Q /F" />
+  </Target>
+
+  <Target Name="PublishPackage" AfterTargets="Pack">
+    <Exec Command="nuget push &quot;$(TargetDir)$(TargetName).$(Version).nupkg&quot; -Source http://localhost:5533/ -ApiKey NugetServer" />
+  </Target>
+</Project>

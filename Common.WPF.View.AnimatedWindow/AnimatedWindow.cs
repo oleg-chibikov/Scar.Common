@@ -7,7 +7,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shell;
-using JetBrains.Annotations;
 
 namespace Scar.Common.WPF.View
 {
@@ -64,7 +63,7 @@ namespace Scar.Common.WPF.View
             set => SetValue(DraggableProperty, value);
         }
 
-        public event EventHandler ContentRenderAnimationFinished;
+        public event EventHandler? ContentRenderAnimationFinished;
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
@@ -105,7 +104,7 @@ namespace Scar.Common.WPF.View
             BeginAnimation(prop, animation, HandoffBehavior.SnapshotAndReplace);
         }
 
-        private void AnimatedWindow_Closing(object sender, [NotNull] CancelEventArgs e)
+        private void AnimatedWindow_Closing(object sender, CancelEventArgs e)
         {
             e.Cancel = true;
 

@@ -9,7 +9,7 @@ namespace Scar.Common.Sync.Windows
         private const string DropboxInfoPath = @"Dropbox\info.json";
         private const string OneDriveNotDetected = @"ND";
 
-        public string GetDropBoxPath()
+        public string? GetDropBoxPath()
         {
             var jsonPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DropboxInfoPath);
             if (!File.Exists(jsonPath))
@@ -20,7 +20,7 @@ namespace Scar.Common.Sync.Windows
             return !File.Exists(jsonPath) ? null : File.ReadAllText(jsonPath).Split('\"')[5].Replace(@"\\", @"\");
         }
 
-        public string GetOneDrivePath()
+        public string? GetOneDrivePath()
         {
             var path = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\OneDrive", "UserFolder", OneDriveNotDetected);
             return path == OneDriveNotDetected || string.IsNullOrWhiteSpace(path) ? null : path;

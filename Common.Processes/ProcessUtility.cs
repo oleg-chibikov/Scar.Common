@@ -43,76 +43,74 @@ namespace Scar.Common.Processes
                             processInfo.WorkingDirectory = workingDirectory;
                         }
 
-                        using (var process = Process.Start(processInfo))
+                        using var process = Process.Start(processInfo);
+                        if (process == null)
                         {
-                            if (process == null)
-                            {
-                                throw new InvalidOperationException($"Command {commandPath} not found");
-                            }
-
-                            _logger.Trace($"Waiting command to exit for process {commandPath}...");
-
-                            var outputStringBuilder = new StringBuilder();
-                            var errorStringBuilder = new StringBuilder();
-
-                            void OutputHandler(object sender, DataReceivedEventArgs e)
-                            {
-                                if (!string.IsNullOrWhiteSpace(e.Data))
-                                {
-                                    OnMessage(e.Data);
-                                    outputStringBuilder.AppendLine(e.Data);
-                                    _logger.Trace(e.Data);
-                                }
-                            }
-
-                            void ErrorHandler(object sender, DataReceivedEventArgs e)
-                            {
-                                if (string.IsNullOrWhiteSpace(e.Data))
-                                {
-                                    return;
-                                }
-
-                                OnError(e.Data);
-                                errorStringBuilder.AppendLine(e.Data);
-                                _logger.Warn(e.Data);
-                            }
-
-                            process.OutputDataReceived += OutputHandler;
-                            process.ErrorDataReceived += ErrorHandler;
-                            try
-                            {
-                                process.BeginOutputReadLine();
-                                process.BeginErrorReadLine();
-
-                                CancellationTokenSource? linkedTokenSource = null;
-
-                                if (timeout.HasValue)
-                                {
-                                    linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, new CancellationTokenSource(timeout.Value).Token);
-                                    token = linkedTokenSource.Token;
-                                }
-
-                                var exitTask = WaitForExitAsync(process, commandPath, token);
-                                await exitTask.ConfigureAwait(false);
-                                linkedTokenSource?.Dispose();
-
-                                _logger.Debug($"The process {commandPath} has exited with exit code {process.ExitCode}");
-                            }
-                            catch (OperationCanceledException)
-                            {
-                                _logger.Debug($"The process {commandPath} is canceled");
-                                throw;
-                            }
-                            finally
-                            {
-                                process.OutputDataReceived -= OutputHandler;
-                                process.ErrorDataReceived -= ErrorHandler;
-                            }
-
-                            var output = outputStringBuilder.ToString();
-                            var error = errorStringBuilder.ToString();
-                            return new ProcessResult(string.IsNullOrEmpty(output) ? null : output, string.IsNullOrEmpty(error) ? null : error, process.ExitCode);
+                            throw new InvalidOperationException($"Command {commandPath} not found");
                         }
+
+                        _logger.Trace($"Waiting command to exit for process {commandPath}...");
+
+                        var outputStringBuilder = new StringBuilder();
+                        var errorStringBuilder = new StringBuilder();
+
+                        void OutputHandler(object sender, DataReceivedEventArgs e)
+                        {
+                            if (!string.IsNullOrWhiteSpace(e.Data))
+                            {
+                                OnMessage(e.Data);
+                                outputStringBuilder.AppendLine(e.Data);
+                                _logger.Trace(e.Data);
+                            }
+                        }
+
+                        void ErrorHandler(object sender, DataReceivedEventArgs e)
+                        {
+                            if (string.IsNullOrWhiteSpace(e.Data))
+                            {
+                                return;
+                            }
+
+                            OnError(e.Data);
+                            errorStringBuilder.AppendLine(e.Data);
+                            _logger.Warn(e.Data);
+                        }
+
+                        process.OutputDataReceived += OutputHandler;
+                        process.ErrorDataReceived += ErrorHandler;
+                        try
+                        {
+                            process.BeginOutputReadLine();
+                            process.BeginErrorReadLine();
+
+                            CancellationTokenSource? linkedTokenSource = null;
+
+                            if (timeout.HasValue)
+                            {
+                                linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, new CancellationTokenSource(timeout.Value).Token);
+                                token = linkedTokenSource.Token;
+                            }
+
+                            var exitTask = WaitForExitAsync(process, commandPath, token);
+                            await exitTask.ConfigureAwait(false);
+                            linkedTokenSource?.Dispose();
+
+                            _logger.Debug($"The process {commandPath} has exited with exit code {process.ExitCode}");
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            _logger.Debug($"The process {commandPath} is canceled");
+                            throw;
+                        }
+                        finally
+                        {
+                            process.OutputDataReceived -= OutputHandler;
+                            process.ErrorDataReceived -= ErrorHandler;
+                        }
+
+                        var output = outputStringBuilder.ToString();
+                        var error = errorStringBuilder.ToString();
+                        return new ProcessResult(string.IsNullOrEmpty(output) ? null : output, string.IsNullOrEmpty(error) ? null : error, process.ExitCode);
                     },
                     token)
                 .ConfigureAwait(false);

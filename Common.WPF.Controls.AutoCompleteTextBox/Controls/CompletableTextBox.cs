@@ -7,7 +7,6 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using JetBrains.Annotations;
 using Microsoft.Windows.Themes;
 using Scar.Common.WPF.Controls.AutoCompleteTextBox.Provider;
 
@@ -39,7 +38,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
 
         private Popup _popup;
 
-        private bool _supressAutoAppend;
+        private bool _suppressAutoAppend;
 
         /*+---------------------------------------------------------------------+
           |                                                                     |
@@ -48,7 +47,9 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
           +---------------------------------------------------------------------*/
         private bool _textChangedByCode;
 
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable. Fields are initialized in the Loaded event and after that remain non-nullable
         public CompletableTextBox()
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         {
             _rateLimiter = new RateLimiter(SynchronizationContext.Current);
             Loaded += CompletableTextBox_Initialized;
@@ -95,7 +96,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
             control?.ChangeSelectedItem(e.NewValue);
         }
 
-        private void ChangeSelectedItem([CanBeNull] object item)
+        private void ChangeSelectedItem(object? item)
         {
             Text = item?.ToString() ?? string.Empty;
         }
@@ -185,9 +186,9 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
             _popup.IsOpen = false;
         }
 
-        private void ListBox_MouseLeftButtonUp(object sender, [NotNull] MouseButtonEventArgs e)
+        private void ListBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            ListBoxItem item = null;
+            ListBoxItem? item = null;
             var d = e.OriginalSource as DependencyObject;
             while (d != null)
             {
@@ -214,7 +215,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
           |                     ListBox Event Handling                          |
           |                                                                     |
           +---------------------------------------------------------------------*/
-        private void ListBox_PreviewMouseLeftButtonDown(object sender, [NotNull] MouseButtonEventArgs e)
+        private void ListBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var pos = e.GetPosition(_listBox);
             var hitTestResult = VisualTreeHelper.HitTest(_listBox, pos);
@@ -290,7 +291,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
             _popup.IsOpen = false;
         }
 
-        private void OwnerWindow_PreviewMouseDown(object sender, [NotNull] MouseButtonEventArgs e)
+        private void OwnerWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (!Equals(e.Source, this))
             {
@@ -325,7 +326,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
                 _listBox.SelectedIndex = 0;
                 ShowPopup();
 
-                if (!AutoAppend || _supressAutoAppend || SelectionLength != 0 || SelectionStart != Text.Length)
+                if (!AutoAppend || _suppressAutoAppend || SelectionLength != 0 || SelectionStart != Text.Length)
                 {
                     return;
                 }
@@ -393,14 +394,14 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
             // Text = SelectedItem?.ToString() ?? string.Empty;
         }
 
-        private void TextBox_PreviewKeyDown(object sender, [NotNull] KeyEventArgs e)
+        private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             _rateLimiter.Throttle(
                 TimeSpan.FromMilliseconds(20),
                 () =>
                 {
                     _cancellationTokenSource.Cancel();
-                    _supressAutoAppend = e.Key == Key.Delete || e.Key == Key.Back;
+                    _suppressAutoAppend = e.Key == Key.Delete || e.Key == Key.Back;
 
                     if (!_popup.IsOpen)
                     {
@@ -494,7 +495,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
                 Text);
         }
 
-        private void UpdateItem([CanBeNull] object item, bool selectAll)
+        private void UpdateItem(object item, bool selectAll)
         {
             _textChangedByCode = true;
             SelectedItem = item;

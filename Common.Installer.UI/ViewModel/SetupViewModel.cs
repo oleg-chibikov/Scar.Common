@@ -14,7 +14,7 @@ namespace Scar.Common.Installer.UI.ViewModel
 {
     public sealed class SetupViewModel : GenericSetup, IRequestCloseViewModel
     {
-        private string _installPath;
+        private string? _installPath;
 
         public SetupViewModel([NotNull] string msiFile, bool enableLogging = true)
             : base(msiFile, enableLogging)
@@ -54,8 +54,7 @@ namespace Scar.Common.Installer.UI.ViewModel
 
         public bool InitialCanRepair { get; set; }
 
-        [CanBeNull]
-        public string InstallPath
+        public string? InstallPath
         {
             get => _installPath;
             set
@@ -83,7 +82,7 @@ namespace Scar.Common.Installer.UI.ViewModel
         [NotNull]
         public ICommand BrowseInstallationPathCommand { get; }
 
-        public event EventHandler RequestClose;
+        public event EventHandler? RequestClose;
 
         private void BrowseInstallationPath()
         {
@@ -112,7 +111,7 @@ namespace Scar.Common.Installer.UI.ViewModel
 
         private void Install([CanBeNull] string path)
         {
-            string pathParam = null;
+            string? pathParam = null;
             if (!string.IsNullOrEmpty(path))
             {
                 if (!Path.IsPathRooted(path))

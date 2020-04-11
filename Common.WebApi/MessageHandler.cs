@@ -4,22 +4,20 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 
 namespace Scar.Common.WebApi
 {
     public abstract class MessageHandler : DelegatingHandler
     {
-        protected abstract Task IncomingMessageAsync([NotNull] HttpRequestMessage request, [NotNull] string requestInfo, [CanBeNull] string message);
+        protected abstract Task IncomingMessageAsync(HttpRequestMessage request, string requestInfo, string? message);
 
         protected abstract Task OutgoingMessageAsync(
-            [NotNull] HttpRequestMessage request,
-            [NotNull] string requestInfo,
-            [CanBeNull] string message,
+            HttpRequestMessage request,
+            string requestInfo,
+            string? message,
             HttpStatusCode responseStatusCode);
 
-        [ItemNotNull]
-        protected override async Task<HttpResponseMessage> SendAsync([NotNull] HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             if (request.RequestUri.LocalPath.Contains("swagger"))
             {
@@ -31,7 +29,7 @@ namespace Scar.Common.WebApi
             var requestMessage = request.Content == null ? null : await request.Content.ReadAsStringAsync();
             await IncomingMessageAsync(request, requestInfo, requestMessage);
             var response = await base.SendAsync(request, cancellationToken);
-            string responseMessage = null;
+            string? responseMessage = null;
             if (response.Content != null)
             {
                 responseMessage = await response.Content.ReadAsStringAsync();

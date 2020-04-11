@@ -69,8 +69,8 @@ namespace Scar.Common.WPF.View
             _loaded?.Invoke(sender, e);
         }
 
-        private EventHandler _sizeChanged;
-        private EventHandler _loaded;
+        private EventHandler? _sizeChanged;
+        private EventHandler? _loaded;
         private readonly object _sizeChangedLock = new object();
         private readonly object _loadedLock = new object();
         event EventHandler IDisplayable.SizeChanged
@@ -377,8 +377,8 @@ namespace Scar.Common.WPF.View
 
         private void HandleDisposableViewModel()
         {
-            RoutedEventHandler unloadedHandler = null;
-            EventHandler shutdownStartedHandler = null;
+            RoutedEventHandler? unloadedHandler = null;
+            EventHandler? shutdownStartedHandler = null;
 
             void Dispose()
             {

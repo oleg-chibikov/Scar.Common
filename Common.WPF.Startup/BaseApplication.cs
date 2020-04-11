@@ -48,14 +48,11 @@ namespace Scar.Common.WPF.Startup
 
         protected virtual int WaitAfterOldInstanceKillMilliseconds => 0;
 
-        [CanBeNull]
-        protected virtual string AlreadyRunningMessage => null;
+        protected virtual string? AlreadyRunningMessage => null;
 
-        [CanBeNull]
-        protected SynchronizationContext SynchronizationContext => _applicationBootstrapper.SynchronizationContext;
+        protected SynchronizationContext? SynchronizationContext => _applicationBootstrapper.SynchronizationContext;
 
-        [CanBeNull]
-        protected virtual CultureInfo GetStartupCulture() => null;
+        protected virtual CultureInfo? GetStartupCulture() => null;
 
         protected override void OnExit(ExitEventArgs e)
         {
@@ -101,7 +98,7 @@ namespace Scar.Common.WPF.Startup
 
             MessageBox.Show(
                 message.Text,
-                ((AssemblyProductAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly(), typeof(AssemblyProductAttribute), false)).Product,
+                ((AssemblyProductAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly() ?? throw new InvalidOperationException("Entry assembly is null"), typeof(AssemblyProductAttribute), false)).Product,
                 MessageBoxButton.OK,
                 image);
         }
@@ -122,7 +119,7 @@ namespace Scar.Common.WPF.Startup
             mutexSecurity.AddAccessRule(new MutexAccessRule(sid, MutexRights.FullControl, AccessControlType.Allow));
             mutexSecurity.AddAccessRule(new MutexAccessRule(sid, MutexRights.ChangePermissions, AccessControlType.Deny));
             mutexSecurity.AddAccessRule(new MutexAccessRule(sid, MutexRights.Delete, AccessControlType.Deny));
-            var appGuid = ((GuidAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly(), typeof(GuidAttribute), false)).Value;
+            var appGuid = ((GuidAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly() ?? throw new InvalidOperationException("Entry assembly is null"), typeof(GuidAttribute), false)).Value;
             return new Mutex(false, $"Global\\{appGuid}", out _, mutexSecurity);
         }
     }

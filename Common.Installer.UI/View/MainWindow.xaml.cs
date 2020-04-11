@@ -8,7 +8,9 @@ namespace Scar.Common.Installer.UI.View
 {
     public partial class MainWindow
     {
+#pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable. Initialized in Loaded event
         public MainWindow()
+#pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         {
             InitializeComponent();
         }

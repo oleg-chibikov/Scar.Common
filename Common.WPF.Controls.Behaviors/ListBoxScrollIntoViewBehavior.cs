@@ -1,7 +1,6 @@
 using System;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
-using JetBrains.Annotations;
 
 namespace Scar.Common.WPF.Controls.Behaviors
 {
@@ -10,7 +9,7 @@ namespace Scar.Common.WPF.Controls.Behaviors
         /// <summary>
         /// On Selection Changed
         /// </summary>
-        private static void AssociatedObject_SelectionChanged([NotNull] object sender, [NotNull] SelectionChangedEventArgs e)
+        private static void AssociatedObject_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!(sender is ListBox listBox))
             {

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Common.Logging;
-using JetBrains.Annotations;
 using Scar.Common.Drawing.Metadata;
 using Scar.Common.IO;
 
@@ -17,10 +16,9 @@ namespace Scar.Common.Drawing.ImageRetriever
     {
         private static readonly TimeSpan DefaultAttemptDelay = TimeSpan.FromMilliseconds(100);
 
-        [NotNull]
         private readonly ILog _logger;
 
-        public ImageRetriever([NotNull] ILog logger)
+        public ImageRetriever(ILog logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -57,7 +55,7 @@ namespace Scar.Common.Drawing.ImageRetriever
             return ImageToByteArray(image.GetThumbnailImage(thumbSize, (int)(thumbSize / ratio), () => false, IntPtr.Zero));
         }
 
-        public async Task<BitmapSource> LoadImageAsync(byte[] imageData, CancellationToken cancellationToken, Orientation? orientation = null, int sizeAnchor = 0)
+        public async Task<BitmapSource?> LoadImageAsync(byte[]? imageData, CancellationToken cancellationToken, Orientation? orientation = null, int sizeAnchor = 0)
         {
             return await Task.Run(
                     () =>
@@ -142,14 +140,11 @@ namespace Scar.Common.Drawing.ImageRetriever
             return angle;
         }
 
-        [NotNull]
-        private static byte[] ImageToByteArray([NotNull] Image imageIn)
+        private static byte[] ImageToByteArray(Image imageIn)
         {
-            using (var ms = new MemoryStream())
-            {
-                imageIn.Save(ms, ImageFormat.Gif);
-                return ms.ToArray();
-            }
+            using var ms = new MemoryStream();
+            imageIn.Save(ms, ImageFormat.Gif);
+            return ms.ToArray();
         }
     }
 }

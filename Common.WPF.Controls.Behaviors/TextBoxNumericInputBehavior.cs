@@ -5,14 +5,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
-using JetBrains.Annotations;
 
 namespace Scar.Common.WPF.Controls.Behaviors
 {
     public class TextBoxNumericInputBehavior : Behavior<TextBox>
     {
-        private const NumberStyles IntNumerStyles = NumberStyles.AllowThousands;
-        private const NumberStyles DecimalNumberStyles = IntNumerStyles | NumberStyles.AllowDecimalPoint;
+        private const NumberStyles IntNumberStyles = NumberStyles.AllowThousands;
+        private const NumberStyles DecimalNumberStyles = IntNumberStyles | NumberStyles.AllowDecimalPoint;
 
         private const string Empty = "0";
 
@@ -36,7 +35,7 @@ namespace Scar.Common.WPF.Controls.Behaviors
             set => SetValue(OnlyPositiveProperty, value);
         }
 
-        private void AssociatedObjectPreviewKeyDown(object sender, [NotNull] KeyEventArgs e)
+        private void AssociatedObjectPreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Space)
             {
@@ -48,7 +47,7 @@ namespace Scar.Common.WPF.Controls.Behaviors
             }
         }
 
-        private void AssociatedObjectPreviewTextInput(object sender, [NotNull] TextCompositionEventArgs e)
+        private void AssociatedObjectPreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             if (!IsValidInput(GetText(e.Text)))
             {
@@ -65,8 +64,7 @@ namespace Scar.Common.WPF.Controls.Behaviors
             }
         }
 
-        [NotNull]
-        private string GetText([NotNull] string input)
+        private string GetText(string input)
         {
             var txt = AssociatedObject;
 
@@ -102,7 +100,7 @@ namespace Scar.Common.WPF.Controls.Behaviors
                 case TextBoxInputMode.None:
                     return true;
                 case TextBoxInputMode.IntInput:
-                    return int.TryParse(input, OnlyPositive ? IntNumerStyles : IntNumerStyles | NumberStyles.AllowLeadingSign, CultureInfo.CurrentCulture, out _);
+                    return int.TryParse(input, OnlyPositive ? IntNumberStyles : IntNumberStyles | NumberStyles.AllowLeadingSign, CultureInfo.CurrentCulture, out _);
                 case TextBoxInputMode.DecimalInput:
                     var result = decimal.TryParse(
                         input,
@@ -135,7 +133,7 @@ namespace Scar.Common.WPF.Controls.Behaviors
             DataObject.RemovePastingHandler(AssociatedObject, Pasting);
         }
 
-        private void Pasting(object sender, [NotNull] DataObjectPastingEventArgs e)
+        private void Pasting(object sender, DataObjectPastingEventArgs e)
         {
             if (e.DataObject.GetDataPresent(typeof(string)))
             {

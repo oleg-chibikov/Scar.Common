@@ -1,12 +1,11 @@
 using System;
 using System.Drawing;
 using System.Windows;
-using JetBrains.Annotations;
 using Scar.Common.View.Contracts;
 
 namespace Scar.Common.WPF.View.Contracts
 {
-    public interface IWindow: IDisplayable
+    public interface IWindow : IDisplayable
     {
         #region Properties
 
@@ -36,7 +35,6 @@ namespace Scar.Common.WPF.View.Contracts
 
         #region Custom Properties
 
-        [CanBeNull]
         TimeSpan? AutoCloseTimeout { get; set; }
 
         AdvancedWindowStartupLocation AdvancedWindowStartupLocation { get; set; }

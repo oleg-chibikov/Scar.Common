@@ -1,6 +1,5 @@
 using System;
 using System.Windows;
-using JetBrains.Annotations;
 
 namespace Scar.Common.WPF.Controls
 {
@@ -77,8 +76,7 @@ namespace Scar.Common.WPF.Controls
             set => SetValue(TimeProperty, value);
         }
 
-        [NotNull]
-        private static object Coerce([NotNull] DependencyObject d, [NotNull] object value, [NotNull] DependencyProperty greater, int max)
+        private static object Coerce(DependencyObject d, object value, DependencyProperty greater, int max)
         {
             var greaterScale = (int)d.GetValue(greater);
             var dVal = (int)value;

@@ -35,32 +35,30 @@ namespace Scar.Common.Drawing.MetadataExtractor
 
             Func<AttemptInfo, ExifMetadata> func = attemptInfo =>
             {
-                using (var reader = new ExifReader(filePath))
+                using var reader = new ExifReader(filePath);
+                DateTime? dateImageTaken = null;
+                var orientation = Orientation.Straight;
+                reader.GetTagValue(ExifTags.DateTimeOriginal, out DateTime d);
+                if (d != default)
                 {
-                    DateTime? dateImageTaken = null;
-                    var orientation = Orientation.Straight;
-                    reader.GetTagValue(ExifTags.DateTimeOriginal, out DateTime d);
-                    if (d != default)
-                    {
-                        dateImageTaken = d;
-                    }
-
-                    reader.GetTagValue(ExifTags.PixelXDimension, out object width);
-                    reader.GetTagValue(ExifTags.PixelYDimension, out object height);
-                    reader.GetTagValue(ExifTags.Model, out string cameraModel);
-                    reader.GetTagValue(ExifTags.MaxApertureValue, out object lensAperture);
-                    reader.GetTagValue(ExifTags.FocalLength, out object focalLength);
-                    reader.GetTagValue(ExifTags.PhotographicSensitivity, out object isoSpeed);
-                    reader.GetTagValue(ExifTags.ExposureTime, out object exposureTime);
-                    reader.GetTagValue(ExifTags.Orientation, out ushort o);
-                    if (o != default(ushort))
-                    {
-                        orientation = (Orientation)o;
-                    }
-
-                    var thumbnailBytes = reader.GetJpegThumbnailBytes();
-                    return new ExifMetadata(width, height, cameraModel, lensAperture, focalLength, isoSpeed, exposureTime, dateImageTaken, orientation, thumbnailBytes);
+                    dateImageTaken = d;
                 }
+
+                reader.GetTagValue(ExifTags.PixelXDimension, out object width);
+                reader.GetTagValue(ExifTags.PixelYDimension, out object height);
+                reader.GetTagValue(ExifTags.Model, out string cameraModel);
+                reader.GetTagValue(ExifTags.MaxApertureValue, out object lensAperture);
+                reader.GetTagValue(ExifTags.FocalLength, out object focalLength);
+                reader.GetTagValue(ExifTags.PhotographicSensitivity, out object isoSpeed);
+                reader.GetTagValue(ExifTags.ExposureTime, out object exposureTime);
+                reader.GetTagValue(ExifTags.Orientation, out ushort o);
+                if (o != default(ushort))
+                {
+                    orientation = (Orientation)o;
+                }
+
+                var thumbnailBytes = reader.GetJpegThumbnailBytes();
+                return new ExifMetadata(width, height, cameraModel, lensAperture, focalLength, isoSpeed, exposureTime, dateImageTaken, orientation, thumbnailBytes);
             };
 
             return await func.RunFuncWithSeveralAttemptsAsync(

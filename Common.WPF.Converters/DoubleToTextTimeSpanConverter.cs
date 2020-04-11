@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.Windows.Data;
-using JetBrains.Annotations;
 
 namespace Scar.Common.WPF.Converters
 {
@@ -27,8 +26,7 @@ namespace Scar.Common.WPF.Converters
     [ValueConversion(typeof(double), typeof(string))]
     public sealed class DoubleToTextTimeSpanConverter : IValueConverter
     {
-        [NotNull]
-        public object Convert(object value, [NotNull] Type targetType, object parameter, [NotNull] CultureInfo culture)
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             var val = (double)(value ?? 0);
             var interval = DateInterval.Minutes;
@@ -60,8 +58,7 @@ namespace Scar.Common.WPF.Converters
             }
         }
 
-        [NotNull]
-        public object ConvertBack(object value, [NotNull] Type targetType, object parameter, [NotNull] CultureInfo culture)
+        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             return System.Convert.ToDouble((int)(value ?? 0));
         }
