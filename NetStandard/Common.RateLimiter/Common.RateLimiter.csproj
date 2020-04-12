@@ -1,0 +1,6 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
+  <PropertyGroup>
+    <Description>Throttling and debouncing library for .Net</Description>
+    <RootNamespace>Scar.Common</RootNamespace>
+  </PropertyGroup>
+</Project>

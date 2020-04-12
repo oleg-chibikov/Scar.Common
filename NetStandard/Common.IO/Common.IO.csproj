@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Utilities for working with the filesystem</Description>
+  </PropertyGroup>
+
+</Project>

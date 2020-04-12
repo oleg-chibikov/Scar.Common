@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>A factory to create windows</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7406.38944" />
+  </ItemGroup>
+
+</Project>

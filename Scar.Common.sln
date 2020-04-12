@@ -3,35 +3,35 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28711.60
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{AA9399C6-AAC2-40D8-81C2-072BE82F4605}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "NetStandard\Common\Common.csproj", "{AA9399C6-AAC2-40D8-81C2-072BE82F4605}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Async", "Common.Async\Common.Async.csproj", "{AB0BD04C-9A70-4913-899C-E8C07792F76A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Async", "NetStandard\Common.Async\Common.Async.csproj", "{AB0BD04C-9A70-4913-899C-E8C07792F76A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Cryptography", "Common.Cryptography\Common.Cryptography.csproj", "{071635A7-4DC0-438D-A7CE-54493E137122}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Cryptography", "NetStandard\Common.Cryptography\Common.Cryptography.csproj", "{071635A7-4DC0-438D-A7CE-54493E137122}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.DAL", "Common.DAL\Common.DAL.csproj", "{5226E66D-A51A-4DA9-AB95-93FF9416D8C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.DAL", "NetStandard\Common.DAL\Common.DAL.csproj", "{5226E66D-A51A-4DA9-AB95-93FF9416D8C3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.DAL.LiteDB", "Common.DAL.LiteDB\Common.DAL.LiteDB.csproj", "{76DAD7BD-942F-4614-8A23-15D0F0FBC737}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.DAL.LiteDB", "NetStandard\Common.DAL.LiteDB\Common.DAL.LiteDB.csproj", "{76DAD7BD-942F-4614-8A23-15D0F0FBC737}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Drawing.ExifTool", "Common.Drawing.ExifTool\Common.Drawing.ExifTool.csproj", "{CE3F7FAD-0531-48C3-84FF-F1E02FF93B9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Drawing.ExifTool", "NetStandard\Common.Drawing.ExifTool\Common.Drawing.ExifTool.csproj", "{CE3F7FAD-0531-48C3-84FF-F1E02FF93B9A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Drawing.ImageRetriever", "Common.Drawing.ImageRetriever\Common.Drawing.ImageRetriever.csproj", "{9FDEC5F5-4996-45BD-9EFC-CAE6AAD74FB5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Drawing.Metadata", "Common.Drawing.Metadata\Common.Drawing.Metadata.csproj", "{B6CAD499-6245-41C9-879A-1F7391038FE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Drawing.Metadata", "NetStandard\Common.Drawing.Metadata\Common.Drawing.Metadata.csproj", "{B6CAD499-6245-41C9-879A-1F7391038FE8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Drawing.MetadataExtractor", "Common.Drawing.MetadataExtractor\Common.Drawing.MetadataExtractor.csproj", "{494A0A26-8FD6-4816-8479-21AC0AA61D8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Drawing.MetadataExtractor", "NetStandard\Common.Drawing.MetadataExtractor\Common.Drawing.MetadataExtractor.csproj", "{494A0A26-8FD6-4816-8479-21AC0AA61D8F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Installer", "Common.Installer\Common.Installer.csproj", "{2B8B9221-628C-4A32-AB3B-61A1B59DCF85}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Installer.UI", "Common.Installer.UI\Common.Installer.UI.csproj", "{7752B8F1-8020-4E20-B5E7-EEED28209047}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.IO", "Common.IO\Common.IO.csproj", "{A1CBB589-FECD-47C2-A9A8-084B3FF943DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.IO", "NetStandard\Common.IO\Common.IO.csproj", "{A1CBB589-FECD-47C2-A9A8-084B3FF943DA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.NamedPipes", "Common.NamedPipes\Common.NamedPipes.csproj", "{3BD0EA64-6304-4468-BAFA-58C48898BB1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.NamedPipes", "NetStandard\Common.NamedPipes\Common.NamedPipes.csproj", "{3BD0EA64-6304-4468-BAFA-58C48898BB1B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Networking", "Common.Networking\Common.Networking.csproj", "{B60A0DD3-D82E-4005-B04F-E0361D075260}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Networking", "NetStandard\Common.Networking\Common.Networking.csproj", "{B60A0DD3-D82E-4005-B04F-E0361D075260}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Processes", "Common.Processes\Common.Processes.csproj", "{E3771109-8E1E-4305-A788-2647AA291AAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Processes", "NetStandard\Common.Processes\Common.Processes.csproj", "{E3771109-8E1E-4305-A788-2647AA291AAF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WebApi", "Common.WebApi\Common.WebApi.csproj", "{3D99C2EB-3B31-4696-917F-0BB8B36710D7}"
 EndProject
@@ -65,43 +65,49 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.View.BaseWindow"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.ExternalBrowserHyperlink", "WPF\Common.WPF.Controls.ExternalBrowserHyperlink\Common.WPF.Controls.ExternalBrowserHyperlink.csproj", "{580A7870-5E19-4066-8E5E-136D93D2A5A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Logging.Autofac", "Common.Logging.Autofac\Common.Logging.Autofac.csproj", "{A3E70541-8917-4076-A59A-54343AB4B08E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Logging.Autofac", "NetStandard\Common.Logging.Autofac\Common.Logging.Autofac.csproj", "{A3E70541-8917-4076-A59A-54343AB4B08E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.View.Contracts", "WPF\Common.WPF.View.Contracts\Common.WPF.View.Contracts.csproj", "{E446730E-5EE0-4701-9A5B-A5CF81CC354C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.View.Contracts", "Common.View.Contracts\Common.View.Contracts.csproj", "{B27DDDBC-0D06-471B-9C8A-75AA3290497B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.View.Contracts", "NetStandard\Common.View.Contracts\Common.View.Contracts.csproj", "{B27DDDBC-0D06-471B-9C8A-75AA3290497B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.View.WindowFactory", "Common.View.WindowFactory\Common.View.WindowFactory.csproj", "{77FD16F2-2CBC-437D-BC6F-409804230CC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.View.WindowFactory", "NetStandard\Common.View.WindowFactory\Common.View.WindowFactory.csproj", "{77FD16F2-2CBC-437D-BC6F-409804230CC2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.View.AutofacScopedWindowProvider", "Common.View.AutofacScopedWindowProvider\Common.View.AutofacScopedWindowProvider.csproj", "{9CEFE5F5-A973-479B-AC31-B21F3810246A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.View.AutofacScopedWindowProvider", "NetStandard\Common.View.AutofacScopedWindowProvider\Common.View.AutofacScopedWindowProvider.csproj", "{9CEFE5F5-A973-479B-AC31-B21F3810246A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.RateLimiter", "Common.RateLimiter\Common.RateLimiter.csproj", "{47790A60-2007-4A59-909F-24128740CD46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.RateLimiter", "NetStandard\Common.RateLimiter\Common.RateLimiter.csproj", "{47790A60-2007-4A59-909F-24128740CD46}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".NetStandard", ".NetStandard", "{74558523-84FA-4567-9305-E0D55054950E}"
+	ProjectSection(SolutionItems) = preProject
+		NetStandard\Directory.Build.props = NetStandard\Directory.Build.props
+	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.AutofacNamedInstancesFactory", "Common.AutofacNamedInstancesFactory\Common.AutofacNamedInstancesFactory.csproj", "{824905B6-25A4-4F4D-8E6D-3498174F03E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.AutofacNamedInstancesFactory", "NetStandard\Common.AutofacNamedInstancesFactory\Common.AutofacNamedInstancesFactory.csproj", "{824905B6-25A4-4F4D-8E6D-3498174F03E3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Sync", "Common.Sync\Common.Sync.csproj", "{D7A4E15F-C320-4DCE-A2F8-FB4B3154E6A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Sync", "NetStandard\Common.Sync\Common.Sync.csproj", "{D7A4E15F-C320-4DCE-A2F8-FB4B3154E6A9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Sync.Windows", "Common.Sync.Windows\Common.Sync.Windows.csproj", "{4BD0EA64-6304-4468-BAFA-58C48898BB1B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.MVVM.Commands", "Common.MVVM.Commands\Common.MVVM.Commands.csproj", "{340DE1FD-54C0-49B8-8112-30FFB4019816}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.MVVM.Commands", "NetStandard\Common.MVVM.Commands\Common.MVVM.Commands.csproj", "{340DE1FD-54C0-49B8-8112-30FFB4019816}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.MVVM.ViewModel", "Common.MVVM.ViewModel\Common.MVVM.ViewModel.csproj", "{6AA269F5-3067-4B3B-BA72-1A98C0025E4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.MVVM.ViewModel", "NetStandard\Common.MVVM.ViewModel\Common.MVVM.ViewModel.csproj", "{6AA269F5-3067-4B3B-BA72-1A98C0025E4B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.MVVM.CollectionView", "Common.MVVM.CollectionView\Common.MVVM.CollectionView.csproj", "{AAEAE64E-7DEB-4850-BA41-68610E09E453}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.MVVM.CollectionView", "NetStandard\Common.MVVM.CollectionView\Common.MVVM.CollectionView.csproj", "{AAEAE64E-7DEB-4850-BA41-68610E09E453}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Localization", "Common.Localization\Common.Localization.csproj", "{A2AE8E90-E68F-4916-9960-BCBA0EEDA221}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Localization", "NetStandard\Common.Localization\Common.Localization.csproj", "{A2AE8E90-E68F-4916-9960-BCBA0EEDA221}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.ApplicationLifetime", "Common.ApplicationLifetime\Common.ApplicationLifetime.csproj", "{007435DC-B358-4B68-B7FA-B9AA86CDFDC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.ApplicationLifetime", "NetStandard\Common.ApplicationLifetime\Common.ApplicationLifetime.csproj", "{007435DC-B358-4B68-B7FA-B9AA86CDFDC8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.ApplicationLifetime.Contracts", "Common.ApplicationLifetime.Contracts\Common.ApplicationLifetime.Contracts.csproj", "{35B636C1-D376-4A9F-9CCA-FB73A2220E83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.ApplicationLifetime.Contracts", "NetStandard\Common.ApplicationLifetime.Contracts\Common.ApplicationLifetime.Contracts.csproj", "{35B636C1-D376-4A9F-9CCA-FB73A2220E83}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Xamarin", "Xamarin", "{4434ED6C-2998-4D1F-B9B4-4D90045E4C50}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Xamarin.Startup", "Common.Xamarin.Startup\Common.Xamarin.Startup.csproj", "{EDF31EA8-4341-4019-9044-DCF308569828}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Xamarin.Startup", "NetStandard\Common.Xamarin.Startup\Common.Xamarin.Startup.csproj", "{EDF31EA8-4341-4019-9044-DCF308569828}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{407943AC-A937-4E8F-BCD7-8DBBCBB54811}"
+	ProjectSection(SolutionItems) = preProject
+		WPF\Directory.Build.props = WPF\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{477CF2CE-4F42-475E-A345-6F366E9BBAF4}"
 	ProjectSection(SolutionItems) = preProject

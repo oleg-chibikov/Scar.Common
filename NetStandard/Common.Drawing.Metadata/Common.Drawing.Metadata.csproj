@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Common classes describing image metadata</Description>
+  </PropertyGroup>
+  
+</Project>

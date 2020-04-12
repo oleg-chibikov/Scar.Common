@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Common tools for named pipes messaging</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Common.Logging.Core" Version="3.4.1" />
+    <PackageReference Include="Scar.Common" Version="1.1.7406.37488" />
+  </ItemGroup>
+
+</Project>

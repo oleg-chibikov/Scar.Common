@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Common cross-platform tools for synchronization between the machines</Description>
+  </PropertyGroup>
+
+</Project>

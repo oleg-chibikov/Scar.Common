@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Utilities for working with the Async code</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Common.Logging.Core" Version="3.4.1" />
+  </ItemGroup>
+
+</Project>

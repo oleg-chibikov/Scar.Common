@@ -1,6 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>Classes for localizing the application</Description>
-  </PropertyGroup>
-</Project>

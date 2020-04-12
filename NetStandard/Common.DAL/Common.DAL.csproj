@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Utilities for providing basic Data storage access</Description>
+  </PropertyGroup>
+
+</Project>

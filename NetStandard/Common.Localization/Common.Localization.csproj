@@ -1,0 +1,5 @@
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
+  <PropertyGroup>
+    <Description>Classes for localizing the application</Description>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>The common contracts classes for application lifetime</Description>
+  </PropertyGroup>
+
+</Project>
