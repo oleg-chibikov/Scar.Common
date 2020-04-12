@@ -1,7 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using JetBrains.Annotations;
 
 namespace Scar.Common.WPF.Controls
 {
@@ -109,8 +108,7 @@ namespace Scar.Common.WPF.Controls
             Increment();
         }
 
-        [NotNull]
-        private static object CoerceValue([NotNull] DependencyObject d, [NotNull] object value)
+        private static object CoerceValue(DependencyObject d, object value)
         {
             var max = (int)d.GetValue(MaxValueProperty);
             var min = (int)d.GetValue(MinValueProperty);
@@ -145,7 +143,7 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        private void TextBox_PreviewKeyDown(object sender, [NotNull] KeyEventArgs e)
+        private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
             {
@@ -158,7 +156,7 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        private void TextBox_PreviewMouseDown(object sender, [NotNull] MouseButtonEventArgs e)
+        private void TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             _start = e.GetPosition(this);
             var el = (TextBox)sender;

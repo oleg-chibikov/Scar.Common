@@ -4,7 +4,6 @@ using System.IO;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Input;
-using JetBrains.Annotations;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Scar.Common.MVVM.Commands;
 using Scar.Common.MVVM.ViewModel;
@@ -16,7 +15,7 @@ namespace Scar.Common.Installer.UI.ViewModel
     {
         private string? _installPath;
 
-        public SetupViewModel([NotNull] string msiFile, bool enableLogging = true)
+        public SetupViewModel(string msiFile, bool enableLogging = true)
             : base(msiFile, enableLogging)
         {
             _ = msiFile ?? throw new ArgumentNullException(nameof(msiFile));
@@ -45,7 +44,6 @@ namespace Scar.Common.Installer.UI.ViewModel
 
         public int Year { get; set; }
 
-        [NotNull]
         public string CompanyName { get; set; }
 
         public bool InitialCanInstall { get; set; }
@@ -64,22 +62,16 @@ namespace Scar.Common.Installer.UI.ViewModel
             }
         }
 
-        [NotNull]
         public ICommand InstallCommand { get; }
 
-        [NotNull]
         public ICommand UninstallCommand { get; }
 
-        [NotNull]
         public ICommand RepairCommand { get; }
 
-        [NotNull]
         public ICommand CancelCommand { get; }
 
-        [NotNull]
         public ICommand ShowLogCommand { get; }
 
-        [NotNull]
         public ICommand BrowseInstallationPathCommand { get; }
 
         public event EventHandler? RequestClose;
@@ -109,7 +101,7 @@ namespace Scar.Common.Installer.UI.ViewModel
             }
         }
 
-        private void Install([CanBeNull] string path)
+        private void Install(string? path)
         {
             string? pathParam = null;
             if (!string.IsNullOrEmpty(path))

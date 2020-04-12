@@ -6,13 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.MVVM.CollectionView" Version="1.0.7024.40951" />
+    <PackageReference Include="Scar.Common.MVVM.CollectionView" Version="1.1.7406.38943" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.Localization" Version="1.0.7027.23438" />
+    <PackageReference Include="Scar.Common.Localization" Version="1.1.7406.39053" />
     <PackageReference Include="WPFLocalizeExtension" Version="3.3.1" />
-    <PackageReference Include="XAMLMarkupExtensions" Version="1.6.0" />
   </ItemGroup>
 
 </Project>

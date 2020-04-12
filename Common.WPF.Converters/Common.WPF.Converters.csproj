@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common" Version="1.0.7018.41786" />
+    <PackageReference Include="Scar.Common" Version="1.1.7406.37488" />
   </ItemGroup>
 
 </Project>

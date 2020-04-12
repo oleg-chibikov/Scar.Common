@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using JetBrains.Annotations;
+using System.Windows;
 
 namespace Scar.Common.WPF.View.Buttons
 {
@@ -10,7 +9,7 @@ namespace Scar.Common.WPF.View.Buttons
             InitializeComponent();
         }
 
-        private void MaximizeButton_Click([NotNull] object sender, RoutedEventArgs e)
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
         {
             var window = Window.GetWindow((DependencyObject)sender);
             if (window != null)

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
-using JetBrains.Annotations;
 using Scar.Common.MVVM.ViewModel;
 using Scar.Common.View.Contracts;
 using Scar.Common.WPF.View.Contracts;
@@ -31,7 +30,6 @@ namespace Scar.Common.WPF.View
 
         private readonly IList<IDisposable> _associatedDisposables = new List<IDisposable>();
 
-        [NotNull]
         private readonly IRateLimiter _rateLimiter;
 
         private readonly TimeSpan _sizeChangedThrottleInterval = TimeSpan.FromMilliseconds(50);
@@ -241,7 +239,7 @@ namespace Scar.Common.WPF.View
             }
         }
 
-        private void BaseWindow_Closing([NotNull] object sender, [NotNull] CancelEventArgs e)
+        private void BaseWindow_Closing(object sender, CancelEventArgs e)
         {
             if (CheckCloseShouldBeCancelled())
             {
@@ -269,7 +267,7 @@ namespace Scar.Common.WPF.View
             }
         }
 
-        protected virtual void Reposition([NotNull] DependencyProperty prop, double change)
+        protected virtual void Reposition(DependencyProperty prop, double change)
         {
             if (change.Equals(0))
             {
@@ -281,7 +279,7 @@ namespace Scar.Common.WPF.View
             SetValue(prop, newValue);
         }
 
-        private void BaseWindow_SizeChanged_Reposition(object sender, [NotNull] SizeChangedEventArgs e)
+        private void BaseWindow_SizeChanged_Reposition(object sender, SizeChangedEventArgs e)
         {
             if (e.PreviousSize.IsEmpty)
             {
@@ -324,7 +322,7 @@ namespace Scar.Common.WPF.View
         /// When the data context of the window is changed (for example, manually, or when it is disposed),
         /// then if DataContext implements IRequestCloseViewModel the window should be closed.
         /// </summary>
-        private void BaseWindow_DataContextChanged([NotNull] object sender, DependencyPropertyChangedEventArgs args)
+        private void BaseWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs args)
         {
             if (!(args.NewValue is IRequestCloseViewModel requestCloseViewModel))
             {
@@ -341,7 +339,7 @@ namespace Scar.Common.WPF.View
         }
 
         /*
-        private void BaseWindow_KeyDown([NotNull] object sender, [NotNull] KeyEventArgs e)
+        private void BaseWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
             {
@@ -349,7 +347,7 @@ namespace Scar.Common.WPF.View
             }
         }*/
 
-        private void BaseWindow_SizeChanged_IsFullHeight([NotNull] object sender, [NotNull] SizeChangedEventArgs e)
+        private void BaseWindow_SizeChanged_IsFullHeight(object sender, SizeChangedEventArgs e)
         {
             _sizeChanged?.Invoke(sender, e);
             if (!e.HeightChanged)

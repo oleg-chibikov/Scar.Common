@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.WPF.Converters" Version="1.1.7406.35510" />
-    <PackageReference Include="Scar.Common.WPF.View.AnimatedWindow" Version="1.0.7027.42388" />
+    <PackageReference Include="Scar.Common.WPF.Converters" Version="1.1.7406.39052" />
+    <PackageReference Include="Scar.Common.WPF.View.AnimatedWindow" Version="1.1.7406.39052" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
     <PackageReference Include="WindowsAPICodePack" Version="1.1.1" />
     <PackageReference Include="WixSharp.bin" Version="1.14.2" />

@@ -6,12 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.View.Contracts" Version="1.0.7016.37709" />
+    <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7406.38944" />
     <PackageReference Include="Common.Logging.Core" Version="3.4.1" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Scar.Common" Version="1.0.7018.41786" />
-    <PackageReference Include="Scar.Common.Drawing.Metadata" Version="1.0.7016.37681" />
-    <PackageReference Include="Scar.Common.IO" Version="1.0.7034.37794" />
+    <PackageReference Include="Scar.Common" Version="1.1.7406.37488" />
+    <PackageReference Include="Scar.Common.Drawing.Metadata" Version="1.1.7406.39033" />
+    <PackageReference Include="Scar.Common.IO" Version="1.1.7406.37488" />
   </ItemGroup>
 
   <ItemGroup>

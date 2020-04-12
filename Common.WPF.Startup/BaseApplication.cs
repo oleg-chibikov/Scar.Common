@@ -11,7 +11,6 @@ using System.Windows.Threading;
 using Autofac;
 using Common.Logging;
 using Easy.MessageHub;
-using JetBrains.Annotations;
 using Scar.Common.ApplicationLifetime;
 using Scar.Common.Messages;
 using Scar.Common.WPF.Localization;
@@ -20,16 +19,12 @@ namespace Scar.Common.WPF.Startup
 {
     public abstract class BaseApplication : Application
     {
-        [NotNull]
         private readonly IApplicationStartupBootstrapper _applicationBootstrapper;
 
-        [NotNull]
         protected ILifetimeScope Container => _applicationBootstrapper.Container;
 
-        [NotNull]
         protected ILog Logger => _applicationBootstrapper.Logger;
 
-        [NotNull]
         protected IMessageHub Messenger => _applicationBootstrapper.Messenger;
 
         protected BaseApplication()
@@ -75,7 +70,7 @@ namespace Scar.Common.WPF.Startup
         {
         }
 
-        protected virtual void ShowMessage([NotNull] Message message)
+        protected virtual void ShowMessage(Message message)
         {
             MessageBoxImage image;
             switch (message.Type)
@@ -103,7 +98,7 @@ namespace Scar.Common.WPF.Startup
                 image);
         }
 
-        private void App_DispatcherUnhandledException(object sender, [NotNull] DispatcherUnhandledExceptionEventArgs e)
+        private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             _applicationBootstrapper.HandleException(e.Exception);
 
@@ -111,7 +106,6 @@ namespace Scar.Common.WPF.Startup
             e.Handled = true;
         }
 
-        [NotNull]
         private Mutex CreateMutex()
         {
             var sid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
