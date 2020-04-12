@@ -7,6 +7,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using Microsoft.Windows.Themes;
 using Scar.Common.WPF.Controls.AutoCompleteTextBox.Provider;
 
 namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
@@ -29,7 +30,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
 
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
-        //private SystemDropShadowChrome _chrome;
+        private SystemDropShadowChrome _chrome;
 
         private bool _disabled;
 
@@ -105,7 +106,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
             if (Application.Current.Resources.FindName("AutoCompleteTextBoxListBoxStyle") == null)
             {
                 var myResourceDictionary = new ResourceDictionary();
-                var uri = new Uri("pack://application:,,,/Scar.Common.WPF.Controls.AutoCompleteTextBox;component/controls/resources.xaml", UriKind.RelativeOrAbsolute);
+                var uri = new Uri("pack://application:,,,/Scar.Common.WPF.Controls.AutoCompleteTextBox;component/resources.xaml", UriKind.RelativeOrAbsolute);
                 myResourceDictionary.Source = uri;
                 Application.Current.Resources.MergedDictionaries.Add(myResourceDictionary);
             }
@@ -150,7 +151,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
 
         private void Initialize()
         {
-            //const int popupShadowDepth = 5;
+            const int popupShadowDepth = 5;
 
             _listBox = new ListBox
             {
@@ -158,11 +159,11 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
                 Style = (Style)Application.Current.Resources["AutoCompleteTextBoxListBoxStyle"]
             };
 
-            //_chrome = new SystemDropShadowChrome
-            //{
-            //    Margin = new Thickness(0, 0, popupShadowDepth, popupShadowDepth),
-            //    Child = _listBox
-            //};
+            _chrome = new SystemDropShadowChrome
+            {
+                Margin = new Thickness(0, 0, popupShadowDepth, popupShadowDepth),
+                Child = _listBox
+            };
 
             _popup = new Popup
             {
@@ -170,7 +171,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
                 AllowsTransparency = true,
                 Placement = PlacementMode.Bottom,
                 PlacementTarget = this,
-                //Child = _chrome,
+                Child = _chrome,
                 Width = Width,
                 IsOpen = true
             };
