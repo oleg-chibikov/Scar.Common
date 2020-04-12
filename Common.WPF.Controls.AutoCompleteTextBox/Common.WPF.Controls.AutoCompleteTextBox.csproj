@@ -6,7 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Controls\Resources.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Scar.Common.RateLimiter" Version="1.1.7406.39053" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="Controls\Resources.xaml">
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

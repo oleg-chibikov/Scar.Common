@@ -39,7 +39,7 @@ namespace Scar.Common.WPF.Localization
         {
             _ = key ?? throw new ArgumentNullException(nameof(key));
             var type = typeof(TResources);
-            var obj = LocalizeDictionary.Instance.GetLocalizedObject($"{type.Namespace}:{type.Name}:" + key, null, LocalizeDictionary.Instance.Culture);
+            var obj = LocalizeDictionary.Instance.GetLocalizedObject($"{type.Assembly.GetName().Name}:{type.Name}:" + key, null, LocalizeDictionary.Instance.Culture);
             return obj == null ? default : (T)obj;
         }
     }
