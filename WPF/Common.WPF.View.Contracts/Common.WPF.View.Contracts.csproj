@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <Description>WPF contracts for view</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7406.38944" />
+  </ItemGroup>
+
+</Project>

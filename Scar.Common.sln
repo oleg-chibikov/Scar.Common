@@ -35,39 +35,39 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Processes", "Common.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WebApi", "Common.WebApi\Common.WebApi.csproj", "{3D99C2EB-3B31-4696-917F-0BB8B36710D7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.AutoCompleteTextBox", "Common.WPF.Controls.AutoCompleteTextBox\Common.WPF.Controls.AutoCompleteTextBox.csproj", "{19FC56EC-9859-4473-9941-E04FC5CC1B56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.AutoCompleteTextBox", "WPF\Common.WPF.Controls.AutoCompleteTextBox\Common.WPF.Controls.AutoCompleteTextBox.csproj", "{19FC56EC-9859-4473-9941-E04FC5CC1B56}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.Behaviors", "Common.WPF.Controls.Behaviors\Common.WPF.Controls.Behaviors.csproj", "{6B559844-0663-4A59-86EE-E7F5F05CB32D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.Behaviors", "WPF\Common.WPF.Controls.Behaviors\Common.WPF.Controls.Behaviors.csproj", "{6B559844-0663-4A59-86EE-E7F5F05CB32D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.NumericUpDown", "Common.WPF.Controls.NumericUpDown\Common.WPF.Controls.NumericUpDown.csproj", "{4CA4CA61-E295-497F-B2FC-A7CB79FCB34E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.NumericUpDown", "WPF\Common.WPF.Controls.NumericUpDown\Common.WPF.Controls.NumericUpDown.csproj", "{4CA4CA61-E295-497F-B2FC-A7CB79FCB34E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.SelectableTextBlock", "Common.WPF.Controls.SelectableTextBlock\Common.WPF.Controls.SelectableTextBlock.csproj", "{580A7870-5E19-4066-8E5E-136D93D2A5A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.SelectableTextBlock", "WPF\Common.WPF.Controls.SelectableTextBlock\Common.WPF.Controls.SelectableTextBlock.csproj", "{580A7870-5E19-4066-8E5E-136D93D2A5A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.Styles", "Common.WPF.Controls.Styles\Common.WPF.Controls.Styles.csproj", "{8AC9B34E-F4CB-402F-9B89-C81EA6CAE752}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.Styles", "WPF\Common.WPF.Controls.Styles\Common.WPF.Controls.Styles.csproj", "{8AC9B34E-F4CB-402F-9B89-C81EA6CAE752}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.TimePicker", "Common.WPF.Controls.TimePicker\Common.WPF.Controls.TimePicker.csproj", "{25597554-6A18-4531-BB9D-2ECF25D607EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.TimePicker", "WPF\Common.WPF.Controls.TimePicker\Common.WPF.Controls.TimePicker.csproj", "{25597554-6A18-4531-BB9D-2ECF25D607EE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.XceedAutoFitColumnGrid", "Common.WPF.Controls.XceedAutoFitColumnGrid\Common.WPF.Controls.XceedAutoFitColumnGrid.csproj", "{CDB110BA-CE3B-49A7-9A22-705A75DB11D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.XceedAutoFitColumnGrid", "WPF\Common.WPF.Controls.XceedAutoFitColumnGrid\Common.WPF.Controls.XceedAutoFitColumnGrid.csproj", "{CDB110BA-CE3B-49A7-9A22-705A75DB11D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.ZoomBorder", "Common.WPF.Controls.ZoomBorder\Common.WPF.Controls.ZoomBorder.csproj", "{523E90EC-65BB-4EAB-A680-2834C42B840C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.ZoomBorder", "WPF\Common.WPF.Controls.ZoomBorder\Common.WPF.Controls.ZoomBorder.csproj", "{523E90EC-65BB-4EAB-A680-2834C42B840C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Converters", "Common.WPF.Converters\Common.WPF.Converters.csproj", "{53D1FE04-05CA-4AC2-A1B5-1B2F8A72B3DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Converters", "WPF\Common.WPF.Converters\Common.WPF.Converters.csproj", "{53D1FE04-05CA-4AC2-A1B5-1B2F8A72B3DB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Localization", "Common.WPF.Localization\Common.WPF.Localization.csproj", "{8082A9E1-E32D-4650-A551-B43E7D1B2C1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Localization", "WPF\Common.WPF.Localization\Common.WPF.Localization.csproj", "{8082A9E1-E32D-4650-A551-B43E7D1B2C1D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Startup", "Common.WPF.Startup\Common.WPF.Startup.csproj", "{14EF8DE5-E348-4CA2-904B-504D2527F64D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Startup", "WPF\Common.WPF.Startup\Common.WPF.Startup.csproj", "{14EF8DE5-E348-4CA2-904B-504D2527F64D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.View", "Common.WPF.View\Common.WPF.View.csproj", "{E9203A4E-6D2B-4833-9F75-939C99399C58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.View", "WPF\Common.WPF.View\Common.WPF.View.csproj", "{E9203A4E-6D2B-4833-9F75-939C99399C58}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.View.AnimatedWindow", "Common.WPF.View.AnimatedWindow\Common.WPF.View.AnimatedWindow.csproj", "{242AA980-FBBB-4F9D-AF68-7CCC5923A53D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.View.AnimatedWindow", "WPF\Common.WPF.View.AnimatedWindow\Common.WPF.View.AnimatedWindow.csproj", "{242AA980-FBBB-4F9D-AF68-7CCC5923A53D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.View.BaseWindow", "Common.WPF.View.BaseWindow\Common.WPF.View.BaseWindow.csproj", "{42FD17DA-0625-42A6-B613-9921FD1A104D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.View.BaseWindow", "WPF\Common.WPF.View.BaseWindow\Common.WPF.View.BaseWindow.csproj", "{42FD17DA-0625-42A6-B613-9921FD1A104D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.ExternalBrowserHyperlink", "Common.WPF.Controls.ExternalBrowserHyperlink\Common.WPF.Controls.ExternalBrowserHyperlink.csproj", "{580A7870-5E19-4066-8E5E-136D93D2A5A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Controls.ExternalBrowserHyperlink", "WPF\Common.WPF.Controls.ExternalBrowserHyperlink\Common.WPF.Controls.ExternalBrowserHyperlink.csproj", "{580A7870-5E19-4066-8E5E-136D93D2A5A3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Logging.Autofac", "Common.Logging.Autofac\Common.Logging.Autofac.csproj", "{A3E70541-8917-4076-A59A-54343AB4B08E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.View.Contracts", "Common.WPF.View.Contracts\Common.WPF.View.Contracts.csproj", "{E446730E-5EE0-4701-9A5B-A5CF81CC354C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.View.Contracts", "WPF\Common.WPF.View.Contracts\Common.WPF.View.Contracts.csproj", "{E446730E-5EE0-4701-9A5B-A5CF81CC354C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.View.Contracts", "Common.View.Contracts\Common.View.Contracts.csproj", "{B27DDDBC-0D06-471B-9C8A-75AA3290497B}"
 EndProject
@@ -91,8 +91,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.MVVM.ViewModel", "Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.MVVM.CollectionView", "Common.MVVM.CollectionView\Common.MVVM.CollectionView.csproj", "{AAEAE64E-7DEB-4850-BA41-68610E09E453}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.CollectionView", "Common.MVVM.CollectionView.WPF\Common.WPF.CollectionView.csproj", "{8D99C2EB-3B31-4696-917F-0BB8B36710D7}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Localization", "Common.Localization\Common.Localization.csproj", "{A2AE8E90-E68F-4916-9960-BCBA0EEDA221}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.ApplicationLifetime", "Common.ApplicationLifetime\Common.ApplicationLifetime.csproj", "{007435DC-B358-4B68-B7FA-B9AA86CDFDC8}"
@@ -110,6 +108,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.CollectionView", "WPF\Common.WPF.CollectionView\Common.WPF.CollectionView.csproj", "{5D7120E1-8501-425D-AB76-6B372FEE75CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -289,10 +289,6 @@ Global
 		{AAEAE64E-7DEB-4850-BA41-68610E09E453}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AAEAE64E-7DEB-4850-BA41-68610E09E453}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AAEAE64E-7DEB-4850-BA41-68610E09E453}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8D99C2EB-3B31-4696-917F-0BB8B36710D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D99C2EB-3B31-4696-917F-0BB8B36710D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D99C2EB-3B31-4696-917F-0BB8B36710D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D99C2EB-3B31-4696-917F-0BB8B36710D7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A2AE8E90-E68F-4916-9960-BCBA0EEDA221}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A2AE8E90-E68F-4916-9960-BCBA0EEDA221}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2AE8E90-E68F-4916-9960-BCBA0EEDA221}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -309,6 +305,10 @@ Global
 		{EDF31EA8-4341-4019-9044-DCF308569828}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDF31EA8-4341-4019-9044-DCF308569828}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDF31EA8-4341-4019-9044-DCF308569828}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D7120E1-8501-425D-AB76-6B372FEE75CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D7120E1-8501-425D-AB76-6B372FEE75CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D7120E1-8501-425D-AB76-6B372FEE75CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D7120E1-8501-425D-AB76-6B372FEE75CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -352,12 +352,12 @@ Global
 		{340DE1FD-54C0-49B8-8112-30FFB4019816} = {74558523-84FA-4567-9305-E0D55054950E}
 		{6AA269F5-3067-4B3B-BA72-1A98C0025E4B} = {74558523-84FA-4567-9305-E0D55054950E}
 		{AAEAE64E-7DEB-4850-BA41-68610E09E453} = {74558523-84FA-4567-9305-E0D55054950E}
-		{8D99C2EB-3B31-4696-917F-0BB8B36710D7} = {407943AC-A937-4E8F-BCD7-8DBBCBB54811}
 		{A2AE8E90-E68F-4916-9960-BCBA0EEDA221} = {74558523-84FA-4567-9305-E0D55054950E}
 		{007435DC-B358-4B68-B7FA-B9AA86CDFDC8} = {74558523-84FA-4567-9305-E0D55054950E}
 		{35B636C1-D376-4A9F-9CCA-FB73A2220E83} = {74558523-84FA-4567-9305-E0D55054950E}
 		{4434ED6C-2998-4D1F-B9B4-4D90045E4C50} = {74558523-84FA-4567-9305-E0D55054950E}
 		{EDF31EA8-4341-4019-9044-DCF308569828} = {4434ED6C-2998-4D1F-B9B4-4D90045E4C50}
+		{5D7120E1-8501-425D-AB76-6B372FEE75CB} = {407943AC-A937-4E8F-BCD7-8DBBCBB54811}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {24C9D89F-376A-40CA-9846-76B97230738A}

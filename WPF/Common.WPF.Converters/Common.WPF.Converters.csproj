@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <Description>Various WPF Converters</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Scar.Common" Version="1.1.7406.37488" />
+  </ItemGroup>
+
+</Project>

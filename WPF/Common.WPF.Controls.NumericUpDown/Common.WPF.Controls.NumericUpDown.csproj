@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <Description>A control to work with integers</Description>
+    <RootNamespace>Scar.Common.WPF.Controls</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Scar.Common.WPF.Controls.Behaviors" Version="1.1.7406.37488" />
+  </ItemGroup>
+
+</Project>

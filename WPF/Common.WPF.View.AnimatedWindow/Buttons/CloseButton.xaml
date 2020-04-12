@@ -1,0 +1,25 @@
+<Button
+    x:Class="Scar.Common.WPF.View.Buttons.CloseButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:lex="http://wpflocalizeextension.codeplex.com"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    lex:LocalizeDictionary.DesignCulture="en"
+    lex:LocalizeDictionary.OutputMissingKeys="True"
+    lex:ResxLocalizationProvider.DefaultAssembly="Scar.Common.WPF.View.AnimatedWindow"
+    lex:ResxLocalizationProvider.DefaultDictionary="Tooltips"
+    Click="CloseButton_Click"
+    IsCancel="True"
+    ToolTip="{lex:Loc Close}">
+    <Button.Resources>
+        <ResourceDictionary
+            Source="pack://application:,,,/Scar.Common.WPF.View.AnimatedWindow;component/Styles.xaml" />
+    </Button.Resources>
+    <Button.Style>
+        <Style
+            TargetType="Button"
+            BasedOn="{StaticResource ButtonStyle}" />
+    </Button.Style>
+    <materialDesign:PackIcon
+        Kind="WindowClose" />
+</Button>

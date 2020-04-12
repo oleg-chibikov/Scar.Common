@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <Description>AutoComplete textbox control for WPF</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Scar.Common.RateLimiter" Version="1.1.7406.39053" />
+  </ItemGroup>
+
+</Project>
