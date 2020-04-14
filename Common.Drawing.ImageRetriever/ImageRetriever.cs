@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -10,13 +12,13 @@ using Common.Logging;
 using Scar.Common.Drawing.Metadata;
 using Scar.Common.IO;
 
-namespace Scar.Common.Drawing.ImageRetriever
+namespace Scar.Common.Drawing
 {
     public class ImageRetriever : IImageRetriever
     {
-        private static readonly TimeSpan DefaultAttemptDelay = TimeSpan.FromMilliseconds(100);
+        static readonly TimeSpan DefaultAttemptDelay = TimeSpan.FromMilliseconds(100);
 
-        private readonly ILog _logger;
+        readonly ILog _logger;
 
         public ImageRetriever(ILog logger)
         {
@@ -26,7 +28,8 @@ namespace Scar.Common.Drawing.ImageRetriever
         public async Task<byte[]> GetThumbnailAsync(string filePath, CancellationToken cancellationToken)
         {
             Func<AttemptInfo, Task<byte[]>> loadFileTaskFactory = attemptInfo => filePath.ReadFileAsync(cancellationToken);
-            //TODO: token?
+
+            // TODO: token?
             var bytes = await loadFileTaskFactory.RunTaskWithSeveralAttemptsAsync(
                     (attemptInfo, e) =>
                     {
@@ -55,18 +58,18 @@ namespace Scar.Common.Drawing.ImageRetriever
             return ImageToByteArray(image.GetThumbnailImage(thumbSize, (int)(thumbSize / ratio), () => false, IntPtr.Zero));
         }
 
-        public async Task<BitmapSource?> LoadImageAsync(byte[]? imageData, CancellationToken cancellationToken, Orientation? orientation = null, int sizeAnchor = 0)
+        public async Task<BitmapSource?> LoadImageAsync(IReadOnlyCollection<byte>? imageData, CancellationToken cancellationToken, Orientation? orientation = null, int sizeAnchor = 0)
         {
             return await Task.Run(
                     () =>
                     {
-                        if (imageData == null || imageData.Length == 0)
+                        if ((imageData == null) || (imageData.Count == 0))
                         {
                             return null;
                         }
 
                         var image = new BitmapImage();
-                        using (var mem = new MemoryStream(imageData))
+                        using (var mem = new MemoryStream(imageData.ToArray()))
                         {
                             mem.Position = 0;
                             image.BeginInit();
@@ -116,7 +119,7 @@ namespace Scar.Common.Drawing.ImageRetriever
             return transformedBitmap;
         }
 
-        private static int GetAngleByOrientation(Orientation? orientation)
+        static int GetAngleByOrientation(Orientation? orientation)
         {
             var angle = 0;
             switch (orientation)
@@ -140,7 +143,7 @@ namespace Scar.Common.Drawing.ImageRetriever
             return angle;
         }
 
-        private static byte[] ImageToByteArray(Image imageIn)
+        static byte[] ImageToByteArray(Image imageIn)
         {
             using var ms = new MemoryStream();
             imageIn.Save(ms, ImageFormat.Gif);

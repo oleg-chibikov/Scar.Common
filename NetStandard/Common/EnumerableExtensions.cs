@@ -23,7 +23,7 @@ namespace Scar.Common
             }
 
             var num = objArray.Length / maxBlockSize;
-            if (objArray.Length % maxBlockSize > 0)
+            if ((objArray.Length % maxBlockSize) > 0)
             {
                 ++num;
             }
@@ -31,7 +31,7 @@ namespace Scar.Common
             for (var index = 0; index < num; ++index)
             {
                 var array = objArray.Skip(index * maxBlockSize).Take(maxBlockSize).ToArray();
-                if (array.Length == 0 || !action(array, index, num))
+                if ((array.Length == 0) || !action(array, index, num))
                 {
                     break;
                 }
@@ -54,7 +54,7 @@ namespace Scar.Common
             }
 
             var num = objArray.Length / maxBlockSize;
-            if (objArray.Length % maxBlockSize > 0)
+            if ((objArray.Length % maxBlockSize) > 0)
             {
                 ++num;
             }
@@ -62,7 +62,7 @@ namespace Scar.Common
             for (var index = 0; index < num; ++index)
             {
                 var array = objArray.Skip(index * maxBlockSize).Take(maxBlockSize).ToArray();
-                if (array.Length == 0 || !await action(array, index, num))
+                if ((array.Length == 0) || !await action(array, index, num))
                 {
                     break;
                 }
@@ -71,6 +71,8 @@ namespace Scar.Common
 
         public static IEnumerable<T> WithoutLast<T>(this IEnumerable<T> source)
         {
+            _ = source ?? throw new ArgumentNullException(nameof(source));
+
             using var e = source.GetEnumerator();
             if (!e.MoveNext())
             {

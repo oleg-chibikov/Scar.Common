@@ -7,18 +7,18 @@ using Common.Logging;
 using ExifLib;
 using Scar.Common.Drawing.Metadata;
 
-namespace Scar.Common.Drawing.MetadataExtractor
+namespace Scar.Common.Drawing
 {
     public sealed class MetadataExtractor : IMetadataExtractor
     {
-        private static readonly string[] JpegExtensions =
+        static readonly string[] JpegExtensions =
         {
             ".jpg",
             ".jpeg"
         };
 
-        private static readonly TimeSpan DefaultAttemptDelay = TimeSpan.FromMilliseconds(100);
-        private readonly ILog _logger;
+        static readonly TimeSpan DefaultAttemptDelay = TimeSpan.FromMilliseconds(100);
+        readonly ILog _logger;
 
         public MetadataExtractor(ILog logger)
         {
@@ -75,8 +75,8 @@ namespace Scar.Common.Drawing.MetadataExtractor
                                return false;
                            },
                            DefaultAttemptDelay)
-                       .ConfigureAwait(false)
-                   ?? new ExifMetadata();
+                       .ConfigureAwait(false) ??
+                   new ExifMetadata();
         }
     }
 }

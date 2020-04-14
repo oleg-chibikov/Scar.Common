@@ -6,109 +6,53 @@ namespace Scar.Common.WPF.Controls
 {
     public sealed partial class NumericUpDown
     {
-        private const int MouseStep = 10;
-
-        /// <summary>
-        /// Dependency Object for the value of the UpDown Control
-        /// </summary>
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
             nameof(Value),
             typeof(int),
             typeof(NumericUpDown),
             new FrameworkPropertyMetadata(default(int), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, null, CoerceValue));
 
-        /// <summary>
-        /// Dependency Object for the Minimal Value of the UpDown Control
-        /// </summary>
-        public static readonly DependencyProperty MinValueProperty = DependencyProperty.Register(
-            nameof(MinValue),
-            typeof(int),
-            typeof(NumericUpDown),
-            new FrameworkPropertyMetadata());
+        public static readonly DependencyProperty MinValueProperty = DependencyProperty.Register(nameof(MinValue), typeof(int), typeof(NumericUpDown), new FrameworkPropertyMetadata());
 
-        /// <summary>
-        /// Dependency Object for the Maximal Value of the UpDown Control
-        /// </summary>
-        public static readonly DependencyProperty MaxValueProperty = DependencyProperty.Register(
-            nameof(MaxValue),
-            typeof(int),
-            typeof(NumericUpDown),
-            new FrameworkPropertyMetadata(int.MaxValue));
+        public static readonly DependencyProperty MaxValueProperty = DependencyProperty.Register(nameof(MaxValue), typeof(int), typeof(NumericUpDown), new FrameworkPropertyMetadata(int.MaxValue));
 
-        /// <summary>
-        /// Dependency Object for the Step Value of the UpDown Control
-        /// </summary>
         public static readonly DependencyProperty StepProperty = DependencyProperty.Register(nameof(Step), typeof(int), typeof(NumericUpDown), new FrameworkPropertyMetadata(1));
 
-        private Point _start;
+        const int MouseStep = 10;
 
-        /// <summary>
-        /// Default Constructor (nothing special here x) )
-        /// </summary>
+        Point _start;
+
         public NumericUpDown()
         {
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Gets / Sets the value that the control is showing
-        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1721:Property names should not match get methods", Justification = "Good name")]
         public int Value
         {
             get => (int)GetValue(ValueProperty);
             set => SetValue(ValueProperty, value);
         }
 
-        /// <summary>
-        /// Gets / Sets the minimal value of the control's value
-        /// </summary>
         public int MinValue
         {
-            private get => (int)GetValue(MinValueProperty);
+            get => (int)GetValue(MinValueProperty);
             set => SetValue(MinValueProperty, value);
         }
 
-        /// <summary>
-        /// Gets / Sets the maximal value of the control's value
-        /// </summary>
         public int MaxValue
         {
-            private get => (int)GetValue(MaxValueProperty);
+            get => (int)GetValue(MaxValueProperty);
             set => SetValue(MaxValueProperty, value);
         }
 
-        /// <summary>
-        /// Gets / Sets the step size (increment / decrement size) of the control's value
-        /// </summary>
-        private int Step
+        int Step
         {
             get => (int)GetValue(StepProperty);
             set => SetValue(StepProperty, value);
         }
 
-        /// <summary>
-        /// Handler for the Down Button Click.
-        /// Decrements the <see cref="Value" /> by <see cref="Step" />
-        /// </summary>
-        /// <param name="sender">The Down Button Control</param>
-        /// <param name="e"></param>
-        private void BtnDown_Click(object sender, RoutedEventArgs e)
-        {
-            Decrement();
-        }
-
-        /// <summary>
-        /// Handler for the Up Button Click.
-        /// Increments the <see cref="Value" /> by <see cref="Step" />
-        /// </summary>
-        /// <param name="sender">The Up Button Control</param>
-        /// <param name="e"></param>
-        private void BtnUp_Click(object sender, RoutedEventArgs e)
-        {
-            Increment();
-        }
-
-        private static object CoerceValue(DependencyObject d, object value)
+        static object CoerceValue(DependencyObject d, object value)
         {
             var max = (int)d.GetValue(MaxValueProperty);
             var min = (int)d.GetValue(MinValueProperty);
@@ -117,11 +61,18 @@ namespace Scar.Common.WPF.Controls
             return dVal > max ? max : dVal < min ? min : value;
         }
 
-        /// <summary>
-        /// Decrements the control's value by the value defined by <see cref="Step" />
-        /// </summary>
-        /// <remarks>The value doesn't increment over MaxValue or under MinValue</remarks>
-        private void Decrement()
+        void BtnDown_Click(object sender, RoutedEventArgs e)
+        {
+            Decrement();
+        }
+
+        void BtnUp_Click(object sender, RoutedEventArgs e)
+        {
+            Increment();
+        }
+
+        /// <remarks>The value doesn't increment over MaxValue or under MinValue.</remarks>
+        void Decrement()
         {
             var newVal = Value - Step;
             if (newVal >= MinValue)
@@ -130,11 +81,8 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        /// <summary>
-        /// Increments the control's value by the value defined by <see cref="Step" />
-        /// </summary>
-        /// <remarks>The value doesn't increment over MaxValue or under MinValue</remarks>
-        private void Increment()
+        /// <remarks>The value doesn't increment over MaxValue or under MinValue.</remarks>
+        void Increment()
         {
             var newVal = Value + Step;
             if (newVal <= MaxValue)
@@ -143,7 +91,7 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
             {
@@ -156,7 +104,7 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        private void TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        void TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             _start = e.GetPosition(this);
             var el = (TextBox)sender;
@@ -166,7 +114,7 @@ namespace Scar.Common.WPF.Controls
             el.IsReadOnly = true;
         }
 
-        private void TextBox_PreviewMouseMove(object sender, MouseEventArgs e)
+        void TextBox_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             var el = (TextBox)sender;
             if (!el.IsMouseCaptured)
@@ -181,7 +129,8 @@ namespace Scar.Common.WPF.Controls
             {
                 _start = currentPosition;
                 Increment();
-                //TODO: Disable textbox selection when increment/decremment occured after mousedown and until mouseup
+
+                // TODO: Disable textbox selection when increment/decremment occured after mousedown and until mouseup
             }
             else if (diffY < -MouseStep)
             {
@@ -190,7 +139,7 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        private void TextBox_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        void TextBox_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             var el = (TextBox)sender;
             el.ReleaseMouseCapture();

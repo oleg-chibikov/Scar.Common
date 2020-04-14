@@ -9,25 +9,26 @@ namespace Scar.Common.WPF.Controls
 {
     public class ZoomBorder : Border
     {
-        private const double MaxScale = 4;
-        private const double MaxScaleToZoomIn = MaxScale - 1;
-        private const double DefaultScale = 1;
-        private const double DefaultZoom = .4;
-        private readonly ScaleTransform _st = new ScaleTransform();
-        private readonly TranslateTransform _tt = new TranslateTransform();
-        private readonly Duration _zoomAnimationDuration = new Duration(TimeSpan.FromMilliseconds(200));
+        const double MaxScale = 4;
+        const double MaxScaleToZoomIn = MaxScale - 1;
+        const double DefaultScale = 1;
+        const double DefaultZoom = .4;
+        readonly ScaleTransform _st = new ScaleTransform();
+        readonly TranslateTransform _tt = new TranslateTransform();
+        readonly Duration _zoomAnimationDuration = new Duration(TimeSpan.FromMilliseconds(200));
 
-        private UIElement _child;
-        private bool _isReset;
-        private Point _originBottomRight;
-        private Point _originTopLeft;
-        private Point _start;
+        UIElement _child;
+        bool _isReset;
+        Point _originBottomRight;
+        Point _originTopLeft;
+        Point _start;
+        bool _isAnimationCancelled = true;
 
 #pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable. Set to not null in Initialize method
         public ZoomBorder()
 #pragma warning restore CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable.
         {
-            //Unsubscribe not needed - same class
+            // Unsubscribe not needed - same class
             MouseWheel += ZoomBorder_MouseWheel;
             MouseLeftButtonDown += ZoomBorder_MouseLeftButtonDown;
             MouseLeftButtonUp += ZoomBorder_MouseLeftButtonUp;
@@ -41,7 +42,7 @@ namespace Scar.Common.WPF.Controls
             get => base.Child;
             set
             {
-                if (value != null && !Equals(value, Child))
+                if ((value != null) && !Equals(value, Child))
                 {
                     Initialize(value);
                 }
@@ -50,7 +51,26 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        private void Initialize(UIElement element)
+        public void Reset()
+        {
+            if (_isReset || (_child == null))
+            {
+                return;
+            }
+
+            CancelPreviousAnimation();
+
+            // reset zoom
+            _st.ScaleX = 1.0;
+            _st.ScaleY = 1.0;
+
+            // reset pan
+            _tt.X = 0.0;
+            _tt.Y = 0.0;
+            _isReset = true;
+        }
+
+        void Initialize(UIElement element)
         {
             _child = element;
             if (_child != null)
@@ -63,32 +83,12 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        public void Reset()
-        {
-            if (_isReset || _child == null)
-            {
-                return;
-            }
-
-            CancelPreviousAnimation();
-            // reset zoom
-            _st.ScaleX = 1.0;
-            _st.ScaleY = 1.0;
-
-            // reset pan
-            _tt.X = 0.0;
-            _tt.Y = 0.0;
-            _isReset = true;
-        }
-
-        private void ZoomBorder_MouseWheel(object sender, MouseWheelEventArgs e)
+        void ZoomBorder_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             Zoom(e.Delta > 0 ? DefaultZoom : -DefaultZoom, e, false);
         }
 
-        #region Events
-
-        private void ZoomBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void ZoomBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (_child == null)
             {
@@ -104,15 +104,15 @@ namespace Scar.Common.WPF.Controls
                 CancelPreviousAnimation();
                 _start = e.GetPosition(this);
                 _originTopLeft = new Point(_tt.X, _tt.Y);
-                _originBottomRight = new Point(_tt.X + _child.RenderSize.Width * _st.ScaleX, _tt.Y + _child.RenderSize.Height * _st.ScaleY);
+                _originBottomRight = new Point(_tt.X + (_child.RenderSize.Width * _st.ScaleX), _tt.Y + (_child.RenderSize.Height * _st.ScaleY));
                 Cursor = Cursors.Hand;
                 _child.CaptureMouse();
             }
         }
 
-        private void ZoomBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        void ZoomBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (_child == null || e.LeftButton == MouseButtonState.Pressed)
+            if ((_child == null) || (e.LeftButton == MouseButtonState.Pressed))
             {
                 return;
             }
@@ -121,7 +121,7 @@ namespace Scar.Common.WPF.Controls
             Cursor = Cursors.Arrow;
         }
 
-        private void ZoomBorder_PreviewMouseButtonDown(object sender, MouseButtonEventArgs e)
+        void ZoomBorder_PreviewMouseButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Middle)
             {
@@ -129,10 +129,10 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        private void ZoomBorder_MouseMove(object sender, MouseEventArgs e)
+        void ZoomBorder_MouseMove(object sender, MouseEventArgs e)
         {
             // ReSharper disable once MergeSequentialChecksWhenPossible
-            if (_child == null || !_child.IsMouseCaptured || e.LeftButton != MouseButtonState.Pressed)
+            if ((_child == null) || !_child.IsMouseCaptured || (e.LeftButton != MouseButtonState.Pressed))
             {
                 return;
             }
@@ -140,21 +140,24 @@ namespace Scar.Common.WPF.Controls
             var currentPosition = e.GetPosition(this);
             var v = _start - currentPosition;
 
-            #region Check Bounds
-
+            // check Bounds
             var newXLeft = _originTopLeft.X - v.X;
             var newXRight = _originBottomRight.X - v.X;
             var newYTop = _originTopLeft.Y - v.Y;
             var newYBottom = _originBottomRight.Y - v.Y;
             bool shiftX = true, shiftY = true;
-            if (v.X < 0) //pull to the right
+
+            // pull to the right
+            if (v.X < 0)
             {
                 if (newXLeft > 0)
                 {
                     shiftX = false;
                 }
             }
-            else //pull to the left
+
+            // pull to the left
+            else
             {
                 if (newXRight < _child.RenderSize.Width)
                 {
@@ -162,22 +165,23 @@ namespace Scar.Common.WPF.Controls
                 }
             }
 
-            if (v.Y < 0) //pull to the bottom
+            // pull to the bottom
+            if (v.Y < 0)
             {
                 if (newYTop > 0)
                 {
                     shiftY = false;
                 }
             }
-            else //pull to the top
+
+            // pull to the top
+            else
             {
                 if (newYBottom < _child.RenderSize.Height)
                 {
                     shiftY = false;
                 }
             }
-
-            #endregion
 
             if (shiftX || shiftY)
             {
@@ -193,18 +197,16 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        private void ZoomBorder_SizeChanged(object sender, SizeChangedEventArgs e)
+        void ZoomBorder_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             const double tolerance = 0.1;
-            if (!e.PreviousSize.Height.Equals(0) && Math.Abs(e.PreviousSize.Height - e.NewSize.Height) >= tolerance)
+            if (!e.PreviousSize.Height.Equals(0) && (Math.Abs(e.PreviousSize.Height - e.NewSize.Height) >= tolerance))
             {
                 Reset();
             }
         }
 
-        private bool _isAnimationCancelled = true;
-
-        private void Zoom(double zoom, MouseEventArgs e, bool animate)
+        void Zoom(double zoom, MouseEventArgs e, bool animate)
         {
             if (_child == null)
             {
@@ -228,8 +230,8 @@ namespace Scar.Common.WPF.Controls
 
             var position = e.GetPosition(_child);
 
-            var absoluteX = position.X * _st.ScaleX + _tt.X;
-            var absoluteY = position.Y * _st.ScaleY + _tt.Y;
+            var absoluteX = (position.X * _st.ScaleX) + _tt.X;
+            var absoluteY = (position.Y * _st.ScaleY) + _tt.Y;
             var newScaleX = _st.ScaleX + zoom;
             var newScaleY = _st.ScaleY + zoom;
 
@@ -239,11 +241,10 @@ namespace Scar.Common.WPF.Controls
             var newX = absoluteX - diffX;
             var newY = absoluteY - diffY;
 
-            #region Check Bounds For Zoom Out Only
-
+            // Check Bounds For Zoom Out Only
             if (zoom <= 0)
             {
-                var bottomRight = new Point(absoluteX + _child.RenderSize.Width * newScaleX, absoluteY + _child.RenderSize.Height * newScaleY);
+                var bottomRight = new Point(absoluteX + (_child.RenderSize.Width * newScaleX), absoluteY + (_child.RenderSize.Height * newScaleY));
 
                 var newXRight = bottomRight.X - diffX;
                 var newYBottom = bottomRight.Y - diffY;
@@ -262,8 +263,6 @@ namespace Scar.Common.WPF.Controls
                 newY = newY > 0 ? 0 : newY;
             }
 
-            #endregion
-
             if (animate)
             {
                 Animate(newScaleX, newScaleY, newX, newY);
@@ -280,32 +279,12 @@ namespace Scar.Common.WPF.Controls
             _isReset = false;
         }
 
-        private void Animate(double newScaleX, double newScaleY, double newX, double newY)
+        void Animate(double newScaleX, double newScaleY, double newX, double newY)
         {
-            var scaleXAnimation = new DoubleAnimation
-            {
-                From = _st.ScaleX,
-                To = newScaleX,
-                Duration = _zoomAnimationDuration
-            };
-            var scaleYAnimation = new DoubleAnimation
-            {
-                From = _st.ScaleY,
-                To = newScaleY,
-                Duration = _zoomAnimationDuration
-            };
-            var aX = new DoubleAnimation
-            {
-                From = _tt.X,
-                To = newX,
-                Duration = _zoomAnimationDuration
-            };
-            var aY = new DoubleAnimation
-            {
-                From = _tt.Y,
-                To = newY,
-                Duration = _zoomAnimationDuration
-            };
+            var scaleXAnimation = new DoubleAnimation { From = _st.ScaleX, To = newScaleX, Duration = _zoomAnimationDuration };
+            var scaleYAnimation = new DoubleAnimation { From = _st.ScaleY, To = newScaleY, Duration = _zoomAnimationDuration };
+            var aX = new DoubleAnimation { From = _tt.X, To = newX, Duration = _zoomAnimationDuration };
+            var aY = new DoubleAnimation { From = _tt.Y, To = newY, Duration = _zoomAnimationDuration };
 
             _isAnimationCancelled = false;
             _st.BeginAnimation(ScaleTransform.ScaleXProperty, scaleXAnimation);
@@ -314,7 +293,7 @@ namespace Scar.Common.WPF.Controls
             _tt.BeginAnimation(TranslateTransform.YProperty, aY);
         }
 
-        private void CancelPreviousAnimation()
+        void CancelPreviousAnimation()
         {
             if (_isAnimationCancelled)
             {
@@ -322,7 +301,8 @@ namespace Scar.Common.WPF.Controls
             }
 
             double x = _tt.X, y = _tt.Y, scaleX = _st.ScaleX, scaleY = _st.ScaleY;
-            //Remembering the coordinates is needed because setting the animation to null resets the property (unexpectedly)
+
+            // Remembering the coordinates is needed because setting the animation to null resets the property (unexpectedly)
             _st.BeginAnimation(ScaleTransform.ScaleXProperty, null);
             _st.BeginAnimation(ScaleTransform.ScaleYProperty, null);
             _tt.BeginAnimation(TranslateTransform.XProperty, null);
@@ -333,7 +313,5 @@ namespace Scar.Common.WPF.Controls
             _st.ScaleY = scaleY;
             _isAnimationCancelled = true;
         }
-
-        #endregion
     }
 }

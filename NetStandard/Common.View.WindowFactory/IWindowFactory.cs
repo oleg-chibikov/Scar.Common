@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Scar.Common.View.Contracts;
 
-namespace Scar.Common.View.WindowFactory
+namespace Scar.Common
 {
     public interface IWindowFactory<TWindow>
         where TWindow : class, IDisplayable
@@ -13,15 +13,12 @@ namespace Scar.Common.View.WindowFactory
 
         Task<TWindow> ShowWindowAsync(CancellationToken cancellationToken);
 
-        Task<TWindow> ShowWindowAsync<TParam>(CancellationToken cancellationToken, TParam param);
+        Task<TWindow> ShowWindowAsync<TParam>(TParam param, CancellationToken cancellationToken);
 
         Task<TWindow> ShowWindowAsync<TSplashWindow>(IWindowFactory<TSplashWindow>? splashWindowFactory, CancellationToken cancellationToken)
             where TSplashWindow : class, IDisplayable;
 
-        Task<TWindow> ShowWindowAsync<TSplashWindow, TParam>(
-            IWindowFactory<TSplashWindow>? splashWindowFactory,
-            CancellationToken cancellationToken,
-            TParam param)
+        Task<TWindow> ShowWindowAsync<TSplashWindow, TParam>(IWindowFactory<TSplashWindow>? splashWindowFactory, TParam param, CancellationToken cancellationToken)
             where TSplashWindow : class, IDisplayable;
     }
 }

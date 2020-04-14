@@ -7,27 +7,6 @@ namespace Scar.Common.DAL.LiteDB
 {
     public abstract class FileBasedLiteDbRepository<TId> : IFileBasedRepository
     {
-        // direct bson types
-        protected readonly HashSet<Type> BsonTypes = new HashSet<Type>
-        {
-            typeof(string),
-            typeof(int),
-            typeof(long),
-            typeof(bool),
-            typeof(Guid),
-            typeof(DateTime),
-            typeof(byte[]),
-            typeof(ObjectId),
-            typeof(double),
-            typeof(decimal)
-        };
-
-        protected readonly LiteDatabase Db;
-
-        protected readonly Func<BsonValue, TId> FromBson;
-
-        protected readonly Func<TId, BsonValue> ToBson;
-
         protected FileBasedLiteDbRepository(string directoryPath, string fileName, bool shrink = true)
         {
             DbFileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
@@ -58,13 +37,34 @@ namespace Scar.Common.DAL.LiteDB
             }
         }
 
-        protected virtual bool IsBson => false;
-
         public string DbDirectoryPath { get; }
 
         public string DbFileExtension { get; } = ".db";
 
         public string DbFileName { get; }
+
+        protected LiteDatabase Db { get; }
+
+        protected Func<BsonValue, TId> FromBson { get; }
+
+        protected Func<TId, BsonValue> ToBson { get; }
+
+        protected virtual bool IsBson => false;
+
+        // direct bson types
+        protected HashSet<Type> BsonTypes { get; } = new HashSet<Type>
+        {
+            typeof(string),
+            typeof(int),
+            typeof(long),
+            typeof(bool),
+            typeof(Guid),
+            typeof(DateTime),
+            typeof(byte[]),
+            typeof(ObjectId),
+            typeof(double),
+            typeof(decimal)
+        };
 
         public void Dispose()
         {

@@ -1,6 +1,6 @@
 using Autofac.Core;
 
-namespace Scar.Common.AutofacNamedInstancesFactory
+namespace Scar.Common
 {
     public interface IAutofacNamedInstancesFactory
     {

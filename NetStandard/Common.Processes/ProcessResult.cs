@@ -14,6 +14,7 @@ namespace Scar.Common.Processes
         public string? Error { get; }
 
         public int ExitCode { get; }
+
         public bool IsError => ExitCode != 0;
     }
 }

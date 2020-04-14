@@ -11,7 +11,7 @@ namespace Scar.Common.WPF.Converters
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             // ReSharper disable once PossibleNullReferenceException
-            return value != null && (TaskbarItemProgressState)value != TaskbarItemProgressState.Normal;
+            return (value != null) && ((TaskbarItemProgressState)value != TaskbarItemProgressState.Normal);
         }
 
         public object ConvertBack(object? value, Type targetTypes, object? parameter, CultureInfo culture)

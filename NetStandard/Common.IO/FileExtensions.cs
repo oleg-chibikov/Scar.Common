@@ -18,7 +18,7 @@ namespace Scar.Common.IO
             var directoryPath = Path.GetDirectoryName(filePath);
             if (directoryPath == null)
             {
-                throw new ArgumentException(nameof(filePath));
+                throw new InvalidOperationException("DirectoryName is null");
             }
 
             var newFilePath = filePath;
@@ -51,14 +51,8 @@ namespace Scar.Common.IO
                 return;
             }
 
-            new Process
-            {
-                StartInfo =
-                {
-                    FileName = "explorer.exe",
-                    Arguments = $"/select,\"{filePath}\""
-                }
-            }.Start();
+            using var process = new Process { StartInfo = { FileName = "explorer.exe", Arguments = $"/select,\"{filePath}\"" } };
+            process.Start();
         }
 
         public static async Task<byte[]> ReadFileAsync(this string filename, CancellationToken cancellationToken)

@@ -21,7 +21,7 @@ namespace Scar.Common.Networking
                 return ip.ToString();
             }
 
-            throw new Exception("Local IP Address Not Found!");
+            throw new InvalidOperationException("Local IP Address Not Found!");
         }
     }
 }

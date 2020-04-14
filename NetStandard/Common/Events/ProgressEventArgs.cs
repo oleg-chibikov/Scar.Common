@@ -6,7 +6,7 @@ namespace Scar.Common.Events
     {
         public ProgressEventArgs(int current, int total)
         {
-            Percentage = current * 100 / total;
+            Percentage = (current * 100) / total;
             Current = current;
             Total = total;
         }

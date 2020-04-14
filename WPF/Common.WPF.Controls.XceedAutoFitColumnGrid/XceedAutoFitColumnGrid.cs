@@ -15,7 +15,7 @@ namespace Scar.Common.WPF.Controls
             typeof(XceedAutoFitColumnGrid),
             new PropertyMetadata(TimeSpan.FromMilliseconds(300)));
 
-        private static readonly RoutedEventHandler OnDataCellLostFocus = (sender, args) =>
+        static readonly RoutedEventHandler OnDataCellLostFocus = (sender, args) =>
         {
             var cell = (DataCell)sender;
             if (cell.ParentRow.IsBeingEdited)
@@ -24,7 +24,7 @@ namespace Scar.Common.WPF.Controls
             }
         };
 
-        private readonly IRateLimiter _rateLimiter;
+        readonly IRateLimiter _rateLimiter;
 
         public XceedAutoFitColumnGrid()
         {
@@ -33,13 +33,7 @@ namespace Scar.Common.WPF.Controls
             Loaded += XceedAutoFitColumnGrid_Loaded;
             _rateLimiter = new RateLimiter(SynchronizationContext.Current);
 
-            Resources[typeof(DataCell)] = new Style(typeof(DataCell), (Style)TryFindResource(typeof(DataCell)))
-            {
-                Setters =
-                {
-                    new EventSetter(LostFocusEvent, OnDataCellLostFocus)
-                }
-            };
+            Resources[typeof(DataCell)] = new Style(typeof(DataCell), (Style)TryFindResource(typeof(DataCell))) { Setters = { new EventSetter(LostFocusEvent, OnDataCellLostFocus) } };
         }
 
         public TimeSpan ColumnsWidthRecalculationInterval
@@ -48,7 +42,7 @@ namespace Scar.Common.WPF.Controls
             set => SetValue(ColumnsWidthRecalculationIntervalProperty, value);
         }
 
-        private void XceedAutoFitColumnGrid_Loaded(object sender, RoutedEventArgs e)
+        void XceedAutoFitColumnGrid_Loaded(object sender, RoutedEventArgs e)
         {
             var rowSelectorPane = TreeHelper.FindVisualChild<RowSelectorPane>((DependencyObject)sender);
             if (rowSelectorPane != null)
@@ -57,7 +51,7 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        private void AdjustColumnsWidths()
+        void AdjustColumnsWidths()
         {
             foreach (var columnBase in Columns)
             {
@@ -81,7 +75,7 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        private Size MeasureString(string candidate)
+        Size MeasureString(string candidate)
         {
             var dpiScale = VisualTreeHelper.GetDpi(this);
             var formattedText = new FormattedText(
@@ -96,7 +90,7 @@ namespace Scar.Common.WPF.Controls
             return new Size(formattedText.Width, formattedText.Height);
         }
 
-        private void XceedAutoFitColumnGrid_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        void XceedAutoFitColumnGrid_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (IsVisible)
             {
@@ -108,40 +102,14 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        private void XceedAutoFitColumnGrid_ItemsSourceChangeCompleted(object sender, EventArgs e)
+        void XceedAutoFitColumnGrid_ItemsSourceChangeCompleted(object sender, EventArgs e)
         {
             UpdateLayout();
         }
 
-        private void XceedAutoFitColumnGrid_LayoutUpdated(object sender, EventArgs e)
+        void XceedAutoFitColumnGrid_LayoutUpdated(object sender, EventArgs e)
         {
             _rateLimiter.Throttle(ColumnsWidthRecalculationInterval, AdjustColumnsWidths);
-        }
-    }
-
-    internal static class TreeHelper
-    {
-        public static TChildItem? FindVisualChild<TChildItem>(DependencyObject obj)
-            where TChildItem : DependencyObject
-        {
-            for (var i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-            {
-                var child = VisualTreeHelper.GetChild(obj, i);
-
-                if (child is TChildItem item)
-                {
-                    return item;
-                }
-
-                var childOfChild = FindVisualChild<TChildItem>(child);
-
-                if (childOfChild != null)
-                {
-                    return childOfChild;
-                }
-            }
-
-            return null;
         }
     }
 }

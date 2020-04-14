@@ -1,12 +1,11 @@
 using System;
 using Scar.Common.Events;
 
-namespace Scar.Common.Drawing.ExifTool
+namespace Scar.Common.Drawing
 {
     public sealed class FilePathProgressEventArgs : ProgressEventArgs
     {
-        public FilePathProgressEventArgs(int current, int total, string filePath)
-            : base(current, total)
+        public FilePathProgressEventArgs(int current, int total, string filePath) : base(current, total)
         {
             FilePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
         }

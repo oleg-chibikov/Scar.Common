@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -9,7 +10,7 @@ namespace Scar.Common.IO
 {
     public static class DirectoryExtensions
     {
-        private static readonly char[] DirectorySeparators =
+        static readonly char[] DirectorySeparators =
         {
             Path.DirectorySeparatorChar,
             Path.AltDirectorySeparatorChar
@@ -18,11 +19,12 @@ namespace Scar.Common.IO
         public static string AddTrailingBackslash(this string directoryPath)
         {
             _ = directoryPath ?? throw new ArgumentNullException(nameof(directoryPath));
+
             // They're always one character but EndsWith is shorter than
             // array style access to last directoryPath character. Change this
             // if performance are a (measured) issue.
-            var separator1 = Path.DirectorySeparatorChar.ToString();
-            var separator2 = Path.AltDirectorySeparatorChar.ToString();
+            var separator1 = Path.DirectorySeparatorChar.ToString(CultureInfo.InvariantCulture);
+            var separator2 = Path.AltDirectorySeparatorChar.ToString(CultureInfo.InvariantCulture);
 
             // Trailing white spaces are always ignored but folders may have
             // leading spaces. It's unusual but it may happen. If it's an issue
@@ -31,7 +33,7 @@ namespace Scar.Common.IO
 
             // Argument is always a directory name then if there is one
             // of allowed separators then I have nothing to do.
-            if (directoryPath.EndsWith(separator1, StringComparison.InvariantCultureIgnoreCase) || directoryPath.EndsWith(separator2, StringComparison.InvariantCultureIgnoreCase))
+            if (directoryPath.EndsWith(separator1, StringComparison.OrdinalIgnoreCase) || directoryPath.EndsWith(separator2, StringComparison.OrdinalIgnoreCase))
             {
                 return directoryPath;
             }
@@ -55,10 +57,7 @@ namespace Scar.Common.IO
             return directoryPath + separator1;
         }
 
-        public static IEnumerable<string> GetFiles(
-            this string directoryPath,
-            string searchPatternExpression = "",
-            SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        public static IEnumerable<string> GetFiles(this string directoryPath, string searchPatternExpression = "", SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
             _ = directoryPath ?? throw new ArgumentNullException(nameof(directoryPath));
             _ = searchPatternExpression ?? throw new ArgumentNullException(nameof(searchPatternExpression));
@@ -68,15 +67,12 @@ namespace Scar.Common.IO
                     filePath =>
                     {
                         var extension = Path.GetExtension(filePath);
-                        return extension != null && searchPatternRegex.IsMatch(extension);
+                        return (extension != null) && searchPatternRegex.IsMatch(extension);
                     });
         }
 
         // Takes same patterns, and executes in parallel
-        public static IEnumerable<string> GetFiles(
-            this string directoryPath,
-            string[] searchPatterns,
-            SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        public static IEnumerable<string> GetFiles(this string directoryPath, string[] searchPatterns, SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
             _ = directoryPath ?? throw new ArgumentNullException(nameof(directoryPath));
             _ = searchPatterns ?? throw new ArgumentNullException(nameof(searchPatterns));

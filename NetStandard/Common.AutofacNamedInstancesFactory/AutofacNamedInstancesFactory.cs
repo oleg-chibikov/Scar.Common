@@ -2,11 +2,11 @@ using System;
 using Autofac;
 using Autofac.Core;
 
-namespace Scar.Common.AutofacNamedInstancesFactory
+namespace Scar.Common
 {
     public sealed class AutofacNamedInstancesFactory : IAutofacNamedInstancesFactory
     {
-        private readonly ILifetimeScope _lifetimeScope;
+        readonly ILifetimeScope _lifetimeScope;
 
         public AutofacNamedInstancesFactory(ILifetimeScope lifetimeScope)
         {

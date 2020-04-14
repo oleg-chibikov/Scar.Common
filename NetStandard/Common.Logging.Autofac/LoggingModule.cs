@@ -20,13 +20,18 @@ namespace Scar.Common.Logging.Autofac
             base.AttachToComponentRegistration(componentRegistry, registration);
         }
 
-        private static ILog GetLogger(Type t)
+        protected override void Load(ContainerBuilder builder)
+        {
+            builder.Register(c => GetLogger(typeof(LoggingModule))).As<ILog>();
+        }
+
+        static ILog GetLogger(Type t)
         {
             var typeName = GetTypePrintableName(t);
             return LogManager.GetLogger(typeName);
         }
 
-        private static string GetTypePrintableName(Type type)
+        static string GetTypePrintableName(Type type)
         {
             string typeName;
             if (type.IsGenericType)
@@ -48,7 +53,7 @@ namespace Scar.Common.Logging.Autofac
             return typeName;
         }
 
-        private static void InjectLoggerProperties(object instance)
+        static void InjectLoggerProperties(object instance)
         {
             _ = instance ?? throw new ArgumentNullException(nameof(instance));
             var instanceType = instance.GetType();
@@ -56,8 +61,7 @@ namespace Scar.Common.Logging.Autofac
             // Get all the injectable properties to set.
             // If you wanted to ensure the properties were only UNSET properties,
             // here's where you'd do it.
-            var properties = instanceType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Where(p => p.PropertyType == typeof(ILog) && p.CanWrite && p.GetIndexParameters().Length == 0);
+            var properties = instanceType.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => (p.PropertyType == typeof(ILog)) && p.CanWrite && (p.GetIndexParameters().Length == 0));
 
             // Set the properties located.
             foreach (var propToSet in properties)
@@ -66,12 +70,7 @@ namespace Scar.Common.Logging.Autofac
             }
         }
 
-        protected override void Load(ContainerBuilder builder)
-        {
-            builder.Register(c => GetLogger(typeof(LoggingModule))).As<ILog>();
-        }
-
-        private static void OnComponentPreparing(object sender, PreparingEventArgs e)
+        static void OnComponentPreparing(object sender, PreparingEventArgs e)
         {
             _ = sender ?? throw new ArgumentNullException(nameof(sender));
             _ = e ?? throw new ArgumentNullException(nameof(e));

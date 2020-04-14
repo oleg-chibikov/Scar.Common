@@ -14,18 +14,15 @@ namespace Scar.Common.WPF.View
     {
         public static readonly DependencyProperty DraggableProperty = DependencyProperty.Register(nameof(Draggable), typeof(bool), typeof(Window), new PropertyMetadata(null));
 
-        private readonly ConcurrentDictionary<DependencyProperty, double> _animations = new ConcurrentDictionary<DependencyProperty, double>();
+        readonly ConcurrentDictionary<DependencyProperty, double> _animations = new ConcurrentDictionary<DependencyProperty, double>();
 
-        private readonly Duration _fadeDuration = new Duration(TimeSpan.FromMilliseconds(300));
+        readonly Duration _fadeDuration = new Duration(TimeSpan.FromMilliseconds(300));
 
-        private readonly Duration _repositionDuration = new Duration(TimeSpan.FromMilliseconds(150));
+        readonly Duration _repositionDuration = new Duration(TimeSpan.FromMilliseconds(150));
 
         static AnimatedWindow()
         {
-            var resourceDictionary = new ResourceDictionary
-            {
-                Source = new Uri("pack://application:,,/Scar.Common.WPF.View.AnimatedWindow;component/AnimatedWindowTemplate.xaml", UriKind.Absolute)
-            };
+            var resourceDictionary = new ResourceDictionary { Source = new Uri("pack://application:,,/Scar.Common.WPF.View.AnimatedWindow;component/AnimatedWindowTemplate.xaml", UriKind.Absolute) };
             Application.Current.Resources.MergedDictionaries.Insert(0, resourceDictionary);
         }
 
@@ -55,7 +52,7 @@ namespace Scar.Common.WPF.View
             MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
         }
 
-        public bool CustomShell { get; set; }
+        public event EventHandler? ContentRenderAnimationFinished;
 
         public override bool Draggable
         {
@@ -63,18 +60,20 @@ namespace Scar.Common.WPF.View
             set => SetValue(DraggableProperty, value);
         }
 
-        public event EventHandler? ContentRenderAnimationFinished;
+        public bool CustomShell { get; set; }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
+            _ = e ?? throw new ArgumentNullException(nameof(e));
+
             base.OnMouseLeftButtonDown(e);
 
-            if (Draggable && e.ButtonState != MouseButtonState.Released)
+            if (Draggable && (e.ButtonState != MouseButtonState.Released))
             {
                 DragMove();
             }
 
-            if (ResizeMode != ResizeMode.CanResize && ResizeMode != ResizeMode.CanResizeWithGrip)
+            if ((ResizeMode != ResizeMode.CanResize) && (ResizeMode != ResizeMode.CanResizeWithGrip))
             {
                 return;
             }
@@ -94,28 +93,20 @@ namespace Scar.Common.WPF.View
 
             var newValue = _animations.AddOrUpdate(prop, p => (double)GetValue(p) + change, (p, val) => val + change);
 
-            var animation = new DoubleAnimation
-            {
-                To = newValue,
-                Duration = _repositionDuration
-            };
+            var animation = new DoubleAnimation { To = newValue, Duration = _repositionDuration };
 
             BeginAnimation(prop, null);
             BeginAnimation(prop, animation, HandoffBehavior.SnapshotAndReplace);
         }
 
-        private void AnimatedWindow_Closing(object sender, CancelEventArgs e)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "SA1313:Parameter '_' should begin with lower -case letter", Justification = "Discarded parameter")]
+        void AnimatedWindow_Closing(object sender, CancelEventArgs e)
         {
             e.Cancel = true;
 
             // Unsubscribe to prevent recurring call of this method after animation completes
             Closing -= AnimatedWindow_Closing;
-            var hideAnimation = new DoubleAnimation
-            {
-                From = 1,
-                To = 0,
-                Duration = _fadeDuration
-            };
+            var hideAnimation = new DoubleAnimation { From = 1, To = 0, Duration = _fadeDuration };
 
             void CompletedHandler(object s, EventArgs _)
             {
@@ -127,14 +118,10 @@ namespace Scar.Common.WPF.View
             BeginAnimation(OpacityProperty, hideAnimation);
         }
 
-        private void AnimatedWindow_ContentRendered(object sender, EventArgs e)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "SA1313:Parameter '_' should begin with lower -case letter", Justification = "Discarded parameter")]
+        void AnimatedWindow_ContentRendered(object sender, EventArgs e)
         {
-            var showAnimation = new DoubleAnimation
-            {
-                From = 0,
-                To = 1,
-                Duration = _fadeDuration
-            };
+            var showAnimation = new DoubleAnimation { From = 0, To = 1, Duration = _fadeDuration };
 
             void CompletedHandler(object s, EventArgs _)
             {
@@ -153,7 +140,7 @@ namespace Scar.Common.WPF.View
             BeginAnimation(OpacityProperty, showAnimation);
         }
 
-        private void AnimatedWindow_Loaded(object sender, RoutedEventArgs e)
+        void AnimatedWindow_Loaded(object sender, RoutedEventArgs e)
         {
             if (!CustomShell)
             {
@@ -161,7 +148,7 @@ namespace Scar.Common.WPF.View
             }
         }
 
-        private void CheckBounds()
+        void CheckBounds()
         {
             // Top
             if (Top < ActiveScreenArea.Y)
@@ -178,7 +165,7 @@ namespace Scar.Common.WPF.View
             // Bottom
             var windowBottom = Top + Height;
             var screenBottom = ActiveScreenArea.Y + ActiveScreenArea.Height;
-            if (Height <= ActiveScreenArea.Height && windowBottom > screenBottom)
+            if ((Height <= ActiveScreenArea.Height) && (windowBottom > screenBottom))
             {
                 Top -= windowBottom - screenBottom;
             }
@@ -186,7 +173,7 @@ namespace Scar.Common.WPF.View
             // Right
             var windowRight = Left + Width;
             var screenRight = ActiveScreenArea.X + ActiveScreenArea.Width;
-            if (Width <= ActiveScreenArea.Width && windowRight > screenRight)
+            if ((Width <= ActiveScreenArea.Width) && (windowRight > screenRight))
             {
                 Left -= windowRight - screenRight;
             }

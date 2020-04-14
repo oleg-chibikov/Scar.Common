@@ -11,11 +11,17 @@ namespace Scar.Common.ApplicationLifetime
     public interface IApplicationStartupBootstrapper
     {
         string AppGuid { get; }
+
         Action<Message> ShowMessage { get; }
+
         ILifetimeScope Container { get; }
+
         ILog Logger { get; }
+
         IMessageHub Messenger { get; }
+
         ICultureManager CultureManager { get; }
+
         SynchronizationContext? SynchronizationContext { get; }
 
         void HandleException(Exception e);

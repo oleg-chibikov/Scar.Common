@@ -9,12 +9,12 @@ namespace Scar.Common.WPF.Converters
     {
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            return value as bool? != true;
+            return (value as bool?) != true;
         }
 
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            return value as bool? != true;
+            return (value as bool?) != true;
         }
     }
 }

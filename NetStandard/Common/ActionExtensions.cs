@@ -23,7 +23,7 @@ namespace Scar.Common
                 }
                 catch (Exception ex)
                 {
-                    if (canRetryAtException?.Invoke(attemptInfo, ex) != true && attempt++ < maxAttempts)
+                    if ((canRetryAtException?.Invoke(attemptInfo, ex) != true) && (attempt++ < maxAttempts))
                     {
                         if (delay.HasValue)
                         {
@@ -60,7 +60,7 @@ namespace Scar.Common
                 }
                 catch (Exception ex)
                 {
-                    if (canRetryAtException?.Invoke(attemptInfo, ex) != true && attempt++ < maxAttempts)
+                    if ((canRetryAtException?.Invoke(attemptInfo, ex) != true) && (attempt++ < maxAttempts))
                     {
                         if (delay.HasValue)
                         {

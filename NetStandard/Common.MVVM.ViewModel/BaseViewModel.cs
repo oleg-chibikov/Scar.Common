@@ -9,8 +9,9 @@ namespace Scar.Common.MVVM.ViewModel
 {
     public abstract class BaseViewModel : INotifyPropertyChanged, IDisposable, IRequestCloseViewModel
     {
-        private readonly HashSet<IRemovableCommand> _commandsList;
-        private readonly ICommandManager _commandManager;
+        readonly HashSet<IRemovableCommand> _commandsList;
+        readonly ICommandManager _commandManager;
+        bool _disposedValue;
 
         protected BaseViewModel(ICommandManager commandManager)
         {
@@ -20,6 +21,22 @@ namespace Scar.Common.MVVM.ViewModel
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public event EventHandler? RequestClose;
+
+        public void RemoveCommands()
+        {
+            foreach (var removableCommand in _commandsList)
+            {
+                removableCommand.RemoveCommand();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         protected IRefreshableCommand AddCommand(Func<Task> executeFunc, Func<bool>? canExecuteFunc = null)
         {
@@ -45,21 +62,6 @@ namespace Scar.Common.MVVM.ViewModel
             return AddCommandToList(tempCmd);
         }
 
-        private T AddCommandToList<T>(T tempCmd)
-            where T : IRemovableCommand
-        {
-            _commandsList.Add(tempCmd);
-            return tempCmd;
-        }
-
-        public void RemoveCommands()
-        {
-            foreach (var removableCommand in _commandsList)
-            {
-                removableCommand.RemoveCommand();
-            }
-        }
-
         protected void ChangeProperty<T>(ref T property, T value, [CallerMemberName] string? propertyName = null)
         {
             if (Equals(property, value))
@@ -81,9 +83,10 @@ namespace Scar.Common.MVVM.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        #region IDisposable Support
-
-        private bool _disposedValue; // To detect redundant calls
+        protected void CloseWindow()
+        {
+            RequestClose?.Invoke(this, new EventArgs());
+        }
 
         protected virtual void Dispose(bool disposing)
         {
@@ -98,18 +101,11 @@ namespace Scar.Common.MVVM.ViewModel
             }
         }
 
-        public void Dispose()
+        T AddCommandToList<T>(T tempCmd)
+            where T : IRemovableCommand
         {
-            Dispose(true);
-        }
-
-        #endregion
-
-        public event EventHandler? RequestClose;
-
-        protected void CloseWindow()
-        {
-            RequestClose?.Invoke(this, new EventArgs());
+            _commandsList.Add(tempCmd);
+            return tempCmd;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Scar.Common.WPF.View.Buttons
             InitializeComponent();
         }
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Window.GetWindow((DependencyObject)sender)?.Close();
         }

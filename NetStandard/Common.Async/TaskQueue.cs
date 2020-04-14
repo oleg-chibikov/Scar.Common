@@ -1,20 +1,23 @@
-using Common.Logging;
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using System.Threading.Tasks;
+using Common.Logging;
 
 namespace Scar.Common.Async
 {
+    [SuppressMessage("Naming", "CA1711:Identifiers should not have incorrect suffix", Justification = "This is a proper name")]
     public sealed class TaskQueue : IAppendable<Func<Task>>, IDisposable
     {
-        private readonly ILog _logger;
-        private readonly BlockingCollection<Func<Task>> _queue = new BlockingCollection<Func<Task>>();
-        private readonly Task _worker;
+        readonly ILog _logger;
+        readonly BlockingCollection<Func<Task>> _queue = new BlockingCollection<Func<Task>>();
+        readonly Task _worker;
 
         public TaskQueue(ILog logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _worker = Task.Factory.StartNew(async () => await PollQueue(), TaskCreationOptions.LongRunning).Unwrap();
+            _worker = Task.Factory.StartNew(async () => await PollQueue(), CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Current).Unwrap();
         }
 
         public int CurrentlyQueuedTasks => _queue.Count;
@@ -32,7 +35,8 @@ namespace Scar.Common.Async
             _queue.Dispose();
         }
 
-        private async Task PollQueue()
+        [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Don't know underlying exceptions")]
+        async Task PollQueue()
         {
             _logger.Trace("Starting polling queue...");
             while (true)

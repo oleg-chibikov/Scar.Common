@@ -11,7 +11,16 @@ namespace Scar.Common.WPF.Controls.Behaviors
 {
     public class InvokeCommandWithArgsAction : TriggerAction<DependencyObject>
     {
-        private string _commandName = string.Empty;
+        // Using a DependencyProperty as the backing store for Command.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(InvokeCommandWithArgsAction), new UIPropertyMetadata(null));
+
+        public static readonly DependencyProperty CommandParameterConverterProperty = DependencyProperty.Register(
+            "CommandParameterConverter",
+            typeof(IValueConverter),
+            typeof(InvokeCommandWithArgsAction),
+            new UIPropertyMetadata(null));
+
+        string _commandName = string.Empty;
 
         public string CommandName
         {
@@ -20,6 +29,7 @@ namespace Scar.Common.WPF.Controls.Behaviors
                 ReadPreamble();
                 return _commandName;
             }
+
             set
             {
                 if (CommandName != value)
@@ -29,6 +39,18 @@ namespace Scar.Common.WPF.Controls.Behaviors
                     WritePostscript();
                 }
             }
+        }
+
+        public ICommand? Command
+        {
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
+        }
+
+        public IValueConverter? CommandParameterConverter
+        {
+            get => (IValueConverter)GetValue(CommandParameterConverterProperty);
+            set => SetValue(CommandParameterConverterProperty, value);
         }
 
         protected override void Invoke(object parameter)
@@ -49,7 +71,7 @@ namespace Scar.Common.WPF.Controls.Behaviors
             }
         }
 
-        private ICommand? ResolveCommand()
+        ICommand? ResolveCommand()
         {
             ICommand? command = null;
             if (Command != null)
@@ -69,38 +91,5 @@ namespace Scar.Common.WPF.Controls.Behaviors
 
             return command;
         }
-
-        #region Command
-
-        public ICommand? Command
-        {
-            get => (ICommand)GetValue(CommandProperty);
-            set => SetValue(CommandProperty, value);
-        }
-
-        // Using a DependencyProperty as the backing store for Command.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(
-            "Command",
-            typeof(ICommand),
-            typeof(InvokeCommandWithArgsAction),
-            new UIPropertyMetadata(null));
-
-        #endregion
-
-        #region Command
-
-        public IValueConverter? CommandParameterConverter
-        {
-            get => (IValueConverter)GetValue(CommandParameterConverterProperty);
-            set => SetValue(CommandParameterConverterProperty, value);
-        }
-
-        public static readonly DependencyProperty CommandParameterConverterProperty = DependencyProperty.Register(
-            "CommandParameterConverter",
-            typeof(IValueConverter),
-            typeof(InvokeCommandWithArgsAction),
-            new UIPropertyMetadata(null));
-
-        #endregion
     }
 }

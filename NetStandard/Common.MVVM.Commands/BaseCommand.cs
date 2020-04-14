@@ -7,11 +7,7 @@ namespace Scar.Common.MVVM.Commands
         where TExecute : class
         where TCanExecute : class
     {
-        protected readonly TCanExecute? CanExecuteFunc;
-        protected readonly TExecute ExecuteFunc;
-        protected readonly ICommandManager CommandManager;
-
-        private readonly Action _raiseCanExecuteChangedAction;
+        readonly Action _raiseCanExecuteChangedAction;
 
         protected BaseCommand(ICommandManager commandManager, TExecute executeFunc, TCanExecute? canExecuteFunc = null)
         {
@@ -22,12 +18,18 @@ namespace Scar.Common.MVVM.Commands
             CommandManager.AddRaiseCanExecuteChangedAction(ref _raiseCanExecuteChangedAction);
         }
 
+        public event EventHandler? CanExecuteChanged;
+
+        protected TCanExecute? CanExecuteFunc { get; }
+
+        protected TExecute ExecuteFunc { get; }
+
+        protected ICommandManager CommandManager { get; }
+
         public void RaiseCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, new EventArgs());
         }
-
-        public event EventHandler? CanExecuteChanged;
 
         public void Execute(object parameter)
         {

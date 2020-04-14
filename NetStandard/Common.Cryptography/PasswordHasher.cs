@@ -1,14 +1,16 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Cryptography;
 
 namespace Scar.Common.Cryptography
 {
     /// <summary>
-    /// The implementation is taken from https://stackoverflow.com/a/20622428
+    /// The implementation is taken from https://stackoverflow.com/a/20622428.
     /// </summary>
-    internal sealed class PasswordHasher : IPasswordHasher
+    public sealed class PasswordHasher : IPasswordHasher
     {
+        [SuppressMessage("Security", "CA5379:Do Not Use Weak Key Derivation Function Algorithm", Justification = "As is")]
         public string HashPassword(string password)
         {
             _ = password ?? throw new ArgumentNullException(nameof(password));
@@ -26,13 +28,14 @@ namespace Scar.Common.Cryptography
             return Convert.ToBase64String(dst);
         }
 
+        [SuppressMessage("Security", "CA5379:Do Not Use Weak Key Derivation Function Algorithm", Justification = "As is")]
         public bool VerifyHashedPassword(string hashedPassword, string password)
         {
             _ = hashedPassword ?? throw new ArgumentNullException(nameof(hashedPassword));
             _ = password ?? throw new ArgumentNullException(nameof(password));
             byte[] buffer4;
             var src = Convert.FromBase64String(hashedPassword);
-            if (src.Length != 0x31 || src[0] != 0)
+            if ((src.Length != 0x31) || (src[0] != 0))
             {
                 return false;
             }

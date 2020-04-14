@@ -5,10 +5,6 @@ namespace Scar.Common.WPF.Controls
 {
     public sealed partial class TimePicker
     {
-        private static readonly int MaxHours = 24;
-        private static readonly int MaxMinutes = 60;
-        private static readonly int MaxSeconds = 60;
-
         public static readonly DependencyProperty DaysProperty = DependencyProperty.Register(
             nameof(Days),
             typeof(int),
@@ -39,7 +35,11 @@ namespace Scar.Common.WPF.Controls
             typeof(TimePicker),
             new FrameworkPropertyMetadata(default(TimeSpan), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTimeChanged));
 
-        private bool _isTimePartChanging;
+        const int MaxHours = 24;
+        const int MaxMinutes = 60;
+        const int MaxSeconds = 60;
+
+        bool _isTimePartChanging;
 
         public TimePicker()
         {
@@ -76,7 +76,7 @@ namespace Scar.Common.WPF.Controls
             set => SetValue(TimeProperty, value);
         }
 
-        private static object Coerce(DependencyObject d, object value, DependencyProperty greater, int max)
+        static object Coerce(DependencyObject d, object value, DependencyProperty greater, int max)
         {
             var greaterScale = (int)d.GetValue(greater);
             var dVal = (int)value;
@@ -100,10 +100,11 @@ namespace Scar.Common.WPF.Controls
             return dVal;
         }
 
-        private static void OnTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        static void OnTimeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var timePicker = (TimePicker)d;
-            //To prevent circular property changes
+
+            // To prevent circular property changes
             if (timePicker._isTimePartChanging)
             {
                 return;
@@ -116,7 +117,7 @@ namespace Scar.Common.WPF.Controls
             timePicker.Seconds = newTime.Seconds;
         }
 
-        private static void OnTimePartChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        static void OnTimePartChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var timePicker = (TimePicker)d;
             timePicker._isTimePartChanging = true;

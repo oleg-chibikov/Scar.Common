@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <Description>Utility to retrieve graphical images</Description>
+    <RootNamespace>Scar.Common.Drawing</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -20,7 +20,7 @@ namespace Scar.Common.Installer
                     var filePath = session.Property(InstallBuilder.CustomParam);
                     if (string.IsNullOrEmpty(filePath))
                     {
-                        throw new ArgumentNullException(nameof(filePath));
+                        throw new InvalidOperationException("FilePath is empty");
                     }
 
                     if (!File.Exists(filePath))
@@ -28,11 +28,7 @@ namespace Scar.Common.Installer
                         throw new InvalidOperationException(filePath + " does not exist");
                     }
 
-                    var externalTool = new ExternalTool
-                    {
-                        ExePath = filePath,
-                        Arguments = "install"
-                    };
+                    var externalTool = new ExternalTool { ExePath = filePath, Arguments = "install" };
                     session.Log($"Executing '{filePath} install'...");
                     externalTool.WinRun();
                     externalTool.Arguments = "start";
@@ -52,7 +48,7 @@ namespace Scar.Common.Installer
                     var fileName = session.Property(InstallBuilder.FileName);
                     if (string.IsNullOrEmpty(fileName))
                     {
-                        throw new ArgumentNullException(nameof(fileName));
+                        throw new InvalidOperationException("FileName is empty");
                     }
 
                     var filePath = Path.Combine(installDir, fileName);
@@ -89,22 +85,13 @@ namespace Scar.Common.Installer
                     var processName = session.Property(InstallBuilder.CustomParam);
                     if (string.IsNullOrEmpty(processName))
                     {
-                        throw new ArgumentNullException(nameof(processName));
+                        throw new InvalidOperationException("ProcessName is empty");
                     }
 
                     const string command = @"taskkill";
                     var param = $@"/F /IM ""{processName}""";
                     session.Log($"Executing '{command} {param}'...");
-                    var process = new Process
-                    {
-                        StartInfo =
-                        {
-                            FileName = command,
-                            Arguments = param,
-                            UseShellExecute = false,
-                            CreateNoWindow = true
-                        }
-                    };
+                    var process = new Process { StartInfo = { FileName = command, Arguments = param, UseShellExecute = false, CreateNoWindow = true } };
                     process.Start();
                     process.WaitForExit();
                 });
@@ -121,7 +108,7 @@ namespace Scar.Common.Installer
                     var filePath = session.Property(InstallBuilder.CustomParam);
                     if (string.IsNullOrEmpty(filePath))
                     {
-                        throw new ArgumentNullException(nameof(filePath));
+                        throw new InvalidOperationException("FilePath is empty");
                     }
 
                     if (!File.Exists(filePath))
@@ -129,11 +116,7 @@ namespace Scar.Common.Installer
                         throw new InvalidOperationException(filePath + " does not exist");
                     }
 
-                    var externalTool = new ExternalTool
-                    {
-                        ExePath = filePath,
-                        Arguments = "uninstall"
-                    };
+                    var externalTool = new ExternalTool { ExePath = filePath, Arguments = "uninstall" };
                     session.Log($"Executing '{filePath}' uninstall...");
                     externalTool.WinRun();
                     session.Log($"Deleting '{installDir}'...");

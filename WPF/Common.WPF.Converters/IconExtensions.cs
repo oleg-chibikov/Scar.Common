@@ -9,12 +9,13 @@ using System.Windows.Media.Imaging;
 
 namespace Scar.Common.WPF.Converters
 {
-    internal static class IconExtensions
+    static class IconExtensions
     {
         public static ImageSource ToImageSource(this Icon icon)
         {
             _ = icon ?? throw new ArgumentNullException(nameof(icon));
             var bitmap = icon.ToBitmap();
+
             // ReSharper disable once StyleCop.SA1305
             var hBitmap = bitmap.GetHbitmap();
 
@@ -29,7 +30,8 @@ namespace Scar.Common.WPF.Converters
         }
 
         [DllImport("gdi32.dll", SetLastError = true)]
+
         // ReSharper disable once StyleCop.SA1305
-        private static extern bool DeleteObject(IntPtr hObject);
+        static extern bool DeleteObject(IntPtr hObject);
     }
 }

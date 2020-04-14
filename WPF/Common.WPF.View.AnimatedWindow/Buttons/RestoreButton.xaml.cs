@@ -9,7 +9,7 @@ namespace Scar.Common.WPF.View.Buttons
             InitializeComponent();
         }
 
-        private void RestoreButton_Click(object sender, RoutedEventArgs e)
+        void RestoreButton_Click(object sender, RoutedEventArgs e)
         {
             var window = (BaseWindow)Window.GetWindow((DependencyObject)sender);
             if (window == null)

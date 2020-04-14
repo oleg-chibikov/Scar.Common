@@ -8,18 +8,6 @@ namespace Scar.Common.WebApi
 {
     public sealed class MessageLoggingHandler : MessageHandler
     {
-        private static string GetMessage(string requestInfo, string? message)
-        {
-            var stringBuilder = new StringBuilder(requestInfo);
-            if (message != null && !string.IsNullOrEmpty(message))
-            {
-                stringBuilder.Append(": ");
-                stringBuilder.Append(message.Trim());
-            }
-
-            return stringBuilder.ToString();
-        }
-
         protected override async Task IncomingMessageAsync(HttpRequestMessage request, string requestInfo, string? message)
         {
             var logger = (ILog)request.GetDependencyScope().GetService(typeof(ILog));
@@ -30,6 +18,18 @@ namespace Scar.Common.WebApi
         {
             var logger = (ILog)request.GetDependencyScope().GetService(typeof(ILog));
             await Task.Run(() => logger.Debug($"Response: {GetMessage(requestInfo, message)}: ({(int)responseStatusCode} {responseStatusCode})"));
+        }
+
+        static string GetMessage(string requestInfo, string? message)
+        {
+            var stringBuilder = new StringBuilder(requestInfo);
+            if ((message != null) && !string.IsNullOrEmpty(message))
+            {
+                stringBuilder.Append(": ");
+                stringBuilder.Append(message.Trim());
+            }
+
+            return stringBuilder.ToString();
         }
     }
 }

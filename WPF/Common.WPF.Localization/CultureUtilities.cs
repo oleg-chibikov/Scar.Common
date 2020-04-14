@@ -6,7 +6,7 @@ namespace Scar.Common.WPF.Localization
 {
     public static class CultureUtilities
     {
-        private static readonly object Locker = new object();
+        static readonly object Locker = new object();
 
         public static void ChangeCulture(string uiLanguage)
         {

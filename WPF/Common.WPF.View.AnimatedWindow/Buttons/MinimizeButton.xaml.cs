@@ -9,7 +9,7 @@ namespace Scar.Common.WPF.View.Buttons
             InitializeComponent();
         }
 
-        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        void MinimizeButton_Click(object sender, RoutedEventArgs e)
         {
             var window = Window.GetWindow((DependencyObject)sender);
             if (window != null)

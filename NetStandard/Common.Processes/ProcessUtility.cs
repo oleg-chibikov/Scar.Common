@@ -11,8 +11,8 @@ namespace Scar.Common.Processes
 {
     public sealed class ProcessUtility : IProcessUtility
     {
-        private static readonly TimeSpan TaskKillSleepTime = TimeSpan.FromSeconds(5);
-        private readonly ILog _logger;
+        static readonly TimeSpan TaskKillSleepTime = TimeSpan.FromSeconds(5);
+        readonly ILog _logger;
 
         public ProcessUtility(ILog logger)
         {
@@ -131,33 +131,32 @@ namespace Scar.Common.Processes
             await Task.Delay(TaskKillSleepTime, token).ConfigureAwait(false);
         }
 
-        private void OnError(string message)
+        void OnError(string message)
         {
             ProcessErrorFired?.Invoke(this, new EventArgs<string>(message));
         }
 
-        private void OnMessage(string message)
+        void OnMessage(string message)
         {
             ProcessMessageFired?.Invoke(this, new EventArgs<string>(message));
         }
 
-        private bool ProcessExists(string processName)
+        bool ProcessExists(string processName)
         {
             return Process.GetProcessesByName(processName).Any();
         }
 
         /// <summary>
-        /// Waits asynchronously for the process to exit
+        /// Waits asynchronously for the process to exit.
         /// </summary>
-        /// <param name="process">The process to wait for cancellation</param>
-        /// <param name="name">The name of the process for logging</param>
-        /// <param name="cancellationToken">A cancellation token. If invoked, the task will return immediately as canceled</param>
-        /// <returns>A Task representing waiting for the process to end</returns>
-        private Task WaitForExitAsync(Process process, string name, CancellationToken cancellationToken)
+        /// <param name="process">The process to wait for cancellation.</param>
+        /// <param name="name">The name of the process for logging.</param>
+        /// <param name="cancellationToken">A cancellation token. If invoked, the task will return immediately as canceled.</param>
+        /// <returns>A Task representing waiting for the process to end.</returns>
+        Task WaitForExitAsync(Process process, string name, CancellationToken cancellationToken)
         {
             _ = process ?? throw new ArgumentNullException(nameof(process));
             _ = name ?? throw new ArgumentNullException(nameof(name));
-            _ = _logger ?? throw new ArgumentNullException(nameof(_logger));
             var taskCompletionSource = new TaskCompletionSource<object?>();
             process.EnableRaisingEvents = true;
 

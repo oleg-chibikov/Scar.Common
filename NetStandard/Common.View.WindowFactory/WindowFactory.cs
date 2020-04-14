@@ -3,16 +3,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Scar.Common.View.Contracts;
 
-namespace Scar.Common.View.WindowFactory
+namespace Scar.Common
 {
-    public class WindowFactory<TWindow> : IWindowFactory<TWindow>
+    public class WindowFactory<TWindow> : IWindowFactory<TWindow>, IDisposable
         where TWindow : class, IDisplayable
     {
-        private readonly IScopedWindowProvider _scopedWindowProvider;
-
-        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
-
-        private TWindow? _currentWindow;
+        readonly IScopedWindowProvider _scopedWindowProvider;
+        readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
+        TWindow? _currentWindow;
+        bool _disposedValue;
 
         public WindowFactory(IScopedWindowProvider scopedWindowProvider)
         {
@@ -34,21 +33,21 @@ namespace Scar.Common.View.WindowFactory
 
         public async Task<TWindow> ShowWindowAsync(CancellationToken cancellationToken)
         {
-            return await ShowWindowAsync<TWindow, object>(null, cancellationToken, default!).ConfigureAwait(false);
+            return await ShowWindowAsync<TWindow, object>(null, default!, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<TWindow> ShowWindowAsync<TParam>(CancellationToken cancellationToken, TParam param)
+        public async Task<TWindow> ShowWindowAsync<TParam>(TParam param, CancellationToken cancellationToken)
         {
-            return await ShowWindowAsync<IDisplayable, TParam>(null, cancellationToken, param).ConfigureAwait(false);
+            return await ShowWindowAsync<IDisplayable, TParam>(null, param, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<TWindow> ShowWindowAsync<TSplashWindow>(IWindowFactory<TSplashWindow>? splashWindowFactory, CancellationToken cancellationToken)
             where TSplashWindow : class, IDisplayable
         {
-            return await ShowWindowAsync<TSplashWindow, object>(splashWindowFactory, cancellationToken, default!).ConfigureAwait(false);
+            return await ShowWindowAsync<TSplashWindow, object>(splashWindowFactory, default!, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<TWindow> ShowWindowAsync<TSplashWindow, TParam>(IWindowFactory<TSplashWindow>? splashWindowFactory, CancellationToken cancellationToken, TParam param)
+        public async Task<TWindow> ShowWindowAsync<TSplashWindow, TParam>(IWindowFactory<TSplashWindow>? splashWindowFactory, TParam param, CancellationToken cancellationToken)
             where TSplashWindow : class, IDisplayable
         {
             await _semaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
@@ -97,6 +96,25 @@ namespace Scar.Common.View.WindowFactory
 
             window.Restore();
             return window;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _semaphore.Dispose();
+                }
+
+                _disposedValue = true;
+            }
         }
     }
 }

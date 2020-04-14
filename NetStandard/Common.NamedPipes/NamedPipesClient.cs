@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Compression;
 using System.IO.Pipes;
@@ -9,13 +10,14 @@ namespace Scar.Common.NamedPipes
 {
     public sealed class NamedPipesClient<T> : INamedPipesClient<T>
     {
-        private readonly ILog _logger;
+        readonly ILog _logger;
 
         public NamedPipesClient(ILog logger)
         {
             _logger = logger;
         }
 
+        [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Don't know underlying exceptions")]
         public void SendMessage(T message, int timeout)
         {
             try

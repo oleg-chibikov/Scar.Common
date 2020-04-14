@@ -1,3 +1,4 @@
+using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ namespace Scar.Common.WebApi
     {
         public Task LogAsync(ExceptionLoggerContext context, CancellationToken cancellationToken)
         {
+            _ = context ?? throw new ArgumentNullException(nameof(context));
+
             var logger = (ILog)context.Request.GetDependencyScope().GetService(typeof(ILog));
             if (context.Exception is LocalizableException localizableException)
             {

@@ -1,18 +1,33 @@
-using Scar.Common.MVVM.CollectionView;
 using System;
 using System.Collections;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Globalization;
+using Scar.Common.MVVM.CollectionView;
 
 namespace Scar.Common.WPF.CollectionView
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "Name is OK")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1010:Collections should implement generic interface", Justification = "This collection is OK without generic interface")]
     public class CollectionViewAdapter : ICollectionView
     {
-        private readonly System.ComponentModel.ICollectionView _adaptee;
+        readonly System.ComponentModel.ICollectionView _adaptee;
 
         public CollectionViewAdapter(System.ComponentModel.ICollectionView adaptee)
         {
             _adaptee = adaptee ?? throw new ArgumentNullException(nameof(adaptee));
+        }
+
+        public event EventHandler CurrentChanged
+        {
+            add { _adaptee.CurrentChanged += value; }
+            remove { _adaptee.CurrentChanged -= value; }
+        }
+
+        public event NotifyCollectionChangedEventHandler CollectionChanged
+        {
+            add { _adaptee.CollectionChanged += value; }
+            remove { _adaptee.CollectionChanged -= value; }
         }
 
         public CultureInfo Culture { get => _adaptee.Culture; set => _adaptee.Culture = value; }
@@ -27,7 +42,7 @@ namespace Scar.Common.WPF.CollectionView
 
         public bool CanGroup => _adaptee.CanGroup;
 
-        public System.Collections.ObjectModel.ReadOnlyObservableCollection<object> Groups => _adaptee.Groups;
+        public ReadOnlyObservableCollection<object> Groups => _adaptee.Groups;
 
         public bool IsEmpty => _adaptee.IsEmpty;
 
@@ -38,18 +53,6 @@ namespace Scar.Common.WPF.CollectionView
         public bool IsCurrentAfterLast => _adaptee.IsCurrentAfterLast;
 
         public bool IsCurrentBeforeFirst => _adaptee.IsCurrentBeforeFirst;
-
-        public event EventHandler CurrentChanged
-        {
-            add { _adaptee.CurrentChanged += value; }
-            remove { _adaptee.CurrentChanged -= value; }
-        }
-
-        public event NotifyCollectionChangedEventHandler CollectionChanged
-        {
-            add { _adaptee.CollectionChanged += value; }
-            remove { _adaptee.CollectionChanged -= value; }
-        }
 
         public bool Contains(object item) => _adaptee.Contains(item);
 

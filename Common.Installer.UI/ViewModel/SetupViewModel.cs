@@ -13,10 +13,9 @@ namespace Scar.Common.Installer.UI.ViewModel
 {
     public sealed class SetupViewModel : GenericSetup, IRequestCloseViewModel
     {
-        private string? _installPath;
+        string? _installPath;
 
-        public SetupViewModel(string msiFile, bool enableLogging = true)
-            : base(msiFile, enableLogging)
+        public SetupViewModel(string msiFile, bool enableLogging = true) : base(msiFile, enableLogging)
         {
             _ = msiFile ?? throw new ArgumentNullException(nameof(msiFile));
             InitialCanInstall = CanInstall;
@@ -30,17 +29,19 @@ namespace Scar.Common.Installer.UI.ViewModel
             ShowLogCommand = new CorrelationCommand(commandManager, ShowLog);
             BrowseInstallationPathCommand = new CorrelationCommand(commandManager, BrowseInstallationPath);
 
-            var msiParser = new MsiParser(MsiFile);
+            using var msiParser = new MsiParser(MsiFile);
             InstallPath = msiParser.GetDirectoryPath("INSTALLDIR");
 
             // ReSharper disable once AssignNullToNotNullAttribute
-            var versionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly().Location);
+            var versionInfo = FileVersionInfo.GetVersionInfo(Assembly.GetEntryAssembly()?.Location ?? throw new InvalidOperationException("Entry Assembly is null"));
             CompanyName = versionInfo.CompanyName;
             Year = DateTime.Now.Year;
 
-            //Uncomment if you want to see current action name changes. Otherwise it is too quick.
-            //ProgressStepDelay = 500;
+            // Uncomment if you want to see current action name changes. Otherwise it is too quick.
+            // ProgressStepDelay = 500;
         }
+
+        public event EventHandler? RequestClose;
 
         public int Year { get; set; }
 
@@ -74,14 +75,9 @@ namespace Scar.Common.Installer.UI.ViewModel
 
         public ICommand BrowseInstallationPathCommand { get; }
 
-        public event EventHandler? RequestClose;
-
-        private void BrowseInstallationPath()
+        void BrowseInstallationPath()
         {
-            var dialog = new CommonOpenFileDialog
-            {
-                IsFolderPicker = true
-            };
+            using var dialog = new CommonOpenFileDialog { IsFolderPicker = true };
             var result = dialog.ShowDialog();
             if (result == CommonFileDialogResult.Ok)
             {
@@ -89,7 +85,7 @@ namespace Scar.Common.Installer.UI.ViewModel
             }
         }
 
-        private void Cancel()
+        void Cancel()
         {
             if (IsRunning)
             {
@@ -101,7 +97,7 @@ namespace Scar.Common.Installer.UI.ViewModel
             }
         }
 
-        private void Install(string? path)
+        void Install(string? path)
         {
             string? pathParam = null;
             if (!string.IsNullOrEmpty(path))
@@ -118,17 +114,17 @@ namespace Scar.Common.Installer.UI.ViewModel
             StartInstall(pathParam);
         }
 
-        private void Repair()
+        void Repair()
         {
             StartRepair();
         }
 
-        private void ShowLog()
+        void ShowLog()
         {
             Process.Start(LogFile);
         }
 
-        private void Uninstall()
+        void Uninstall()
         {
             StartUninstall();
         }

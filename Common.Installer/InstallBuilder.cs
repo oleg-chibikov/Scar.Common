@@ -15,15 +15,15 @@ namespace Scar.Common.Installer
 
         public const string FileName = nameof(FileName);
 
-        private const string DesktopPath = "%Desktop%";
+        const string DesktopPath = "%Desktop%";
 
-        private readonly string _exeFileName;
+        readonly string _exeFileName;
 
-        private readonly string _productName;
+        readonly string _productName;
 
-        private readonly string _programMenuPath;
+        readonly string _programMenuPath;
 
-        private readonly ManagedProject _project;
+        readonly ManagedProject _project;
 
         public InstallBuilder(string productName, string? companyName, string buildDir, Guid upgradeCode)
         {
@@ -47,10 +47,7 @@ namespace Scar.Common.Installer
             {
                 Dirs = new[]
                 {
-                    new Dir(
-                        $@"%ProgramFiles%\{companyName}{productName}",
-                        new Files($@"{buildDir}\*.*"),
-                        new ExeFileShortcut(uninstallText, system64FolderMsiexecExe, productCode)),
+                    new Dir($@"%ProgramFiles%\{companyName}{productName}", new Files($@"{buildDir}\*.*"), new ExeFileShortcut(uninstallText, system64FolderMsiexecExe, productCode)),
                     programMenuDir,
                     desktopDir
                 },
@@ -61,37 +58,20 @@ namespace Scar.Common.Installer
                 },
                 UpgradeCode = upgradeCode,
                 Version = version,
-                MajorUpgrade = new MajorUpgrade
-                {
-                    AllowSameVersionUpgrades = false,
-                    DowngradeErrorMessage = "A later version of [ProductName] is already installed",
-                    Schedule = UpgradeSchedule.afterInstallInitialize
-                },
-                MajorUpgradeStrategy = new MajorUpgradeStrategy
-                {
-                    RemoveExistingProductAfter = Step.InstallInitialize,
-                    UpgradeVersions = VersionRange.ThisAndOlder
-                },
+                MajorUpgrade =
+                    new MajorUpgrade
+                    {
+                        AllowSameVersionUpgrades = false,
+                        DowngradeErrorMessage = "A later version of [ProductName] is already installed",
+                        Schedule = UpgradeSchedule.afterInstallInitialize
+                    },
+                MajorUpgradeStrategy = new MajorUpgradeStrategy { RemoveExistingProductAfter = Step.InstallInitialize, UpgradeVersions = VersionRange.ThisAndOlder },
                 ManagedUI = new ManagedUI
                 {
-                    InstallDialogs = new ManagedDialogs
-                    {
-                        Dialogs.Welcome,
-                        Dialogs.InstallDir,
-                        Dialogs.Progress,
-                        Dialogs.Exit
-                    },
-                    ModifyDialogs = new ManagedDialogs
-                    {
-                        Dialogs.MaintenanceType,
-                        Dialogs.Progress,
-                        Dialogs.Exit
-                    }
+                    InstallDialogs = new ManagedDialogs { Dialogs.Welcome, Dialogs.InstallDir, Dialogs.Progress, Dialogs.Exit },
+                    ModifyDialogs = new ManagedDialogs { Dialogs.MaintenanceType, Dialogs.Progress, Dialogs.Exit }
                 },
-                ControlPanelInfo =
-                {
-                    Manufacturer = versionInfo.CompanyName
-                }
+                ControlPanelInfo = { Manufacturer = versionInfo.CompanyName }
             };
         }
 
@@ -125,12 +105,7 @@ namespace Scar.Common.Installer
         public InstallBuilder WithAutostart(string? fileName = null)
         {
             _project.AddRegValue(
-                new RegValue(
-                    new Id(_productName + "Autostart"),
-                    RegistryHive.LocalMachine,
-                    @"Software\Microsoft\Windows\CurrentVersion\Run",
-                    _productName,
-                    $"[INSTALLDIR]{fileName ?? _exeFileName}"));
+                new RegValue(new Id(_productName + "Autostart"), RegistryHive.LocalMachine, @"Software\Microsoft\Windows\CurrentVersion\Run", _productName, $"[INSTALLDIR]{fileName ?? _exeFileName}"));
             return this;
         }
 
@@ -143,16 +118,9 @@ namespace Scar.Common.Installer
         public InstallBuilder WithProcessTermination(string? fileName = null)
         {
             var customActionParam = $"{CustomParam}={fileName ?? _exeFileName}";
+            _project.AddAction(new ElevatedManagedAction(CustomActions.TerminateProcess, Return.check, When.Before, Step.InstallFiles, Condition.NOT_Installed) { UsesProperties = customActionParam });
             _project.AddAction(
-                new ElevatedManagedAction(CustomActions.TerminateProcess, Return.check, When.Before, Step.InstallFiles, Condition.NOT_Installed)
-                {
-                    UsesProperties = customActionParam
-                });
-            _project.AddAction(
-                new ElevatedManagedAction(CustomActions.TerminateProcess, Return.check, When.Before, Step.RemoveFiles, Condition.BeingUninstalled)
-                {
-                    UsesProperties = customActionParam
-                });
+                new ElevatedManagedAction(CustomActions.TerminateProcess, Return.check, When.Before, Step.RemoveFiles, Condition.BeingUninstalled) { UsesProperties = customActionParam });
             return this;
         }
 
@@ -179,14 +147,8 @@ namespace Scar.Common.Installer
             var customActionParam = $"{CustomParam}=[INSTALLDIR]{fileName ?? _exeFileName}";
             _project.Actions = new Action[]
             {
-                new ElevatedManagedAction(CustomActions.InstallService, Return.check, When.After, Step.InstallFiles, Condition.NOT_Installed)
-                {
-                    UsesProperties = customActionParam
-                },
-                new ElevatedManagedAction(CustomActions.UninstallService, Return.check, When.Before, Step.RemoveFiles, Condition.BeingUninstalled)
-                {
-                    UsesProperties = customActionParam
-                }
+                new ElevatedManagedAction(CustomActions.InstallService, Return.check, When.After, Step.InstallFiles, Condition.NOT_Installed) { UsesProperties = customActionParam },
+                new ElevatedManagedAction(CustomActions.UninstallService, Return.check, When.Before, Step.RemoveFiles, Condition.BeingUninstalled) { UsesProperties = customActionParam }
             };
             return this;
         }

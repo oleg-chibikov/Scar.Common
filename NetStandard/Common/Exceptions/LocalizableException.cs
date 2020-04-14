@@ -4,18 +4,35 @@ namespace Scar.Common.Exceptions
 {
     /// <inheritdoc />
     /// <summary>
-    /// Exception, which was caused by the absence of some resource
+    /// Exception, which was caused by user input and thus should have a meaningful message.
     /// </summary>
-    public class NotFoundException : LocalizableException
+    public class LocalizableException : Exception
     {
-        public NotFoundException(string localizedMessage, string? message = null)
-            : base(localizedMessage, message)
+        public LocalizableException()
         {
+            throw new NotSupportedException();
         }
 
-        public NotFoundException(string localizedMessage, Exception innerException, string? message = null)
-            : base(localizedMessage, innerException, message)
+        public LocalizableException(string message) : base(message)
         {
+            throw new NotSupportedException();
         }
+
+        public LocalizableException(string message, Exception innerException) : base(message, innerException)
+        {
+            throw new NotSupportedException();
+        }
+
+        public LocalizableException(string localizedMessage, string? message = null) : base(message)
+        {
+            LocalizedMessage = localizedMessage ?? throw new ArgumentNullException(nameof(localizedMessage));
+        }
+
+        public LocalizableException(string localizedMessage, Exception innerException, string? message = null) : base(message, innerException)
+        {
+            LocalizedMessage = localizedMessage ?? throw new ArgumentNullException(nameof(localizedMessage));
+        }
+
+        public string LocalizedMessage { get; }
     }
 }

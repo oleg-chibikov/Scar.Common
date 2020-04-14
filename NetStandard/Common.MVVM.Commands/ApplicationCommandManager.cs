@@ -7,8 +7,8 @@ namespace Scar.Common.MVVM.Commands
 {
     public class ApplicationCommandManager : ICommandManager
     {
-        private readonly IList<Action> _raiseCanExecuteChangedActions = new List<Action>();
-        private readonly SynchronizationContext _synchronizationContext;
+        readonly IList<Action> _raiseCanExecuteChangedActions = new List<Action>();
+        readonly SynchronizationContext _synchronizationContext;
 
         public ApplicationCommandManager(SynchronizationContext synchronizationContext)
         {
@@ -43,7 +43,7 @@ namespace Scar.Common.MVVM.Commands
                 null);
         }
 
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // this if clause is to prevent an infinity loop
             if (e.PropertyName != "CanExecute")

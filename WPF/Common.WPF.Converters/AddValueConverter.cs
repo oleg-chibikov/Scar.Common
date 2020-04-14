@@ -11,7 +11,7 @@ namespace Scar.Common.WPF.Converters
         {
             _ = parameter ?? throw new ArgumentNullException(nameof(parameter));
             var result = value;
-            if (value != null && int.TryParse((string)parameter, NumberStyles.Integer, culture, out var parameterValue))
+            if ((value != null) && int.TryParse((string)parameter, NumberStyles.Integer, culture, out var parameterValue))
             {
                 result = (int)value + parameterValue;
             }

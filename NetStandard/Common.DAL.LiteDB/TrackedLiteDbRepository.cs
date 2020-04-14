@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LiteDB;
 using Scar.Common.DAL.Model;
 
 namespace Scar.Common.DAL.LiteDB
@@ -9,8 +8,7 @@ namespace Scar.Common.DAL.LiteDB
     public abstract class TrackedLiteDbRepository<T, TId> : LiteDbRepository<T, TId>, ITrackedRepository
         where T : IEntity<TId>, ITrackedEntity, new()
     {
-        protected TrackedLiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true)
-            : base(directoryPath, fileName, shrink)
+        protected TrackedLiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true) : base(directoryPath, fileName, shrink)
         {
             Collection.EnsureIndex(x => x.ModifiedDate);
         }
@@ -27,7 +25,7 @@ namespace Scar.Common.DAL.LiteDB
 
         public ICollection<ITrackedEntity> GetModifiedBetween(DateTime startInclusive, DateTime endExclusive)
         {
-            return Collection.Find(x => x.ModifiedDate >= startInclusive && x.ModifiedDate < endExclusive).Cast<ITrackedEntity>().ToArray();
+            return Collection.Find(x => (x.ModifiedDate >= startInclusive) && (x.ModifiedDate < endExclusive)).Cast<ITrackedEntity>().ToArray();
         }
 
         public ICollection<ITrackedEntity> GetCreatedAfter(DateTime startExclusive)
@@ -42,11 +40,13 @@ namespace Scar.Common.DAL.LiteDB
 
         public ICollection<ITrackedEntity> GetCreatedBetween(DateTime startInclusive, DateTime endExclusive)
         {
-            return Collection.Find(x => x.CreatedDate >= startInclusive && x.CreatedDate < endExclusive).Cast<ITrackedEntity>().ToArray();
+            return Collection.Find(x => (x.CreatedDate >= startInclusive) && (x.CreatedDate < endExclusive)).Cast<ITrackedEntity>().ToArray();
         }
 
         protected override void UpdateBeforeSave(IEnumerable<T> entities)
         {
+            _ = entities ?? throw new ArgumentNullException(nameof(entities));
+
             foreach (var entity in entities)
             {
                 UpdateBeforeSave(entity);
@@ -62,22 +62,6 @@ namespace Scar.Common.DAL.LiteDB
             }
 
             entity.ModifiedDate = now;
-        }
-    }
-
-    public abstract class TrackedLiteDbRepository<T> : TrackedLiteDbRepository<T, object>
-        where T : Entity, ITrackedEntity, new()
-    {
-        protected TrackedLiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true)
-            : base(directoryPath, fileName, shrink)
-        {
-        }
-
-        protected override bool IsBson => true;
-
-        protected override object GenerateId()
-        {
-            return ObjectId.NewObjectId();
         }
     }
 }

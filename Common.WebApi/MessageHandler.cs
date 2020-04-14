@@ -9,16 +9,10 @@ namespace Scar.Common.WebApi
 {
     public abstract class MessageHandler : DelegatingHandler
     {
-        protected abstract Task IncomingMessageAsync(HttpRequestMessage request, string requestInfo, string? message);
-
-        protected abstract Task OutgoingMessageAsync(
-            HttpRequestMessage request,
-            string requestInfo,
-            string? message,
-            HttpStatusCode responseStatusCode);
-
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
+            _ = request ?? throw new ArgumentNullException(nameof(request));
+
             if (request.RequestUri.LocalPath.Contains("swagger"))
             {
                 return await base.SendAsync(request, cancellationToken);
@@ -38,5 +32,9 @@ namespace Scar.Common.WebApi
             await OutgoingMessageAsync(request, requestInfo, responseMessage, response.StatusCode);
             return response;
         }
+
+        protected abstract Task IncomingMessageAsync(HttpRequestMessage request, string requestInfo, string? message);
+
+        protected abstract Task OutgoingMessageAsync(HttpRequestMessage request, string requestInfo, string? message, HttpStatusCode responseStatusCode);
     }
 }

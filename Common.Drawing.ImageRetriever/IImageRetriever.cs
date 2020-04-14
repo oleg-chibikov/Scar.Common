@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Scar.Common.Drawing.Metadata;
 
-namespace Scar.Common.Drawing.ImageRetriever
+namespace Scar.Common.Drawing
 {
     public interface IImageRetriever
     {
@@ -11,6 +12,6 @@ namespace Scar.Common.Drawing.ImageRetriever
 
         Task<byte[]> GetThumbnailAsync(string filePath, CancellationToken cancellationToken);
 
-        Task<BitmapSource?> LoadImageAsync(byte[]? imageData, CancellationToken cancellationToken, Orientation? orientation = default, int sizeAnchor = 0);
+        Task<BitmapSource?> LoadImageAsync(IReadOnlyCollection<byte>? imageData, CancellationToken cancellationToken, Orientation? orientation = default, int sizeAnchor = 0);
     }
 }

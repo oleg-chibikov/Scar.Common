@@ -9,7 +9,7 @@ namespace Scar.Common.WPF.Converters
     {
         protected override bool IsVisible(ICollection value)
         {
-            return value == null || value.Count > 0;
+            return (value == null) || (value.Count > 0);
         }
     }
 }

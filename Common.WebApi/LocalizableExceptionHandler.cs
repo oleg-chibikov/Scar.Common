@@ -13,6 +13,8 @@ namespace Scar.Common.WebApi
     {
         public Task HandleAsync(ExceptionHandlerContext context, CancellationToken cancellationToken)
         {
+            _ = context ?? throw new ArgumentNullException(nameof(context));
+
             var localizableException = context.Exception as LocalizableException;
             var message = localizableException?.LocalizedMessage ?? "An error has occured";
             var status = HttpStatusCode.InternalServerError;
@@ -25,13 +27,13 @@ namespace Scar.Common.WebApi
             return Task.FromResult(0);
         }
 
-        private sealed class PlainTextErrorResult : IHttpActionResult
+        sealed class PlainTextErrorResult : IHttpActionResult
         {
-            private readonly HttpStatusCode _statusCode;
+            readonly HttpStatusCode _statusCode;
 
-            private readonly HttpRequestMessage _request;
+            readonly HttpRequestMessage _request;
 
-            private readonly string _content;
+            readonly string _content;
 
             public PlainTextErrorResult(HttpStatusCode statusCode, HttpRequestMessage request, string content)
             {
@@ -42,11 +44,7 @@ namespace Scar.Common.WebApi
 
             public async Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
             {
-                var response = new HttpResponseMessage(_statusCode)
-                {
-                    Content = new StringContent(_content),
-                    RequestMessage = _request
-                };
+                var response = new HttpResponseMessage(_statusCode) { Content = new StringContent(_content), RequestMessage = _request };
                 return await Task.FromResult(response);
             }
         }

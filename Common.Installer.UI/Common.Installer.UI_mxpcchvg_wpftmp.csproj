@@ -1,0 +1,73 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <Description>A common MVVM UI for the installers</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Scar.Common.WPF.Converters" Version="1.1.7406.39052" />
+    <PackageReference Include="Scar.Common.WPF.View.AnimatedWindow" Version="1.1.7406.39052" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+    <PackageReference Include="WindowsAPICodePack" Version="1.1.1" />
+    <PackageReference Include="WixSharp.bin" Version="1.14.2" />
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\wixsharp.bin\1.14.2\lib\BootstrapperCore.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\materialdesigncolors\1.2.3\lib\net45\MaterialDesignColors.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\materialdesignthemes\3.1.0\lib\net45\MaterialDesignThemes.Wpf.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\wixsharp.bin\1.14.2\lib\Microsoft.Deployment.WindowsInstaller.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\windowsapicodepack\1.1.1\lib\Microsoft.WindowsAPICodePack.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\windowsapicodepack\1.1.1\lib\Microsoft.WindowsAPICodePack.ExtendedLinguisticServices.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\windowsapicodepack\1.1.1\lib\Microsoft.WindowsAPICodePack.Sensors.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\windowsapicodepack\1.1.1\lib\Microsoft.WindowsAPICodePack.Shell.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\windowsapicodepack\1.1.1\lib\Microsoft.WindowsAPICodePack.ShellExtensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\mscorlib.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\PresentationCore.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\PresentationFramework.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common\1.1.7406.37488\lib\netstandard2.0\Scar.Common.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.mvvm.commands\1.1.7406.37490\lib\netstandard2.0\Scar.Common.MVVM.Commands.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.mvvm.viewmodel\1.1.7406.38943\lib\netstandard2.0\Scar.Common.MVVM.ViewModel.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.ratelimiter\1.1.7406.38943\lib\netstandard2.0\Scar.Common.RateLimiter.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.view.contracts\1.1.7406.38944\lib\netstandard2.0\Scar.Common.View.Contracts.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.wpf.converters\1.1.7406.39052\lib\net472\Scar.Common.WPF.Converters.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.wpf.view.animatedwindow\1.1.7406.39052\lib\net472\Scar.Common.WPF.View.AnimatedWindow.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.wpf.view.basewindow\1.1.7406.39033\lib\net472\Scar.Common.WPF.View.BaseWindow.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.wpf.view.contracts\1.1.7406.38943\lib\net472\Scar.Common.WPF.View.Contracts.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.wpf.view\1.1.7406.38943\lib\net472\Scar.Common.WPF.View.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\system.configuration.configurationmanager\4.7.0\ref\net461\System.Configuration.ConfigurationManager.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Configuration.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Core.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Data.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Data.OracleClient.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Drawing.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.IO.Compression.FileSystem.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Management.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Net.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Numerics.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Runtime.Serialization.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\system.security.accesscontrol\4.7.0\ref\net461\System.Security.AccessControl.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Security.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\system.security.permissions\4.7.0\ref\net461\System.Security.Permissions.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\system.security.principal.windows\4.7.0\ref\net461\System.Security.Principal.Windows.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.ServiceProcess.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Transactions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Windows.Forms.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xaml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xml.Linq.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\WindowsBase.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\wixsharp.bin\1.14.2\lib\WixSharp.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\wixsharp.bin\1.14.2\lib\WixSharp.Msi.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\wixsharp.bin\1.14.2\lib\WixSharp.UI.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\wpflocalizeextension\3.3.1\lib\net452\WPFLocalizeExtension.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\xamlmarkupextensions\1.5.1\lib\net452\XAMLMarkupExtensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\netstandard.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="D:\OneDrive\Projects\Libraries\Scar.Common\Common.Installer.UI\obj\Debug\View\MainWindow.g.cs" />
+  </ItemGroup>
+</Project>

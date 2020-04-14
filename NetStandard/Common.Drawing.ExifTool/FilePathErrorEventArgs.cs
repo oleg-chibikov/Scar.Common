@@ -1,6 +1,6 @@
 using System;
 
-namespace Scar.Common.Drawing.ExifTool
+namespace Scar.Common.Drawing
 {
     public sealed class FilePathErrorEventArgs : EventArgs
     {
@@ -11,6 +11,7 @@ namespace Scar.Common.Drawing.ExifTool
         }
 
         public string FilePath { get; }
+
         public string Message { get; }
 
         public override string ToString()

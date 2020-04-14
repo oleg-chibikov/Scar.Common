@@ -1,13 +1,15 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Windows;
 
 namespace Scar.Common.WPF.View
 {
+    [SuppressMessage("Design", "CA1010:Collections should implement generic interface", Justification = "No need")]
     public class DesignTimeResourceDictionary : ResourceDictionary
     {
-        private readonly ObservableCollection<ResourceDictionary> _noopMergedDictionaries = new NoopObservableCollection<ResourceDictionary>();
+        readonly ObservableCollection<ResourceDictionary> _noopMergedDictionaries = new NoopObservableCollection<ResourceDictionary>();
 
         public DesignTimeResourceDictionary()
         {
@@ -18,7 +20,7 @@ namespace Scar.Common.WPF.View
             }
         }
 
-        private sealed class NoopObservableCollection<T> : ObservableCollection<T>
+        sealed class NoopObservableCollection<T> : ObservableCollection<T>
         {
             protected override void InsertItem(int index, T item)
             {

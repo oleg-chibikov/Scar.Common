@@ -4,7 +4,7 @@ namespace Scar.Common.Drawing.Metadata
 {
     public static class OrientationExtensions
     {
-        private static readonly LinkedList<Orientation> Orientations = new LinkedList<Orientation>(
+        static readonly LinkedList<Orientation> Orientations = new LinkedList<Orientation>(
             new[]
             {
                 Orientation.Straight,
@@ -21,7 +21,7 @@ namespace Scar.Common.Drawing.Metadata
             }
 
             var currentNode = Orientations.First;
-            while (currentNode.Next != null && currentNode.Value != orientation)
+            while ((currentNode.Next != null) && (currentNode.Value != orientation))
             {
                 currentNode = currentNode.Next;
             }

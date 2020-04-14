@@ -4,8 +4,4 @@
     <Description>Various most common tools</Description>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Notification\" />
-  </ItemGroup>
-
 </Project>

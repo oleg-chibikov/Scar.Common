@@ -4,8 +4,7 @@ namespace Scar.Common.MVVM.Commands
 {
     public class CorrelationCommand<T> : BaseCommand<Action<T>, Predicate<T>>
     {
-        public CorrelationCommand(ICommandManager commandManager, Action<T> executeFunc, Predicate<T>? canExecuteFunc = null)
-            : base(commandManager, executeFunc, canExecuteFunc)
+        public CorrelationCommand(ICommandManager commandManager, Action<T> executeFunc, Predicate<T>? canExecuteFunc = null) : base(commandManager, executeFunc, canExecuteFunc)
         {
         }
 

@@ -18,15 +18,16 @@ namespace Scar.Common.ApplicationLifetime
 {
     public class ApplicationStartupBootstrapper : IApplicationStartupBootstrapper
     {
-        private readonly string _alreadyRunningMessage;
-        private readonly IApplicationTerminator _applicationTerminator;
-        private readonly IAssemblyInfoProvider _assemblyInfoProvider;
-        private readonly Mutex? _mutex;
-        private readonly NewInstanceHandling _newInstanceHandling;
-        private readonly Action<ContainerBuilder> _registerDependencies;
-        private readonly IList<Guid> _subscriptionTokens = new List<Guid>();
-        private readonly int _waitAfterOldInstanceKillMilliseconds;
+        readonly string _alreadyRunningMessage;
+        readonly IApplicationTerminator _applicationTerminator;
+        readonly IAssemblyInfoProvider _assemblyInfoProvider;
+        readonly Mutex? _mutex;
+        readonly NewInstanceHandling _newInstanceHandling;
+        readonly Action<ContainerBuilder> _registerDependencies;
+        readonly IList<Guid> _subscriptionTokens = new List<Guid>();
+        readonly int _waitAfterOldInstanceKillMilliseconds;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Mutex is lifetime object")]
         public ApplicationStartupBootstrapper(
             ICultureManager cultureManager,
             IApplicationTerminator applicationTerminator,
@@ -50,26 +51,36 @@ namespace Scar.Common.ApplicationLifetime
             CultureManager = cultureManager ?? throw new ArgumentNullException(nameof(cultureManager));
             _applicationTerminator = applicationTerminator ?? throw new ArgumentNullException(nameof(applicationTerminator));
             Container = BuildContainer();
+
             // ReSharper disable once VirtualMemberCallInConstructor
-            cultureManager.ChangeCulture(startupCulture ?? Thread.CurrentThread.CurrentUICulture);
+            CultureManager.ChangeCulture(startupCulture ?? Thread.CurrentThread.CurrentUICulture);
             Messenger = Container.Resolve<IMessageHub>();
             _subscriptionTokens.Add(Messenger.Subscribe<Message>(LogAndShowMessage));
-            _subscriptionTokens.Add(Messenger.Subscribe<CultureInfo>(cultureManager.ChangeCulture));
+            _subscriptionTokens.Add(Messenger.Subscribe<CultureInfo>(CultureManager.ChangeCulture));
             Logger = Container.Resolve<ILog>();
+
             // ReSharper disable once VirtualMemberCallInConstructor
             if (_newInstanceHandling != NewInstanceHandling.AllowMultiple)
             {
                 _mutex = createMutex == null ? CreateCommonMutex() : createMutex();
             }
+
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
         }
 
         public SynchronizationContext? SynchronizationContext { get; private set; }
+
         public Action<Message> ShowMessage { get; }
+
         public ILifetimeScope Container { get; }
+
         public ILog Logger { get; }
+
         public IMessageHub Messenger { get; }
+
         public ICultureManager CultureManager { get; }
+
+        public string AppGuid => _assemblyInfoProvider.AppGuid;
 
         public void OnExit()
         {
@@ -116,9 +127,9 @@ namespace Scar.Common.ApplicationLifetime
             {
                 Logger.Trace("Operation canceled", e);
             }
-            else if (e is ObjectDisposedException objectDisposedException && objectDisposedException.Source == nameof(Autofac))
+            else if (e is ObjectDisposedException objectDisposedException && (objectDisposedException.Source == nameof(Autofac)))
             {
-                Logger.Trace("Autofac lifetimescope has already been disposed", e);
+                Logger.Trace("Autofac LifeTimeScope has already been disposed", e);
             }
             else
             {
@@ -127,9 +138,7 @@ namespace Scar.Common.ApplicationLifetime
             }
         }
 
-        public string AppGuid => _assemblyInfoProvider.AppGuid;
-
-        private bool CheckAlreadyRunning()
+        bool CheckAlreadyRunning()
         {
             bool alreadyRunning;
             if (_mutex == null)
@@ -150,10 +159,9 @@ namespace Scar.Common.ApplicationLifetime
             return !alreadyRunning;
         }
 
-        private void KillAnotherInstanceIfExists()
+        void KillAnotherInstanceIfExists()
         {
-            var anotherInstance = Process.GetProcesses()
-                .SingleOrDefault(proc => proc.ProcessName.Equals(Process.GetCurrentProcess().ProcessName) && proc.Id != Process.GetCurrentProcess().Id);
+            var anotherInstance = Process.GetProcesses().SingleOrDefault(proc => proc.ProcessName.Equals(Process.GetCurrentProcess().ProcessName, StringComparison.Ordinal) && (proc.Id != Process.GetCurrentProcess().Id));
             if (anotherInstance != null)
             {
                 anotherInstance.Kill();
@@ -165,7 +173,8 @@ namespace Scar.Common.ApplicationLifetime
             }
         }
 
-        private ILifetimeScope BuildContainer()
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Lifetime object")]
+        ILifetimeScope BuildContainer()
         {
             var builder = new ContainerBuilder();
 
@@ -179,15 +188,14 @@ namespace Scar.Common.ApplicationLifetime
             return builder.Build();
         }
 
-        private Mutex CreateCommonMutex()
+        Mutex CreateCommonMutex()
         {
             return new Mutex(false, $"Global\\{AppGuid}", out _);
         }
 
-        private void LogAndShowMessage(Message message)
+        void LogAndShowMessage(Message message)
         {
-            if (message.Exception is OperationCanceledException
-                || message.Exception is ObjectDisposedException objectDisposedException && objectDisposedException.Source == nameof(Autofac))
+            if (message.Exception is OperationCanceledException || (message.Exception is ObjectDisposedException objectDisposedException && (objectDisposedException.Source == nameof(Autofac))))
             {
                 return;
             }
@@ -205,14 +213,14 @@ namespace Scar.Common.ApplicationLifetime
             ShowMessage(message);
         }
 
-        private void NotifyError(Exception e)
+        void NotifyError(Exception e)
         {
             var localizable = e as LocalizableException;
             var message = localizable?.ToMessage() ?? e.ToMessage();
             Messenger.Publish(message);
         }
 
-        private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             HandleException(e.Exception.InnerException);
             e.SetObserved();

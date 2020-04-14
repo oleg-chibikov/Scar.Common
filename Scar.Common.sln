@@ -112,7 +112,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{477CF2CE-4F42-475E-A345-6F366E9BBAF4}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		Assembly.cs = Assembly.cs
+		CodeAnalysis.ruleset = CodeAnalysis.ruleset
+		CodeAnalysis.Test.ruleset = CodeAnalysis.Test.ruleset
 		Directory.Build.props = Directory.Build.props
+		Scar.Common.sln.DotSettings = Scar.Common.sln.DotSettings
+		stylecop.json = stylecop.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.CollectionView", "WPF\Common.WPF.CollectionView\Common.WPF.CollectionView.csproj", "{5D7120E1-8501-425D-AB76-6B372FEE75CB}"

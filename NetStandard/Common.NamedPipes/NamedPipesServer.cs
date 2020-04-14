@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Compression;
 using System.IO.Pipes;
@@ -10,15 +11,16 @@ namespace Scar.Common.NamedPipes
 {
     public sealed class NamedPipesServer<T> : INamedPipesServer<T>
     {
-        private const int ReadBufferSize = 255;
+        const int ReadBufferSize = 255;
 
-        private readonly ILog _logger;
+        readonly ILog _logger;
 
-        private NamedPipeServerStream _pipeServer;
+        NamedPipeServerStream _pipeServer;
 
         public NamedPipesServer(ILog logger)
         {
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
             try
             {
                 _pipeServer = CreateListener();
@@ -30,9 +32,10 @@ namespace Scar.Common.NamedPipes
             }
         }
 
-        public static string PipeName => "NamedPipe_" + typeof(T).Name;
-
         public event EventHandler<MessageEventArgs<T>>? MessageReceived;
+
+        [SuppressMessage("Design", "CA1000:Do not declare static members on generic types", Justification = "This property is OK")]
+        public static string PipeName => "NamedPipe_" + typeof(T).Name;
 
         public void Dispose()
         {
@@ -40,9 +43,10 @@ namespace Scar.Common.NamedPipes
             _logger.Debug("Finished listening");
         }
 
-        private NamedPipeServerStream CreateListener()
+        NamedPipeServerStream CreateListener()
         {
             _logger.Debug("Listening for the new message...");
+
             // Create the new async pipe
             var stream = new NamedPipeServerStream(PipeName, PipeDirection.In, 1, PipeTransmissionMode.Message, PipeOptions.Asynchronous);
 
@@ -51,18 +55,19 @@ namespace Scar.Common.NamedPipes
             return stream;
         }
 
-        private void WaitForConnectionCallBack(IAsyncResult iar)
+        [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "General catch, don't know underlying exceptions")]
+        void WaitForConnectionCallBack(IAsyncResult asyncResult)
         {
             try
             {
                 // End waiting for the connection
                 try
                 {
-                    _pipeServer.EndWaitForConnection(iar);
+                    _pipeServer.EndWaitForConnection(asyncResult);
                 }
                 catch (ObjectDisposedException)
                 {
-                    //Normal termaination
+                    // Normal termination
                     return;
                 }
 

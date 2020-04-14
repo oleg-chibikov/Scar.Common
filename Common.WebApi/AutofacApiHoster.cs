@@ -12,11 +12,10 @@ namespace Scar.Common.WebApi
 {
     public abstract class AutofacApiHoster : IDisposable
     {
-        private readonly IDisposable _apiHost;
-
-        private readonly ILifetimeScope _innerScope;
-
-        private readonly ILog _logger;
+        readonly IDisposable _apiHost;
+        readonly ILifetimeScope _innerScope;
+        readonly ILog _logger;
+        bool _disposedValue;
 
         protected AutofacApiHoster(ILog logger, ILifetimeScope lifetimeScope)
         {
@@ -25,7 +24,6 @@ namespace Scar.Common.WebApi
             logger.Trace("Starting WebApi...");
             _innerScope = lifetimeScope.BeginLifetimeScope(innerBuilder => innerBuilder.RegisterApiControllers(ControllersAssembly).InstancePerDependency());
             _apiHost = WebApp.Start(
-                // ReSharper disable once VirtualMemberCallInConstructor
                 new StartOptions(BaseAddress),
                 app =>
                 {
@@ -49,11 +47,25 @@ namespace Scar.Common.WebApi
 
         public void Dispose()
         {
-            _apiHost.Dispose();
-            _innerScope.Dispose();
-            _logger.Trace("WebApi has been stopped...");
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         protected abstract void RegisterRoutes(HttpRouteCollection routes);
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _apiHost.Dispose();
+                    _innerScope.Dispose();
+                    _logger.Trace("WebApi has been stopped...");
+                }
+
+                _disposedValue = true;
+            }
+        }
     }
 }

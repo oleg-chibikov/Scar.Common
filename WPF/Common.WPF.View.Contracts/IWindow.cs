@@ -7,8 +7,6 @@ namespace Scar.Common.WPF.View.Contracts
 {
     public interface IWindow : IDisplayable
     {
-        #region Properties
-
         double Top { get; set; }
 
         double Left { get; set; }
@@ -31,10 +29,6 @@ namespace Scar.Common.WPF.View.Contracts
 
         bool ShowActivated { get; set; }
 
-        #endregion
-
-        #region Custom Properties
-
         TimeSpan? AutoCloseTimeout { get; set; }
 
         AdvancedWindowStartupLocation AdvancedWindowStartupLocation { get; set; }
@@ -44,7 +38,5 @@ namespace Scar.Common.WPF.View.Contracts
         Rectangle ActiveScreenArea { get; }
 
         bool IsFullHeight { get; }
-
-        #endregion
     }
 }

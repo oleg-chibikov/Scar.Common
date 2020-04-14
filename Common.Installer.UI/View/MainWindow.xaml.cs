@@ -15,24 +15,24 @@ namespace Scar.Common.Installer.UI.View
             InitializeComponent();
         }
 
-        private SetupViewModel SetupViewModel { get; set; }
+        SetupViewModel SetupViewModel { get; set; }
 
         protected override bool CheckCloseShouldBeCancelled()
         {
             return SetupViewModel.IsRunning;
         }
 
-        private void Close_Click(object sender, RoutedEventArgs e)
+        void Close_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        private void Minimize_Click(object sender, RoutedEventArgs e)
+        void Minimize_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        void Window_Loaded(object sender, RoutedEventArgs e)
         {
             SetupViewModel = new SetupViewModel(ConfigurationManager.AppSettings["MsiPath"])
             {
@@ -51,7 +51,7 @@ namespace Scar.Common.Installer.UI.View
             DataContext = SetupViewModel;
         }
 
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
         }

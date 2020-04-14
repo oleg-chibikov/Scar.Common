@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Scar.Common.Comparers
 {
@@ -23,7 +24,7 @@ namespace Scar.Common.Comparers
             var length2 = str2.Length;
             var index1 = 0;
             var index2 = 0;
-            while (index1 < length1 && index2 < length2)
+            while ((index1 < length1) && (index2 < length2))
             {
                 var c1 = str1[index1];
                 var c2 = str2[index2];
@@ -65,7 +66,7 @@ namespace Scar.Common.Comparers
                 var str4 = new string(chArray2);
                 var num3 = !char.IsDigit(chArray1[0]) || !char.IsDigit(chArray2[0])
                     ? string.Compare(str3, str4, StringComparison.Ordinal)
-                    : int.Parse(str3).CompareTo(int.Parse(str4));
+                    : int.Parse(str3, CultureInfo.InvariantCulture).CompareTo(int.Parse(str4, CultureInfo.InvariantCulture));
                 if ((uint)num3 > 0U)
                 {
                     return num3;

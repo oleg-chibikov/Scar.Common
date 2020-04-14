@@ -8,25 +8,25 @@ namespace Scar.Common
         {
             if (t.TotalSeconds < 1.0)
             {
-                return string.Format("{0:s\\.ff} s", t);
+                return $"{t:s\\.ff} s";
             }
 
             if (t.TotalMinutes < 1.0)
             {
-                return string.Format("{0} s", t.TotalSeconds);
+                return $"{t.TotalSeconds} s";
             }
 
             if (t.TotalHours < 1.0)
             {
-                return string.Format("{0} m", t.TotalMinutes);
+                return $"{t.TotalMinutes} m";
             }
 
             if (t.TotalDays < 1.0)
             {
-                return string.Format("{0} h", t.TotalHours);
+                return $"{t.TotalHours} h";
             }
 
-            return string.Format("{0:%d} d", t);
+            return $"{t:%d} d";
         }
     }
 }

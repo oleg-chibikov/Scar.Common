@@ -4,6 +4,12 @@ namespace Scar.Common.View.Contracts
 {
     public interface IDisplayable
     {
+        event EventHandler SizeChanged;
+
+        event EventHandler Closed;
+
+        event EventHandler Loaded;
+
         bool? ShowDialog();
 
         void Show();
@@ -15,11 +21,5 @@ namespace Scar.Common.View.Contracts
         void AssociateDisposable(IDisposable disposable);
 
         bool UnassociateDisposable(IDisposable disposable);
-
-        event EventHandler SizeChanged;
-
-        event EventHandler Closed;
-
-        event EventHandler Loaded;
     }
 }

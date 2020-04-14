@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Scar.Common.Drawing.Metadata
 {
@@ -14,7 +15,7 @@ namespace Scar.Common.Drawing.Metadata
             object? exposureTime,
             DateTime? dateImageTaken,
             Orientation orientation,
-            byte[]? thumbnailBytes)
+            IReadOnlyCollection<byte>? thumbnailBytes)
         {
             Width = width;
             Height = height;
@@ -33,14 +34,23 @@ namespace Scar.Common.Drawing.Metadata
         }
 
         public object? Width { get; }
+
         public object? Height { get; }
+
         public string? CameraModel { get; }
+
         public object? LensAperture { get; }
+
         public object? FocalLength { get; }
+
         public object? IsoSpeed { get; }
+
         public object? ExposureTime { get; }
+
         public DateTime? DateImageTaken { get; set; }
+
         public Orientation Orientation { get; set; }
-        public byte[]? ThumbnailBytes { get; }
+
+        public IReadOnlyCollection<byte>? ThumbnailBytes { get; }
     }
 }

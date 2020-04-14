@@ -10,16 +10,15 @@ namespace Scar.Common.DAL.LiteDB
     public abstract class LiteDbRepository<T, TId> : FileBasedLiteDbRepository<TId>, IRepository<T, TId>, IChangeableRepository
         where T : IEntity<TId>, new()
     {
-        protected readonly LiteCollection<T> Collection;
-
-        protected LiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true)
-            : base(directoryPath, fileName ?? typeof(T).Name, shrink)
+        protected LiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true) : base(directoryPath, fileName ?? typeof(T).Name, shrink)
         {
             Collection = Db.GetCollection<T>();
             Collection.EnsureIndex(x => x.Id, true);
         }
 
         public event EventHandler? Changed;
+
+        protected LiteCollection<T> Collection { get; }
 
         public bool Check(TId id)
         {
@@ -56,7 +55,7 @@ namespace Scar.Common.DAL.LiteDB
 
             if (Equals(entity.Id, default))
             {
-                throw new ArgumentNullException(nameof(entity.Id));
+                throw new ArgumentException(nameof(entity.Id));
             }
 
             var deleted = Collection.Delete(ToBson(entity.Id));
@@ -71,6 +70,7 @@ namespace Scar.Common.DAL.LiteDB
         public int Delete(IEnumerable<T> entities)
         {
             _ = entities ?? throw new ArgumentNullException(nameof(entities));
+
             // https://github.com/mbdavid/LiteDB/issues/318 - need to write _id instead of Id
             var deletedCount = Collection.Delete(Query.In("_id", entities.Select(entity => ToBson(entity.Id))));
             if (deletedCount > 0)
@@ -84,6 +84,7 @@ namespace Scar.Common.DAL.LiteDB
         public int Delete(IEnumerable<TId> ids)
         {
             _ = ids ?? throw new ArgumentNullException(nameof(ids));
+
             // https://github.com/mbdavid/LiteDB/issues/318 - need to write _id instead of Id
             var deletedCount = Collection.Delete(Query.In("_id", ids.Select(id => ToBson(id))));
             if (deletedCount > 0)
@@ -94,7 +95,7 @@ namespace Scar.Common.DAL.LiteDB
             return deletedCount;
         }
 
-        public ICollection<T> Get(Expression<Func<T, bool>> predicate, int pageNumber, int pageSize)
+        public ICollection<T> Find(Expression<Func<T, bool>> predicate, int pageNumber, int pageSize)
         {
             _ = predicate ?? throw new ArgumentNullException(nameof(predicate));
             return Collection.Find(predicate, pageNumber * pageSize, pageSize).ToArray();

@@ -9,7 +9,7 @@ namespace Scar.Common.View
 {
     public class AutofacScopedWindowProvider : IScopedWindowProvider
     {
-        private readonly ILifetimeScope _lifetimeScope;
+        readonly ILifetimeScope _lifetimeScope;
 
         public AutofacScopedWindowProvider(ILifetimeScope lifetimeScope)
         {

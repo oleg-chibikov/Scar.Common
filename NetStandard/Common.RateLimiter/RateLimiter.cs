@@ -3,20 +3,19 @@ using System.Threading;
 
 namespace Scar.Common
 {
-    public class RateLimiter : IRateLimiter
+    public class RateLimiter : IRateLimiter, IDisposable
     {
-        private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
-
-        private readonly SynchronizationContext? _synchronizationContext;
-
-        private Timer? _timer;
+        readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
+        readonly SynchronizationContext? _synchronizationContext;
+        Timer? _timer;
+        bool _disposedValue;
 
         public RateLimiter(SynchronizationContext? synchronizationContext = null)
         {
             _synchronizationContext = synchronizationContext;
         }
 
-        private DateTime LastExecutionTime { get; set; } = DateTime.MinValue;
+        DateTime LastExecutionTime { get; set; } = DateTime.MinValue;
 
         public async void Debounce<T>(TimeSpan interval, Action<T> action, T param)
         {
@@ -51,6 +50,8 @@ namespace Scar.Common
 
         public async void Throttle<T>(TimeSpan interval, Action<T> action, T param, bool skipImmediateEvent = false, bool useFirstEvent = false)
         {
+            _ = action ?? throw new ArgumentNullException(nameof(action));
+
             await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
             if (!useFirstEvent)
             {
@@ -97,7 +98,27 @@ namespace Scar.Common
             Throttle<object>(interval, x => action(), default!, skipImmediate, skipLast);
         }
 
-        private void ExecuteAction<T>(Action<T> action, T param)
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _semaphoreSlim.Dispose();
+                    _timer?.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        void ExecuteAction<T>(Action<T> action, T param)
         {
             if (_synchronizationContext != null)
             {
@@ -109,7 +130,7 @@ namespace Scar.Common
             }
         }
 
-        private void SetThrottleTimer<T>(TimeSpan interval, Action<T> action, T param, DateTime curTime)
+        void SetThrottleTimer<T>(TimeSpan interval, Action<T> action, T param, DateTime curTime)
         {
             _timer = new Timer(
                 async s =>

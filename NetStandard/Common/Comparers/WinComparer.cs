@@ -11,6 +11,6 @@ namespace Scar.Common.Comparers
         }
 
         [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
-        private static extern int StrCmpLogicalW(string? x, string? y);
+        static extern int StrCmpLogicalW(string? x, string? y);
     }
 }

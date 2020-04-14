@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -10,41 +11,35 @@ using Scar.Common.Drawing.Metadata;
 using Scar.Common.Events;
 using Scar.Common.Processes;
 
-namespace Scar.Common.Drawing.ExifTool
+namespace Scar.Common.Drawing
 {
     public sealed class ExifTool : IExifTool, IDisposable
     {
-        private static readonly Regex ProgressRegex = new Regex(@"======== (.*) \[(\d+)\/(\d+)\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static readonly Regex ErrorRegex = new Regex(@"Error\: (.*) - (.*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static readonly Regex ProgressRegex = new Regex(@"======== (.*) \[(\d+)\/(\d+)\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static readonly Regex ErrorRegex = new Regex(@"Error\: (.*) - (.*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        private static readonly string[] MessageSplitters =
+        static readonly string[] MessageSplitters =
         {
             Environment.NewLine
         };
 
         /// <summary>
         /// Allows only one exif operation at a time
-        /// //TODO: Allow simultaneous operations for different paths? - dictionary of semaphores
+        /// //TODO: Allow simultaneous operations for different paths? - dictionary of semaphores.
         /// </summary>
-        private readonly SemaphoreSlim _exifOperationSemaphore = new SemaphoreSlim(1, 1);
-        private readonly string _exifToolPath = "exiftool.exe";
-        private readonly ILog _logger;
-        private readonly IProcessUtility _processUtility;
-        //TODO: TEST BMP, png etc
+        readonly SemaphoreSlim _exifOperationSemaphore = new SemaphoreSlim(1, 1);
 
+        readonly string _exifToolPath = "exiftool.exe";
+        readonly ILog _logger;
+        readonly IProcessUtility _processUtility;
+
+        // TODO: TEST BMP, png etc
         public ExifTool(IProcessUtility processUtility, ILog logger)
         {
             _processUtility = processUtility ?? throw new ArgumentNullException(nameof(processUtility));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _processUtility.ProcessMessageFired += ProcessUtility_ProcessMessageFired;
             _processUtility.ProcessErrorFired += ProcessUtility_ProcessErrorFired;
-        }
-
-        public void Dispose()
-        {
-            _processUtility.ProcessMessageFired -= ProcessUtility_ProcessMessageFired;
-            _processUtility.ProcessErrorFired -= ProcessUtility_ProcessErrorFired;
-            _exifOperationSemaphore.Dispose();
         }
 
         public event EventHandler<FilePathProgressEventArgs>? Progress;
@@ -93,38 +88,46 @@ namespace Scar.Common.Drawing.ExifTool
                 .ConfigureAwait(false);
         }
 
-        private static string DecodeFromUtf8(string path)
+        public void Dispose()
+        {
+            _processUtility.ProcessMessageFired -= ProcessUtility_ProcessMessageFired;
+            _processUtility.ProcessErrorFired -= ProcessUtility_ProcessErrorFired;
+            _exifOperationSemaphore.Dispose();
+        }
+
+        static string DecodeFromUtf8(string path)
         {
             return Encoding.UTF8.GetString(Encoding.Default.GetBytes(path));
         }
 
-        private static string EncodeToUtf8(string path)
+        static string EncodeToUtf8(string path)
         {
             return Encoding.Default.GetString(Encoding.UTF8.GetBytes(path));
         }
 
-        private static string GetSign(bool plus)
+        static string GetSign(bool plus)
         {
             return plus ? "+" : "-";
         }
 
-        private void OnError(FilePathErrorEventArgs eventArgs)
+        void OnError(FilePathErrorEventArgs eventArgs)
         {
             Error?.Invoke(this, eventArgs);
         }
 
-        private void OnProgress(FilePathProgressEventArgs eventArgs)
+        void OnProgress(FilePathProgressEventArgs eventArgs)
         {
             Progress?.Invoke(this, eventArgs);
         }
 
-        private async Task PerformExifOperation(string[] paths, bool backup, string operation, CancellationToken token)
+        async Task PerformExifOperation(string[] paths, bool backup, string operation, CancellationToken token)
         {
             _ = paths ?? throw new ArgumentNullException(nameof(paths));
             _ = operation ?? throw new ArgumentNullException(nameof(operation));
             var backupArg = backup ? null : " -overwrite_original -progress";
             await _exifOperationSemaphore.WaitAsync(token).ConfigureAwait(false);
-            //By default exif tool receives ??? instead of valid cyrillic paths - need to reencode
+
+            // By default exif tool receives ??? instead of valid cyrillic paths - need to reencode
             var encodedPaths = paths.Select(path => $"\"{EncodeToUtf8(path)}\"");
             var command = $"-charset filename=utf8 {operation}{backupArg} -n {string.Join(" ", encodedPaths)}";
             try
@@ -141,7 +144,7 @@ namespace Scar.Common.Drawing.ExifTool
             }
         }
 
-        private void ProcessUtility_ProcessErrorFired(object sender, EventArgs<string> e)
+        void ProcessUtility_ProcessErrorFired(object sender, EventArgs<string> e)
         {
             _logger.Debug($"Received error from process utility: {e.Parameter}");
             var messages = e.Parameter.Split(MessageSplitters, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
@@ -163,7 +166,7 @@ namespace Scar.Common.Drawing.ExifTool
             }
         }
 
-        private void ProcessUtility_ProcessMessageFired(object sender, EventArgs<string> e)
+        void ProcessUtility_ProcessMessageFired(object sender, EventArgs<string> e)
         {
             _logger.Debug($"Received message from process utility: {e.Parameter}");
             var messages = e.Parameter.Split(MessageSplitters, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
@@ -178,8 +181,8 @@ namespace Scar.Common.Drawing.ExifTool
 
                 var groups = match.Groups;
                 var filePath = DecodeFromUtf8(groups[1].Value).Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
-                var current = int.Parse(groups[2].Value);
-                var total = int.Parse(groups[3].Value);
+                var current = int.Parse(groups[2].Value, CultureInfo.InvariantCulture);
+                var total = int.Parse(groups[3].Value, CultureInfo.InvariantCulture);
                 _logger.Trace($"Progress detected:  {current} of {total}");
                 if (current > total)
                 {

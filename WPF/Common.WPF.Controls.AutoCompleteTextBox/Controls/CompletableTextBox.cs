@@ -12,7 +12,7 @@ using Scar.Common.WPF.Controls.AutoCompleteTextBox.Provider;
 
 namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
 {
-    public class CompletableTextBox : TextBox
+    public class CompletableTextBox : TextBox, IDisposable
     {
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
             nameof(SelectedItem),
@@ -26,26 +26,27 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
             typeof(CompletableTextBox),
             new PropertyMetadata(null));
 
-        private readonly IRateLimiter _rateLimiter;
+        readonly IRateLimiter _rateLimiter;
+        bool _disposedValue;
 
-        private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+        CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
-        private SystemDropShadowChrome _chrome;
+        SystemDropShadowChrome _chrome;
 
-        private bool _disabled;
+        bool _disabled;
 
-        private ListBox _listBox;
+        ListBox _listBox;
 
-        private Popup _popup;
+        Popup _popup;
 
-        private bool _suppressAutoAppend;
+        bool _suppressAutoAppend;
 
         /*+---------------------------------------------------------------------+
           |                                                                     |
           |                  Internal States                                    |
           |                                                                     |
           +---------------------------------------------------------------------*/
-        private bool _textChangedByCode;
+        bool _textChangedByCode;
 
 #pragma warning disable CS8618 // Non-nullable field is uninitialized. Consider declaring as nullable. Fields are initialized in the Loaded event and after that remain non-nullable
         public CompletableTextBox()
@@ -77,7 +78,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
             set
             {
                 _disabled = value;
-                if (_disabled && _popup != null)
+                if (_disabled && (_popup != null))
                 {
                     _popup.IsOpen = false;
                 }
@@ -90,18 +91,37 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
             set => SetValue(SelectedItemProperty, value);
         }
 
-        private static void SelectedItemPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _cancellationTokenSource.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        static void SelectedItemPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = (CompletableTextBox)d;
             control?.ChangeSelectedItem(e.NewValue);
         }
 
-        private void ChangeSelectedItem(object? item)
+        void ChangeSelectedItem(object? item)
         {
             Text = item?.ToString() ?? string.Empty;
         }
 
-        private void CompletableTextBox_Initialized(object sender, EventArgs e)
+        void CompletableTextBox_Initialized(object sender, EventArgs e)
         {
             if (Application.Current.Resources.FindName("AutoCompleteTextBoxListBoxStyle") == null)
             {
@@ -130,7 +150,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
         }
 
         // ReSharper disable once RedundantAssignment
-        private IntPtr HookHandler(IntPtr hwnd, int msg, IntPtr firstParam, IntPtr secondParam, ref bool handled)
+        IntPtr HookHandler(IntPtr hwnd, int msg, IntPtr firstParam, IntPtr secondParam, ref bool handled)
         {
             const int wmNclbuttondown = 0x00A1;
 
@@ -149,21 +169,13 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
             return IntPtr.Zero;
         }
 
-        private void Initialize()
+        void Initialize()
         {
             const int popupShadowDepth = 5;
 
-            _listBox = new ListBox
-            {
-                Focusable = false,
-                Style = (Style)Application.Current.Resources["AutoCompleteTextBoxListBoxStyle"]
-            };
+            _listBox = new ListBox { Focusable = false, Style = (Style)Application.Current.Resources["AutoCompleteTextBoxListBoxStyle"] };
 
-            _chrome = new SystemDropShadowChrome
-            {
-                Margin = new Thickness(0, 0, popupShadowDepth, popupShadowDepth),
-                Child = _listBox
-            };
+            _chrome = new SystemDropShadowChrome { Margin = new Thickness(0, 0, popupShadowDepth, popupShadowDepth), Child = _listBox };
 
             _popup = new Popup
             {
@@ -177,16 +189,13 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
             };
 
             SetupEventHandlers();
-            var tempItem = new ListBoxItem
-            {
-                Content = "TEMP_ITEM_FOR_MEASUREMENT"
-            };
+            var tempItem = new ListBoxItem { Content = "TEMP_ITEM_FOR_MEASUREMENT" };
             _listBox.Items.Add(tempItem);
             _listBox.Items.Clear();
             _popup.IsOpen = false;
         }
 
-        private void ListBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        void ListBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             ListBoxItem? item = null;
             var d = e.OriginalSource as DependencyObject;
@@ -215,7 +224,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
           |                     ListBox Event Handling                          |
           |                                                                     |
           +---------------------------------------------------------------------*/
-        private void ListBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void ListBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var pos = e.GetPosition(_listBox);
             var hitTestResult = VisualTreeHelper.HitTest(_listBox, pos);
@@ -237,7 +246,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
             }
         }
 
-        private void ListBox_PreviewMouseMove(object sender, MouseEventArgs e)
+        void ListBox_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (Mouse.Captured != null)
             {
@@ -271,12 +280,12 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
           |                    Window Event Handling                            |
           |                                                                     |
           +---------------------------------------------------------------------*/
-        private void OwnerWindow_Deactivated(object? sender, EventArgs e)
+        void OwnerWindow_Deactivated(object? sender, EventArgs e)
         {
             _popup.IsOpen = false;
         }
 
-        private void OwnerWindow_Loaded(object sender, RoutedEventArgs e)
+        void OwnerWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Initialize();
         }
@@ -286,12 +295,12 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
           |                       Initializer                                    |
           |                                                                     |
           +---------------------------------------------------------------------*/
-        private void OwnerWindow_LocationChanged(object? sender, EventArgs e)
+        void OwnerWindow_LocationChanged(object? sender, EventArgs e)
         {
             _popup.IsOpen = false;
         }
 
-        private void OwnerWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        void OwnerWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (!Equals(e.Source, this))
             {
@@ -304,7 +313,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
           |                    AcTb State And Behaviors                         |
           |                                                                     |
           +---------------------------------------------------------------------*/
-        private void PopulatePopupList(IEnumerable<object> items)
+        void PopulatePopupList(IEnumerable<object> items)
         {
             var text = Text;
 
@@ -316,7 +325,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
             }
 
             var firstSuggestion = _listBox.Items[0];
-            if (_listBox.Items.Count == 1 && text.Equals(firstSuggestion.ToString(), StringComparison.InvariantCultureIgnoreCase))
+            if ((_listBox.Items.Count == 1) && text.Equals(firstSuggestion.ToString(), StringComparison.OrdinalIgnoreCase))
             {
                 _popup.IsOpen = false;
                 SelectedItem = firstSuggestion;
@@ -326,7 +335,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
                 _listBox.SelectedIndex = 0;
                 ShowPopup();
 
-                if (!AutoAppend || _suppressAutoAppend || SelectionLength != 0 || SelectionStart != Text.Length)
+                if (!AutoAppend || _suppressAutoAppend || (SelectionLength != 0) || (SelectionStart != Text.Length))
                 {
                     return;
                 }
@@ -336,9 +345,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
                 {
                     // ReSharper disable once SuspiciousTypeConversion.Global
                     var firstSuggestionString = firstSuggestion.ToString() ?? throw new InvalidOperationException("firstSuggestion.ToString() is null");
-                    var appendText = DataProvider is IAutoAppendDataProvider appendProvider
-                        ? appendProvider.GetAppendText(text, firstSuggestionString)
-                        : firstSuggestionString.Substring(Text.Length);
+                    var appendText = DataProvider is IAutoAppendDataProvider appendProvider ? appendProvider.GetAppendText(text, firstSuggestionString) : firstSuggestionString.Substring(Text.Length);
                     if (!string.IsNullOrEmpty(appendText))
                     {
                         SelectedText = appendText;
@@ -351,7 +358,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
             }
         }
 
-        private void SetupEventHandlers()
+        void SetupEventHandlers()
         {
             var ownerWindow = Window.GetWindow(this);
             if (ownerWindow == null)
@@ -382,12 +389,12 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
             _listBox.PreviewMouseMove += ListBox_PreviewMouseMove;
         }
 
-        private void ShowPopup()
+        void ShowPopup()
         {
             _popup.IsOpen = true;
         }
 
-        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             _popup.IsOpen = false;
             _cancellationTokenSource.Cancel();
@@ -395,14 +402,14 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
             // Text = SelectedItem?.ToString() ?? string.Empty;
         }
 
-        private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             _rateLimiter.Throttle(
                 TimeSpan.FromMilliseconds(20),
                 () =>
                 {
                     _cancellationTokenSource.Cancel();
-                    _suppressAutoAppend = e.Key == Key.Delete || e.Key == Key.Back;
+                    _suppressAutoAppend = (e.Key == Key.Delete) || (e.Key == Key.Back);
 
                     if (!_popup.IsOpen)
                     {
@@ -445,7 +452,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
 
                     if (index != _listBox.SelectedIndex)
                     {
-                        if (index < 0 || index > _listBox.Items.Count - 1)
+                        if ((index < 0) || (index > (_listBox.Items.Count - 1)))
                         {
                             _listBox.SelectedIndex = -1;
                         }
@@ -465,13 +472,13 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
           |                   TextBox Event Handling                            |
           |                                                                     |
           +---------------------------------------------------------------------*/
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             _rateLimiter.Debounce(
                 TimeSpan.FromMilliseconds(300),
                 async text =>
                 {
-                    if (_textChangedByCode || Disabled || DataProvider == null)
+                    if (_textChangedByCode || Disabled || (DataProvider == null))
                     {
                         return;
                     }
@@ -496,7 +503,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
                 Text);
         }
 
-        private void UpdateItem(object item, bool selectAll)
+        void UpdateItem(object item, bool selectAll)
         {
             _textChangedByCode = true;
             SelectedItem = item;

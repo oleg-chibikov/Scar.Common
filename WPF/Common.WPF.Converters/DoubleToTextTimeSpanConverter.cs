@@ -35,27 +35,18 @@ namespace Scar.Common.WPF.Converters
                 interval = (DateInterval)parameter;
             }
 
-            switch (interval)
+            return interval switch
             {
-                case DateInterval.Years:
-                    return TimeSpan.FromDays(val * 365).ToReadableFormat();
-                case DateInterval.Months:
-                    return TimeSpan.FromDays(val * 30).ToReadableFormat();
-                case DateInterval.Weeks:
-                    return TimeSpan.FromDays(val * 7).ToReadableFormat();
-                case DateInterval.Days:
-                    return TimeSpan.FromDays(val).ToReadableFormat();
-                case DateInterval.Hours:
-                    return TimeSpan.FromHours(val).ToReadableFormat();
-                case DateInterval.Minutes:
-                    return TimeSpan.FromMinutes(val).ToReadableFormat();
-                case DateInterval.Seconds:
-                    return TimeSpan.FromSeconds(val).ToReadableFormat();
-                case DateInterval.Milliseconds:
-                    return TimeSpan.FromMilliseconds(val).ToReadableFormat();
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(parameter), parameter, null);
-            }
+                DateInterval.Years => TimeSpan.FromDays(val * 365).ToReadableFormat(),
+                DateInterval.Months => TimeSpan.FromDays(val * 30).ToReadableFormat(),
+                DateInterval.Weeks => TimeSpan.FromDays(val * 7).ToReadableFormat(),
+                DateInterval.Days => TimeSpan.FromDays(val).ToReadableFormat(),
+                DateInterval.Hours => TimeSpan.FromHours(val).ToReadableFormat(),
+                DateInterval.Minutes => TimeSpan.FromMinutes(val).ToReadableFormat(),
+                DateInterval.Seconds => TimeSpan.FromSeconds(val).ToReadableFormat(),
+                DateInterval.Milliseconds => TimeSpan.FromMilliseconds(val).ToReadableFormat(),
+                _ => throw new ArgumentOutOfRangeException(nameof(parameter), parameter, null)
+            };
         }
 
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

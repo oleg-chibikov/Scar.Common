@@ -3,12 +3,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Scar.Common.View.Contracts;
 
-namespace Scar.Common.View.WindowFactory
+namespace Scar.Common
 {
     public class GenericWindowCreator<TWindow> : IWindowCreator<TWindow>
         where TWindow : IDisplayable
     {
-        private readonly Func<TWindow> _windowFactory;
+        readonly Func<TWindow> _windowFactory;
 
         public GenericWindowCreator(Func<TWindow> windowFactory)
         {
