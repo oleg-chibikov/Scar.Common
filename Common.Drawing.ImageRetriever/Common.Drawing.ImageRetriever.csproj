@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7410.31902" />
+    <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7411.17588" />
     <PackageReference Include="Common.Logging.Core" Version="3.4.1" />
-    <PackageReference Include="Scar.Common" Version="1.1.7410.34685" />
-    <PackageReference Include="Scar.Common.Drawing.Metadata" Version="1.1.7410.34685" />
-    <PackageReference Include="Scar.Common.IO" Version="1.1.7410.34684" />
+    <PackageReference Include="Scar.Common" Version="1.1.7411.17543" />
+    <PackageReference Include="Scar.Common.Drawing.Metadata" Version="1.1.7411.17120" />
+    <PackageReference Include="Scar.Common.IO" Version="1.1.7411.17119" />
   </ItemGroup>
 
   <ItemGroup>

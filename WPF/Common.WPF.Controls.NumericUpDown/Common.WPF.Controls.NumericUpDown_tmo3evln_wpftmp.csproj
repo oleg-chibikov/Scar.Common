@@ -4,14 +4,14 @@
     <RootNamespace>Scar.Common.WPF.Controls</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Scar.Common.WPF.Controls.Behaviors" Version="1.1.7410.34686" />
+    <PackageReference Include="Scar.Common.WPF.Controls.Behaviors" Version="1.1.7410.34754" />
   </ItemGroup>
   <ItemGroup>
     <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\system.windows.interactivity.wpf\2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll" />
     <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\mscorlib.dll" />
     <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\PresentationCore.dll" />
     <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\PresentationFramework.dll" />
-    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.wpf.controls.behaviors\1.1.7410.34686\lib\net472\Scar.Common.WPF.Controls.Behaviors.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.wpf.controls.behaviors\1.1.7410.34754\lib\net472\Scar.Common.WPF.Controls.Behaviors.dll" />
     <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Core.dll" />
     <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Data.dll" />
     <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll" />

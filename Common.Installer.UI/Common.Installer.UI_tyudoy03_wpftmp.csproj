@@ -31,7 +31,7 @@
     <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.mvvm.commands\1.1.7406.37490\lib\netstandard2.0\Scar.Common.MVVM.Commands.dll" />
     <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.mvvm.viewmodel\1.1.7406.38943\lib\netstandard2.0\Scar.Common.MVVM.ViewModel.dll" />
     <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.ratelimiter\1.1.7406.38943\lib\netstandard2.0\Scar.Common.RateLimiter.dll" />
-    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.view.contracts\1.1.7406.38944\lib\netstandard2.0\Scar.Common.View.Contracts.dll" />
+    <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.view.contracts\1.1.7410.34755\lib\netstandard2.0\Scar.Common.View.Contracts.dll" />
     <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.wpf.converters\1.1.7406.39052\lib\net472\Scar.Common.WPF.Converters.dll" />
     <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.wpf.view.animatedwindow\1.1.7406.39052\lib\net472\Scar.Common.WPF.View.AnimatedWindow.dll" />
     <ReferencePath Include="C:\Users\oleg.chibikov\.nuget\packages\scar.common.wpf.view.basewindow\1.1.7406.39033\lib\net472\Scar.Common.WPF.View.BaseWindow.dll" />

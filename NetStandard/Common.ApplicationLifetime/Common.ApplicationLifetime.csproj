@@ -7,10 +7,10 @@
   <ItemGroup>
     <PackageReference Include="Common.Logging.Core" Version="3.4.1" />
     <PackageReference Include="Easy.MessageHub" Version="5.0.0" />
-    <PackageReference Include="Scar.Common" Version="1.1.7410.34685" />
-    <PackageReference Include="Scar.Common.ApplicationLifetime.Contracts" Version="1.1.7410.31905" />
-    <PackageReference Include="Scar.Common.Localization" Version="1.1.7410.31905" />
-    <PackageReference Include="Scar.Common.Logging.Autofac" Version="1.1.7410.34756" />
+    <PackageReference Include="Scar.Common" Version="1.1.7411.17543" />
+    <PackageReference Include="Scar.Common.ApplicationLifetime.Contracts" Version="1.1.7411.17541" />
+    <PackageReference Include="Scar.Common.Localization" Version="1.1.7411.17534" />
+    <PackageReference Include="Scar.Common.Logging.Autofac" Version="1.1.7411.17537" />
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="3.4.0" />
-    <PackageReference Include="Scar.Common.RateLimiter" Version="1.1.7410.31905" />
+    <PackageReference Include="Scar.Common.RateLimiter" Version="1.1.7411.17123" />
   </ItemGroup>
 
 </Project>
