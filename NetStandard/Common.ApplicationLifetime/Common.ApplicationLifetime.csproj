@@ -10,7 +10,7 @@
     <PackageReference Include="Scar.Common" Version="1.1.7410.34685" />
     <PackageReference Include="Scar.Common.ApplicationLifetime.Contracts" Version="1.1.7410.31905" />
     <PackageReference Include="Scar.Common.Localization" Version="1.1.7410.31905" />
-    <PackageReference Include="Scar.Common.Logging.Autofac" Version="1.1.7410.34687" />
+    <PackageReference Include="Scar.Common.Logging.Autofac" Version="1.1.7410.34756" />
   </ItemGroup>
 
 </Project>
