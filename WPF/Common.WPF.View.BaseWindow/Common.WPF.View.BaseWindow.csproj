@@ -9,7 +9,7 @@
     <PackageReference Include="Scar.Common.MVVM.ViewModel" Version="1.1.7410.31905" />
     <PackageReference Include="Scar.Common.RateLimiter" Version="1.1.7410.31905" />
     <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7410.31902" />
-    <PackageReference Include="Scar.Common.WPF.View" Version="1.1.7410.31898" />
+    <PackageReference Include="Scar.Common.WPF.View" Version="1.1.7410.34686" />
     <PackageReference Include="Scar.Common.WPF.View.Contracts" Version="1.1.7410.31901" />
   </ItemGroup>
 

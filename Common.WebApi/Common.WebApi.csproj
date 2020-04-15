@@ -12,7 +12,7 @@
     <PackageReference Include="Microsoft.Owin.Host.HttpListener" Version="4.1.0" />
     <PackageReference Include="Microsoft.Owin.Hosting" Version="4.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="Scar.Common" Version="1.1.7410.31894" />
+    <PackageReference Include="Scar.Common" Version="1.1.7410.34685" />
 
   </ItemGroup>
 

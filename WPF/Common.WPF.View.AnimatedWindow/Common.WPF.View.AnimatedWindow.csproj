@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="3.1.0" />
-    <PackageReference Include="Scar.Common.WPF.View.BaseWindow" Version="1.1.7410.31897" />
+    <PackageReference Include="Scar.Common.WPF.View.BaseWindow" Version="1.1.7410.34686" />
     <PackageReference Include="WpfLocalizeExtension" Version="3.3.1" />
   </ItemGroup>
 
