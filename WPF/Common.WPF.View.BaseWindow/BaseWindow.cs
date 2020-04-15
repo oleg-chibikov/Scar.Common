@@ -13,15 +13,15 @@ using Scar.Common.View.Contracts;
 using Scar.Common.WPF.View.Contracts;
 using Point = System.Windows.Point;
 
-// TODO: Any way to get rid of it?
 namespace Scar.Common.WPF.View
 {
-    public abstract class BaseWindow : Window, IWindow
+    public abstract class BaseWindow : Window, IWindow, IDisposable
     {
         public static readonly DependencyProperty AutoCloseTimeoutProperty = DependencyProperty.Register(nameof(AutoCloseTimeout), typeof(TimeSpan?), typeof(BaseWindow), new PropertyMetadata(null));
         public static readonly DependencyProperty IsFullHeightProperty = DependencyProperty.Register(nameof(IsFullHeight), typeof(bool), typeof(BaseWindow), new PropertyMetadata(null));
         readonly IList<IDisposable> _associatedDisposables = new List<IDisposable>();
-        readonly IRateLimiter _rateLimiter;
+        readonly RateLimiter _sizeChangedRateLimiter;
+        readonly RateLimiter _locationChangedRateLimiter;
         readonly TimeSpan _sizeChangedThrottleInterval = TimeSpan.FromMilliseconds(50);
         readonly object _sizeChangedLock = new object();
         readonly object _loadedLock = new object();
@@ -29,16 +29,17 @@ namespace Scar.Common.WPF.View
         double _cumulativeWidthChange;
         EventHandler? _sizeChanged;
         EventHandler? _loaded;
+        bool _disposedValue;
 
         protected BaseWindow()
         {
             this.PreventFocusLoss();
             HandleDisposableViewModel();
-            IRateLimiter rateLimiter = new RateLimiter(SynchronizationContext.Current);
+            _locationChangedRateLimiter = new RateLimiter(SynchronizationContext.Current);
 
             void LocationChangedAction(object s, EventArgs e)
             {
-                rateLimiter.Throttle(TimeSpan.FromMilliseconds(300), window => ActiveScreenArea = Screen.FromHandle(new WindowInteropHelper(window).Handle).WorkingArea, this);
+                _locationChangedRateLimiter.Throttle(TimeSpan.FromMilliseconds(300), window => ActiveScreenArea = Screen.FromHandle(new WindowInteropHelper(window).Handle).WorkingArea, this);
             }
 
             // Unsubscribe not needed - same class
@@ -52,7 +53,7 @@ namespace Scar.Common.WPF.View
             ContentRendered += BaseWindow_ContentRendered;
             LocationChanged += LocationChangedAction;
             LocationChangedAction(this, new EventArgs());
-            _rateLimiter = new RateLimiter(SynchronizationContext.Current);
+            _sizeChangedRateLimiter = new RateLimiter(SynchronizationContext.Current);
         }
 
         event EventHandler IDisplayable.SizeChanged
@@ -150,6 +151,31 @@ namespace Scar.Common.WPF.View
             return _associatedDisposables.Remove(disposable);
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    foreach (var disposable in _associatedDisposables)
+                    {
+                        disposable.Dispose();
+                    }
+
+                    _locationChangedRateLimiter.Dispose();
+                    _sizeChangedRateLimiter.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
         protected virtual bool CheckCloseShouldBeCancelled()
         {
             return false;
@@ -235,10 +261,7 @@ namespace Scar.Common.WPF.View
 
         void BaseWindow_Closed(object sender, EventArgs e)
         {
-            foreach (var disposable in _associatedDisposables)
-            {
-                disposable.Dispose();
-            }
+            Dispose();
         }
 
         void BaseWindow_Closing(object sender, CancelEventArgs e)
@@ -281,7 +304,7 @@ namespace Scar.Common.WPF.View
             _cumulativeHeightChange += thisHeightChange;
             _cumulativeWidthChange += thisWidthChange;
 
-            _rateLimiter.Throttle(
+            _sizeChangedRateLimiter.Throttle(
                 _sizeChangedThrottleInterval,
                 () =>
                 {
