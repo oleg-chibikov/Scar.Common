@@ -9,6 +9,7 @@ namespace Scar.Common.MVVM.Commands
     {
         readonly IList<Action> _raiseCanExecuteChangedActions = new List<Action>();
         readonly SynchronizationContext _synchronizationContext;
+        readonly object _locker = new object();
 
         public ApplicationCommandManager(SynchronizationContext synchronizationContext)
         {
@@ -17,12 +18,18 @@ namespace Scar.Common.MVVM.Commands
 
         public void AddRaiseCanExecuteChangedAction(ref Action raiseCanExecuteChangedAction)
         {
-            _raiseCanExecuteChangedActions.Add(raiseCanExecuteChangedAction);
+            lock (_locker)
+            {
+                _raiseCanExecuteChangedActions.Add(raiseCanExecuteChangedAction);
+            }
         }
 
         public void RemoveRaiseCanExecuteChangedAction(Action raiseCanExecuteChangedAction)
         {
-            _raiseCanExecuteChangedActions.Remove(raiseCanExecuteChangedAction);
+            lock (_locker)
+            {
+                _raiseCanExecuteChangedActions.Remove(raiseCanExecuteChangedAction);
+            }
         }
 
         public void AssignOnPropertyChanged(ref PropertyChangedEventHandler propertyEventHandler)
@@ -35,9 +42,12 @@ namespace Scar.Common.MVVM.Commands
             _synchronizationContext.Send(
                 x =>
                 {
-                    foreach (var raiseCanExecuteChangedAction in _raiseCanExecuteChangedActions)
+                    lock (_locker)
                     {
-                        raiseCanExecuteChangedAction?.Invoke();
+                        foreach (var raiseCanExecuteChangedAction in _raiseCanExecuteChangedActions)
+                        {
+                            raiseCanExecuteChangedAction?.Invoke();
+                        }
                     }
                 },
                 null);
