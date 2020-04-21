@@ -5,11 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.RateLimiter" Version="1.1.7411.17123" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="PresentationFramework.Aero" />
+    <PackageReference Include="Scar.Common.RateLimiter" Version="1.1.7416.18530" />
   </ItemGroup>
 
 </Project>

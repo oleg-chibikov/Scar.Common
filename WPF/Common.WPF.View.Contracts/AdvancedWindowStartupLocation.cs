@@ -1,4 +1,4 @@
-﻿namespace Scar.Common.WPF.View.Contracts
+namespace Scar.Common.WPF.View.Contracts
 {
     public enum AdvancedWindowStartupLocation
     {
@@ -6,7 +6,6 @@
         TopLeft,
         TopRight,
         BottomLeft,
-        BottomRight,
-        MouseCursor
+        BottomRight
     }
 }

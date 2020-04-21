@@ -7,7 +7,6 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using Microsoft.Windows.Themes;
 using Scar.Common.WPF.Controls.AutoCompleteTextBox.Provider;
 
 namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
@@ -30,8 +29,6 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
         bool _disposedValue;
 
         CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-
-        SystemDropShadowChrome _chrome;
 
         bool _disabled;
 
@@ -171,11 +168,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
 
         void Initialize()
         {
-            const int popupShadowDepth = 5;
-
             _listBox = new ListBox { Focusable = false, Style = (Style)Application.Current.Resources["AutoCompleteTextBoxListBoxStyle"] };
-
-            _chrome = new SystemDropShadowChrome { Margin = new Thickness(0, 0, popupShadowDepth, popupShadowDepth), Child = _listBox };
 
             _popup = new Popup
             {
@@ -183,7 +176,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
                 AllowsTransparency = true,
                 Placement = PlacementMode.Bottom,
                 PlacementTarget = this,
-                Child = _chrome,
+                Child = _listBox,
                 Width = Width,
                 IsOpen = true
             };

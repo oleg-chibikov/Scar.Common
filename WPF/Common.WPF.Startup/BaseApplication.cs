@@ -3,8 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Security.AccessControl;
-using System.Security.Principal;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -97,12 +95,23 @@ namespace Scar.Common.WPF.Startup
             };
             MessageBox.Show(
                 message.Text,
-                ((AssemblyProductAttribute)Attribute.GetCustomAttribute(
-                    Assembly.GetEntryAssembly() ?? throw new InvalidOperationException("Entry assembly is null"),
-                    typeof(AssemblyProductAttribute),
-                    false)).Product,
+                GetAppProduct(),
                 MessageBoxButton.OK,
                 image);
+        }
+
+        static string GetAppGuid()
+        {
+            var entryAssembly = Assembly.GetEntryAssembly() ?? throw new InvalidOperationException("Entry assembly is null");
+            var attribute = Attribute.GetCustomAttribute(entryAssembly, typeof(GuidAttribute), false) as GuidAttribute ?? throw new InvalidOperationException("Guid attribute is null");
+            return attribute.Value;
+        }
+
+        static string GetAppProduct()
+        {
+            var entryAssembly = Assembly.GetEntryAssembly() ?? throw new InvalidOperationException("Entry assembly is null");
+            var attribute = Attribute.GetCustomAttribute(entryAssembly, typeof(AssemblyProductAttribute), false) as AssemblyProductAttribute ?? throw new InvalidOperationException("Guid attribute is null");
+            return attribute.Product;
         }
 
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
@@ -113,16 +122,6 @@ namespace Scar.Common.WPF.Startup
             e.Handled = true;
         }
 
-        Mutex CreateMutex()
-        {
-            var sid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
-            var mutexSecurity = new MutexSecurity();
-            mutexSecurity.AddAccessRule(new MutexAccessRule(sid, MutexRights.FullControl, AccessControlType.Allow));
-            mutexSecurity.AddAccessRule(new MutexAccessRule(sid, MutexRights.ChangePermissions, AccessControlType.Deny));
-            mutexSecurity.AddAccessRule(new MutexAccessRule(sid, MutexRights.Delete, AccessControlType.Deny));
-            var appGuid = ((GuidAttribute)Attribute.GetCustomAttribute(Assembly.GetEntryAssembly() ?? throw new InvalidOperationException("Entry assembly is null"), typeof(GuidAttribute), false))
-                .Value;
-            return new Mutex(false, $"Global\\{appGuid}", out _, mutexSecurity);
-        }
+        Mutex CreateMutex() => new Mutex(false, $"Global\\{GetAppGuid()}", out _);
     }
 }

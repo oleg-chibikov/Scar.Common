@@ -6,15 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.MVVM.ViewModel" Version="1.1.7411.17638" />
-    <PackageReference Include="Scar.Common.RateLimiter" Version="1.1.7411.17123" />
-    <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7411.17588" />
-    <PackageReference Include="Scar.Common.WPF.View" Version="1.1.7411.17582" />
-    <PackageReference Include="Scar.Common.WPF.View.Contracts" Version="1.1.7411.17773" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
+    <PackageReference Include="Scar.Common.MVVM.ViewModel" Version="1.1.7416.18547" />
+    <PackageReference Include="Scar.Common.RateLimiter" Version="1.1.7416.18530" />
+    <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7416.18157" />
+    <PackageReference Include="Scar.Common.WPF.View" Version="1.1.7416.18155" />
+    <PackageReference Include="Scar.Common.WPF.View.Contracts" Version="1.1.7416.18530" />
   </ItemGroup>
 
 </Project>

@@ -108,7 +108,7 @@ namespace Scar.Common.WPF.View
             Closing -= AnimatedWindow_Closing;
             var hideAnimation = new DoubleAnimation { From = 1, To = 0, Duration = _fadeDuration };
 
-            void CompletedHandler(object s, EventArgs _)
+            void CompletedHandler(object? s, EventArgs _)
             {
                 hideAnimation.Completed -= CompletedHandler;
                 Close();
@@ -119,11 +119,11 @@ namespace Scar.Common.WPF.View
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "SA1313:Parameter '_' should begin with lower -case letter", Justification = "Discarded parameter")]
-        void AnimatedWindow_ContentRendered(object sender, EventArgs e)
+        void AnimatedWindow_ContentRendered(object? sender, EventArgs e)
         {
             var showAnimation = new DoubleAnimation { From = 0, To = 1, Duration = _fadeDuration };
 
-            void CompletedHandler(object s, EventArgs _)
+            void CompletedHandler(object? s, EventArgs _)
             {
                 showAnimation.Completed -= CompletedHandler;
                 BeginAnimation(TopProperty, null);

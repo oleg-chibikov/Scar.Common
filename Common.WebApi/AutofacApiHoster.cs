@@ -1,12 +1,14 @@
 using System;
+using System.IO;
 using System.Reflection;
-using System.Web.Http;
-using System.Web.Http.ExceptionHandling;
 using Autofac;
-using Autofac.Integration.WebApi;
+using Autofac.Extensions.DependencyInjection;
 using Common.Logging;
-using Microsoft.Owin.Hosting;
-using Owin;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Memory;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Scar.Common.WebApi
 {
@@ -22,6 +24,37 @@ namespace Scar.Common.WebApi
             _ = lifetimeScope ?? throw new ArgumentNullException(nameof(lifetimeScope));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             logger.Trace("Starting WebApi...");
+
+
+            var myStartup = new Startup(lifetimeScope);
+
+            // copy existing config into memory
+            var existingConfig = new MemoryConfigurationSource
+            {
+                InitialData = myStartup.Configuration
+            };
+
+            // create new configuration from existing config
+            // and override whatever needed
+            var testConfigBuilder = new ConfigurationBuilder()
+                .Add(existingConfig)
+
+
+            myStartup.Configuration = testConfigBuilder.Build();
+
+            var builder = new WebHostBuilder()
+                .ConfigureServices(services =>
+                {
+                    services.AddSingleton<IStartup>(myStartup);
+                });
+
+            var server = new TestServer(builder);
+
+            var host = new WebHostBuilder()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseStartup<Startup>()
+                .Build();
+
             _innerScope = lifetimeScope.BeginLifetimeScope(innerBuilder => innerBuilder.RegisterApiControllers(ControllersAssembly).InstancePerDependency());
             _apiHost = WebApp.Start(
                 new StartOptions(BaseAddress),
@@ -65,6 +98,37 @@ namespace Scar.Common.WebApi
                 }
 
                 _disposedValue = true;
+            }
+        }
+
+        class Startup : IStartup
+        {
+            readonly ILifetimeScope _lifetimeScope;
+            public IConfigurationRoot Configuration { get; set; }
+
+            public Startup(ILifetimeScope lifetimeScope)
+            {
+                _lifetimeScope = lifetimeScope ?? throw new ArgumentNullException(nameof(lifetimeScope));
+            }
+
+            // This method gets called by the runtime. Use this method to add services to the container.
+            public IServiceProvider ConfigureServices(IServiceCollection services)
+            {
+                services.AddMvc();
+
+                // Create the container builder.
+                var builder = new ContainerBuilder();
+                builder.Populate(services);
+                _applicationContainer = builder.Build();
+
+                // Create the IServiceProvider based on the container.
+                return new AutofacServiceProvider(_applicationContainer);
+            }
+
+            // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            public void Configure(IApplicationBuilder app)
+            {
+                app.UseMvc();
             }
         }
     }

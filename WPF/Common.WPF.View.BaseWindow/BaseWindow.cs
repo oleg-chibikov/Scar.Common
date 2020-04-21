@@ -6,12 +6,9 @@ using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Interop;
 using Scar.Common.MVVM.ViewModel;
 using Scar.Common.View.Contracts;
 using Scar.Common.WPF.View.Contracts;
-using Point = System.Windows.Point;
 
 namespace Scar.Common.WPF.View
 {
@@ -21,7 +18,6 @@ namespace Scar.Common.WPF.View
         public static readonly DependencyProperty IsFullHeightProperty = DependencyProperty.Register(nameof(IsFullHeight), typeof(bool), typeof(BaseWindow), new PropertyMetadata(null));
         readonly IList<IDisposable> _associatedDisposables = new List<IDisposable>();
         readonly RateLimiter _sizeChangedRateLimiter;
-        readonly RateLimiter _locationChangedRateLimiter;
         readonly TimeSpan _sizeChangedThrottleInterval = TimeSpan.FromMilliseconds(50);
         readonly object _sizeChangedLock = new object();
         readonly object _loadedLock = new object();
@@ -35,12 +31,6 @@ namespace Scar.Common.WPF.View
         {
             this.PreventFocusLoss();
             HandleDisposableViewModel();
-            _locationChangedRateLimiter = new RateLimiter(SynchronizationContext.Current);
-
-            void LocationChangedAction(object s, EventArgs e)
-            {
-                _locationChangedRateLimiter.Throttle(TimeSpan.FromMilliseconds(300), window => ActiveScreenArea = Screen.FromHandle(new WindowInteropHelper(window).Handle).WorkingArea, this);
-            }
 
             // Unsubscribe not needed - same class
             DataContextChanged += BaseWindow_DataContextChanged;
@@ -51,8 +41,6 @@ namespace Scar.Common.WPF.View
 
             // KeyDown += BaseWindow_KeyDown;
             ContentRendered += BaseWindow_ContentRendered;
-            LocationChanged += LocationChangedAction;
-            LocationChangedAction(this, new EventArgs());
             _sizeChangedRateLimiter = new RateLimiter(SynchronizationContext.Current);
         }
 
@@ -168,7 +156,6 @@ namespace Scar.Common.WPF.View
                         disposable.Dispose();
                     }
 
-                    _locationChangedRateLimiter.Dispose();
                     _sizeChangedRateLimiter.Dispose();
                 }
 
@@ -225,12 +212,6 @@ namespace Scar.Common.WPF.View
                         break;
                     }
 
-                case AdvancedWindowStartupLocation.MouseCursor:
-                    {
-                        MoveBottomRightEdgeOfWindowToMousePosition();
-                        break;
-                    }
-
                 default:
                     throw new ArgumentOutOfRangeException(nameof(AdvancedWindowStartupLocation));
             }
@@ -248,18 +229,12 @@ namespace Scar.Common.WPF.View
             SetValue(prop, newValue);
         }
 
-        static Point GetMousePosition()
-        {
-            var point = Control.MousePosition;
-            return new Point(point.X, point.Y);
-        }
-
         void BaseWindow_Loaded(object sender, RoutedEventArgs e)
         {
             _loaded?.Invoke(sender, e);
         }
 
-        void BaseWindow_Closed(object sender, EventArgs e)
+        void BaseWindow_Closed(object? sender, EventArgs e)
         {
             Dispose();
         }
@@ -275,10 +250,10 @@ namespace Scar.Common.WPF.View
             Owner?.Activate();
         }
 
-        async void BaseWindow_ContentRendered(object sender, EventArgs e)
+        async void BaseWindow_ContentRendered(object? sender, EventArgs e)
         {
             RepositionWindowAtStartup();
-            if ((AdvancedWindowStartupLocation != AdvancedWindowStartupLocation.Default) && (AdvancedWindowStartupLocation != AdvancedWindowStartupLocation.MouseCursor))
+            if (AdvancedWindowStartupLocation != AdvancedWindowStartupLocation.Default)
             {
                 SizeChanged += BaseWindow_SizeChanged_Reposition;
             }
@@ -341,7 +316,7 @@ namespace Scar.Common.WPF.View
                 return;
             }
 
-            void CloseHandler(object s, EventArgs e)
+            void CloseHandler(object? s, EventArgs e)
             {
                 requestCloseViewModel.RequestClose -= CloseHandler;
                 Close();
@@ -349,15 +324,6 @@ namespace Scar.Common.WPF.View
 
             requestCloseViewModel.RequestClose += CloseHandler;
         }
-
-        /*
-        private void BaseWindow_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Escape)
-            {
-                Close();
-            }
-        }*/
 
         void BaseWindow_SizeChanged_IsFullHeight(object sender, SizeChangedEventArgs e)
         {
@@ -370,19 +336,6 @@ namespace Scar.Common.WPF.View
             var fullHeight = ActiveScreenArea.Height;
             var newHeight = e.NewSize.Height;
             IsFullHeight = Math.Abs(newHeight - fullHeight) < 50;
-        }
-
-        void MoveBottomRightEdgeOfWindowToMousePosition()
-        {
-            var transform = PresentationSource.FromVisual(this)?.CompositionTarget?.TransformFromDevice;
-            if (transform == null)
-            {
-                return;
-            }
-
-            var mouse = transform.Value.Transform(GetMousePosition());
-            Left = mouse.X - (ActualWidth / 2);
-            Top = mouse.Y - (ActualHeight / 2);
         }
 
         void HandleDisposableViewModel()

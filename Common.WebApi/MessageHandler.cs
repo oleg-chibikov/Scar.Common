@@ -13,7 +13,7 @@ namespace Scar.Common.WebApi
         {
             _ = request ?? throw new ArgumentNullException(nameof(request));
 
-            if (request.RequestUri.LocalPath.Contains("swagger"))
+            if (request.RequestUri.LocalPath.Contains("swagger", StringComparison.OrdinalIgnoreCase))
             {
                 return await base.SendAsync(request, cancellationToken);
             }

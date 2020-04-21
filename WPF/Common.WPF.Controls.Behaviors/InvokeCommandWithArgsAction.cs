@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Interactivity;
+using Microsoft.Xaml.Behaviors;
 
 namespace Scar.Common.WPF.Controls.Behaviors
 {
@@ -85,7 +85,7 @@ namespace Scar.Common.WPF.Controls.Behaviors
                     .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                     .Where(info => typeof(ICommand).IsAssignableFrom(info.PropertyType) && string.Equals(info.Name, CommandName, StringComparison.Ordinal)))
                 {
-                    command = (ICommand)info.GetValue(AssociatedObject, null);
+                    command = info.GetValue(AssociatedObject, null) as ICommand;
                 }
             }
 
