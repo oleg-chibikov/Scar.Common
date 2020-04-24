@@ -10,7 +10,7 @@ namespace Scar.Common.WPF.Converters
     {
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            return IsVisible(value == null ? default : (T)value) ? Visibility.Visible : Visibility.Collapsed;
+            return IsVisible(value == null ? default! : (T)value) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
