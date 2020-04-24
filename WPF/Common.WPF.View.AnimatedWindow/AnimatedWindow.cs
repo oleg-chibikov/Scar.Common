@@ -72,16 +72,6 @@ namespace Scar.Common.WPF.View
             {
                 DragMove();
             }
-
-            if ((ResizeMode != ResizeMode.CanResize) && (ResizeMode != ResizeMode.CanResizeWithGrip))
-            {
-                return;
-            }
-
-            if (e.ClickCount == 2)
-            {
-                WindowState = WindowState != WindowState.Maximized ? WindowState.Maximized : WindowState.Normal;
-            }
         }
 
         protected override void Reposition(DependencyProperty prop, double change)
@@ -140,11 +130,28 @@ namespace Scar.Common.WPF.View
             BeginAnimation(OpacityProperty, showAnimation);
         }
 
+        void HeaderPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if ((ResizeMode != ResizeMode.CanResize) && (ResizeMode != ResizeMode.CanResizeWithGrip))
+            {
+                return;
+            }
+
+            if (e.ClickCount == 2 && e.GetPosition(this).Y < 20)
+            {
+                WindowState = WindowState != WindowState.Maximized ? WindowState.Maximized : WindowState.Normal;
+            }
+        }
+
         void AnimatedWindow_Loaded(object sender, RoutedEventArgs e)
         {
             if (!CustomShell)
             {
                 Template = (ControlTemplate)FindResource("AnimatedWindowTemplate");
+                ApplyTemplate();
+
+                var headerPanel = (DockPanel)Template.FindName("HeaderPanel", this);
+                headerPanel.PreviewMouseDown += HeaderPanel_MouseDown;
             }
         }
 

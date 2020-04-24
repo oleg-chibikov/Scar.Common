@@ -17,7 +17,11 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <DockPanel Grid.Row="0">
+                <!--  Transparent background allows mouseDownEvents to be captured! -->
+                <DockPanel
+                    Name="HeaderPanel"
+                    Grid.Row="0"
+                    Background="Transparent">
                     <Image Width="25" Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Icon, Mode=OneTime}" />
                     <StackPanel
                         HorizontalAlignment="Right"
