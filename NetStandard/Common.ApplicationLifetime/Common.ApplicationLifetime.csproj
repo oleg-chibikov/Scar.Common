@@ -5,12 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Common.Logging.Core" Version="3.4.1" />
     <PackageReference Include="Easy.MessageHub" Version="5.0.0" />
-    <PackageReference Include="Scar.Common" Version="1.1.7416.18153" />
-    <PackageReference Include="Scar.Common.ApplicationLifetime.Contracts" Version="1.1.7416.18530" />
-    <PackageReference Include="Scar.Common.Localization" Version="1.1.7416.18531" />
-    <PackageReference Include="Scar.Common.Logging.Autofac" Version="1.1.7416.18155" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.3" />
+    <PackageReference Include="Scar.Common" Version="1.1.7418.38401" />
+    <PackageReference Include="Scar.Common.ApplicationLifetime.Contracts" Version="1.1.7418.38407" />
+    <PackageReference Include="Scar.Common.Localization" Version="1.1.7418.38407" />
+    <PackageReference Include="Scar.Common.Logging.Autofac" Version="1.1.7418.38403" />
   </ItemGroup>
 
 </Project>

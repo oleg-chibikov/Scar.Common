@@ -8,8 +8,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Autofac;
-using Common.Logging;
 using Easy.MessageHub;
+using Microsoft.Extensions.Logging;
 using Scar.Common.ApplicationLifetime;
 using Scar.Common.Messages;
 using Scar.Common.WPF.Localization;
@@ -46,7 +46,7 @@ namespace Scar.Common.WPF.Startup
 
         protected ILifetimeScope Container => _applicationBootstrapper.Container;
 
-        protected ILog Logger => _applicationBootstrapper.Logger;
+        protected ILogger Logger => _applicationBootstrapper.Logger;
 
         protected IMessageHub Messenger => _applicationBootstrapper.Messenger;
 

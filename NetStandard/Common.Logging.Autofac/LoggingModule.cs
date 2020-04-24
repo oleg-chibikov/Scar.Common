@@ -1,10 +1,9 @@
 using System;
 using System.Linq;
-using System.Reflection;
 using Autofac;
 using Autofac.Core;
 using Autofac.Core.Registration;
-using Common.Logging;
+using Microsoft.Extensions.Logging;
 using Module = Autofac.Module;
 
 namespace Scar.Common.Logging.Autofac
@@ -16,19 +15,18 @@ namespace Scar.Common.Logging.Autofac
             _ = componentRegistry ?? throw new ArgumentNullException(nameof(componentRegistry));
             _ = registration ?? throw new ArgumentNullException(nameof(registration));
             registration.Preparing += OnComponentPreparing;
-            registration.Activated += (sender, e) => InjectLoggerProperties(e.Instance);
             base.AttachToComponentRegistration(componentRegistry, registration);
         }
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.Register(c => GetLogger(typeof(LoggingModule))).As<ILog>();
+            builder.Register(c => GetLogger(typeof(LoggingModule))).As<ILogger>();
         }
 
-        static ILog GetLogger(Type t)
+        static ILogger GetLogger(Type t)
         {
             var typeName = GetTypePrintableName(t);
-            return LogManager.GetLogger(typeName);
+            return LoggerFactory.GetLogger(typeName);
         }
 
         static string GetTypePrintableName(Type type)
@@ -53,23 +51,6 @@ namespace Scar.Common.Logging.Autofac
             return typeName;
         }
 
-        static void InjectLoggerProperties(object instance)
-        {
-            _ = instance ?? throw new ArgumentNullException(nameof(instance));
-            var instanceType = instance.GetType();
-
-            // Get all the injectable properties to set.
-            // If you wanted to ensure the properties were only UNSET properties,
-            // here's where you'd do it.
-            var properties = instanceType.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => (p.PropertyType == typeof(ILog)) && p.CanWrite && (p.GetIndexParameters().Length == 0));
-
-            // Set the properties located.
-            foreach (var propToSet in properties)
-            {
-                propToSet.SetValue(instance, GetLogger(instanceType), null);
-            }
-        }
-
         static void OnComponentPreparing(object sender, PreparingEventArgs e)
         {
             _ = sender ?? throw new ArgumentNullException(nameof(sender));
@@ -84,7 +65,7 @@ namespace Scar.Common.Logging.Autofac
             e.Parameters = e.Parameters.Union(
                 new[]
                 {
-                    new TypedParameter(typeof(ILog), logger)
+                    new TypedParameter(typeof(ILogger), logger)
                 });
         }
     }

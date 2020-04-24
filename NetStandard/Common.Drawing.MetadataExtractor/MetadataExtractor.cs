@@ -3,8 +3,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Common.Logging;
 using ExifLib;
+using Microsoft.Extensions.Logging;
 using Scar.Common.Drawing.Metadata;
 
 namespace Scar.Common.Drawing
@@ -18,9 +18,9 @@ namespace Scar.Common.Drawing
         };
 
         static readonly TimeSpan DefaultAttemptDelay = TimeSpan.FromMilliseconds(100);
-        readonly ILog _logger;
+        readonly ILogger _logger;
 
-        public MetadataExtractor(ILog logger)
+        public MetadataExtractor(ILogger logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -67,11 +67,11 @@ namespace Scar.Common.Drawing
                                if (e is IOException)
                                {
                                    var attemptLog = attemptInfo.HasAttempts ? $"Retrying ({attemptInfo})..." : "No more attempts left";
-                                   _logger.Debug($"Failed extracting metadata for {filePath} with IO exception. {attemptLog}");
+                                   _logger.LogDebug($"Failed extracting metadata for {filePath} with IO exception. {attemptLog}");
                                    return true;
                                }
 
-                               _logger.Warn($"Cannot extract metadata for {filePath}", e);
+                               _logger.LogWarning(e, $"Cannot extract metadata for {filePath}");
                                return false;
                            },
                            DefaultAttemptDelay)

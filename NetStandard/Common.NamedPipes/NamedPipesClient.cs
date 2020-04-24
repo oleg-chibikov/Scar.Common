@@ -4,15 +4,15 @@ using System.IO;
 using System.IO.Compression;
 using System.IO.Pipes;
 using System.Runtime.Serialization.Formatters.Binary;
-using Common.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace Scar.Common.NamedPipes
 {
     public sealed class NamedPipesClient<T> : INamedPipesClient<T>
     {
-        readonly ILog _logger;
+        readonly ILogger _logger;
 
-        public NamedPipesClient(ILog logger)
+        public NamedPipesClient(ILogger logger)
         {
             _logger = logger;
         }
@@ -22,11 +22,11 @@ namespace Scar.Common.NamedPipes
         {
             try
             {
-                _logger.Debug($"Sending message {message}...");
+                _logger.LogDebug($"Sending message {message}...");
                 var pipeClient = new NamedPipeClientStream(".", NamedPipesServer<T>.PipeName, PipeDirection.Out, PipeOptions.Asynchronous);
                 pipeClient.Connect(timeout);
 
-                _logger.Debug("Connection established");
+                _logger.LogDebug("Connection established");
 
                 var bf = new BinaryFormatter();
                 byte[] buffer;
@@ -45,15 +45,15 @@ namespace Scar.Common.NamedPipes
 
                 pipeClient.Write(buffer, 0, buffer.Length);
                 pipeClient.Dispose();
-                _logger.Debug("Message is sent");
+                _logger.LogDebug("Message is sent");
             }
             catch (TimeoutException e)
             {
-                _logger.Warn(e);
+                _logger.LogWarning(e, "Timeout during message sending");
             }
             catch (Exception e)
             {
-                _logger.Error(e);
+                _logger.LogError(e, "Exception during message sending");
             }
         }
     }

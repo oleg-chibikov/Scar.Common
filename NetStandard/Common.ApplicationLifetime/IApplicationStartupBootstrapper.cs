@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
 using Autofac;
-using Common.Logging;
 using Easy.MessageHub;
+using Microsoft.Extensions.Logging;
 using Scar.Common.Localization;
 using Scar.Common.Messages;
 
@@ -16,7 +16,7 @@ namespace Scar.Common.ApplicationLifetime
 
         ILifetimeScope Container { get; }
 
-        ILog Logger { get; }
+        ILogger Logger { get; }
 
         IMessageHub Messenger { get; }
 

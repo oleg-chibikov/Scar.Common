@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Common.Logging;
+using Microsoft.Extensions.Logging;
 using Scar.Common.Drawing.Metadata;
 using Scar.Common.IO;
 
@@ -18,9 +18,9 @@ namespace Scar.Common.WPF
     {
         static readonly TimeSpan DefaultAttemptDelay = TimeSpan.FromMilliseconds(100);
 
-        readonly ILog _logger;
+        readonly ILogger _logger;
 
-        public ImageRetriever(ILog logger)
+        public ImageRetriever(ILogger logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -36,11 +36,11 @@ namespace Scar.Common.WPF
                         if (e is IOException)
                         {
                             var attemptLog = attemptInfo.HasAttempts ? $"Retrying ({attemptInfo})..." : "No more attempts left";
-                            _logger.Debug($"Failed loading thumbnail for {filePath} with IO exception. {attemptLog}");
+                            _logger.LogDebug($"Failed loading thumbnail for {filePath} with IO exception. {attemptLog}");
                             return true;
                         }
 
-                        _logger.Warn($"Cannot load thumbnail for {filePath}", e);
+                        _logger.LogWarning(e, $"Cannot load thumbnail for {filePath}");
                         return false;
                     },
                     DefaultAttemptDelay,

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Common.Logging;
+using Microsoft.Extensions.Logging;
 using Scar.Common.Events;
 
 namespace Scar.Common.Processes
@@ -12,9 +12,9 @@ namespace Scar.Common.Processes
     public sealed class ProcessUtility : IProcessUtility
     {
         static readonly TimeSpan TaskKillSleepTime = TimeSpan.FromSeconds(5);
-        readonly ILog _logger;
+        readonly ILogger _logger;
 
-        public ProcessUtility(ILog logger)
+        public ProcessUtility(ILogger logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -29,7 +29,7 @@ namespace Scar.Common.Processes
             return await Task.Run(
                     async () =>
                     {
-                        _logger.Info($"Running {commandPath} with arguments {arguments}");
+                        _logger.LogInformation($"Running {commandPath} with arguments {arguments}");
                         var processInfo = new ProcessStartInfo(commandPath, arguments)
                         {
                             CreateNoWindow = true,
@@ -49,7 +49,7 @@ namespace Scar.Common.Processes
                             throw new InvalidOperationException($"Command {commandPath} not found");
                         }
 
-                        _logger.Trace($"Waiting command to exit for process {commandPath}...");
+                        _logger.LogTrace($"Waiting command to exit for process {commandPath}...");
 
                         var outputStringBuilder = new StringBuilder();
                         var errorStringBuilder = new StringBuilder();
@@ -60,7 +60,7 @@ namespace Scar.Common.Processes
                             {
                                 OnMessage(e.Data);
                                 outputStringBuilder.AppendLine(e.Data);
-                                _logger.Trace(e.Data);
+                                _logger.LogTrace(e.Data);
                             }
                         }
 
@@ -73,7 +73,7 @@ namespace Scar.Common.Processes
 
                             OnError(e.Data);
                             errorStringBuilder.AppendLine(e.Data);
-                            _logger.Warn(e.Data);
+                            _logger.LogWarning(e.Data);
                         }
 
                         process.OutputDataReceived += OutputHandler;
@@ -95,11 +95,11 @@ namespace Scar.Common.Processes
                             await exitTask.ConfigureAwait(false);
                             linkedTokenSource?.Dispose();
 
-                            _logger.Debug($"The process {commandPath} has exited with exit code {process.ExitCode}");
+                            _logger.LogDebug($"The process {commandPath} has exited with exit code {process.ExitCode}");
                         }
                         catch (OperationCanceledException)
                         {
-                            _logger.Debug($"The process {commandPath} is canceled");
+                            _logger.LogDebug($"The process {commandPath} is canceled");
                             throw;
                         }
                         finally
@@ -124,10 +124,10 @@ namespace Scar.Common.Processes
                 return;
             }
 
-            _logger.Debug($"Killing {processName}...");
+            _logger.LogDebug($"Killing {processName}...");
             Process.Start("taskkill", $"/F /IM {processName}.exe");
-            _logger.Debug($"{processName} is killed");
-            _logger.Debug($"Sleeping for {TaskKillSleepTime}...");
+            _logger.LogDebug($"{processName} is killed");
+            _logger.LogDebug($"Sleeping for {TaskKillSleepTime}...");
             await Task.Delay(TaskKillSleepTime, token).ConfigureAwait(false);
         }
 
@@ -162,16 +162,16 @@ namespace Scar.Common.Processes
 
             void OnProcessExited(object sender, EventArgs args)
             {
-                _logger.Debug($"Handling process {name} exit...");
+                _logger.LogDebug($"Handling process {name} exit...");
 
                 var setResult = taskCompletionSource.TrySetResult(null);
                 if (setResult)
                 {
-                    _logger.Debug($"The process {name} has exited successfully");
+                    _logger.LogDebug($"The process {name} has exited successfully");
                 }
                 else
                 {
-                    _logger.Warn($"The process {name} result cannot be set");
+                    _logger.LogWarning($"The process {name} result cannot be set");
                 }
 
                 // ReSharper disable once AccessToModifiedClosure - the outer code needs to await the returning task before disposal
@@ -190,22 +190,22 @@ namespace Scar.Common.Processes
                 () =>
                 {
                     process.Exited -= OnProcessExited;
-                    _logger.Debug($"Checking the process {name} should be canceled");
+                    _logger.LogDebug($"Checking the process {name} should be canceled");
                     if (taskCompletionSource.Task.IsCompleted)
                     {
-                        _logger.Debug($"The process {name} has already exited - no need to cancel");
+                        _logger.LogDebug($"The process {name} has already exited - no need to cancel");
                         return;
                     }
 
-                    _logger.Debug($"Canceling process {name}...");
+                    _logger.LogDebug($"Canceling process {name}...");
                     var cancelResult = taskCompletionSource.TrySetCanceled(cancellationToken);
                     if (cancelResult)
                     {
-                        _logger.Debug($"The process {name} was canceled");
+                        _logger.LogDebug($"The process {name} was canceled");
                     }
                     else
                     {
-                        _logger.Warn($"The process {name} cannot be canceled");
+                        _logger.LogWarning($"The process {name} cannot be canceled");
                     }
                 });
 

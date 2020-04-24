@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Common.Logging;
+using Microsoft.Extensions.Logging;
 using Scar.Common.Drawing.Metadata;
 using Scar.Common.Events;
 using Scar.Common.Processes;
@@ -30,11 +30,11 @@ namespace Scar.Common.Drawing
         readonly SemaphoreSlim _exifOperationSemaphore = new SemaphoreSlim(1, 1);
 
         readonly string _exifToolPath = "exiftool.exe";
-        readonly ILog _logger;
+        readonly ILogger _logger;
         readonly IProcessUtility _processUtility;
 
         // TODO: TEST BMP, png etc
-        public ExifTool(IProcessUtility processUtility, ILog logger)
+        public ExifTool(IProcessUtility processUtility, ILogger logger)
         {
             _processUtility = processUtility ?? throw new ArgumentNullException(nameof(processUtility));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -49,7 +49,7 @@ namespace Scar.Common.Drawing
         public async Task SetOrientationAsync(Orientation orientation, string[] paths, bool backup, CancellationToken token)
         {
             _ = paths ?? throw new ArgumentNullException(nameof(paths));
-            _logger.Info($"Setting orientation to {orientation} for {paths.Length} paths...");
+            _logger.LogInformation($"Setting orientation to {orientation} for {paths.Length} paths...");
             await PerformExifOperation(paths, backup, $"-Orientation={(int)orientation}", token).ConfigureAwait(false);
         }
 
@@ -70,7 +70,7 @@ namespace Scar.Common.Drawing
         {
             _ = paths ?? throw new ArgumentNullException(nameof(paths));
             var sign = GetSign(plus);
-            _logger.Info($"Shifting date by {sign}{shiftBy} for {paths.Length} paths...");
+            _logger.LogInformation($"Shifting date by {sign}{shiftBy} for {paths.Length} paths...");
             await PerformExifOperation(paths, backup, $"-AllDates{sign}=\"{shiftBy:dd\\ hh\\:mm\\:ss}\"", token).ConfigureAwait(false);
         }
 
@@ -146,11 +146,11 @@ namespace Scar.Common.Drawing
 
         void ProcessUtility_ProcessErrorFired(object sender, EventArgs<string> e)
         {
-            _logger.Debug($"Received error from process utility: {e.Parameter}");
+            _logger.LogDebug($"Received error from process utility: {e.Parameter}");
             var messages = e.Parameter.Split(MessageSplitters, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
             foreach (var message in messages)
             {
-                _logger.Trace($"Processing {message}...");
+                _logger.LogTrace($"Processing {message}...");
                 var match = ErrorRegex.Match(message);
                 if (!match.Success)
                 {
@@ -161,18 +161,18 @@ namespace Scar.Common.Drawing
                 var filePath = DecodeFromUtf8(groups[2].Value).Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
                 var errorMessage = groups[1].Value;
                 var eventArgs = new FilePathErrorEventArgs(errorMessage, filePath);
-                _logger.Trace($"Reporting error: {eventArgs}...");
+                _logger.LogTrace($"Reporting error: {eventArgs}...");
                 OnError(eventArgs);
             }
         }
 
         void ProcessUtility_ProcessMessageFired(object sender, EventArgs<string> e)
         {
-            _logger.Debug($"Received message from process utility: {e.Parameter}");
+            _logger.LogDebug($"Received message from process utility: {e.Parameter}");
             var messages = e.Parameter.Split(MessageSplitters, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
             foreach (var message in messages)
             {
-                _logger.Trace($"Processing {message}...");
+                _logger.LogTrace($"Processing {message}...");
                 var match = ProgressRegex.Match(message);
                 if (!match.Success)
                 {
@@ -183,15 +183,15 @@ namespace Scar.Common.Drawing
                 var filePath = DecodeFromUtf8(groups[1].Value).Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
                 var current = int.Parse(groups[2].Value, CultureInfo.InvariantCulture);
                 var total = int.Parse(groups[3].Value, CultureInfo.InvariantCulture);
-                _logger.Trace($"Progress detected:  {current} of {total}");
+                _logger.LogTrace($"Progress detected:  {current} of {total}");
                 if (current > total)
                 {
-                    _logger.Warn("Incorrect percentage");
+                    _logger.LogWarning("Incorrect percentage");
                     return;
                 }
 
                 var eventArgs = new FilePathProgressEventArgs(current, total, filePath);
-                _logger.Trace($"Reporting progress: {eventArgs}...");
+                _logger.LogTrace($"Reporting progress: {eventArgs}...");
                 OnProgress(eventArgs);
             }
         }

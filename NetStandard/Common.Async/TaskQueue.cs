@@ -3,18 +3,18 @@ using System.Collections.Concurrent;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
-using Common.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace Scar.Common.Async
 {
     [SuppressMessage("Naming", "CA1711:Identifiers should not have incorrect suffix", Justification = "This is a proper name")]
     public sealed class TaskQueue : IAppendable<Func<Task>>, IDisposable
     {
-        readonly ILog _logger;
+        readonly ILogger _logger;
         readonly BlockingCollection<Func<Task>> _queue = new BlockingCollection<Func<Task>>();
         readonly Task _worker;
 
-        public TaskQueue(ILog logger)
+        public TaskQueue(ILogger logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _worker = Task.Factory.StartNew(async () => await PollQueue(), CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Current).Unwrap();
@@ -38,7 +38,7 @@ namespace Scar.Common.Async
         [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Don't know underlying exceptions")]
         async Task PollQueue()
         {
-            _logger.Trace("Starting polling queue...");
+            _logger.LogTrace("Starting polling queue...");
             while (true)
             {
                 if (_queue.IsCompleted)
@@ -54,16 +54,16 @@ namespace Scar.Common.Async
                     }
                     catch (OperationCanceledException)
                     {
-                        _logger.Warn("Task is cancelled");
+                        _logger.LogWarning("Task is cancelled");
                     }
                     catch (Exception ex)
                     {
-                        _logger.Error("Error processing task", ex);
+                        _logger.LogError(ex, "Error processing task");
                     }
                 }
             }
 
-            _logger.Trace("Finished polling queue");
+            _logger.LogTrace("Finished polling queue");
         }
     }
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -87,7 +86,7 @@ namespace Scar.Common.IO
                 return;
             }
 
-            Process.Start(directoryPath);
+            directoryPath.OpenPathWithDefaultAction();
         }
 
         public static string RemoveTrailingBackslash(this string directoryPath)

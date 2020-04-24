@@ -6,12 +6,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
-using Common.Logging;
 using Easy.MessageHub;
+using Microsoft.Extensions.Logging;
 using Scar.Common.ApplicationLifetime.Contracts;
 using Scar.Common.Exceptions;
 using Scar.Common.Localization;
-using Scar.Common.Logging.Autofac;
 using Scar.Common.Messages;
 
 namespace Scar.Common.ApplicationLifetime
@@ -50,6 +49,7 @@ namespace Scar.Common.ApplicationLifetime
             ShowMessage = showMessage ?? throw new ArgumentNullException(nameof(cultureManager));
             CultureManager = cultureManager ?? throw new ArgumentNullException(nameof(cultureManager));
             _applicationTerminator = applicationTerminator ?? throw new ArgumentNullException(nameof(applicationTerminator));
+
             Container = BuildContainer();
 
             // ReSharper disable once VirtualMemberCallInConstructor
@@ -57,7 +57,7 @@ namespace Scar.Common.ApplicationLifetime
             Messenger = Container.Resolve<IMessageHub>();
             _subscriptionTokens.Add(Messenger.Subscribe<Message>(LogAndShowMessage));
             _subscriptionTokens.Add(Messenger.Subscribe<CultureInfo>(CultureManager.ChangeCulture));
-            Logger = Container.Resolve<ILog>();
+            Logger = Container.Resolve<ILogger>();
 
             // ReSharper disable once VirtualMemberCallInConstructor
             if (_newInstanceHandling != NewInstanceHandling.AllowMultiple)
@@ -74,7 +74,7 @@ namespace Scar.Common.ApplicationLifetime
 
         public ILifetimeScope Container { get; }
 
-        public ILog Logger { get; }
+        public ILogger Logger { get; }
 
         public IMessageHub Messenger { get; }
 
@@ -125,15 +125,15 @@ namespace Scar.Common.ApplicationLifetime
         {
             if (e is OperationCanceledException)
             {
-                Logger.Trace("Operation canceled", e);
+                Logger.LogTrace(e, "Operation canceled");
             }
             else if (e is ObjectDisposedException objectDisposedException && (objectDisposedException.Source == nameof(Autofac)))
             {
-                Logger.Trace("Autofac LifeTimeScope has already been disposed", e);
+                Logger.LogTrace(e, "Autofac LifeTimeScope has already been disposed");
             }
             else
             {
-                Logger.Fatal("Unhandled exception", e);
+                Logger.LogError(e, "Unhandled exception");
                 NotifyError(e);
             }
         }
@@ -181,8 +181,8 @@ namespace Scar.Common.ApplicationLifetime
             builder.Register(x => SynchronizationContext ?? throw new InvalidOperationException("SyncContext should not be null at the moment of registration")).AsSelf().SingleInstance();
             builder.RegisterInstance(new MessageHub()).AsImplementedInterfaces().SingleInstance();
             builder.RegisterInstance(_assemblyInfoProvider).AsImplementedInterfaces().SingleInstance();
-            builder.RegisterModule<LoggingModule>();
 
+            // builder.RegisterModule<LoggingModule>();
             _registerDependencies(builder);
 
             return builder.Build();
@@ -203,10 +203,10 @@ namespace Scar.Common.ApplicationLifetime
             switch (message.Type)
             {
                 case MessageType.Warning:
-                    Logger.Warn(message.Text, message.Exception);
+                    Logger.LogWarning(message.Exception, message.Text);
                     break;
                 case MessageType.Error:
-                    Logger.Error(message.Text, message.Exception);
+                    Logger.LogWarning(message.Exception, message.Text);
                     break;
             }
 

@@ -2,8 +2,8 @@ using System;
 using System.Globalization;
 using System.Threading;
 using Autofac;
-using Common.Logging;
 using Easy.MessageHub;
+using Microsoft.Extensions.Logging;
 using Scar.Common.ApplicationLifetime;
 using Scar.Common.ApplicationLifetime.Contracts;
 using Scar.Common.Messages;
@@ -40,7 +40,7 @@ namespace Scar.Common.Xamarin.Startup
 
         protected ILifetimeScope Container => _applicationBootstrapper.Container;
 
-        protected ILog Logger => _applicationBootstrapper.Logger;
+        protected ILogger Logger => _applicationBootstrapper.Logger;
 
         protected IMessageHub Messenger => _applicationBootstrapper.Messenger;
 

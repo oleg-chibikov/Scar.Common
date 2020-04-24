@@ -5,7 +5,7 @@ using System.IO.Compression;
 using System.IO.Pipes;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
-using Common.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace Scar.Common.NamedPipes
 {
@@ -13,11 +13,11 @@ namespace Scar.Common.NamedPipes
     {
         const int ReadBufferSize = 255;
 
-        readonly ILog _logger;
+        readonly ILogger _logger;
 
         NamedPipeServerStream _pipeServer;
 
-        public NamedPipesServer(ILog logger)
+        public NamedPipesServer(ILogger logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
@@ -27,7 +27,7 @@ namespace Scar.Common.NamedPipes
             }
             catch (Exception e)
             {
-                logger.Fatal(e.Message);
+                logger.LogError(e, "Cannot create listener");
                 throw;
             }
         }
@@ -40,12 +40,12 @@ namespace Scar.Common.NamedPipes
         public void Dispose()
         {
             _pipeServer.Dispose();
-            _logger.Debug("Finished listening");
+            _logger.LogDebug("Finished listening");
         }
 
         NamedPipeServerStream CreateListener()
         {
-            _logger.Debug("Listening for the new message...");
+            _logger.LogDebug("Listening for the new message...");
 
             // Create the new async pipe
             var stream = new NamedPipeServerStream(PipeName, PipeDirection.In, 1, PipeTransmissionMode.Message, PipeOptions.Asynchronous);
@@ -71,7 +71,7 @@ namespace Scar.Common.NamedPipes
                     return;
                 }
 
-                _logger.Debug("Receiving message from client...");
+                _logger.LogDebug("Receiving message from client...");
                 var bf = new BinaryFormatter();
                 T message;
                 using (var ms = new MemoryStream())
@@ -92,21 +92,21 @@ namespace Scar.Common.NamedPipes
 
                 _pipeServer.Close();
                 _pipeServer.Dispose();
-                _logger.Debug($"Message {message} is received");
+                _logger.LogDebug($"Message {message} is received");
                 var handler = Volatile.Read(ref MessageReceived);
                 if (handler == null)
                 {
-                    _logger.Debug("No handler is registered");
+                    _logger.LogDebug("No handler is registered");
                 }
                 else
                 {
-                    _logger.Debug("Handling message");
+                    _logger.LogDebug("Handling message");
                     handler.Invoke(this, new MessageEventArgs<T>(message));
                 }
             }
             catch (Exception e)
             {
-                _logger.Error(e);
+                _logger.LogError(e, "Wait for connection callback error");
             }
 
             _pipeServer = CreateListener();
