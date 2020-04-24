@@ -116,6 +116,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.CollectionView",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Installer", "Common.Installer\Common.Installer.csproj", "{0F2C16A6-B8C2-4AC9-A54E-891BAD5722EE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WebApi", "Common.WebApi\Common.WebApi.csproj", "{C3F6F403-BD24-498C-8ECD-AB8AA869B919}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -302,6 +304,10 @@ Global
 		{0F2C16A6-B8C2-4AC9-A54E-891BAD5722EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F2C16A6-B8C2-4AC9-A54E-891BAD5722EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F2C16A6-B8C2-4AC9-A54E-891BAD5722EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3F6F403-BD24-498C-8ECD-AB8AA869B919}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3F6F403-BD24-498C-8ECD-AB8AA869B919}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3F6F403-BD24-498C-8ECD-AB8AA869B919}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3F6F403-BD24-498C-8ECD-AB8AA869B919}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
