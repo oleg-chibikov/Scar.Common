@@ -19,6 +19,9 @@ namespace Scar.Common.WPF.Localization
         public static void ChangeCulture(CultureInfo cultureInfo)
         {
             _ = cultureInfo ?? throw new ArgumentNullException(nameof(cultureInfo));
+
+            CultureInfo.CurrentCulture = cultureInfo;
+            CultureInfo.CurrentUICulture = cultureInfo;
             if (Equals(LocalizeDictionary.Instance.Culture, cultureInfo))
             {
                 return;
