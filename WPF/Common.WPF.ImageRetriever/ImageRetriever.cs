@@ -20,7 +20,7 @@ namespace Scar.Common.WPF
 
         readonly ILogger _logger;
 
-        public ImageRetriever(ILogger logger)
+        public ImageRetriever(ILogger<ImageRetriever> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }

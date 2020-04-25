@@ -20,7 +20,7 @@ namespace Scar.Common.Drawing
         static readonly TimeSpan DefaultAttemptDelay = TimeSpan.FromMilliseconds(100);
         readonly ILogger _logger;
 
-        public MetadataExtractor(ILogger logger)
+        public MetadataExtractor(ILogger<MetadataExtractor> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }

@@ -34,7 +34,7 @@ namespace Scar.Common.Drawing
         readonly IProcessUtility _processUtility;
 
         // TODO: TEST BMP, png etc
-        public ExifTool(IProcessUtility processUtility, ILogger logger)
+        public ExifTool(IProcessUtility processUtility, ILogger<ProcessUtility> logger)
         {
             _processUtility = processUtility ?? throw new ArgumentNullException(nameof(processUtility));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));

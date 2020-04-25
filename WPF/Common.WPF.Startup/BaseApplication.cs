@@ -4,11 +4,14 @@ using System.Globalization;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using Autofac;
 using Easy.MessageHub;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Scar.Common.ApplicationLifetime;
 using Scar.Common.Messages;
@@ -21,13 +24,19 @@ namespace Scar.Common.WPF.Startup
         readonly IApplicationStartupBootstrapper _applicationBootstrapper;
 
         [SuppressMessage("Usage", "CA2214:Do not call overridable methods in constructors", Justification = "Intended")]
-        protected BaseApplication()
+        protected BaseApplication(
+            Func<IHostBuilder, IHostBuilder>? configureHost = null,
+            Action<IServiceCollection>? configureServices = null,
+            Action<HostBuilderContext, ILoggingBuilder>? configureLogging = null,
+            string? alreadyRunningMessage = null,
+            int waitAfterOldInstanceKillMilliseconds = 0,
+            NewInstanceHandling newInstanceHandling = NewInstanceHandling.Restart,
+            CultureInfo? startupCulture = null)
         {
             var cultureManager = new CultureManager();
             var applicationTerminator = new ApplicationTerminator();
             var assemblyInfoProvider = new AssemblyInfoProvider(new EntryAssemblyProvider(), new SpecialPathsProvider());
 
-            // ReSharper disable VirtualMemberCallInConstructor
             _applicationBootstrapper = new ApplicationStartupBootstrapper(
                 cultureManager,
                 applicationTerminator,
@@ -35,47 +44,39 @@ namespace Scar.Common.WPF.Startup
                 CreateMutex,
                 RegisterDependencies,
                 assemblyInfoProvider,
-                AlreadyRunningMessage,
-                WaitAfterOldInstanceKillMilliseconds,
-                NewInstanceHandling,
-                GetStartupCulture());
+                configureHost,
+                configureServices,
+                configureLogging,
+                alreadyRunningMessage,
+                waitAfterOldInstanceKillMilliseconds,
+                newInstanceHandling,
+                startupCulture);
 
-            // ReSharper restore VirtualMemberCallInConstructor
             DispatcherUnhandledException += App_DispatcherUnhandledException;
         }
 
         protected ILifetimeScope Container => _applicationBootstrapper.Container;
 
-        protected ILogger Logger => _applicationBootstrapper.Logger;
-
         protected IMessageHub Messenger => _applicationBootstrapper.Messenger;
-
-        protected virtual NewInstanceHandling NewInstanceHandling => NewInstanceHandling.Restart;
-
-        protected virtual int WaitAfterOldInstanceKillMilliseconds => 0;
-
-        protected virtual string? AlreadyRunningMessage => null;
 
         protected SynchronizationContext? SynchronizationContext => _applicationBootstrapper.SynchronizationContext;
 
-        protected override void OnExit(ExitEventArgs e)
+        protected override async void OnExit(ExitEventArgs e)
         {
-            _applicationBootstrapper.OnExit();
+            await _applicationBootstrapper.OnExitAsync().ConfigureAwait(false);
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
-            _applicationBootstrapper.OnStart();
+            _applicationBootstrapper.BeforeStart();
 
             // Prevent WPF tooltips from expiration
             ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(int.MaxValue));
 
-            OnStartup();
+            await Task.WhenAll(OnStartupAsync(), _applicationBootstrapper.OnStartAsync()).ConfigureAwait(false);
         }
 
-        protected virtual CultureInfo? GetStartupCulture() => null;
-
-        protected abstract void OnStartup();
+        protected abstract Task OnStartupAsync();
 
         protected virtual void RegisterDependencies(ContainerBuilder builder)
         {

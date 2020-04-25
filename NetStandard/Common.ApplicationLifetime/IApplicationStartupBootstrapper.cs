@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Autofac;
 using Easy.MessageHub;
-using Microsoft.Extensions.Logging;
 using Scar.Common.Localization;
 using Scar.Common.Messages;
 
@@ -16,8 +16,6 @@ namespace Scar.Common.ApplicationLifetime
 
         ILifetimeScope Container { get; }
 
-        ILogger Logger { get; }
-
         IMessageHub Messenger { get; }
 
         ICultureManager CultureManager { get; }
@@ -26,8 +24,10 @@ namespace Scar.Common.ApplicationLifetime
 
         void HandleException(Exception e);
 
-        void OnExit();
+        Task OnExitAsync();
 
-        void OnStart();
+        void BeforeStart();
+
+        Task OnStartAsync();
     }
 }

@@ -17,7 +17,7 @@ namespace Scar.Common.NamedPipes
 
         NamedPipeServerStream _pipeServer;
 
-        public NamedPipesServer(ILogger logger)
+        public NamedPipesServer(ILogger<NamedPipesServer<T>> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 

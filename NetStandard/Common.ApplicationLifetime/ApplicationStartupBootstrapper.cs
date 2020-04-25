@@ -6,7 +6,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Easy.MessageHub;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Scar.Common.ApplicationLifetime.Contracts;
 using Scar.Common.Exceptions;
@@ -22,9 +25,10 @@ namespace Scar.Common.ApplicationLifetime
         readonly IAssemblyInfoProvider _assemblyInfoProvider;
         readonly Mutex? _mutex;
         readonly NewInstanceHandling _newInstanceHandling;
-        readonly Action<ContainerBuilder> _registerDependencies;
         readonly IList<Guid> _subscriptionTokens = new List<Guid>();
         readonly int _waitAfterOldInstanceKillMilliseconds;
+        readonly IHost _host;
+        readonly ILogger _logger;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Mutex is lifetime object")]
         public ApplicationStartupBootstrapper(
@@ -34,6 +38,9 @@ namespace Scar.Common.ApplicationLifetime
             Func<Mutex>? createMutex,
             Action<ContainerBuilder> registerDependencies,
             IAssemblyInfoProvider assemblyInfoProvider,
+            Func<IHostBuilder, IHostBuilder>? configureHost = null,
+            Action<IServiceCollection>? configureServices = null,
+            Action<HostBuilderContext, ILoggingBuilder>? configureLogging = null,
             string? alreadyRunningMessage = null,
             int waitAfterOldInstanceKillMilliseconds = 0,
             NewInstanceHandling newInstanceHandling = NewInstanceHandling.Restart,
@@ -41,7 +48,7 @@ namespace Scar.Common.ApplicationLifetime
         {
             // This is used for logs - every log will have a CorrelationId;
             Trace.CorrelationManager.ActivityId = Guid.NewGuid();
-            _registerDependencies = registerDependencies ?? throw new ArgumentNullException(nameof(registerDependencies));
+            _ = registerDependencies ?? throw new ArgumentNullException(nameof(registerDependencies));
             _assemblyInfoProvider = assemblyInfoProvider ?? throw new ArgumentNullException(nameof(assemblyInfoProvider));
             _alreadyRunningMessage = alreadyRunningMessage ?? $"{assemblyInfoProvider.Product} is already launched";
             _waitAfterOldInstanceKillMilliseconds = waitAfterOldInstanceKillMilliseconds;
@@ -50,20 +57,48 @@ namespace Scar.Common.ApplicationLifetime
             CultureManager = cultureManager ?? throw new ArgumentNullException(nameof(cultureManager));
             _applicationTerminator = applicationTerminator ?? throw new ArgumentNullException(nameof(applicationTerminator));
 
-            Container = BuildContainer();
-
-            // ReSharper disable once VirtualMemberCallInConstructor
-            CultureManager.ChangeCulture(startupCulture ?? Thread.CurrentThread.CurrentUICulture);
-            Messenger = Container.Resolve<IMessageHub>();
-            _subscriptionTokens.Add(Messenger.Subscribe<Message>(LogAndShowMessage));
-            _subscriptionTokens.Add(Messenger.Subscribe<CultureInfo>(CultureManager.ChangeCulture));
-            Logger = Container.Resolve<ILogger>();
-
-            // ReSharper disable once VirtualMemberCallInConstructor
             if (_newInstanceHandling != NewInstanceHandling.AllowMultiple)
             {
                 _mutex = createMutex == null ? CreateCommonMutex() : createMutex();
             }
+
+            var hostBuilder = Host.CreateDefaultBuilder()
+                .UseServiceProviderFactory(
+                    new AutofacServiceProviderFactory(
+                        containerBuilder =>
+                        {
+                            containerBuilder.Register(x => SynchronizationContext ?? throw new InvalidOperationException("SyncContext should not be null at the moment of registration"))
+                                .AsSelf()
+                                .SingleInstance();
+                            containerBuilder.RegisterInstance(new MessageHub()).AsImplementedInterfaces().SingleInstance();
+                            containerBuilder.RegisterInstance(_assemblyInfoProvider).AsImplementedInterfaces().SingleInstance();
+                            registerDependencies(containerBuilder);
+                        }))
+                .ConfigureServices(
+                    serviceCollection =>
+                    {
+                        configureServices?.Invoke(serviceCollection);
+
+                        serviceCollection.AddLogging();
+                    })
+                .ConfigureLogging(
+                    (hostBuilderContext, loggingBuilder) =>
+                    {
+                        configureLogging?.Invoke(hostBuilderContext, loggingBuilder);
+                    });
+
+            if (configureHost != null)
+            {
+                hostBuilder = configureHost(hostBuilder);
+            }
+
+            _host = hostBuilder.Build();
+            Container = _host.Services.GetAutofacRoot();
+            CultureManager.ChangeCulture(startupCulture ?? Thread.CurrentThread.CurrentUICulture);
+            Messenger = Container.Resolve<IMessageHub>();
+            _subscriptionTokens.Add(Messenger.Subscribe<Message>(LogAndShowMessage));
+            _subscriptionTokens.Add(Messenger.Subscribe<CultureInfo>(CultureManager.ChangeCulture));
+            _logger = Container.Resolve<ILogger<ApplicationStartupBootstrapper>>();
 
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
         }
@@ -74,26 +109,24 @@ namespace Scar.Common.ApplicationLifetime
 
         public ILifetimeScope Container { get; }
 
-        public ILogger Logger { get; }
-
         public IMessageHub Messenger { get; }
 
         public ICultureManager CultureManager { get; }
 
         public string AppGuid => _assemblyInfoProvider.AppGuid;
 
-        public void OnExit()
+        public async Task OnExitAsync()
         {
             foreach (var token in _subscriptionTokens)
             {
                 Messenger.Unsubscribe(token);
             }
 
-            Container.Dispose();
+            await Container.DisposeAsync();
             _mutex?.Dispose();
         }
 
-        public void OnStart()
+        public void BeforeStart()
         {
             SynchronizationContext = SynchronizationContext.Current;
             if (_newInstanceHandling == NewInstanceHandling.AllowMultiple)
@@ -121,19 +154,24 @@ namespace Scar.Common.ApplicationLifetime
             }
         }
 
+        public async Task OnStartAsync()
+        {
+            await _host.RunAsync().ConfigureAwait(false);
+        }
+
         public void HandleException(Exception e)
         {
             if (e is OperationCanceledException)
             {
-                Logger.LogTrace(e, "Operation canceled");
+                _logger.LogTrace(e, "Operation canceled");
             }
             else if (e is ObjectDisposedException objectDisposedException && (objectDisposedException.Source == nameof(Autofac)))
             {
-                Logger.LogTrace(e, "Autofac LifeTimeScope has already been disposed");
+                _logger.LogTrace(e, "Autofac LifeTimeScope has already been disposed");
             }
             else
             {
-                Logger.LogError(e, "Unhandled exception");
+                _logger.LogError(e, "Unhandled exception");
                 NotifyError(e);
             }
         }
@@ -173,21 +211,6 @@ namespace Scar.Common.ApplicationLifetime
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "Lifetime object")]
-        ILifetimeScope BuildContainer()
-        {
-            var builder = new ContainerBuilder();
-
-            builder.Register(x => SynchronizationContext ?? throw new InvalidOperationException("SyncContext should not be null at the moment of registration")).AsSelf().SingleInstance();
-            builder.RegisterInstance(new MessageHub()).AsImplementedInterfaces().SingleInstance();
-            builder.RegisterInstance(_assemblyInfoProvider).AsImplementedInterfaces().SingleInstance();
-
-            // builder.RegisterModule<LoggingModule>();
-            _registerDependencies(builder);
-
-            return builder.Build();
-        }
-
         Mutex CreateCommonMutex()
         {
             return new Mutex(false, $"Global\\{AppGuid}", out _);
@@ -203,10 +226,10 @@ namespace Scar.Common.ApplicationLifetime
             switch (message.Type)
             {
                 case MessageType.Warning:
-                    Logger.LogWarning(message.Exception, message.Text);
+                    _logger.LogWarning(message.Exception, message.Text);
                     break;
                 case MessageType.Error:
-                    Logger.LogWarning(message.Exception, message.Text);
+                    _logger.LogWarning(message.Exception, message.Text);
                     break;
             }
 

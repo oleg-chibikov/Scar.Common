@@ -14,10 +14,10 @@ namespace Scar.Common.Async
         readonly BlockingCollection<Func<Task>> _queue = new BlockingCollection<Func<Task>>();
         readonly Task _worker;
 
-        public TaskQueue(ILogger logger)
+        public TaskQueue(ILogger<TaskQueue> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _worker = Task.Factory.StartNew(async () => await PollQueue(), CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Current).Unwrap();
+            _worker = Task.Factory.StartNew(async () => await PollQueue().ConfigureAwait(false), CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Current).Unwrap();
         }
 
         public int CurrentlyQueuedTasks => _queue.Count;

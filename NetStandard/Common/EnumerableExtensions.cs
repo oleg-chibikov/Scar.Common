@@ -62,7 +62,7 @@ namespace Scar.Common
             for (var index = 0; index < num; ++index)
             {
                 var array = objArray.Skip(index * maxBlockSize).Take(maxBlockSize).ToArray();
-                if ((array.Length == 0) || !await action(array, index, num))
+                if ((array.Length == 0) || !await action(array, index, num).ConfigureAwait(false))
                 {
                     break;
                 }

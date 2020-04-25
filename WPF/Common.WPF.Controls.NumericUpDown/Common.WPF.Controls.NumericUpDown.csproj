@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.WPF.Controls.Behaviors" Version="1.1.7418.38402" />
+    <PackageReference Include="Scar.Common.WPF.Controls.Behaviors" Version="1.1.7420.20624" />
   </ItemGroup>
 
 </Project>

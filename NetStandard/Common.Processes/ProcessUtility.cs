@@ -14,7 +14,7 @@ namespace Scar.Common.Processes
         static readonly TimeSpan TaskKillSleepTime = TimeSpan.FromSeconds(5);
         readonly ILogger _logger;
 
-        public ProcessUtility(ILogger logger)
+        public ProcessUtility(ILogger<ProcessUtility> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }

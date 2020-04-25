@@ -12,7 +12,7 @@ namespace Scar.Common.NamedPipes
     {
         readonly ILogger _logger;
 
-        public NamedPipesClient(ILogger logger)
+        public NamedPipesClient(ILogger<NamedPipesClient<T>> logger)
         {
             _logger = logger;
         }
