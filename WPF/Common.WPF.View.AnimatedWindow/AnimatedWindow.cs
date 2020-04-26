@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shell;
+using Scar.Common.WPF.Screen;
 
 namespace Scar.Common.WPF.View
 {
@@ -100,7 +101,7 @@ namespace Scar.Common.WPF.View
 
             void CompletedHandler(object? s, EventArgs _)
             {
-                hideAnimation.Completed -= CompletedHandler;
+                hideAnimation!.Completed -= CompletedHandler;
                 Close();
             }
 
@@ -115,7 +116,7 @@ namespace Scar.Common.WPF.View
 
             void CompletedHandler(object? s, EventArgs _)
             {
-                showAnimation.Completed -= CompletedHandler;
+                showAnimation!.Completed -= CompletedHandler;
                 BeginAnimation(TopProperty, null);
                 BeginAnimation(LeftProperty, null);
                 if (Focusable && ShowActivated)
@@ -157,30 +158,33 @@ namespace Scar.Common.WPF.View
 
         void CheckBounds()
         {
+            var screen = WPFScreen.GetScreenFrom(this);
+            var workingArea = screen.WorkingArea;
+
             // Top
-            if (Top < ActiveScreenArea.Y)
+            if (Top < workingArea.Y)
             {
-                Top = ActiveScreenArea.Y;
+                Top = workingArea.Y;
             }
 
             // Left
-            if (Left < ActiveScreenArea.X)
+            if (Left < workingArea.X)
             {
-                Left = ActiveScreenArea.X;
+                Left = workingArea.X;
             }
 
             // Bottom
             var windowBottom = Top + Height;
-            var screenBottom = ActiveScreenArea.Y + ActiveScreenArea.Height;
-            if ((Height <= ActiveScreenArea.Height) && (windowBottom > screenBottom))
+            var screenBottom = workingArea.Y + workingArea.Height;
+            if ((Height <= workingArea.Height) && (windowBottom > screenBottom))
             {
                 Top -= windowBottom - screenBottom;
             }
 
             // Right
             var windowRight = Left + Width;
-            var screenRight = ActiveScreenArea.X + ActiveScreenArea.Width;
-            if ((Width <= ActiveScreenArea.Width) && (windowRight > screenRight))
+            var screenRight = workingArea.X + workingArea.Width;
+            if ((Width <= workingArea.Width) && (windowRight > screenRight))
             {
                 Left -= windowRight - screenRight;
             }

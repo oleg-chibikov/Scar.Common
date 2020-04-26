@@ -112,6 +112,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Installer", "Common.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WebApi", "Common.WebApi\Common.WebApi.csproj", "{C3F6F403-BD24-498C-8ECD-AB8AA869B919}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.WPF.Screen", "WPF\Common.WPF.Screen\Common.WPF.Screen.csproj", "{C2A22121-B3C1-4E5D-86A3-CD81CF9B050E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -294,6 +296,10 @@ Global
 		{C3F6F403-BD24-498C-8ECD-AB8AA869B919}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3F6F403-BD24-498C-8ECD-AB8AA869B919}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3F6F403-BD24-498C-8ECD-AB8AA869B919}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2A22121-B3C1-4E5D-86A3-CD81CF9B050E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2A22121-B3C1-4E5D-86A3-CD81CF9B050E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2A22121-B3C1-4E5D-86A3-CD81CF9B050E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2A22121-B3C1-4E5D-86A3-CD81CF9B050E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -341,6 +347,7 @@ Global
 		{007435DC-B358-4B68-B7FA-B9AA86CDFDC8} = {74558523-84FA-4567-9305-E0D55054950E}
 		{35B636C1-D376-4A9F-9CCA-FB73A2220E83} = {74558523-84FA-4567-9305-E0D55054950E}
 		{5D7120E1-8501-425D-AB76-6B372FEE75CB} = {407943AC-A937-4E8F-BCD7-8DBBCBB54811}
+		{C2A22121-B3C1-4E5D-86A3-CD81CF9B050E} = {407943AC-A937-4E8F-BCD7-8DBBCBB54811}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {24C9D89F-376A-40CA-9846-76B97230738A}

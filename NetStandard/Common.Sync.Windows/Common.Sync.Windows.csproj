@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
-    <PackageReference Include="Scar.Common.Sync" Version="1.1.7420.20626" />
+    <PackageReference Include="Scar.Common.Sync" Version="1.1.7421.20137" />
   </ItemGroup>
 
 </Project>

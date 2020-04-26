@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Scar.Common
 {
@@ -17,7 +18,7 @@ namespace Scar.Common
 
         DateTime LastExecutionTime { get; set; } = DateTime.MinValue;
 
-        public async void Debounce<T>(TimeSpan interval, Action<T> action, T param)
+        public async Task DebounceAsync<T>(TimeSpan interval, Action<T> action, T param)
         {
             await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
             _timer?.Dispose();
@@ -25,7 +26,7 @@ namespace Scar.Common
             _timer = new Timer(
                 async s =>
                 {
-                    await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
+                    await _semaphoreSlim.WaitAsync().ConfigureAwait(true);
                     if (_timer == null)
                     {
                         _semaphoreSlim.Release();
@@ -43,12 +44,12 @@ namespace Scar.Common
             _semaphoreSlim.Release();
         }
 
-        public void Debounce(TimeSpan interval, Action action)
+        public async Task DebounceAsync(TimeSpan interval, Action action)
         {
-            Debounce<object>(interval, x => action(), default!);
+            await DebounceAsync<object>(interval, x => action(), default!).ConfigureAwait(false);
         }
 
-        public async void Throttle<T>(TimeSpan interval, Action<T> action, T param, bool skipImmediateEvent = false, bool useFirstEvent = false)
+        public async Task ThrottleAsync<T>(TimeSpan interval, Action<T> action, T param, bool skipImmediateEvent = false, bool useFirstEvent = false)
         {
             _ = action ?? throw new ArgumentNullException(nameof(action));
 
@@ -93,9 +94,9 @@ namespace Scar.Common
             }
         }
 
-        public void Throttle(TimeSpan interval, Action action, bool skipImmediate = false, bool skipLast = false)
+        public async Task ThrottleAsync(TimeSpan interval, Action action, bool skipImmediate = false, bool skipLast = false)
         {
-            Throttle<object>(interval, x => action(), default!, skipImmediate, skipLast);
+            await ThrottleAsync<object>(interval, x => action(), default!, skipImmediate, skipLast).ConfigureAwait(false);
         }
 
         public void Dispose()
@@ -135,7 +136,7 @@ namespace Scar.Common
             _timer = new Timer(
                 async s =>
                 {
-                    await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
+                    await _semaphoreSlim.WaitAsync().ConfigureAwait(true);
                     if (_timer == null)
                     {
                         _semaphoreSlim.Release();

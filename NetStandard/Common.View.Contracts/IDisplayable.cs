@@ -4,8 +4,6 @@ namespace Scar.Common.View.Contracts
 {
     public interface IDisplayable
     {
-        event EventHandler SizeChanged;
-
         event EventHandler Closed;
 
         event EventHandler Loaded;

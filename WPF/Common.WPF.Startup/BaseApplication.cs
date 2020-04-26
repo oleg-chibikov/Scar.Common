@@ -63,7 +63,7 @@ namespace Scar.Common.WPF.Startup
 
         protected override async void OnExit(ExitEventArgs e)
         {
-            await _applicationBootstrapper.OnExitAsync().ConfigureAwait(false);
+            await _applicationBootstrapper.OnExitAsync().ConfigureAwait(true);
         }
 
         protected override async void OnStartup(StartupEventArgs e)
@@ -73,7 +73,7 @@ namespace Scar.Common.WPF.Startup
             // Prevent WPF tooltips from expiration
             ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(int.MaxValue));
 
-            await Task.WhenAll(OnStartupAsync(), _applicationBootstrapper.OnStartAsync()).ConfigureAwait(false);
+            await Task.WhenAll(OnStartupAsync(), _applicationBootstrapper.OnStartAsync()).ConfigureAwait(true);
         }
 
         protected abstract Task OnStartupAsync();

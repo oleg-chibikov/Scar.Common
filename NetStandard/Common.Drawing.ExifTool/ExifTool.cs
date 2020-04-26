@@ -50,7 +50,7 @@ namespace Scar.Common.Drawing
         {
             _ = paths ?? throw new ArgumentNullException(nameof(paths));
             _logger.LogInformation($"Setting orientation to {orientation} for {paths.Length} paths...");
-            await PerformExifOperation(paths, backup, $"-Orientation={(int)orientation}", token).ConfigureAwait(false);
+            await PerformExifOperationAsync(paths, backup, $"-Orientation={(int)orientation}", token).ConfigureAwait(false);
         }
 
         public async Task SetOrientationAsync(Orientation orientation, string path, bool backup, CancellationToken token)
@@ -71,7 +71,7 @@ namespace Scar.Common.Drawing
             _ = paths ?? throw new ArgumentNullException(nameof(paths));
             var sign = GetSign(plus);
             _logger.LogInformation($"Shifting date by {sign}{shiftBy} for {paths.Length} paths...");
-            await PerformExifOperation(paths, backup, $"-AllDates{sign}=\"{shiftBy:dd\\ hh\\:mm\\:ss}\"", token).ConfigureAwait(false);
+            await PerformExifOperationAsync(paths, backup, $"-AllDates{sign}=\"{shiftBy:dd\\ hh\\:mm\\:ss}\"", token).ConfigureAwait(false);
         }
 
         public async Task ShiftDateAsync(TimeSpan shiftBy, bool plus, string path, bool backup, CancellationToken token)
@@ -120,7 +120,7 @@ namespace Scar.Common.Drawing
             Progress?.Invoke(this, eventArgs);
         }
 
-        async Task PerformExifOperation(string[] paths, bool backup, string operation, CancellationToken token)
+        async Task PerformExifOperationAsync(string[] paths, bool backup, string operation, CancellationToken token)
         {
             _ = paths ?? throw new ArgumentNullException(nameof(paths));
             _ = operation ?? throw new ArgumentNullException(nameof(operation));

@@ -129,4 +129,35 @@
     <Rule Id="SX1309" Action="Warning" />
     <Rule Id="SX1309S" Action="Warning" />
   </Rules>
+  <Rules AnalyzerId="WTG.Analyzers" RuleNamespace="WTG.Analyzers">
+    <Rule Id="WTG1001" Action="Warning" />
+    <Rule Id="WTG1002" Action="Warning" />
+    <Rule Id="WTG1003" Action="Warning" />
+    <Rule Id="WTG1004" Action="None" />
+    <Rule Id="WTG1005" Action="Warning" />
+    <Rule Id="WTG1006" Action="None" />
+    <Rule Id="WTG1007" Action="None" />
+    <Rule Id="WTG1008" Action="None" />
+    <Rule Id="WTG1009" Action="Warning" />
+    <Rule Id="WTG1010" Action="None" />
+    <Rule Id="WTG1011" Action="Warning" />
+    <Rule Id="WTG1012" Action="None" />
+    <Rule Id="WTG1013" Action="None" />
+    <Rule Id="WTG1014" Action="None" />
+    <Rule Id="WTG1015" Action="None" />
+    <Rule Id="WTG1016" Action="None" />
+    <Rule Id="WTG2001" Action="Warning" />
+    <Rule Id="WTG3001" Action="Warning" />
+    <Rule Id="WTG3002" Action="None" />
+    <Rule Id="WTG3003" Action="None" />
+    <Rule Id="WTG3004" Action="Warning" />
+    <Rule Id="WTG3005" Action="Warning" />
+    <Rule Id="WTG3006" Action="Warning" />
+    <Rule Id="WTG3007" Action="Warning" />
+    <Rule Id="WTG3008" Action="Warning" />
+    <Rule Id="WTG3009" Action="Warning" />
+    <Rule Id="WTG3101" Action="Warning" />
+    <Rule Id="WTG3102" Action="Warning" />
+    <Rule Id="WTG3103" Action="Warning" />
+  </Rules>
 </RuleSet>

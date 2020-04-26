@@ -12,10 +12,10 @@ namespace Scar.Common.Async
 
         public CancellationToken Token => _cancellationTokenSource.Token;
 
-        public async Task StartNewTask(Action<CancellationToken> action, bool cancelCurrent)
+        public async Task StartNewTaskAsync(Action<CancellationToken> action, bool cancelCurrent)
         {
             _ = action ?? throw new ArgumentNullException(nameof(action));
-            await ExecuteAsyncOperation(token => Task.Run(() => action(token), token), cancelCurrent).ConfigureAwait(false);
+            await ExecuteOperationAsync(token => Task.Run(() => action(token), token), cancelCurrent).ConfigureAwait(false);
         }
 
         public bool CheckCompleted()
@@ -23,7 +23,7 @@ namespace Scar.Common.Async
             return CurrentTask.IsCompleted;
         }
 
-        public async Task ExecuteAsyncOperation(Func<CancellationToken, Task> func, bool cancelCurrent)
+        public async Task ExecuteOperationAsync(Func<CancellationToken, Task> func, bool cancelCurrent)
         {
             _ = func ?? throw new ArgumentNullException(nameof(func));
             if (!cancelCurrent && !CheckCompleted())

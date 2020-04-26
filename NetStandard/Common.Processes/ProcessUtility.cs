@@ -56,6 +56,8 @@ namespace Scar.Common.Processes
 
                         void OutputHandler(object sender, DataReceivedEventArgs e)
                         {
+                            _ = outputStringBuilder ?? throw new InvalidOperationException("outputStringBuilder is null");
+
                             if (!string.IsNullOrWhiteSpace(e.Data))
                             {
                                 OnMessage(e.Data);
@@ -66,6 +68,8 @@ namespace Scar.Common.Processes
 
                         void ErrorHandler(object sender, DataReceivedEventArgs e)
                         {
+                            _ = errorStringBuilder ?? throw new InvalidOperationException("errorStringBuilder is null");
+
                             if (string.IsNullOrWhiteSpace(e.Data))
                             {
                                 return;
@@ -153,7 +157,7 @@ namespace Scar.Common.Processes
         /// <param name="name">The name of the process for logging.</param>
         /// <param name="cancellationToken">A cancellation token. If invoked, the task will return immediately as canceled.</param>
         /// <returns>A Task representing waiting for the process to end.</returns>
-        Task WaitForExitAsync(Process process, string name, CancellationToken cancellationToken)
+        async Task WaitForExitAsync(Process process, string name, CancellationToken cancellationToken)
         {
             _ = process ?? throw new ArgumentNullException(nameof(process));
             _ = name ?? throw new ArgumentNullException(nameof(name));
@@ -164,7 +168,7 @@ namespace Scar.Common.Processes
             {
                 _logger.LogDebug($"Handling process {name} exit...");
 
-                var setResult = taskCompletionSource.TrySetResult(null);
+                var setResult = taskCompletionSource?.TrySetResult(null) ?? throw new InvalidOperationException("taskCompletionSource is null");
                 if (setResult)
                 {
                     _logger.LogDebug($"The process {name} has exited successfully");
@@ -181,7 +185,7 @@ namespace Scar.Common.Processes
             // No need to wait for the already exited process;
             if (process.HasExited)
             {
-                return Task.CompletedTask;
+                return;
             }
 
             process.Exited += OnProcessExited;
@@ -209,7 +213,7 @@ namespace Scar.Common.Processes
                     }
                 });
 
-            return taskCompletionSource.Task;
+            await taskCompletionSource.Task.ConfigureAwait(false);
         }
     }
 }

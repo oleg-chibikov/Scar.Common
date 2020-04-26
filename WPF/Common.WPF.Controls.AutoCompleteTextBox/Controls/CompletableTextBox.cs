@@ -397,7 +397,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
 
         void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            _rateLimiter.Throttle(
+            _rateLimiter.ThrottleAsync(
                 TimeSpan.FromMilliseconds(20),
                 () =>
                 {
@@ -467,7 +467,7 @@ namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Controls
           +---------------------------------------------------------------------*/
         void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            _rateLimiter.Debounce(
+            _rateLimiter.DebounceAsync(
                 TimeSpan.FromMilliseconds(300),
                 async text =>
                 {

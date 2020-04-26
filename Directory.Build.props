@@ -16,6 +16,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="WTG.Analyzers" Version="2.10.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Scar.CodeAnalysis" Version="1.0.7421.35153" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -48,14 +53,9 @@
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)\stylecop.json" Link="Properties\stylecop.json" />
   </ItemGroup>
 
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="del &quot;$(TargetDir)*.nupkg&quot; /S /Q /F" />
-    <Exec Command="del &quot;$(TargetDir)*.snupkg&quot; /S /Q /F" />
-  </Target>
-
   <Target Name="PublishPackage" AfterTargets="Pack">
     <!--According to https://docs.microsoft.com/en-us/nuget/create-packages/symbol-packages-snupkg it pushes both symbols and a real package-->
     <Exec
-      Command="nuget push &quot;$(TargetDir)$(TargetName).$(Version).nupkg&quot; -Source http://localhost:5533/ -ApiKey NugetServer" />
+      Command="$(SolutionDir)Tools\NugetPusher\Scar.NugetPusher.exe $(TargetDir)" />
   </Target>
 </Project>

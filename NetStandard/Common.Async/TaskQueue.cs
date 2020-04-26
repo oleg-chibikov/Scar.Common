@@ -17,7 +17,7 @@ namespace Scar.Common.Async
         public TaskQueue(ILogger<TaskQueue> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _worker = Task.Factory.StartNew(async () => await PollQueue().ConfigureAwait(false), CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Current).Unwrap();
+            _worker = Task.Factory.StartNew(async () => await PollQueueAsync().ConfigureAwait(false), CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Current).Unwrap();
         }
 
         public int CurrentlyQueuedTasks => _queue.Count;
@@ -28,15 +28,15 @@ namespace Scar.Common.Async
             _queue.Add(task);
         }
 
-        public async void Dispose()
+        public void Dispose()
         {
             _queue.CompleteAdding();
-            await _worker.ConfigureAwait(false);
+            _worker.Wait();
             _queue.Dispose();
         }
 
         [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Don't know underlying exceptions")]
-        async Task PollQueue()
+        async Task PollQueueAsync()
         {
             _logger.LogTrace("Starting polling queue...");
             while (true)

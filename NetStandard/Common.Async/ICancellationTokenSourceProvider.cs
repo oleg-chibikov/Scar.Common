@@ -16,9 +16,9 @@ namespace Scar.Common.Async
 
         CancellationToken ResetToken();
 
-        Task ExecuteAsyncOperation(Func<CancellationToken, Task> func, bool cancelCurrent = true);
+        Task ExecuteOperationAsync(Func<CancellationToken, Task> func, bool cancelCurrent = true);
 
-        Task StartNewTask(Action<CancellationToken> action, bool cancelCurrent = true);
+        Task StartNewTaskAsync(Action<CancellationToken> action, bool cancelCurrent = true);
 
         bool CheckCompleted();
     }

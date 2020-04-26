@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.Windows;
 using Scar.Common.View.Contracts;
 
@@ -34,9 +33,5 @@ namespace Scar.Common.WPF.View.Contracts
         AdvancedWindowStartupLocation AdvancedWindowStartupLocation { get; set; }
 
         bool Draggable { get; set; }
-
-        Rectangle ActiveScreenArea { get; }
-
-        bool IsFullHeight { get; }
     }
 }

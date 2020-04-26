@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,15 +14,12 @@ namespace Scar.Common.WPF.View
     public abstract class BaseWindow : Window, IWindow, IDisposable
     {
         public static readonly DependencyProperty AutoCloseTimeoutProperty = DependencyProperty.Register(nameof(AutoCloseTimeout), typeof(TimeSpan?), typeof(BaseWindow), new PropertyMetadata(null));
-        public static readonly DependencyProperty IsFullHeightProperty = DependencyProperty.Register(nameof(IsFullHeight), typeof(bool), typeof(BaseWindow), new PropertyMetadata(null));
         readonly IList<IDisposable> _associatedDisposables = new List<IDisposable>();
         readonly RateLimiter _sizeChangedRateLimiter;
         readonly TimeSpan _sizeChangedThrottleInterval = TimeSpan.FromMilliseconds(50);
-        readonly object _sizeChangedLock = new object();
         readonly object _loadedLock = new object();
         double _cumulativeHeightChange;
         double _cumulativeWidthChange;
-        EventHandler? _sizeChanged;
         EventHandler? _loaded;
         bool _disposedValue;
 
@@ -36,32 +32,11 @@ namespace Scar.Common.WPF.View
             DataContextChanged += BaseWindow_DataContextChanged;
             Closing += BaseWindow_Closing;
             Closed += BaseWindow_Closed;
-            SizeChanged += BaseWindow_SizeChanged_IsFullHeight;
             Loaded += BaseWindow_Loaded;
 
             // KeyDown += BaseWindow_KeyDown;
-            ContentRendered += BaseWindow_ContentRendered;
+            ContentRendered += BaseWindow_ContentRenderedAsync;
             _sizeChangedRateLimiter = new RateLimiter(SynchronizationContext.Current);
-        }
-
-        event EventHandler IDisplayable.SizeChanged
-        {
-            add
-            {
-                lock (_sizeChangedLock)
-                {
-                    _sizeChanged += value;
-                }
-            }
-
-            remove
-            {
-                lock (_sizeChangedLock)
-                {
-                    // ReSharper disable once DelegateSubtraction
-                    _sizeChanged -= value;
-                }
-            }
         }
 
         event EventHandler IDisplayable.Loaded
@@ -84,8 +59,6 @@ namespace Scar.Common.WPF.View
             }
         }
 
-        public Rectangle ActiveScreenArea { get; private set; }
-
         public AdvancedWindowStartupLocation AdvancedWindowStartupLocation { get; set; }
 
         public TimeSpan? AutoCloseTimeout
@@ -98,12 +71,6 @@ namespace Scar.Common.WPF.View
         {
             get => true;
             set => throw new NotSupportedException();
-        }
-
-        public bool IsFullHeight
-        {
-            get => (bool)GetValue(IsFullHeightProperty);
-            set => SetValue(IsFullHeightProperty, value);
         }
 
         public void AssociateDisposable(IDisposable disposable)
@@ -250,7 +217,7 @@ namespace Scar.Common.WPF.View
             Owner?.Activate();
         }
 
-        async void BaseWindow_ContentRendered(object? sender, EventArgs e)
+        async void BaseWindow_ContentRenderedAsync(object? sender, EventArgs e)
         {
             RepositionWindowAtStartup();
             if (AdvancedWindowStartupLocation != AdvancedWindowStartupLocation.Default)
@@ -279,7 +246,7 @@ namespace Scar.Common.WPF.View
             _cumulativeHeightChange += thisHeightChange;
             _cumulativeWidthChange += thisWidthChange;
 
-            _sizeChangedRateLimiter.Throttle(
+            _sizeChangedRateLimiter.ThrottleAsync(
                 _sizeChangedThrottleInterval,
                 () =>
                 {
@@ -323,19 +290,6 @@ namespace Scar.Common.WPF.View
             }
 
             requestCloseViewModel.RequestClose += CloseHandler;
-        }
-
-        void BaseWindow_SizeChanged_IsFullHeight(object sender, SizeChangedEventArgs e)
-        {
-            _sizeChanged?.Invoke(sender, e);
-            if (!e.HeightChanged)
-            {
-                return;
-            }
-
-            var fullHeight = ActiveScreenArea.Height;
-            var newHeight = e.NewSize.Height;
-            IsFullHeight = Math.Abs(newHeight - fullHeight) < 50;
         }
 
         void HandleDisposableViewModel()
