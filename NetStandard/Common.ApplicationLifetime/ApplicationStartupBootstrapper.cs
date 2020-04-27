@@ -63,17 +63,6 @@ namespace Scar.Common.ApplicationLifetime
             }
 
             var hostBuilder = Host.CreateDefaultBuilder()
-                .UseServiceProviderFactory(
-                    new AutofacServiceProviderFactory(
-                        containerBuilder =>
-                        {
-                            containerBuilder.Register(x => SynchronizationContext ?? throw new InvalidOperationException("SyncContext should not be null at the moment of registration"))
-                                .AsSelf()
-                                .SingleInstance();
-                            containerBuilder.RegisterInstance(new MessageHub()).AsImplementedInterfaces().SingleInstance();
-                            containerBuilder.RegisterInstance(_assemblyInfoProvider).AsImplementedInterfaces().SingleInstance();
-                            registerDependencies(containerBuilder);
-                        }))
                 .ConfigureServices(
                     serviceCollection =>
                     {
@@ -85,7 +74,18 @@ namespace Scar.Common.ApplicationLifetime
                     (hostBuilderContext, loggingBuilder) =>
                     {
                         configureLogging?.Invoke(hostBuilderContext, loggingBuilder);
-                    });
+                    })
+                .UseServiceProviderFactory(
+                    new AutofacServiceProviderFactory(
+                        containerBuilder =>
+                        {
+                            containerBuilder.Register(x => SynchronizationContext ?? throw new InvalidOperationException("SyncContext should not be null at the moment of registration"))
+                                .AsSelf()
+                                .SingleInstance();
+                            containerBuilder.RegisterInstance(new MessageHub()).AsImplementedInterfaces().SingleInstance();
+                            containerBuilder.RegisterInstance(_assemblyInfoProvider).AsImplementedInterfaces().SingleInstance();
+                            registerDependencies(containerBuilder);
+                        }));
 
             if (configureHost != null)
             {

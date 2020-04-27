@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.ApplicationLifetime" Version="1.1.7422.29112" />
+    <PackageReference Include="Scar.Common.ApplicationLifetime" Version="1.1.7423.15116" />
     <PackageReference Include="Scar.Common.WPF.Localization" Version="1.1.7422.29107" />
   </ItemGroup>
 
