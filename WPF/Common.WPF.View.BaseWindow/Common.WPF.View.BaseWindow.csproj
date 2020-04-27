@@ -6,11 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.MVVM.ViewModel" Version="1.1.7421.20137" />
-    <PackageReference Include="Scar.Common.RateLimiter" Version="1.1.7421.20137" />
-    <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7421.38111" />
-    <PackageReference Include="Scar.Common.WPF.View" Version="1.1.7421.19798" />
-    <PackageReference Include="Scar.Common.WPF.View.Contracts" Version="1.1.7421.19798" />
+    <PackageReference Include="Scar.Common.MVVM.ViewModel" Version="1.1.7422.27176" />
+    <PackageReference Include="Scar.Common.RateLimiter" Version="1.1.7422.27175" />
+    <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7422.27176" />
+    <PackageReference Include="Scar.Common.WPF.View" Version="1.1.7422.27176" />
+    <PackageReference Include="Scar.Common.WPF.View.Contracts" Version="1.1.7422.27176" />
   </ItemGroup>
 
 </Project>

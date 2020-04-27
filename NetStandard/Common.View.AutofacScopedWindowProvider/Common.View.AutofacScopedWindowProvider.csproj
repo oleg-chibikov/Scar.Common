@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="5.1.2" />
-    <PackageReference Include="Scar.Common.View.WindowFactory" Version="1.1.7421.20137" />
+    <PackageReference Include="Scar.Common.View.WindowFactory" Version="1.1.7422.27175" />
   </ItemGroup>
 
 </Project>

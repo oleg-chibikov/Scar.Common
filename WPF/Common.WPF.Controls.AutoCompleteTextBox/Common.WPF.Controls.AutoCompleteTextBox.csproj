@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.RateLimiter" Version="1.1.7421.20137" />
+    <PackageReference Include="Scar.Common.RateLimiter" Version="1.1.7422.27175" />
   </ItemGroup>
 
 </Project>

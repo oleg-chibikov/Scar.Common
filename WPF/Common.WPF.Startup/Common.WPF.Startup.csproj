@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.ApplicationLifetime" Version="1.1.7421.20137" />
-    <PackageReference Include="Scar.Common.WPF.Localization" Version="1.1.7421.19798" />
+    <PackageReference Include="Scar.Common.ApplicationLifetime" Version="1.1.7422.27181" />
+    <PackageReference Include="Scar.Common.WPF.Localization" Version="1.1.7422.27175" />
   </ItemGroup>
 
 </Project>

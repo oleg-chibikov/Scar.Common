@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7421.38111" />
+    <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7422.27176" />
   </ItemGroup>
 
 </Project>
