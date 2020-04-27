@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v3.1": {
-      "Scar.NugetCopier/1.1.7422.22790": {
+      "Scar.NugetCopier/1.1.7422.22958": {
         "dependencies": {
           "Microsoft.CodeQuality.Analyzers": "2.9.8",
           "Microsoft.NetCore.Analyzers": "2.9.8",
@@ -710,7 +710,7 @@
     }
   },
   "libraries": {
-    "Scar.NugetCopier/1.1.7422.22790": {
+    "Scar.NugetCopier/1.1.7422.22958": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
