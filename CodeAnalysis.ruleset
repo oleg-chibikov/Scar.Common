@@ -103,6 +103,7 @@
   </Rules>
   <Rules AnalyzerId="Microsoft.NetCore.Analyzers" RuleNamespace="Microsoft.NetCore.Analyzers">
     <Rule Id="CA1303" Action="None" />
+    <Rule Id="CA1308" Action="None" />
   </Rules>
   <Rules AnalyzerId="Microsoft.NetCore.CSharp.Analyzers" RuleNamespace="Microsoft.NetCore.CSharp.Analyzers">
     <Rule Id="CA1309" Action="Warning" />
@@ -146,9 +147,10 @@
     <Rule Id="WTG1014" Action="None" />
     <Rule Id="WTG1015" Action="None" />
     <Rule Id="WTG1016" Action="None" />
+    <Rule Id="WTG1017" Action="None" />
     <Rule Id="WTG2001" Action="Warning" />
     <Rule Id="WTG3001" Action="Warning" />
-    <Rule Id="WTG3002" Action="None" />
+    <Rule Id="WTG3002" Action="Warning" />
     <Rule Id="WTG3003" Action="None" />
     <Rule Id="WTG3004" Action="Warning" />
     <Rule Id="WTG3005" Action="Warning" />
@@ -156,6 +158,7 @@
     <Rule Id="WTG3007" Action="Warning" />
     <Rule Id="WTG3008" Action="Warning" />
     <Rule Id="WTG3009" Action="Warning" />
+    <Rule Id="WTG3010" Action="Warning" />
     <Rule Id="WTG3101" Action="Warning" />
     <Rule Id="WTG3102" Action="Warning" />
     <Rule Id="WTG3103" Action="Warning" />

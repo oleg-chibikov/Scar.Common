@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -147,7 +146,7 @@ namespace Scar.Common.Processes
 
         bool ProcessExists(string processName)
         {
-            return Process.GetProcessesByName(processName).Any();
+            return Process.GetProcessesByName(processName).Length > 0;
         }
 
         /// <summary>

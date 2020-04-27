@@ -20,7 +20,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Scar.CodeAnalysis" Version="1.0.7421.35153" />
+    <PackageReference Include="Scar.CodeAnalysis" Version="1.0.7422.15495" />
   </ItemGroup>
 
   <PropertyGroup>
