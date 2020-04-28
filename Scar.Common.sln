@@ -9,11 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptography", "NetStandard
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteDB", "NetStandard\DAL\LiteDB\LiteDB.csproj", "{76DAD7BD-942F-4614-8A23-15D0F0FBC737}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExifTool", "NetStandard\Drawing\ExifTool\ExifTool.csproj", "{CE3F7FAD-0531-48C3-84FF-F1E02FF93B9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExifExtraction", "NetStandard\ImageProcessing\ExifExtraction\ExifExtraction.csproj", "{CE3F7FAD-0531-48C3-84FF-F1E02FF93B9A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metadata", "NetStandard\Drawing\Metadata\Metadata.csproj", "{B6CAD499-6245-41C9-879A-1F7391038FE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metadata", "NetStandard\ImageProcessing\Metadata\Metadata.csproj", "{B6CAD499-6245-41C9-879A-1F7391038FE8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetadataExtractor", "NetStandard\Drawing\MetadataExtractor\MetadataExtractor.csproj", "{494A0A26-8FD6-4816-8479-21AC0AA61D8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetadataExtractor", "NetStandard\ImageProcessing\MetadataExtractor\MetadataExtractor.csproj", "{494A0A26-8FD6-4816-8479-21AC0AA61D8F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IO", "NetStandard\Various\IO\IO.csproj", "{A1CBB589-FECD-47C2-A9A8-084B3FF943DA}"
 EndProject
