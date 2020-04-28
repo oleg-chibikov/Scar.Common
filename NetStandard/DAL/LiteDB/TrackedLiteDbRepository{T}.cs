@@ -1,5 +1,5 @@
 using LiteDB;
-using Scar.Common.DAL.Model;
+using Scar.Common.DAL.Contracts.Model;
 
 namespace Scar.Common.DAL.LiteDB
 {

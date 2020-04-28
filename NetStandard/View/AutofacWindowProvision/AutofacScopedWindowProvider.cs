@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using Scar.Common.View.Contracts;
+using Scar.Common.View.WindowCreation;
 
 namespace Scar.Common.View.AutofacWindowProvision
 {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using Scar.Common.Drawing.Metadata;
+using Scar.Common.ImageProcessing.Metadata;
 
 namespace Scar.Common.WPF.ImageRetrieval
 {

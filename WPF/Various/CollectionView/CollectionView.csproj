@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.MVVM.CollectionView" Version="1.1.7422.29078" />
+    <PackageReference Include="Scar.Common.MVVM.CollectionView" Version="1.1.7424.15453" />
   </ItemGroup>
 
 </Project>

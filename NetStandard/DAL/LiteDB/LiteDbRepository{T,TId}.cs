@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using LiteDB;
-using Scar.Common.DAL.Model;
+using Scar.Common.DAL.Contracts;
+using Scar.Common.DAL.Contracts.Model;
 
 namespace Scar.Common.DAL.LiteDB
 {

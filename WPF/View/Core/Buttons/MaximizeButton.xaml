@@ -6,12 +6,12 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     lex:LocalizeDictionary.DesignCulture="en"
     lex:LocalizeDictionary.OutputMissingKeys="True"
-    lex:ResxLocalizationProvider.DefaultAssembly="Scar.Common.WPF.View.AnimatedWindow"
+    lex:ResxLocalizationProvider.DefaultAssembly="Scar.Common.WPF.View.Core"
     lex:ResxLocalizationProvider.DefaultDictionary="Tooltips"
     Click="MaximizeButton_Click"
     ToolTip="{lex:Loc Maximize}">
     <Button.Resources>
-        <ResourceDictionary Source="pack://application:,,,/Scar.Common.WPF.View.AnimatedWindow;component/Styles.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/Scar.Common.WPF.View.Core;component/Styles.xaml" />
     </Button.Resources>
     <Button.Style>
         <Style BasedOn="{StaticResource ButtonStyle}" TargetType="Button" />

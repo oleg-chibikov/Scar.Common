@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Scar.Common.DAL.Model;
+using Scar.Common.DAL.Contracts;
+using Scar.Common.DAL.Contracts.Model;
 
 namespace Scar.Common.DAL.LiteDB
 {

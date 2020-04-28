@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using LiteDB;
+using Scar.Common.DAL.Contracts;
 
 namespace Scar.Common.DAL.LiteDB
 {

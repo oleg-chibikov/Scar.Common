@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
-using Scar.Common.Drawing.Metadata;
+using Scar.Common.ImageProcessing.Metadata;
 
 namespace Scar.Common.ImageProcessing.ExifExtraction
 {

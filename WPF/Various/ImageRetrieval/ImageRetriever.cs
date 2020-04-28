@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Extensions.Logging;
-using Scar.Common.Drawing.Metadata;
+using Scar.Common.ImageProcessing.Metadata;
 using Scar.Common.IO;
 
 namespace Scar.Common.WPF.ImageRetrieval

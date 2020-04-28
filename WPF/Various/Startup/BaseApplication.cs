@@ -13,7 +13,7 @@ using Easy.MessageHub;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Scar.Common.ApplicationLifetime;
+using Scar.Common.ApplicationLifetime.Core;
 using Scar.Common.Messages;
 using Scar.Common.WPF.Localization;
 

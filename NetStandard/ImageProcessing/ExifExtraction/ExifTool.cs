@@ -7,8 +7,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Scar.Common.Drawing.Metadata;
 using Scar.Common.Events;
+using Scar.Common.ImageProcessing.Metadata;
 using Scar.Common.Processes;
 
 namespace Scar.Common.ImageProcessing.ExifExtraction

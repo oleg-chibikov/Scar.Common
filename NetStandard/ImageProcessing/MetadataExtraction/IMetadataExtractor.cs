@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using Scar.Common.Drawing.Metadata;
+using Scar.Common.ImageProcessing.Metadata;
 
-namespace Scar.Common.ImageProcessing.MetadataExtractor
+namespace Scar.Common.ImageProcessing.MetadataExtraction
 {
     public interface IMetadataExtractor
     {

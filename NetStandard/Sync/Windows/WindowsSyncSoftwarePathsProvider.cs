@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using Microsoft.Win32;
+using Scar.Common.Sync.Contracts;
 
 namespace Scar.Common.Sync.Windows
 {

@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExifExtraction", "NetStanda
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Metadata", "NetStandard\ImageProcessing\Metadata\Metadata.csproj", "{B6CAD499-6245-41C9-879A-1F7391038FE8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetadataExtractor", "NetStandard\ImageProcessing\MetadataExtractor\MetadataExtractor.csproj", "{494A0A26-8FD6-4816-8479-21AC0AA61D8F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IO", "NetStandard\Various\IO\IO.csproj", "{A1CBB589-FECD-47C2-A9A8-084B3FF943DA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NamedPipes", "NetStandard\Various\NamedPipes\NamedPipes.csproj", "{3BD0EA64-6304-4468-BAFA-58C48898BB1B}"
@@ -76,6 +74,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CodeAnalysis.ruleset = CodeAnalysis.ruleset
 		CodeAnalysis.Test.ruleset = CodeAnalysis.Test.ruleset
 		Directory.Build.props = Directory.Build.props
+		nuget.config = nuget.config
 		Scar.sln.DotSettings = Scar.sln.DotSettings
 		stylecop.json = stylecop.json
 	EndProjectSection
@@ -154,6 +153,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "WPF\View\Core\Core.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Behaviors", "WPF\Various\Behaviors\Behaviors.csproj", "{13BA9546-32DB-4423-86D0-FDC8AC353815}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetadataExtraction", "NetStandard\ImageProcessing\MetadataExtraction\MetadataExtraction.csproj", "{5953C880-E0CF-4F22-AD49-CD83EEF00EFC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectionView", "WPF\Various\CollectionView\CollectionView.csproj", "{60752259-FF52-424A-8925-26A4A9E4115A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -180,10 +183,6 @@ Global
 		{B6CAD499-6245-41C9-879A-1F7391038FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6CAD499-6245-41C9-879A-1F7391038FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6CAD499-6245-41C9-879A-1F7391038FE8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{494A0A26-8FD6-4816-8479-21AC0AA61D8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{494A0A26-8FD6-4816-8479-21AC0AA61D8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{494A0A26-8FD6-4816-8479-21AC0AA61D8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{494A0A26-8FD6-4816-8479-21AC0AA61D8F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A1CBB589-FECD-47C2-A9A8-084B3FF943DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A1CBB589-FECD-47C2-A9A8-084B3FF943DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1CBB589-FECD-47C2-A9A8-084B3FF943DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -332,6 +331,14 @@ Global
 		{13BA9546-32DB-4423-86D0-FDC8AC353815}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13BA9546-32DB-4423-86D0-FDC8AC353815}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13BA9546-32DB-4423-86D0-FDC8AC353815}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5953C880-E0CF-4F22-AD49-CD83EEF00EFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5953C880-E0CF-4F22-AD49-CD83EEF00EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5953C880-E0CF-4F22-AD49-CD83EEF00EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5953C880-E0CF-4F22-AD49-CD83EEF00EFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60752259-FF52-424A-8925-26A4A9E4115A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60752259-FF52-424A-8925-26A4A9E4115A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60752259-FF52-424A-8925-26A4A9E4115A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60752259-FF52-424A-8925-26A4A9E4115A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -342,7 +349,6 @@ Global
 		{76DAD7BD-942F-4614-8A23-15D0F0FBC737} = {DFDE781D-0A25-493F-A083-483F421835D6}
 		{CE3F7FAD-0531-48C3-84FF-F1E02FF93B9A} = {042356A5-39A6-4AFE-84C5-D2436E59AE23}
 		{B6CAD499-6245-41C9-879A-1F7391038FE8} = {042356A5-39A6-4AFE-84C5-D2436E59AE23}
-		{494A0A26-8FD6-4816-8479-21AC0AA61D8F} = {042356A5-39A6-4AFE-84C5-D2436E59AE23}
 		{A1CBB589-FECD-47C2-A9A8-084B3FF943DA} = {F752453B-42C6-426E-AF51-C871C261B07C}
 		{3BD0EA64-6304-4468-BAFA-58C48898BB1B} = {F752453B-42C6-426E-AF51-C871C261B07C}
 		{B60A0DD3-D82E-4005-B04F-E0361D075260} = {F752453B-42C6-426E-AF51-C871C261B07C}
@@ -388,6 +394,8 @@ Global
 		{BE39BF61-171C-47E9-ABAE-A1684BB97D3C} = {E2471E03-945B-41CE-9B3A-4F89E7FAF5D9}
 		{6F778A8F-693C-46F3-A408-A716A0D24D61} = {14C96378-1FB2-46C2-81B0-5B14A8C1D3D7}
 		{13BA9546-32DB-4423-86D0-FDC8AC353815} = {E2471E03-945B-41CE-9B3A-4F89E7FAF5D9}
+		{5953C880-E0CF-4F22-AD49-CD83EEF00EFC} = {042356A5-39A6-4AFE-84C5-D2436E59AE23}
+		{60752259-FF52-424A-8925-26A4A9E4115A} = {E2471E03-945B-41CE-9B3A-4F89E7FAF5D9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {24C9D89F-376A-40CA-9846-76B97230738A}

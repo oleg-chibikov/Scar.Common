@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using ExifLib;
 using Microsoft.Extensions.Logging;
-using Scar.Common.Drawing.Metadata;
+using Scar.Common.ImageProcessing.Metadata;
 
-namespace Scar.Common.ImageProcessing.MetadataExtractor
+namespace Scar.Common.ImageProcessing.MetadataExtraction
 {
     public sealed class MetadataExtractor : IMetadataExtractor
     {
