@@ -1,4 +1,4 @@
-﻿namespace Scar.Common.Drawing.Metadata
+namespace Scar.Common.ImageProcessing.Metadata
 {
     public enum Orientation
     {

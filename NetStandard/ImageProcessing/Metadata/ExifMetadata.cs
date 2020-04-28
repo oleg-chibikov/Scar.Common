@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Scar.Common.Drawing.Metadata
+namespace Scar.Common.ImageProcessing.Metadata
 {
     public class ExifMetadata
     {

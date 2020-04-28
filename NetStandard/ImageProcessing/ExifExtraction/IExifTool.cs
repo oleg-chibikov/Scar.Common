@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Scar.Common.Drawing.Metadata;
 
-namespace Scar.Common.Drawing.ExifTool
+namespace Scar.Common.ImageProcessing.ExifExtraction
 {
     public interface IExifTool
     {
