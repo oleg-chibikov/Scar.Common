@@ -1,50 +1,56 @@
-<UserControl x:Class="Scar.Common.WPF.Controls.NumericUpDown"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:controls="clr-namespace:Scar.Common.WPF.Controls"
-             xmlns:behaviors="clr-namespace:Scar.Common.WPF.Controls.Behaviors;assembly=Scar.Common.WPF.Controls.Behaviors"
-             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-             mc:Ignorable="d" Height="23">
-  <UserControl.Resources>
-    <Style x:Key="DisableImageButton" TargetType="{x:Type Image}">
-      <Style.Triggers>
-        <Trigger Property="IsEnabled" Value="true">
-          <Setter Property="Opacity" Value="1" />
-        </Trigger>
-        <Trigger Property="IsEnabled" Value="false">
-          <Setter Property="Opacity" Value="0.25" />
-        </Trigger>
-      </Style.Triggers>
-    </Style>
-  </UserControl.Resources>
-  <StackPanel Orientation="Horizontal"
-              DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:NumericUpDown}}">
+<UserControl
+    x:Class="Scar.Common.WPF.Controls.NumericUpDown"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:behaviors="clr-namespace:Scar.Common.WPF.Controls.Behaviors;assembly=Scar.Common.WPF.Controls.Behaviors"
+    xmlns:controls="clr-namespace:Scar.Common.WPF.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Height="23"
+    mc:Ignorable="d">
+    <StackPanel DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:NumericUpDown}}" Orientation="Horizontal">
 
-    <TextBox HorizontalAlignment="Stretch" Padding="3,0" Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
-             Height="{Binding Height}" PreviewMouseDown="TextBox_PreviewMouseDown"
-             PreviewMouseMove="TextBox_PreviewMouseMove" PreviewMouseUp="TextBox_PreviewMouseUp"
-             PreviewKeyDown="TextBox_PreviewKeyDown">
-      <b:Interaction.Behaviors>
-        <behaviors:TextBoxNumericInputBehavior OnlyPositive="False" InputMode="IntInput" />
-      </b:Interaction.Behaviors>
-    </TextBox>
-    <Grid Margin="5,0,0,0" Width="23">
-      <Grid.RowDefinitions>
-        <RowDefinition />
-        <RowDefinition />
-      </Grid.RowDefinitions>
-      <RepeatButton IsTabStop="False" Padding="0" Grid.Row="0" Height="Auto" Click="BtnUp_Click" Delay="200"
-                    Interval="20">
-        <Image Style="{StaticResource DisableImageButton}" VerticalAlignment="Center" HorizontalAlignment="Center"
-               Source="pack://application:,,,/Scar.Common.WPF.Controls.NumericUpDown;component/Images/arrow-up.png" />
-      </RepeatButton>
-      <RepeatButton IsTabStop="False" Padding="0" Grid.Row="1" Height="Auto" Click="BtnDown_Click" Delay="200"
-                    Interval="20">
-        <Image Style="{StaticResource DisableImageButton}" VerticalAlignment="Center" HorizontalAlignment="Center"
-               Source="pack://application:,,,/Scar.Common.WPF.Controls.NumericUpDown;component/Images/arrow-down.png" />
-      </RepeatButton>
-    </Grid>
-  </StackPanel>
+        <TextBox
+            Height="{Binding Height}"
+            Padding="3,0"
+            HorizontalAlignment="Stretch"
+            PreviewKeyDown="TextBox_PreviewKeyDown"
+            PreviewMouseDown="TextBox_PreviewMouseDown"
+            PreviewMouseMove="TextBox_PreviewMouseMove"
+            PreviewMouseUp="TextBox_PreviewMouseUp"
+            Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}">
+            <b:Interaction.Behaviors>
+                <behaviors:TextBoxNumericInputBehavior InputMode="IntInput" OnlyPositive="False" />
+            </b:Interaction.Behaviors>
+        </TextBox>
+        <Grid Width="23" Margin="5,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <RepeatButton
+                Grid.Row="0"
+                Height="Auto"
+                Margin="0,0,0,1"
+                Padding="0"
+                Click="BtnUp_Click"
+                Delay="200"
+                Interval="20"
+                IsTabStop="False">
+                <Path Data="M 0 6 L 12 6 L 6 0 Z" Fill="Black" />
+            </RepeatButton>
+            <RepeatButton
+                Grid.Row="1"
+                Height="Auto"
+                Margin="0,1,0,0"
+                Padding="0"
+                Click="BtnDown_Click"
+                Delay="200"
+                Interval="20"
+                IsTabStop="False">
+                <Path Data="M 0 0 L 6 6 L 12 0 Z" Fill="Black" />
+            </RepeatButton>
+        </Grid>
+    </StackPanel>
 </UserControl>
