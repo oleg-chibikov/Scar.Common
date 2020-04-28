@@ -2,7 +2,7 @@ using System;
 using System.Windows.Controls;
 using Microsoft.Xaml.Behaviors;
 
-namespace Scar.Common.WPF.Controls
+namespace Scar.Common.WPF.Behaviors
 {
     public sealed class ListBoxScrollIntoViewBehavior : Behavior<ListBox>
     {

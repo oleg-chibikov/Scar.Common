@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Xaml.Behaviors;
 
-namespace Scar.Common.WPF.Controls
+namespace Scar.Common.WPF.Behaviors
 {
     public class TextBoxNumericInputBehavior : Behavior<TextBox>
     {
