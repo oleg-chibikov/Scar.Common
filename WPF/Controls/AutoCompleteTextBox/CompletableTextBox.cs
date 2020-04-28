@@ -7,9 +7,8 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using Scar.Common.WPF.Controls.Provider;
 
-namespace Scar.Common.WPF.Controls.Controls
+namespace Scar.Common.WPF.Controls
 {
     public class CompletableTextBox : TextBox, IDisposable
     {
