@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using Scar.Common.ApplicationLifetime.Contracts;
 
-namespace Scar.Common.ApplicationLifetime
+namespace Scar.Common.ApplicationLifetime.Core
 {
     public class AssemblyInfoProvider : IAssemblyInfoProvider
     {

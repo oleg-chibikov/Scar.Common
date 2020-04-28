@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Scar.Common.WPF.Controls.Behaviors
+namespace Scar.Common.WPF.Controls
 {
     public static class KeyboardFocusBehavior
     {

@@ -9,7 +9,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shell;
 using Scar.Common.WPF.Screen;
 
-namespace Scar.Common.WPF.View
+namespace Scar.Common.WPF.View.Core
 {
     public abstract class AnimatedWindow : BaseWindow
     {

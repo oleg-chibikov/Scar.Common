@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Xaml.Behaviors;
 
-namespace Scar.Common.WPF.Controls.Behaviors
+namespace Scar.Common.WPF.Controls
 {
     public sealed class ListBoxAutoScrollBehavior : Behavior<ListBox>
     {

@@ -3,6 +3,8 @@
   <PropertyGroup>
     <Description>Common tools for WebApi</Description>
     <OutputType>Library</OutputType>
+    <AssemblyName>$(AssemblyName).$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>$(RootNamespace).$(MSBuildProjectName)</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

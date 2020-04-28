@@ -6,7 +6,7 @@ using Easy.MessageHub;
 using Scar.Common.Localization;
 using Scar.Common.Messages;
 
-namespace Scar.Common.ApplicationLifetime
+namespace Scar.Common.ApplicationLifetime.Core
 {
     public interface IApplicationStartupBootstrapper
     {

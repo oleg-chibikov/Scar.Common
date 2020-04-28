@@ -1,7 +1,7 @@
 using System;
 using Scar.Common.Events;
 
-namespace Scar.Common.Drawing
+namespace Scar.Common.Drawing.ExifTool
 {
     public sealed class FilePathProgressEventArgs : ProgressEventArgs
     {

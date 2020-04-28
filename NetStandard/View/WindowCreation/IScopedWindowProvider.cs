@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Scar.Common.View.Contracts;
 
-namespace Scar.Common
+namespace Scar.Common.View.WindowCreation
 {
     public interface IScopedWindowProvider
     {

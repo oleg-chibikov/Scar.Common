@@ -2,7 +2,7 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 
-namespace Scar.Common.WPF.View
+namespace Scar.Common.WPF.View.Core
 {
     public static class ControlExtensions
     {

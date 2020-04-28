@@ -110,7 +110,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "View", "View", "{C4CA7CCA-5
 		NetStandard\View\Directory.Build.props = NetStandard\View\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Drawing", "Drawing", "{042356A5-39A6-4AFE-84C5-D2436E59AE23}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ImageProcessing", "ImageProcessing", "{042356A5-39A6-4AFE-84C5-D2436E59AE23}"
 	ProjectSection(SolutionItems) = preProject
 		NetStandard\Drawing\Directory.Build.props = NetStandard\Drawing\Directory.Build.props
 	EndProjectSection

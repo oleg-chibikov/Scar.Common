@@ -1,7 +1,7 @@
 using System;
 using Scar.Common.ApplicationLifetime.Contracts;
 
-namespace Scar.Common.ApplicationLifetime
+namespace Scar.Common.ApplicationLifetime.Core
 {
     public class SpecialPathsProvider : ISpecialPathsProvider
     {

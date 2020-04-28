@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace Scar.Common.WPF.View.Buttons
+namespace Scar.Common.WPF.View.Core.Buttons
 {
     public partial class CloseButton
     {

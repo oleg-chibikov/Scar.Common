@@ -1,4 +1,4 @@
-﻿namespace Scar.Common.Sync
+﻿namespace Scar.Common.Sync.Contracts
 {
     public interface IDropBoxPathProvider
     {

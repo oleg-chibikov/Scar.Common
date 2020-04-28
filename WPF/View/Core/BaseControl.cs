@@ -1,6 +1,6 @@
 using System.Windows.Controls;
 
-namespace Scar.Common.WPF.View
+namespace Scar.Common.WPF.View.Core
 {
     public class BaseControl : UserControl
     {

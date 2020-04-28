@@ -1,4 +1,4 @@
-namespace Scar.Common.WPF.Controls.AutoCompleteTextBox.Provider
+namespace Scar.Common.WPF.Controls.Provider
 {
     public interface IAutoAppendDataProvider
     {

@@ -11,7 +11,7 @@ using Scar.Common.Drawing.Metadata;
 using Scar.Common.Events;
 using Scar.Common.Processes;
 
-namespace Scar.Common.Drawing
+namespace Scar.Common.Drawing.ExifTool
 {
     public sealed class ExifTool : IExifTool, IDisposable
     {

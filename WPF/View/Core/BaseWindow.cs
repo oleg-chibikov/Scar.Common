@@ -9,7 +9,7 @@ using Scar.Common.MVVM.ViewModel;
 using Scar.Common.View.Contracts;
 using Scar.Common.WPF.View.Contracts;
 
-namespace Scar.Common.WPF.View
+namespace Scar.Common.WPF.View.Core
 {
     public abstract class BaseWindow : Window, IWindow, IDisposable
     {

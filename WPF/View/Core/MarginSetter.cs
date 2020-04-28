@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Scar.Common.WPF.View
+namespace Scar.Common.WPF.View.Core
 {
     public static class MarginSetter
     {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Scar.Common.Drawing.Metadata;
 
-namespace Scar.Common.WPF
+namespace Scar.Common.WPF.ImageRetrieval
 {
     public interface IImageRetriever
     {

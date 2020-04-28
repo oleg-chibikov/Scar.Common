@@ -1,6 +1,6 @@
 using System;
 
-namespace Scar.Common.Drawing
+namespace Scar.Common.Drawing.ExifTool
 {
     public sealed class FilePathErrorEventArgs : EventArgs
     {

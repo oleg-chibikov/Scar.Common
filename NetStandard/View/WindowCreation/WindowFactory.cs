@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Scar.Common.View.Contracts;
 
-namespace Scar.Common
+namespace Scar.Common.View.WindowCreation
 {
     public class WindowFactory<TWindow> : IWindowFactory<TWindow>, IDisposable
         where TWindow : class, IDisplayable

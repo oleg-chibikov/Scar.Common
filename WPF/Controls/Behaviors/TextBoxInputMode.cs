@@ -1,4 +1,4 @@
-﻿namespace Scar.Common.WPF.Controls.Behaviors
+﻿namespace Scar.Common.WPF.Controls
 {
     public enum TextBoxInputMode
     {

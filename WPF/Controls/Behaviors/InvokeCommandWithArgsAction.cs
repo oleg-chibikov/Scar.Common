@@ -7,7 +7,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Microsoft.Xaml.Behaviors;
 
-namespace Scar.Common.WPF.Controls.Behaviors
+namespace Scar.Common.WPF.Controls
 {
     public class InvokeCommandWithArgsAction : TriggerAction<DependencyObject>
     {

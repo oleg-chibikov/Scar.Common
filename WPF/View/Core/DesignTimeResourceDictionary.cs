@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Windows;
 
-namespace Scar.Common.WPF.View
+namespace Scar.Common.WPF.View.Core
 {
     [SuppressMessage("Design", "CA1010:Collections should implement generic interface", Justification = "No need")]
     public class DesignTimeResourceDictionary : ResourceDictionary

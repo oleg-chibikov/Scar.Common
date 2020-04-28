@@ -7,7 +7,7 @@ using ExifLib;
 using Microsoft.Extensions.Logging;
 using Scar.Common.Drawing.Metadata;
 
-namespace Scar.Common.Drawing
+namespace Scar.Common.Drawing.MetadataExtractor
 {
     public sealed class MetadataExtractor : IMetadataExtractor
     {

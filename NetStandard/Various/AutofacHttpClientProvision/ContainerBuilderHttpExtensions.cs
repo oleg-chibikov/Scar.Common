@@ -2,7 +2,7 @@ using System;
 using System.Net.Http;
 using Autofac;
 
-namespace Scar.Common.AutofacHttpClientProvider
+namespace Scar.Common.AutofacHttpClientProvision
 {
     public static class ContainerBuilderHttpExtensions
     {

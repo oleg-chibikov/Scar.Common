@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Scar.Common.View.Contracts;
 
-namespace Scar.Common.View
+namespace Scar.Common.View.AutofacWindowProvision
 {
     public class AutofacScopedWindowProvider : IScopedWindowProvider
     {

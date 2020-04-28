@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 using Scar.Common.Drawing.Metadata;
 using Scar.Common.IO;
 
-namespace Scar.Common.WPF
+namespace Scar.Common.WPF.ImageRetrieval
 {
     public class ImageRetriever : IImageRetriever
     {

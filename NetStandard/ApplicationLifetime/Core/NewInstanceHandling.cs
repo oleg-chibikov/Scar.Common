@@ -1,4 +1,4 @@
-namespace Scar.Common.ApplicationLifetime
+namespace Scar.Common.ApplicationLifetime.Core
 {
     public enum NewInstanceHandling
     {

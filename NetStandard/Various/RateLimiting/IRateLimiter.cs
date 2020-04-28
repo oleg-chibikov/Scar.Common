@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Scar.Common
+namespace Scar.Common.RateLimiting
 {
     public interface IRateLimiter
     {

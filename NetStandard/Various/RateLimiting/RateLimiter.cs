@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Scar.Common
+namespace Scar.Common.RateLimiting
 {
     public class RateLimiter : IRateLimiter, IDisposable
     {

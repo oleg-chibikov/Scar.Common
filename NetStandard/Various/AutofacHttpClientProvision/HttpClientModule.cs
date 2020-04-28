@@ -5,7 +5,7 @@ using Autofac;
 using Autofac.Core;
 using Autofac.Core.Registration;
 
-namespace Scar.Common.AutofacHttpClientProvider
+namespace Scar.Common.AutofacHttpClientProvision
 {
     public class HttpClientModule<TService> : Module
     {

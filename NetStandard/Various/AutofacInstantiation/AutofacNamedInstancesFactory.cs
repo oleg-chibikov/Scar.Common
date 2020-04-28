@@ -2,7 +2,7 @@ using System;
 using Autofac;
 using Autofac.Core;
 
-namespace Scar.Common
+namespace Scar.Common.AutofacInstantiation
 {
     public sealed class AutofacNamedInstancesFactory : IAutofacNamedInstancesFactory
     {
