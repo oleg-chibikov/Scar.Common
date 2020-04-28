@@ -134,6 +134,11 @@ namespace Scar.Common.Processes
             await Task.Delay(TaskKillSleepTime, token).ConfigureAwait(false);
         }
 
+        static bool ProcessExists(string processName)
+        {
+            return Process.GetProcessesByName(processName).Length > 0;
+        }
+
         void OnError(string message)
         {
             ProcessErrorFired?.Invoke(this, new EventArgs<string>(message));
@@ -142,11 +147,6 @@ namespace Scar.Common.Processes
         void OnMessage(string message)
         {
             ProcessMessageFired?.Invoke(this, new EventArgs<string>(message));
-        }
-
-        bool ProcessExists(string processName)
-        {
-            return Process.GetProcessesByName(processName).Length > 0;
         }
 
         /// <summary>

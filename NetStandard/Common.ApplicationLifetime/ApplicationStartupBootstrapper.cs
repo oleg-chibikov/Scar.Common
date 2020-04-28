@@ -122,7 +122,7 @@ namespace Scar.Common.ApplicationLifetime
                 Messenger.Unsubscribe(token);
             }
 
-            await Container.DisposeAsync();
+            await Container.DisposeAsync().ConfigureAwait(false);
             _mutex?.Dispose();
         }
 
