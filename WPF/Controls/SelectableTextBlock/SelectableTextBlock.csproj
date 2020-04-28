@@ -3,7 +3,6 @@
   <PropertyGroup>
     <UseWindowsForms>true</UseWindowsForms>
     <Description>SelectableTextBlock control</Description>
-    <RootNamespace>Scar.Common.WPF.Controls</RootNamespace>
   </PropertyGroup>
 
 </Project>

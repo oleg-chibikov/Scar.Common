@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <Description>Utility to retrieve graphical images</Description>
-    <RootNamespace>Scar.Common.WPF</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

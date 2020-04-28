@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <Description>A factory to provide named instances using Autofac</Description>
-    <RootNamespace>Scar.Common</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

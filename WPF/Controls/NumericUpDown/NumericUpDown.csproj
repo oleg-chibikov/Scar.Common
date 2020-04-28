@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <Description>A control to work with integers</Description>
-    <RootNamespace>Scar.Common.WPF.Controls</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <Description>ZoomBorder control for WPF</Description>
-    <RootNamespace>Scar.Common.WPF.Controls</RootNamespace>
   </PropertyGroup>
 
 </Project>

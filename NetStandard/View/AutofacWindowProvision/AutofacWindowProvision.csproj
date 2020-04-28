@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <Description>An Autofac scoped (disposed when out of scope) window provider</Description>
-    <RootNamespace>Scar.Common.View</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <Description>A factory to create windows</Description>
-    <RootNamespace>Scar.Common</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

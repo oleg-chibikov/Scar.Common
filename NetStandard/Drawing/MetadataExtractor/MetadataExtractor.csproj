@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <Description>A tool for extracting images metadata</Description>
-    <RootNamespace>Scar.Common.Drawing</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

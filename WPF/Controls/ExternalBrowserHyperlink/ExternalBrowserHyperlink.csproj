@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <Description>ExternalBrowserHyperlink control</Description>
-    <RootNamespace>Scar.Common.WPF.Controls</RootNamespace>
   </PropertyGroup>
 
 </Project>
