@@ -2,9 +2,8 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 
   <PropertyGroup>
-    <UseWPF>true</UseWPF>
-    <AssemblyName>$(AssemblyName).WPF</AssemblyName>
-    <RootNamespace>$(RootNamespace).WPF</RootNamespace>
+    <AssemblyName>$(AssemblyName).$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>$(RootNamespace).$(MSBuildProjectName)</RootNamespace>
   </PropertyGroup>
 
 </Project>
