@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Scar.Common.Localization" Version="1.1.7424.15453" />
-    <PackageReference Include="Scar.Common.MVVM.CollectionView" Version="1.1.7424.15453" />
+    <PackageReference Include="Scar.Common.MVVM.CollectionView" Version="1.1.7426.23347" />
     <PackageReference Include="WpfLocalizeExtension" Version="3.5.0" />
   </ItemGroup>
 

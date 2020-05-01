@@ -19,5 +19,39 @@ namespace Scar.Common.IO
             using var process = new Process { StartInfo = new ProcessStartInfo(path) { UseShellExecute = true } };
             process.Start();
         }
+
+        public static string CreateTempDirectoryInDriveRoot(this string directoryPath)
+        {
+            var tempDirectoryPath = GetTempDirectoryPathInDriveRoot(directoryPath);
+            while (Directory.Exists(tempDirectoryPath))
+            {
+                tempDirectoryPath = GetTempDirectoryPathInDriveRoot(directoryPath);
+            }
+
+            Directory.CreateDirectory(tempDirectoryPath);
+            return tempDirectoryPath;
+        }
+
+        public static string GetTempDirectoryPathInDriveRoot(string path)
+        {
+            return Path.Combine(Path.GetPathRoot(path) ?? throw new InvalidOperationException(), Path.GetRandomFileName());
+        }
+
+        public static string CreateTempDirectory()
+        {
+            var tempDirectoryPath = GetTempDirectoryPath();
+            while (Directory.Exists(tempDirectoryPath))
+            {
+                tempDirectoryPath = GetTempDirectoryPath();
+            }
+
+            Directory.CreateDirectory(tempDirectoryPath);
+            return tempDirectoryPath;
+        }
+
+        public static string GetTempDirectoryPath()
+        {
+            return Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        }
     }
 }

@@ -7,9 +7,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.3" />
     <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7424.15454" />
-    <PackageReference Include="Scar.Common" Version="1.1.7424.15457" />
-    <PackageReference Include="Scar.Common.ImageProcessing.Metadata" Version="1.1.7424.15454" />
-    <PackageReference Include="Scar.Common.IO" Version="1.1.7424.15453" />
+    <PackageReference Include="Scar.Common" Version="1.1.7426.25083" />
+    <PackageReference Include="Scar.Common.ImageProcessing.Metadata" Version="1.1.7426.24455" />
+    <PackageReference Include="Scar.Common.IO" Version="1.1.7426.23253" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
   </ItemGroup>
 

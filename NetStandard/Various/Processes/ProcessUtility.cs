@@ -28,7 +28,7 @@ namespace Scar.Common.Processes
             return await Task.Run(
                     async () =>
                     {
-                        _logger.LogInformation($"Running {commandPath} with arguments {arguments}");
+                        _logger.LogTrace($"Running {commandPath} with arguments {arguments}");
                         var processInfo = new ProcessStartInfo(commandPath, arguments)
                         {
                             CreateNoWindow = true,
@@ -98,11 +98,11 @@ namespace Scar.Common.Processes
                             await exitTask.ConfigureAwait(false);
                             linkedTokenSource?.Dispose();
 
-                            _logger.LogDebug($"The process {commandPath} has exited with exit code {process.ExitCode}");
+                            _logger.LogTrace($"The process {commandPath} has exited with exit code {process.ExitCode}");
                         }
                         catch (OperationCanceledException)
                         {
-                            _logger.LogDebug($"The process {commandPath} is canceled");
+                            _logger.LogTrace($"The process {commandPath} is canceled");
                             throw;
                         }
                         finally
@@ -127,10 +127,10 @@ namespace Scar.Common.Processes
                 return;
             }
 
-            _logger.LogDebug($"Killing {processName}...");
+            _logger.LogTrace($"Killing {processName}...");
             Process.Start("taskkill", $"/F /IM {processName}.exe");
             _logger.LogDebug($"{processName} is killed");
-            _logger.LogDebug($"Sleeping for {TaskKillSleepTime}...");
+            _logger.LogTrace($"Sleeping for {TaskKillSleepTime}...");
             await Task.Delay(TaskKillSleepTime, token).ConfigureAwait(false);
         }
 
@@ -165,12 +165,12 @@ namespace Scar.Common.Processes
 
             void OnProcessExited(object sender, EventArgs args)
             {
-                _logger.LogDebug($"Handling process {name} exit...");
+                _logger.LogTrace($"Handling process {name} exit...");
 
                 var setResult = taskCompletionSource?.TrySetResult(null) ?? throw new InvalidOperationException("taskCompletionSource is null");
                 if (setResult)
                 {
-                    _logger.LogDebug($"The process {name} has exited successfully");
+                    _logger.LogTrace($"The process {name} has exited successfully");
                 }
                 else
                 {
@@ -193,14 +193,14 @@ namespace Scar.Common.Processes
                 () =>
                 {
                     process.Exited -= OnProcessExited;
-                    _logger.LogDebug($"Checking the process {name} should be canceled");
+                    _logger.LogTrace($"Checking the process {name} should be canceled");
                     if (taskCompletionSource.Task.IsCompleted)
                     {
-                        _logger.LogDebug($"The process {name} has already exited - no need to cancel");
+                        _logger.LogTrace($"The process {name} has already exited - no need to cancel");
                         return;
                     }
 
-                    _logger.LogDebug($"Canceling process {name}...");
+                    _logger.LogTrace($"Canceling process {name}...");
                     var cancelResult = taskCompletionSource.TrySetCanceled(cancellationToken);
                     if (cancelResult)
                     {
