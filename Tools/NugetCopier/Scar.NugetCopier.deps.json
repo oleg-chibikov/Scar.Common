@@ -6,15 +6,15 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v3.1": {
-      "Scar.NugetCopier/1.1.7426.25588": {
+      "Scar.NugetCopier/1.1.7426.36600": {
         "dependencies": {
           "Microsoft.CodeQuality.Analyzers": "3.0.0",
           "Microsoft.NetCore.Analyzers": "3.0.0",
           "Microsoft.NetFramework.Analyzers": "3.0.0",
           "Scar.CodeAnalysis": "1.0.7422.15495",
-          "Scar.Common": "1.1.7426.25083",
+          "Scar.Common": "1.1.7426.35936",
           "Scar.Common.IO": "1.1.7426.23253",
-          "Scar.Utilities": "1.1.7426.25540",
+          "Scar.Utilities": "1.1.7426.36596",
           "StyleCop.Analyzers": "1.1.118",
           "WTG.Analyzers": "2.10.0"
         },
@@ -432,7 +432,7 @@
           "NETStandard.Library": "1.6.1"
         }
       },
-      "Scar.Common/1.1.7426.25083": {
+      "Scar.Common/1.1.7426.35936": {
         "runtime": {
           "lib/netstandard2.0/Scar.Common.dll": {
             "assemblyVersion": "0.0.0.0",
@@ -448,10 +448,10 @@
           }
         }
       },
-      "Scar.Common.Processes/1.1.7425.39673": {
+      "Scar.Common.Processes/1.1.7426.36565": {
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "3.1.3",
-          "Scar.Common": "1.1.7426.25083"
+          "Scar.Common": "1.1.7426.35936"
         },
         "runtime": {
           "lib/netstandard2.0/Scar.Common.Processes.dll": {
@@ -1098,11 +1098,11 @@
         }
       },
       "WTG.Analyzers/2.10.0": {},
-      "Scar.Utilities/1.1.7426.25540": {
+      "Scar.Utilities/1.1.7426.36596": {
         "dependencies": {
           "Microsoft.Extensions.Hosting": "3.1.3",
           "Microsoft.Extensions.Hosting.Abstractions": "3.1.3",
-          "Scar.Common.Processes": "1.1.7425.39673",
+          "Scar.Common.Processes": "1.1.7426.36565",
           "Serilog.Extensions.Logging": "3.0.1",
           "Serilog.Sinks.Console": "3.1.1"
         },
@@ -1113,7 +1113,7 @@
     }
   },
   "libraries": {
-    "Scar.NugetCopier/1.1.7426.25588": {
+    "Scar.NugetCopier/1.1.7426.36600": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -1468,12 +1468,12 @@
       "path": "scar.codeanalysis/1.0.7422.15495",
       "hashPath": "scar.codeanalysis.1.0.7422.15495.nupkg.sha512"
     },
-    "Scar.Common/1.1.7426.25083": {
+    "Scar.Common/1.1.7426.35936": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-vmhrpcPGxCJ509lbBqQ5s5bkgSR+ivv2QS/lvyvRXLQMOXFloD1lN/60uCRbHWesoJ3b8W9z+bWsKsqViZKrpg==",
-      "path": "scar.common/1.1.7426.25083",
-      "hashPath": "scar.common.1.1.7426.25083.nupkg.sha512"
+      "sha512": "sha512-LizlYEMTUzjZY5yYFnVJxHOUC3l3gsReTlsiilLYvfMCLiMmD0kT1UGZHdSu0BOjqn+1/3qDdeYtj6BjQ5hkdw==",
+      "path": "scar.common/1.1.7426.35936",
+      "hashPath": "scar.common.1.1.7426.35936.nupkg.sha512"
     },
     "Scar.Common.IO/1.1.7426.23253": {
       "type": "package",
@@ -1482,12 +1482,12 @@
       "path": "scar.common.io/1.1.7426.23253",
       "hashPath": "scar.common.io.1.1.7426.23253.nupkg.sha512"
     },
-    "Scar.Common.Processes/1.1.7425.39673": {
+    "Scar.Common.Processes/1.1.7426.36565": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-oP3Dnorrf7iNsAlkQT5m0MNl4ZdDk8I4i9FrElbjbN8MGLSBIB+FtYZHNzrknjtsv/okHvKX2DTBr5ZCJu1I/w==",
-      "path": "scar.common.processes/1.1.7425.39673",
-      "hashPath": "scar.common.processes.1.1.7425.39673.nupkg.sha512"
+      "sha512": "sha512-17wCCbpqRk0G8mBCToDhMYgD+WnlcOKiQJ2J5XVDLNCA9OP/L37mJjGDGOgV6u4FXC/qdBDVvMs1O08W4/1Jyw==",
+      "path": "scar.common.processes/1.1.7426.36565",
+      "hashPath": "scar.common.processes.1.1.7426.36565.nupkg.sha512"
     },
     "Serilog/2.8.0": {
       "type": "package",
@@ -1923,7 +1923,7 @@
       "path": "wtg.analyzers/2.10.0",
       "hashPath": "wtg.analyzers.2.10.0.nupkg.sha512"
     },
-    "Scar.Utilities/1.1.7426.25540": {
+    "Scar.Utilities/1.1.7426.36596": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
