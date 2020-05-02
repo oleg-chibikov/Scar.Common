@@ -7,8 +7,8 @@
   <ItemGroup>
     <PackageReference Include="ExifLib.Standard" Version="1.7.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.3" />
-    <PackageReference Include="Scar.Common" Version="1.1.7426.35936" />
-    <PackageReference Include="Scar.Common.ImageProcessing.Metadata" Version="1.1.7426.24455" />
+    <PackageReference Include="Scar.Common" Version="1.1.7427.23036" />
+    <PackageReference Include="Scar.Common.ImageProcessing.Metadata" Version="1.1.7427.23080" />
   </ItemGroup>
 
 </Project>

@@ -41,7 +41,6 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Company>Scar</Company>
     <Authors>Scar</Authors>
     <AssemblyName>$(Company).Common</AssemblyName>
