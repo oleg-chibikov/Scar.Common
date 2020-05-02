@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Scar.Common.MVVM.ViewModel;
+using Scar.Common.RateLimiting;
 using Scar.Common.View.Contracts;
 using Scar.Common.WPF.View.Contracts;
 

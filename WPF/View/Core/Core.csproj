@@ -6,7 +6,7 @@
   
   <ItemGroup>
     <PackageReference Include="Scar.Common.MVVM.ViewModel" Version="1.1.7427.23114" />
-    <PackageReference Include="Scar.Common.RateLimiter" Version="1.1.7422.29074" />
+    <PackageReference Include="Scar.Common.RateLimiting" Version="1.1.7427.23085" />
     <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7427.23078" />
     <PackageReference Include="Scar.Common.WPF.Screen" Version="1.1.7427.23078" />
     <PackageReference Include="Scar.Common.WPF.View.Contracts" Version="1.1.7427.23113" />
