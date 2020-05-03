@@ -27,17 +27,11 @@ namespace Scar.Common.WPF.Controls
 
         readonly IRateLimiter _rateLimiter;
         bool _disposedValue;
-
         CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-
         bool _disabled;
-
         ListBox _listBox;
-
         Popup _popup;
-
         bool _suppressAutoAppend;
-
         /*+---------------------------------------------------------------------+
           |                                                                     |
           |                  Internal States                                    |

@@ -12,17 +12,11 @@ namespace Scar.Common.Installer
     public class InstallBuilder
     {
         public const string CustomParam = nameof(CustomParam);
-
         public const string FileName = nameof(FileName);
-
         const string DesktopPath = "%Desktop%";
-
         readonly string _exeFileName;
-
         readonly string _productName;
-
         readonly string _programMenuPath;
-
         readonly ManagedProject _project;
 
         public InstallBuilder(string productName, string? companyName, string buildDir, Guid upgradeCode)
@@ -61,9 +55,7 @@ namespace Scar.Common.Installer
                 MajorUpgrade =
                     new MajorUpgrade
                     {
-                        AllowSameVersionUpgrades = false,
-                        DowngradeErrorMessage = "A later version of [ProductName] is already installed",
-                        Schedule = UpgradeSchedule.afterInstallInitialize
+                        AllowSameVersionUpgrades = false, DowngradeErrorMessage = "A later version of [ProductName] is already installed", Schedule = UpgradeSchedule.afterInstallInitialize
                     },
                 MajorUpgradeStrategy = new MajorUpgradeStrategy { RemoveExistingProductAfter = Step.InstallInitialize, UpgradeVersions = VersionRange.ThisAndOlder },
                 ManagedUI = new ManagedUI

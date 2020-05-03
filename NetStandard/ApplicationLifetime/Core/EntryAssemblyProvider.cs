@@ -5,6 +5,9 @@ namespace Scar.Common.ApplicationLifetime.Core
 {
     public class EntryAssemblyProvider : IEntryAssemblyProvider
     {
-        public Assembly ProvideEntryAssembly() => Assembly.GetEntryAssembly();
+        public Assembly ProvideEntryAssembly()
+        {
+            return Assembly.GetEntryAssembly();
+        }
     }
 }

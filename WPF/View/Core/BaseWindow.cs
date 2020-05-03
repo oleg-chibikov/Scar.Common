@@ -149,36 +149,36 @@ namespace Scar.Common.WPF.View.Core
                 case AdvancedWindowStartupLocation.Default:
                     break;
                 case AdvancedWindowStartupLocation.TopLeft:
-                    {
-                        var screenArea = SystemParameters.WorkArea;
-                        Left = screenArea.Left;
-                        Top = screenArea.Top;
-                        break;
-                    }
+                {
+                    var screenArea = SystemParameters.WorkArea;
+                    Left = screenArea.Left;
+                    Top = screenArea.Top;
+                    break;
+                }
 
                 case AdvancedWindowStartupLocation.TopRight:
-                    {
-                        var screenArea = SystemParameters.WorkArea;
-                        Left = screenArea.Right - Width;
-                        Top = screenArea.Top;
-                        break;
-                    }
+                {
+                    var screenArea = SystemParameters.WorkArea;
+                    Left = screenArea.Right - Width;
+                    Top = screenArea.Top;
+                    break;
+                }
 
                 case AdvancedWindowStartupLocation.BottomLeft:
-                    {
-                        var screenArea = SystemParameters.WorkArea;
-                        Left = screenArea.Left;
-                        Top = screenArea.Bottom - Height;
-                        break;
-                    }
+                {
+                    var screenArea = SystemParameters.WorkArea;
+                    Left = screenArea.Left;
+                    Top = screenArea.Bottom - Height;
+                    break;
+                }
 
                 case AdvancedWindowStartupLocation.BottomRight:
-                    {
-                        var screenArea = SystemParameters.WorkArea;
-                        Left = screenArea.Right - Width;
-                        Top = screenArea.Bottom - Height;
-                        break;
-                    }
+                {
+                    var screenArea = SystemParameters.WorkArea;
+                    Left = screenArea.Right - Width;
+                    Top = screenArea.Bottom - Height;
+                    break;
+                }
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(AdvancedWindowStartupLocation));

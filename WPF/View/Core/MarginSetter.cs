@@ -8,7 +8,6 @@ namespace Scar.Common.WPF.View.Core
     public static class MarginSetter
     {
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.RegisterAttached("Orientation", typeof(Orientation?), typeof(MarginSetter), new UIPropertyMetadata());
-
         public static readonly DependencyProperty MarginProperty = DependencyProperty.RegisterAttached("Margin", typeof(double), typeof(MarginSetter), new UIPropertyMetadata(MarginChangedCallback));
 
         public static double GetMargin(DependencyObject dependencyObject)

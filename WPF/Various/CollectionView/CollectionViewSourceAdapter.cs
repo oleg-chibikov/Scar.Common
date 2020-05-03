@@ -5,6 +5,9 @@ namespace Scar.Common.WPF.CollectionView
 {
     public class CollectionViewSourceAdapter : ICollectionViewSource
     {
-        public ICollectionView GetDefaultView(object source) => new CollectionViewAdapter(CollectionViewSource.GetDefaultView(source));
+        public ICollectionView GetDefaultView(object source)
+        {
+            return new CollectionViewAdapter(CollectionViewSource.GetDefaultView(source));
+        }
     }
 }

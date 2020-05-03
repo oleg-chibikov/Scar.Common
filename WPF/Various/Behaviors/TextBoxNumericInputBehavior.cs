@@ -19,7 +19,6 @@ namespace Scar.Common.WPF.Behaviors
 
         const NumberStyles IntNumberStyles = NumberStyles.AllowThousands;
         const NumberStyles DecimalNumberStyles = IntNumberStyles | NumberStyles.AllowDecimalPoint;
-
         const string Empty = "0";
 
         public TextBoxNumericInputBehavior()

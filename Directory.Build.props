@@ -20,7 +20,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Scar.CodeAnalysis" Version="1.0.7422.15495" >
+    <PackageReference Include="Scar.CodeAnalysis" Version="1.0.7422.15495">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -57,7 +57,6 @@
 
   <Target Name="PublishPackage" AfterTargets="Pack">
     <!--According to https://docs.microsoft.com/en-us/nuget/create-packages/symbol-packages-snupkg it pushes both symbols and a real package-->
-    <Exec
-      Command="$(SolutionDir)Tools\NugetPusher\Scar.NugetPusher.exe $(TargetDir)" />
+    <Exec Command="$(SolutionDir)Tools\NugetPusher\Scar.NugetPusher.exe $(TargetDir)" />
   </Target>
 </Project>

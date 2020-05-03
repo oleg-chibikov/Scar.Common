@@ -16,7 +16,6 @@ namespace Scar.Common.WPF.Controls
         readonly ScaleTransform _st = new ScaleTransform();
         readonly TranslateTransform _tt = new TranslateTransform();
         readonly Duration _zoomAnimationDuration = new Duration(TimeSpan.FromMilliseconds(200));
-
         UIElement _child;
         bool _isReset;
         Point _originBottomRight;

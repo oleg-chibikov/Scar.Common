@@ -13,7 +13,6 @@ namespace Scar.Common.WPF.Behaviors
     {
         // Using a DependencyProperty as the backing store for Command.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(InvokeCommandWithArgsAction), new UIPropertyMetadata(null));
-
         public static readonly DependencyProperty CommandParameterConverterProperty = DependencyProperty.Register(
             "CommandParameterConverter",
             typeof(IValueConverter),

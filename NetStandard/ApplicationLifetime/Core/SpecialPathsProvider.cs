@@ -5,6 +5,9 @@ namespace Scar.Common.ApplicationLifetime.Core
 {
     public class SpecialPathsProvider : ISpecialPathsProvider
     {
-        public string ProvideSpecialPath(Environment.SpecialFolder specialFolderType) => Environment.GetFolderPath(specialFolderType);
+        public string ProvideSpecialPath(Environment.SpecialFolder specialFolderType)
+        {
+            return Environment.GetFolderPath(specialFolderType);
+        }
     }
 }

@@ -94,11 +94,7 @@ namespace Scar.Common.WPF.Startup
                 MessageType.Success => MessageBoxImage.Information,
                 _ => throw new ArgumentOutOfRangeException(nameof(message))
             };
-            MessageBox.Show(
-                message.Text,
-                GetAppProduct(),
-                MessageBoxButton.OK,
-                image);
+            MessageBox.Show(message.Text, GetAppProduct(), MessageBoxButton.OK, image);
         }
 
         static string GetAppGuid()
@@ -111,7 +107,8 @@ namespace Scar.Common.WPF.Startup
         static string GetAppProduct()
         {
             var entryAssembly = Assembly.GetEntryAssembly() ?? throw new InvalidOperationException("Entry assembly is null");
-            var attribute = Attribute.GetCustomAttribute(entryAssembly, typeof(AssemblyProductAttribute), false) as AssemblyProductAttribute ?? throw new InvalidOperationException("Guid attribute is null");
+            var attribute = Attribute.GetCustomAttribute(entryAssembly, typeof(AssemblyProductAttribute), false) as AssemblyProductAttribute ??
+                            throw new InvalidOperationException("Guid attribute is null");
             return attribute.Product;
         }
 
@@ -123,6 +120,9 @@ namespace Scar.Common.WPF.Startup
             e.Handled = true;
         }
 
-        Mutex CreateMutex() => new Mutex(false, $"Global\\{GetAppGuid()}", out _);
+        Mutex CreateMutex()
+        {
+            return new Mutex(false, $"Global\\{GetAppGuid()}", out _);
+        }
     }
 }

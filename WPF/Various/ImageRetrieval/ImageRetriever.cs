@@ -17,7 +17,6 @@ namespace Scar.Common.WPF.ImageRetrieval
     public class ImageRetriever : IImageRetriever
     {
         static readonly TimeSpan DefaultAttemptDelay = TimeSpan.FromMilliseconds(100);
-
         readonly ILogger _logger;
 
         public ImageRetriever(ILogger<ImageRetriever> logger)

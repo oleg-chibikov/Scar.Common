@@ -13,7 +13,10 @@ namespace Scar.Common.Cryptography
             return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
         }
 
-        public static string GetHashString(this string inputString) => GetHashString(GetHash(inputString));
+        public static string GetHashString(this string inputString)
+        {
+            return GetHashString(GetHash(inputString));
+        }
 
         public static string GetHashString(this byte[] bytes)
         {

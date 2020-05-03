@@ -7,19 +7,12 @@ namespace Scar.Common.WPF.Converters
     public enum DateInterval
     {
         Years,
-
         Months,
-
         Weeks,
-
         Days,
-
         Hours,
-
         Minutes,
-
         Seconds,
-
         Milliseconds
     }
 

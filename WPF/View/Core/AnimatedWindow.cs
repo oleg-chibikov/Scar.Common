@@ -14,11 +14,8 @@ namespace Scar.Common.WPF.View.Core
     public abstract class AnimatedWindow : BaseWindow
     {
         public static readonly DependencyProperty DraggableProperty = DependencyProperty.Register(nameof(Draggable), typeof(bool), typeof(Window), new PropertyMetadata(null));
-
         readonly ConcurrentDictionary<DependencyProperty, double> _animations = new ConcurrentDictionary<DependencyProperty, double>();
-
         readonly Duration _fadeDuration = new Duration(TimeSpan.FromMilliseconds(300));
-
         readonly Duration _repositionDuration = new Duration(TimeSpan.FromMilliseconds(150));
 
         static AnimatedWindow()
@@ -138,7 +135,7 @@ namespace Scar.Common.WPF.View.Core
                 return;
             }
 
-            if (e.ClickCount == 2 && e.GetPosition(this).Y < 20)
+            if ((e.ClickCount == 2) && (e.GetPosition(this).Y < 20))
             {
                 WindowState = WindowState != WindowState.Maximized ? WindowState.Maximized : WindowState.Normal;
             }

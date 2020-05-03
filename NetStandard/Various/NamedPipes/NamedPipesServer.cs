@@ -12,9 +12,7 @@ namespace Scar.Common.NamedPipes
     public sealed class NamedPipesServer<T> : INamedPipesServer<T>
     {
         const int ReadBufferSize = 255;
-
         readonly ILogger _logger;
-
         NamedPipeServerStream _pipeServer;
 
         public NamedPipesServer(ILogger<NamedPipesServer<T>> logger)

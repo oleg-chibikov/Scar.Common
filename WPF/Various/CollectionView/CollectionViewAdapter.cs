@@ -20,14 +20,14 @@ namespace Scar.Common.WPF.CollectionView
 
         public event EventHandler CurrentChanged
         {
-            add { _adaptee.CurrentChanged += value; }
-            remove { _adaptee.CurrentChanged -= value; }
+            add => _adaptee.CurrentChanged += value;
+            remove => _adaptee.CurrentChanged -= value;
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged
         {
-            add { _adaptee.CollectionChanged += value; }
-            remove { _adaptee.CollectionChanged -= value; }
+            add => _adaptee.CollectionChanged += value;
+            remove => _adaptee.CollectionChanged -= value;
         }
 
         public CultureInfo Culture { get => _adaptee.Culture; set => _adaptee.Culture = value; }
@@ -54,24 +54,54 @@ namespace Scar.Common.WPF.CollectionView
 
         public bool IsCurrentBeforeFirst => _adaptee.IsCurrentBeforeFirst;
 
-        public bool Contains(object item) => _adaptee.Contains(item);
+        public bool Contains(object item)
+        {
+            return _adaptee.Contains(item);
+        }
 
-        public IDisposable DeferRefresh() => _adaptee.DeferRefresh();
+        public IDisposable DeferRefresh()
+        {
+            return _adaptee.DeferRefresh();
+        }
 
-        public IEnumerator GetEnumerator() => _adaptee.GetEnumerator();
+        public IEnumerator GetEnumerator()
+        {
+            return _adaptee.GetEnumerator();
+        }
 
-        public bool MoveCurrentTo(object item) => _adaptee.MoveCurrentTo(item);
+        public bool MoveCurrentTo(object item)
+        {
+            return _adaptee.MoveCurrentTo(item);
+        }
 
-        public bool MoveCurrentToFirst() => _adaptee.MoveCurrentToFirst();
+        public bool MoveCurrentToFirst()
+        {
+            return _adaptee.MoveCurrentToFirst();
+        }
 
-        public bool MoveCurrentToLast() => _adaptee.MoveCurrentToLast();
+        public bool MoveCurrentToLast()
+        {
+            return _adaptee.MoveCurrentToLast();
+        }
 
-        public bool MoveCurrentToNext() => _adaptee.MoveCurrentToNext();
+        public bool MoveCurrentToNext()
+        {
+            return _adaptee.MoveCurrentToNext();
+        }
 
-        public bool MoveCurrentToPosition(int position) => _adaptee.MoveCurrentToPosition(position);
+        public bool MoveCurrentToPosition(int position)
+        {
+            return _adaptee.MoveCurrentToPosition(position);
+        }
 
-        public bool MoveCurrentToPrevious() => _adaptee.MoveCurrentToPrevious();
+        public bool MoveCurrentToPrevious()
+        {
+            return _adaptee.MoveCurrentToPrevious();
+        }
 
-        public void Refresh() => _adaptee.Refresh();
+        public void Refresh()
+        {
+            _adaptee.Refresh();
+        }
     }
 }

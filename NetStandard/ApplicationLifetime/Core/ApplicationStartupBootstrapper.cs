@@ -147,10 +147,10 @@ namespace Scar.Common.ApplicationLifetime.Core
 
                     return;
                 case NewInstanceHandling.Restart:
-                    {
-                        KillAnotherInstanceIfExists();
-                        break;
-                    }
+                {
+                    KillAnotherInstanceIfExists();
+                    break;
+                }
             }
         }
 
@@ -199,7 +199,8 @@ namespace Scar.Common.ApplicationLifetime.Core
 
         void KillAnotherInstanceIfExists()
         {
-            var anotherInstance = Process.GetProcesses().SingleOrDefault(proc => proc.ProcessName.Equals(Process.GetCurrentProcess().ProcessName, StringComparison.Ordinal) && (proc.Id != Process.GetCurrentProcess().Id));
+            var anotherInstance = Process.GetProcesses()
+                .SingleOrDefault(proc => proc.ProcessName.Equals(Process.GetCurrentProcess().ProcessName, StringComparison.Ordinal) && (proc.Id != Process.GetCurrentProcess().Id));
             if (anotherInstance != null)
             {
                 anotherInstance.Kill();
