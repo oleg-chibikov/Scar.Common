@@ -40,7 +40,8 @@ namespace Scar.Common.IO
                 return;
             }
 
-            Process.Start(filePath);
+            using var process = new Process { StartInfo = new ProcessStartInfo(filePath) { UseShellExecute = false } };
+            process.Start();
         }
 
         public static void OpenFileInExplorer(this string filePath)
@@ -51,7 +52,7 @@ namespace Scar.Common.IO
                 return;
             }
 
-            using var process = new Process { StartInfo = { FileName = "explorer.exe", Arguments = $"/select,\"{filePath}\"" } };
+            using var process = new Process { StartInfo = { UseShellExecute = true, FileName = "explorer.exe", Arguments = $"/select,\"{filePath}\"" } };
             process.Start();
         }
 

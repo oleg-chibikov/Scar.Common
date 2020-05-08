@@ -43,6 +43,7 @@ namespace Scar.Common.WPF.Behaviors
                 var window = parent as Window;
                 if ((window?.ShowActivated == true) || (window == null))
                 {
+                    target.Focus();
                     Keyboard.Focus(target);
                 }
             };

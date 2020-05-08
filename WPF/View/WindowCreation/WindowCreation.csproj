@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Description>WPF tools for working with WindowCreation</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Scar.Common.View.WindowCreation" Version="1.1.7433.34430" />
+  </ItemGroup>
+
+</Project>

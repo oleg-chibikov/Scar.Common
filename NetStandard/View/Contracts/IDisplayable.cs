@@ -8,6 +8,8 @@ namespace Scar.Common.View.Contracts
 
         event EventHandler Loaded;
 
+        event EventHandler ContentRendered;
+
         bool? ShowDialog();
 
         void Show();
