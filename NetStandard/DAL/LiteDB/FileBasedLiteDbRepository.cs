@@ -31,10 +31,12 @@ namespace Scar.Common.DAL.LiteDB
                 Directory.CreateDirectory(DbDirectoryPath);
             }
 
-            Db = new LiteDatabase(Path.Combine(DbDirectoryPath, $"{DbFileName}{DbFileExtension}"));
+            var filePath = Path.Combine(DbDirectoryPath, $"{DbFileName}{DbFileExtension}");
+
+            Db = new LiteDatabase($"filename={filePath};upgrade=true");
             if (shrink)
             {
-                Db.Shrink();
+                Db.Rebuild();
             }
         }
 

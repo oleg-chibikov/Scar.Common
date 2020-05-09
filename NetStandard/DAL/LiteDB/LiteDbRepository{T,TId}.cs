@@ -19,7 +19,7 @@ namespace Scar.Common.DAL.LiteDB
 
         public event EventHandler? Changed;
 
-        protected LiteCollection<T> Collection { get; }
+        protected ILiteCollection<T> Collection { get; }
 
         public bool Check(TId id)
         {
@@ -73,7 +73,7 @@ namespace Scar.Common.DAL.LiteDB
             _ = entities ?? throw new ArgumentNullException(nameof(entities));
 
             // https://github.com/mbdavid/LiteDB/issues/318 - need to write _id instead of Id
-            var deletedCount = Collection.Delete(Query.In("_id", entities.Select(entity => ToBson(entity.Id))));
+            var deletedCount = Collection.DeleteMany(Query.In("_id", entities.Select(entity => ToBson(entity.Id))));
             if (deletedCount > 0)
             {
                 Changed?.Invoke(this, new EventArgs());
@@ -87,7 +87,7 @@ namespace Scar.Common.DAL.LiteDB
             _ = ids ?? throw new ArgumentNullException(nameof(ids));
 
             // https://github.com/mbdavid/LiteDB/issues/318 - need to write _id instead of Id
-            var deletedCount = Collection.Delete(Query.In("_id", ids.Select(id => ToBson(id))));
+            var deletedCount = Collection.DeleteMany(Query.In("_id", ids.Select(id => ToBson(id))));
             if (deletedCount > 0)
             {
                 Changed?.Invoke(this, new EventArgs());
