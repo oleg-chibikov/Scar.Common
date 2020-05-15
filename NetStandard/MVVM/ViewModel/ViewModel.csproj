@@ -5,6 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.MVVM.Commands" Version="1.1.7427.23078" />
+    <PackageReference Include="Scar.Common.MVVM.Commands" Version="1.1.7440.22653" />
   </ItemGroup>
 </Project>

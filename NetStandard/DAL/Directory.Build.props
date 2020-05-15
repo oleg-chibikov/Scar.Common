@@ -4,6 +4,7 @@
   <PropertyGroup>
     <AssemblyName>$(AssemblyName).DAL.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>$(RootNamespace).DAL.$(MSBuildProjectName)</RootNamespace>
+    <OutputPath>$(OutputPath)$(AssemblyName)\</OutputPath>
   </PropertyGroup>
 
 </Project>

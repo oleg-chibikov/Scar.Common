@@ -30,13 +30,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsPackable>true</IsPackable>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSet Condition="$(MSBuildProjectFile.Contains('Test'))">$(MSBuildThisFileDirectory)\CodeAnalysis.Test.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="$(MSBuildProjectFile.Contains('Tests'))">$(MSBuildThisFileDirectory)\CodeAnalysis.Test.ruleset</CodeAnalysisRuleSet>
     <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DebugType Condition=" '$(Configuration)' == 'Release' ">None</DebugType>
     <SignAssembly>false</SignAssembly>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild Condition="! $(MSBuildProjectFile.Contains('Tests'))">true</GeneratePackageOnBuild>
     <IncludeSymbols Condition=" '$(Configuration)' == 'Debug' ">true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <LangVersion>8.0</LangVersion>
@@ -48,6 +48,7 @@
     <Build>$([System.DateTime]::op_Subtraction($([System.DateTime]::get_Now().get_Date()),$([System.DateTime]::new(2000,1,1))).get_TotalDays())</Build>
     <Revision>$([MSBuild]::Divide($([System.DateTime]::get_Now().get_TimeOfDay().get_TotalSeconds()), 2).ToString('F0'))</Revision>
     <Version>1.1.$(Build).$(Revision)</Version>
+    <OutputPath>$(SolutionDir)bin\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

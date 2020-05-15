@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LiteDB" Version="5.0.7" />
-    <PackageReference Include="Scar.Common.DAL.Contracts" Version="1.1.7427.23084" />
+    <PackageReference Include="LiteDB" Version="5.0.8" />
+    <PackageReference Include="Scar.Common.DAL.Contracts" Version="1.1.7440.22677" />
   </ItemGroup>
 
 </Project>

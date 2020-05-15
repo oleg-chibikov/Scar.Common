@@ -4,6 +4,7 @@
   <PropertyGroup>
     <AssemblyName>$(AssemblyName).Controls.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>$(RootNamespace).Controls</RootNamespace>
+    <OutputPath>$(OutputPath)$(AssemblyName)\</OutputPath>
   </PropertyGroup>
 
 </Project>

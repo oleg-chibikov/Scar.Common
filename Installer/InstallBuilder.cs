@@ -1,6 +1,8 @@
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Text;
 using WixSharp;
 using WixSharp.CommonTasks;
 using WixSharp.Forms;
@@ -55,7 +57,9 @@ namespace Scar.Common.Installer
                 MajorUpgrade =
                     new MajorUpgrade
                     {
-                        AllowSameVersionUpgrades = false, DowngradeErrorMessage = "A later version of [ProductName] is already installed", Schedule = UpgradeSchedule.afterInstallInitialize
+                        AllowSameVersionUpgrades = false,
+                        DowngradeErrorMessage = "A later version of [ProductName] is already installed",
+                        Schedule = UpgradeSchedule.afterInstallInitialize
                     },
                 MajorUpgradeStrategy = new MajorUpgradeStrategy { RemoveExistingProductAfter = Step.InstallInitialize, UpgradeVersions = VersionRange.ThisAndOlder },
                 ManagedUI = new ManagedUI
@@ -96,8 +100,9 @@ namespace Scar.Common.Installer
 
         public InstallBuilder WithAutostart(string? fileName = null)
         {
+            var normalizedProduct = RemoveDiacritics(_productName);
             _project.AddRegValue(
-                new RegValue(new Id(_productName + "Autostart"), RegistryHive.LocalMachine, @"Software\Microsoft\Windows\CurrentVersion\Run", _productName, $"[INSTALLDIR]{fileName ?? _exeFileName}"));
+                new RegValue(new Id(normalizedProduct + "Autostart"), RegistryHive.LocalMachine, @"Software\Microsoft\Windows\CurrentVersion\Run", normalizedProduct, $"[INSTALLDIR]{fileName ?? _exeFileName}"));
             return this;
         }
 
@@ -143,6 +148,23 @@ namespace Scar.Common.Installer
                 new ElevatedManagedAction(CustomActions.UninstallService, Return.check, When.Before, Step.RemoveFiles, Condition.BeingUninstalled) { UsesProperties = customActionParam }
             };
             return this;
+        }
+
+        static string RemoveDiacritics(string text)
+        {
+            var normalizedString = text.Normalize(NormalizationForm.FormD);
+            var stringBuilder = new StringBuilder();
+
+            foreach (var c in normalizedString)
+            {
+                var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+                if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+                {
+                    stringBuilder.Append(c);
+                }
+            }
+
+            return stringBuilder.ToString().Normalize(NormalizationForm.FormC);
         }
     }
 }
