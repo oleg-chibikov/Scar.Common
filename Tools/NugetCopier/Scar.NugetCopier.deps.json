@@ -6,15 +6,14 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v3.1": {
-      "Scar.NugetCopier/1.1.7427.22033": {
+      "Scar.NugetCopier/1.1.7441.17745": {
         "dependencies": {
           "Microsoft.CodeQuality.Analyzers": "3.0.0",
           "Microsoft.NetCore.Analyzers": "3.0.0",
           "Microsoft.NetFramework.Analyzers": "3.0.0",
           "Scar.CodeAnalysis": "1.0.7422.15495",
-          "Scar.Common": "1.1.7426.35936",
-          "Scar.Common.IO": "1.1.7426.23253",
-          "Scar.Utilities": "1.1.7427.21615",
+          "Scar.Common.IO": "1.1.7441.17293",
+          "Scar.Utilities": "1.1.7441.17733",
           "StyleCop.Analyzers": "1.1.118",
           "WTG.Analyzers": "2.10.0"
         },
@@ -190,7 +189,7 @@
           "Microsoft.Extensions.Configuration.Abstractions": "3.1.3",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "3.1.3",
           "Microsoft.Extensions.FileProviders.Abstractions": "3.1.3",
-          "Microsoft.Extensions.Logging.Abstractions": "3.1.3"
+          "Microsoft.Extensions.Logging.Abstractions": "3.1.4"
         },
         "runtime": {
           "lib/netcoreapp3.1/Microsoft.Extensions.Hosting.Abstractions.dll": {
@@ -203,7 +202,7 @@
         "dependencies": {
           "Microsoft.Extensions.Configuration.Binder": "3.1.3",
           "Microsoft.Extensions.DependencyInjection": "3.1.3",
-          "Microsoft.Extensions.Logging.Abstractions": "3.1.3",
+          "Microsoft.Extensions.Logging.Abstractions": "3.1.4",
           "Microsoft.Extensions.Options": "3.1.3"
         },
         "runtime": {
@@ -213,11 +212,11 @@
           }
         }
       },
-      "Microsoft.Extensions.Logging.Abstractions/3.1.3": {
+      "Microsoft.Extensions.Logging.Abstractions/3.1.4": {
         "runtime": {
           "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll": {
-            "assemblyVersion": "3.1.3.0",
-            "fileVersion": "3.100.320.12802"
+            "assemblyVersion": "3.1.4.0",
+            "fileVersion": "3.100.420.21409"
           }
         }
       },
@@ -432,29 +431,29 @@
           "NETStandard.Library": "1.6.1"
         }
       },
-      "Scar.Common/1.1.7426.35936": {
+      "Scar.Common/1.1.7441.17281": {
         "runtime": {
-          "lib/netstandard2.0/Scar.Common.dll": {
+          "lib/netstandard2.1/Scar.Common.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
         }
       },
-      "Scar.Common.IO/1.1.7426.23253": {
+      "Scar.Common.IO/1.1.7441.17293": {
         "runtime": {
-          "lib/netstandard2.0/Scar.Common.IO.dll": {
+          "lib/netstandard2.1/Scar.Common.IO.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
         }
       },
-      "Scar.Common.Processes/1.1.7426.36565": {
+      "Scar.Common.Processes/1.1.7441.17422": {
         "dependencies": {
-          "Microsoft.Extensions.Logging.Abstractions": "3.1.3",
-          "Scar.Common": "1.1.7426.35936"
+          "Microsoft.Extensions.Logging.Abstractions": "3.1.4",
+          "Scar.Common": "1.1.7441.17281"
         },
         "runtime": {
-          "lib/netstandard2.0/Scar.Common.Processes.dll": {
+          "lib/netstandard2.1/Scar.Common.Processes.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -1098,11 +1097,11 @@
         }
       },
       "WTG.Analyzers/2.10.0": {},
-      "Scar.Utilities/1.1.7427.21615": {
+      "Scar.Utilities/1.1.7441.17733": {
         "dependencies": {
           "Microsoft.Extensions.Hosting": "3.1.3",
           "Microsoft.Extensions.Hosting.Abstractions": "3.1.3",
-          "Scar.Common.Processes": "1.1.7426.36565",
+          "Scar.Common.Processes": "1.1.7441.17422",
           "Serilog.Extensions.Logging": "3.0.1",
           "Serilog.Sinks.Console": "3.1.1"
         },
@@ -1113,7 +1112,7 @@
     }
   },
   "libraries": {
-    "Scar.NugetCopier/1.1.7427.22033": {
+    "Scar.NugetCopier/1.1.7441.17745": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -1237,12 +1236,12 @@
       "path": "microsoft.extensions.logging/3.1.3",
       "hashPath": "microsoft.extensions.logging.3.1.3.nupkg.sha512"
     },
-    "Microsoft.Extensions.Logging.Abstractions/3.1.3": {
+    "Microsoft.Extensions.Logging.Abstractions/3.1.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-j6r0E+OVinD4s13CIZASYJLLLApStb1yh5Vig7moB2FE1UsMRj4TYJ/xioDjreVA0dyOFpbWny1/n2iSJMbmNg==",
-      "path": "microsoft.extensions.logging.abstractions/3.1.3",
-      "hashPath": "microsoft.extensions.logging.abstractions.3.1.3.nupkg.sha512"
+      "sha512": "sha512-JNPxhw2XwhjfGFyIkA5eBfzUDPNpa6Q50HJ2F6lCAMoSa1GquAktTrl4PhEyTYFNmu09B0E90WhYsUb3kmSkOA==",
+      "path": "microsoft.extensions.logging.abstractions/3.1.4",
+      "hashPath": "microsoft.extensions.logging.abstractions.3.1.4.nupkg.sha512"
     },
     "Microsoft.Extensions.Logging.Configuration/3.1.3": {
       "type": "package",
@@ -1380,7 +1379,7 @@
     "runtime.native.System.IO.Compression/4.3.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-b+V9JC/Ii3sR659flBeaBJww111425tgjcDS1k+hqV4sGh9FALRDBvJnDtQ895gAzpPTUOFDHdqaZ2Et7BpZMg==",
+      "sha512": "sha512-INBPonS5QPEgn7naufQFXJEp3zX6L4bwHgJ/ZH78aBTpeNfQMtf7C6VrAFhlq2xxWBveIOWyFzQjJ8XzHMhdOQ==",
       "path": "runtime.native.system.io.compression/4.3.0",
       "hashPath": "runtime.native.system.io.compression.4.3.0.nupkg.sha512"
     },
@@ -1436,7 +1435,7 @@
     "runtime.rhel.7-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-T5NvFgmHX0WH4c7lP72krsnk+IJI10vJf2j2twGE+5QBRA4RyRAgD+ZjEgdmpLOjW4B+nZGaadewTCUcR899OQ==",
+      "sha512": "sha512-nyFNiCk/r+VOiIqreLix8yN+q3Wga9+SE8BCgkf+2BwEKiNx6DyvFjCgkfV743/grxv8jHJ8gUK4XEQw7yzRYg==",
       "path": "runtime.rhel.7-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
       "hashPath": "runtime.rhel.7-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
     },
@@ -1468,26 +1467,26 @@
       "path": "scar.codeanalysis/1.0.7422.15495",
       "hashPath": "scar.codeanalysis.1.0.7422.15495.nupkg.sha512"
     },
-    "Scar.Common/1.1.7426.35936": {
+    "Scar.Common/1.1.7441.17281": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-LizlYEMTUzjZY5yYFnVJxHOUC3l3gsReTlsiilLYvfMCLiMmD0kT1UGZHdSu0BOjqn+1/3qDdeYtj6BjQ5hkdw==",
-      "path": "scar.common/1.1.7426.35936",
-      "hashPath": "scar.common.1.1.7426.35936.nupkg.sha512"
+      "sha512": "sha512-ErPpKauwvOkcXpU6uDRidbOP7G6cQsHrtVd/QclkKsANGYZKIp2uQRWE+DQRvfkPyVQk88D+zSlNR67751R/Bg==",
+      "path": "scar.common/1.1.7441.17281",
+      "hashPath": "scar.common.1.1.7441.17281.nupkg.sha512"
     },
-    "Scar.Common.IO/1.1.7426.23253": {
+    "Scar.Common.IO/1.1.7441.17293": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-WtqxTW3r9wpBm/2nXvZaNrUJqlHceUPsQxlqoFdYQtnlxogjdlGK2XX/W0+KZ2916/MkYKtTFWv833dSFna3Ag==",
-      "path": "scar.common.io/1.1.7426.23253",
-      "hashPath": "scar.common.io.1.1.7426.23253.nupkg.sha512"
+      "sha512": "sha512-KGdV3nMfEGyQqbkQ+jHlAXIcVJAKr8oqQo1IcVjWBdFJaW1xNq1VxL1Ggx7dQP2xHzMJnGhBZDWuKlN9VkVNqw==",
+      "path": "scar.common.io/1.1.7441.17293",
+      "hashPath": "scar.common.io.1.1.7441.17293.nupkg.sha512"
     },
-    "Scar.Common.Processes/1.1.7426.36565": {
+    "Scar.Common.Processes/1.1.7441.17422": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-17wCCbpqRk0G8mBCToDhMYgD+WnlcOKiQJ2J5XVDLNCA9OP/L37mJjGDGOgV6u4FXC/qdBDVvMs1O08W4/1Jyw==",
-      "path": "scar.common.processes/1.1.7426.36565",
-      "hashPath": "scar.common.processes.1.1.7426.36565.nupkg.sha512"
+      "sha512": "sha512-RfWxR5+34yhrEF02db7oH7AoD+HoAIY5Yi3GVfDYUZZeQ3QWx/V6fRDfU+dA4TI3yHVNwlUMYcmPsFqTM2sDkg==",
+      "path": "scar.common.processes/1.1.7441.17422",
+      "hashPath": "scar.common.processes.1.1.7441.17422.nupkg.sha512"
     },
     "Serilog/2.8.0": {
       "type": "package",
@@ -1923,7 +1922,7 @@
       "path": "wtg.analyzers/2.10.0",
       "hashPath": "wtg.analyzers.2.10.0.nupkg.sha512"
     },
-    "Scar.Utilities/1.1.7427.21615": {
+    "Scar.Utilities/1.1.7441.17733": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

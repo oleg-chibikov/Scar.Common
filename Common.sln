@@ -101,6 +101,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MVVM", "MVVM", "{B9260EA1-8
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sync", "Sync", "{53D1F5FB-9100-4840-AB52-0D3A65C87BBC}"
+	ProjectSection(SolutionItems) = preProject
+		NetStandard\Sync\Directory.Build.props = NetStandard\Sync\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "View", "View", "{C4CA7CCA-550F-4BD6-9F4F-DAE744BC7EA7}"
 	ProjectSection(SolutionItems) = preProject
@@ -128,6 +131,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Various", "Various", "{F752
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Various", "Various", "{E2471E03-945B-41CE-9B3A-4F89E7FAF5D9}"
+	ProjectSection(SolutionItems) = preProject
+		WPF\Various\Directory.Build.props = WPF\Various\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutofacHttpClientProvision", "NetStandard\Various\AutofacHttpClientProvision\AutofacHttpClientProvision.csproj", "{1B1ECE53-843B-486C-B16A-480E5397A22E}"
 EndProject

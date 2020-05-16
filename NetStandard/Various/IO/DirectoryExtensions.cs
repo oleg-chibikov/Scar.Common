@@ -44,7 +44,7 @@ namespace Scar.Common.IO
             // if (directoryPath.Contains(separator1))
             // return directoryPath + separator1;
             // return directoryPath + separator2;
-            if (directoryPath.Contains(separator2))
+            if (directoryPath.Contains(separator2, StringComparison.Ordinal))
             {
                 return directoryPath + separator2;
             }

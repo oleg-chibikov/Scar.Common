@@ -18,7 +18,7 @@ namespace Scar.Common.Sync.Windows
                 jsonPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), DropboxInfoPath);
             }
 
-            return !File.Exists(jsonPath) ? null : File.ReadAllText(jsonPath).Split('\"')[5].Replace(@"\\", @"\");
+            return !File.Exists(jsonPath) ? null : File.ReadAllText(jsonPath).Split('\"')[5].Replace(@"\\", @"\", StringComparison.Ordinal);
         }
 
         public string? GetOneDrivePath()
