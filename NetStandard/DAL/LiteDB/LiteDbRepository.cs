@@ -5,7 +5,7 @@ using Scar.Common.DAL.Contracts.Model;
 namespace Scar.Common.DAL.LiteDB
 {
     public abstract class LiteDbRepository<T> : LiteDbRepository<T, object>, IRepository<T>
-        where T : Entity, new()
+        where T : IEntity
     {
         protected LiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true) : base(directoryPath, fileName, shrink)
         {

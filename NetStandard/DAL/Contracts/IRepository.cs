@@ -42,7 +42,7 @@ namespace Scar.Common.DAL.Contracts
     }
 
     public interface IRepository<T> : IRepository<T, object>
-        where T : IEntity
+        where T : IEntity<object>
     {
     }
 }

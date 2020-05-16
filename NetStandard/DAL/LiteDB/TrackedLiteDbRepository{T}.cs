@@ -4,7 +4,7 @@ using Scar.Common.DAL.Contracts.Model;
 namespace Scar.Common.DAL.LiteDB
 {
     public abstract class TrackedLiteDbRepository<T> : TrackedLiteDbRepository<T, object>
-        where T : Entity, ITrackedEntity, new()
+        where T : IEntity, ITrackedEntity
     {
         protected TrackedLiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true) : base(directoryPath, fileName, shrink)
         {

@@ -9,7 +9,7 @@ using Scar.Common.DAL.Contracts.Model;
 namespace Scar.Common.DAL.LiteDB
 {
     public abstract class LiteDbRepository<T, TId> : FileBasedLiteDbRepository<TId>, IRepository<T, TId>, IChangeableRepository
-        where T : IEntity<TId>, new()
+        where T : IEntity<TId>
     {
         protected LiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true) : base(directoryPath, fileName ?? typeof(T).Name, shrink)
         {
@@ -138,9 +138,9 @@ namespace Scar.Common.DAL.LiteDB
 
             var generatedId = GenerateId();
 
-            if (!Equals(generatedId, default))
+            if (entity is IMutableEntity<TId> mutableEntity && !Equals(generatedId, default))
             {
-                entity.Id = generatedId;
+                mutableEntity.SetId(generatedId);
             }
 
             var insertedId = Collection.Insert(entity);
@@ -152,14 +152,14 @@ namespace Scar.Common.DAL.LiteDB
         public int Insert(IEnumerable<T> entities, bool skipCustomAction = false)
         {
             _ = entities ?? throw new ArgumentNullException(nameof(entities));
-            var arr = entities.ToArray();
+            var array = entities.ToArray();
 
             if (!skipCustomAction)
             {
-                UpdateBeforeSave(arr);
+                UpdateBeforeSave(array);
             }
 
-            var countInserted = Collection.Insert(arr);
+            var countInserted = Collection.Insert(array);
             Changed?.Invoke(this, new EventArgs());
             return countInserted;
         }
