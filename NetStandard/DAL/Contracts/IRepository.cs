@@ -39,6 +39,10 @@ namespace Scar.Common.DAL.Contracts
         bool Upsert(T entity, bool skipCustomAction = false);
 
         int Upsert(IEnumerable<T> entities, bool skipCustomAction = false);
+
+        public bool Exists(Expression<Func<T, bool>> predicate);
+
+        public int Clear();
     }
 
     public interface IRepository<T> : IRepository<T, object>

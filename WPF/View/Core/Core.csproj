@@ -5,12 +5,12 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Scar.Common.MVVM.ViewModel" Version="1.1.7442.19875" />
+    <PackageReference Include="Scar.Common.MVVM.ViewModel" Version="1.1.7459.30945" />
     <PackageReference Include="Scar.Common.RateLimiting" Version="1.1.7441.17392" />
-    <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7442.19852" />
-    <PackageReference Include="Scar.Common.WPF.Screen" Version="1.1.7441.17391" />
-    <PackageReference Include="Scar.Common.WPF.View.Contracts" Version="1.1.7442.19875" />
-    <PackageReference Include="MaterialDesignThemes" Version="3.1.2" />
+    <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7459.30894" />
+    <PackageReference Include="Scar.Common.WPF.Screen" Version="1.1.7459.30893" />
+    <PackageReference Include="Scar.Common.WPF.View.Contracts" Version="1.1.7459.30945" />
+    <PackageReference Include="MaterialDesignThemes" Version="3.1.3" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
     <PackageReference Include="WPFLocalizeExtension" Version="3.6.1" />
   </ItemGroup>

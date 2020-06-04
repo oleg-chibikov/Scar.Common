@@ -6,8 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="5.0.8" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
-    <PackageReference Include="Scar.Common.DAL.Contracts" Version="1.1.7442.19757" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Scar.Common.DAL.Contracts" Version="1.1.7460.17256" />
   </ItemGroup>
 
 </Project>

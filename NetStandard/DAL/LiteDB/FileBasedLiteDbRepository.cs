@@ -6,8 +6,10 @@ using Scar.Common.DAL.Contracts;
 
 namespace Scar.Common.DAL.LiteDB
 {
-    public abstract class FileBasedLiteDbRepository<TId> : IFileBasedRepository
+    public abstract class FileBasedLiteDbRepository<TId> : IFileBasedRepository, IDisposable
     {
+        bool _disposedValue = false;
+
         protected FileBasedLiteDbRepository(string directoryPath, string fileName, bool shrink = true)
         {
             DbFileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
@@ -71,12 +73,26 @@ namespace Scar.Common.DAL.LiteDB
 
         public void Dispose()
         {
-            Db.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         protected virtual TId GenerateId()
         {
             return default!;
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    Db.Dispose();
+                }
+
+                _disposedValue = true;
+            }
         }
     }
 }

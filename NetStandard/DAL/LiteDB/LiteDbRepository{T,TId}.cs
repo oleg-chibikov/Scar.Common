@@ -133,15 +133,10 @@ namespace Scar.Common.DAL.LiteDB
 
             if (!skipCustomAction)
             {
-                UpdateBeforeSave(entity);
+                UpdateBeforeSave(entity, false);
             }
 
-            var generatedId = GenerateId();
-
-            if (entity is IMutableEntity<TId> mutableEntity && !Equals(generatedId, default))
-            {
-                mutableEntity.SetId(generatedId);
-            }
+            GenerateIdIfNeeded(entity);
 
             var insertedId = Collection.Insert(entity);
             Changed?.Invoke(this, new EventArgs());
@@ -156,7 +151,7 @@ namespace Scar.Common.DAL.LiteDB
 
             if (!skipCustomAction)
             {
-                UpdateBeforeSave(array);
+                UpdateBeforeSave(array, false);
             }
 
             var countInserted = Collection.Insert(array);
@@ -183,7 +178,7 @@ namespace Scar.Common.DAL.LiteDB
 
             if (!skipCustomAction)
             {
-                UpdateBeforeSave(entity);
+                UpdateBeforeSave(entity, true);
             }
 
             var updated = Collection.Update(entity);
@@ -202,7 +197,7 @@ namespace Scar.Common.DAL.LiteDB
 
             if (!skipCustomAction)
             {
-                UpdateBeforeSave(arr);
+                UpdateBeforeSave(arr, true);
             }
 
             var countUpdated = Collection.Update(arr);
@@ -223,8 +218,10 @@ namespace Scar.Common.DAL.LiteDB
 
             if (!skipCustomAction)
             {
-                UpdateBeforeSave(entity);
+                UpdateBeforeSave(entity, false);
             }
+
+            GenerateIdIfNeeded(entity);
 
             var inserted = Collection.Upsert(entity);
             Changed?.Invoke(this, new EventArgs());
@@ -238,7 +235,7 @@ namespace Scar.Common.DAL.LiteDB
 
             if (!skipCustomAction)
             {
-                UpdateBeforeSave(arr);
+                UpdateBeforeSave(arr, false);
             }
 
             var countInserted = Collection.Upsert(arr);
@@ -246,12 +243,35 @@ namespace Scar.Common.DAL.LiteDB
             return countInserted;
         }
 
-        protected virtual void UpdateBeforeSave(T entity)
+        public bool Exists(Expression<Func<T, bool>> predicate)
+        {
+            _ = predicate ?? throw new ArgumentNullException(nameof(predicate));
+
+            return Collection.Exists(predicate);
+        }
+
+        public int Clear() => Collection.DeleteAll();
+
+        protected virtual void UpdateBeforeSave(T entity, bool isUpdate)
         {
         }
 
-        protected virtual void UpdateBeforeSave(IEnumerable<T> entities)
+        protected virtual void UpdateBeforeSave(IEnumerable<T> entities, bool isUpdate)
         {
+        }
+
+        void GenerateIdIfNeeded(T entity)
+        {
+            if (!(entity is IMutableEntity<TId> mutableEntity) || !Equals(entity.Id, default))
+            {
+                return;
+            }
+
+            var generatedId = GenerateId();
+            if (!Equals(generatedId, default))
+            {
+                mutableEntity.SetId(generatedId);
+            }
         }
     }
 }
