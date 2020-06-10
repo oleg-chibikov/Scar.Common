@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Scar.Common.WebApi
+namespace Scar.Common.WebApiStartup
 {
     class Startup
     {
@@ -35,6 +35,7 @@ namespace Scar.Common.WebApi
                     swaggerUiOptions =>
                     {
                         swaggerUiOptions.RoutePrefix = string.Empty;
+
                         swaggerUiOptions.SwaggerEndpoint("/swagger/v1/swagger.json", env.ApplicationName);
                     });
         }
