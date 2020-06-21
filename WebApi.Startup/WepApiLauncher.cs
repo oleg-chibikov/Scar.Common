@@ -59,6 +59,7 @@ namespace Scar.Common.WebApi.Startup
                 hostBuilder =>
                 {
                     configureHost?.Invoke(hostBuilder);
+                    hostBuilder.UseConsoleLifetime();
                     return ApiHostingHelper.RegisterWebApiHost(hostBuilder, baseDirectory: baseDirectory, applicationKey: webApiAssembly.GetName().Name);
                 },
                 services =>

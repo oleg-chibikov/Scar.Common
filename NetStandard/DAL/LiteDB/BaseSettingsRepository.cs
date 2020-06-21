@@ -6,7 +6,13 @@ namespace Scar.Common.DAL.LiteDB
 {
     public abstract class BaseSettingsRepository : TrackedLiteDbRepository<ApplicationSettings, string>
     {
-        protected BaseSettingsRepository(string directoryPath, string fileName, bool shrink = true) : base(directoryPath, fileName, shrink)
+        protected BaseSettingsRepository(string directoryPath, string fileName, bool shrink = true, bool isShared = false, bool isReadonly = false, bool requireUpgrade = true) : base(
+            directoryPath,
+            fileName,
+            shrink,
+            isShared,
+            isReadonly,
+            requireUpgrade)
         {
         }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using LiteDB;
 using Scar.Common.DAL.Contracts;
@@ -10,7 +11,7 @@ namespace Scar.Common.DAL.LiteDB
     {
         bool _disposedValue = false;
 
-        protected FileBasedLiteDbRepository(string directoryPath, string fileName, bool shrink = true)
+        protected FileBasedLiteDbRepository(string directoryPath, string fileName, bool shrink = true, bool isShared = false, bool isReadonly = false, bool requireUpgrade = true)
         {
             DbFileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
             DbDirectoryPath = directoryPath ?? throw new ArgumentNullException(nameof(directoryPath));
@@ -35,7 +36,8 @@ namespace Scar.Common.DAL.LiteDB
 
             var filePath = Path.Combine(DbDirectoryPath, $"{DbFileName}{DbFileExtension}");
 
-            Db = new LiteDatabase($"filename={filePath};upgrade=true");
+            Db = new LiteDatabase(
+                $"filename={filePath};upgrade={requireUpgrade.ToString(CultureInfo.InvariantCulture)};readonly={isReadonly.ToString(CultureInfo.InvariantCulture)};connection={(isShared ? "shared" : "direct")}");
             if (shrink)
             {
                 Db.Rebuild();

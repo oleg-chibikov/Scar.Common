@@ -8,13 +8,22 @@ using Scar.Common.DAL.Contracts.Model;
 
 namespace Scar.Common.DAL.LiteDB
 {
-    public abstract class LiteDbRepository<T, TId> : FileBasedLiteDbRepository<TId>, IRepository<T, TId>, IChangeableRepository
+    public abstract class LiteDbRepository<T, TId> : FileBasedLiteDbRepository<TId>, IDisposableRepository<T, TId>, IChangeableRepository
         where T : IEntity<TId>
     {
-        protected LiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true) : base(directoryPath, fileName ?? typeof(T).Name, shrink)
+        protected LiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true, bool isShared = false, bool isReadonly = false, bool requireUpgrade = true) : base(
+            directoryPath,
+            fileName ?? typeof(T).Name,
+            shrink,
+            isShared,
+            isReadonly,
+            requireUpgrade)
         {
             Collection = Db.GetCollection<T>();
-            Collection.EnsureIndex(x => x.Id, true);
+            if (!isReadonly)
+            {
+                Collection.EnsureIndex(x => x.Id, true);
+            }
         }
 
         public event EventHandler? Changed;

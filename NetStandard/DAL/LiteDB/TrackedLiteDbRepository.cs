@@ -9,10 +9,19 @@ namespace Scar.Common.DAL.LiteDB
     public abstract class TrackedLiteDbRepository<T, TId> : LiteDbRepository<T, TId>, ITrackedRepository
         where T : IEntity<TId>, ITrackedEntity
     {
-        protected TrackedLiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true) : base(directoryPath, fileName, shrink)
+        protected TrackedLiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true, bool isShared = false, bool isReadonly = false, bool requireUpgrade = true) : base(
+            directoryPath,
+            fileName,
+            shrink,
+            isShared,
+            isReadonly,
+            requireUpgrade)
         {
-            Collection.EnsureIndex(x => x.ModifiedDate);
-            Collection.EnsureIndex(x => x.CreatedDate);
+            if (!isReadonly)
+            {
+                Collection.EnsureIndex(x => x.ModifiedDate);
+                Collection.EnsureIndex(x => x.CreatedDate);
+            }
         }
 
         public ICollection<ITrackedEntity> GetModifiedAfter(DateTime startExclusive)

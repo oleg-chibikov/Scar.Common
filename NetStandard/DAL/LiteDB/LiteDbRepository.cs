@@ -7,7 +7,13 @@ namespace Scar.Common.DAL.LiteDB
     public abstract class LiteDbRepository<T> : LiteDbRepository<T, object>, IRepository<T>
         where T : IEntity
     {
-        protected LiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true) : base(directoryPath, fileName, shrink)
+        protected LiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true, bool isShared = false, bool isReadonly = false, bool requireUpgrade = true) : base(
+            directoryPath,
+            fileName,
+            shrink,
+            isShared,
+            isReadonly,
+            requireUpgrade)
         {
         }
 
