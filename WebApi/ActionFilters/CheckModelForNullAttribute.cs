@@ -12,8 +12,9 @@ namespace Scar.Common.WebApi.ActionFilters
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             _ = context ?? throw new ArgumentNullException(nameof(context));
+
             var requiredParametersWithNullValue = context.ActionDescriptor.Parameters.Cast<ControllerParameterDescriptor>()
-                .Where(i => !i.ParameterInfo.IsOptional && (context.ActionArguments.Single(j => j.Key == i.ParameterInfo.Name).Value == null))
+                .Where(i => !i.ParameterInfo.IsOptional && (!context.ActionArguments.TryGetValue(i.ParameterInfo.Name, out var value) || value == null))
                 .ToArray();
 
             if (requiredParametersWithNullValue.Length == 0)
