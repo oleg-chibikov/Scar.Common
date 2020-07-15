@@ -5,7 +5,7 @@ namespace Scar.Common.WebApi.Startup
 {
     public interface IWepApiLauncher
     {
-        IConfigurationRoot Configuration { get; }
+        IConfiguration Configuration { get; }
 
         Task BuildAndRunHostAsync(string[] args);
     }

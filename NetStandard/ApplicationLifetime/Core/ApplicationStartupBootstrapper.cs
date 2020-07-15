@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Easy.MessageHub;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -44,7 +46,8 @@ namespace Scar.Common.ApplicationLifetime.Core
             string? alreadyRunningMessage = null,
             int waitAfterOldInstanceKillMilliseconds = 0,
             NewInstanceHandling newInstanceHandling = NewInstanceHandling.Restart,
-            CultureInfo? startupCulture = null)
+            CultureInfo? startupCulture = null,
+            string? baseDirectory = null)
         {
             // This is used for logs - every log will have a CorrelationId;
             Trace.CorrelationManager.ActivityId = Guid.NewGuid();
@@ -56,6 +59,7 @@ namespace Scar.Common.ApplicationLifetime.Core
             ShowMessage = showMessage ?? throw new ArgumentNullException(nameof(cultureManager));
             CultureManager = cultureManager ?? throw new ArgumentNullException(nameof(cultureManager));
             _applicationTerminator = applicationTerminator ?? throw new ArgumentNullException(nameof(applicationTerminator));
+            baseDirectory ??= Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) ?? throw new InvalidOperationException("Cannot get base directory");
 
             if (_newInstanceHandling != NewInstanceHandling.AllowMultiple)
             {
@@ -70,6 +74,22 @@ namespace Scar.Common.ApplicationLifetime.Core
 
                         serviceCollection.AddLogging();
                     })
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    var env = hostingContext.HostingEnvironment;
+
+                    var mainAppSettingsFilePath = Path.Combine(baseDirectory, "appsettings.json");
+                    var environmentSpecificAppSettingsFilePath = Path.Combine(baseDirectory, $"appsettings.{env.EnvironmentName}.json");
+                    if (File.Exists(mainAppSettingsFilePath))
+                    {
+                        config.AddJsonFile(mainAppSettingsFilePath, true, true);
+                    }
+
+                    if (File.Exists(environmentSpecificAppSettingsFilePath))
+                    {
+                        config.AddJsonFile(environmentSpecificAppSettingsFilePath, true, true);
+                    }
+                })
                 .ConfigureLogging(
                     (hostBuilderContext, loggingBuilder) =>
                     {

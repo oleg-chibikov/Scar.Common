@@ -9,6 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.WebApi.Startup" Version="1.1.7481.37146" />
+    <PackageReference Include="Scar.Common.WebApi.Startup" Version="1.1.7494.23255" />
   </ItemGroup>
 </Project>

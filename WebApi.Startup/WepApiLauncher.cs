@@ -27,7 +27,7 @@ namespace Scar.Common.WebApi.Startup
         readonly AssemblyInfoProvider _assemblyInfoProvider;
 
         public WepApiLauncher(
-            Action<ContainerBuilder, IConfigurationRoot>? registerDependencies = null,
+            Action<ContainerBuilder, IConfiguration>? registerDependencies = null,
             Func<IHostBuilder, IHostBuilder>? configureHost = null,
             Action<IServiceCollection>? configureServices = null,
             Action<HostBuilderContext, ILoggingBuilder>? configureLogging = null,
@@ -37,24 +37,19 @@ namespace Scar.Common.WebApi.Startup
             CultureInfo? startupCulture = null,
             Assembly? webApiAssembly = null)
         {
+            IConfiguration? configuration = null;
             var cultureManager = new ConsoleCultureManager();
             var applicationTerminator = new ConsoleApplicationTerminator();
             _assemblyInfoProvider = new AssemblyInfoProvider(new EntryAssemblyProvider(), new SpecialPathsProvider());
             webApiAssembly ??= Assembly.GetCallingAssembly();
             var baseDirectory = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) ?? throw new InvalidOperationException("Cannot get base directory");
             Directory.SetCurrentDirectory(baseDirectory);
-            Configuration = new ConfigurationBuilder().SetBasePath(baseDirectory).AddJsonFile(Path.Combine(baseDirectory, "appsettings.json"), true).Build();
-            var appSettings = Configuration.GetSection("AppSettings");
-            var environment = appSettings[AppSettingsConstants.EnvironmentKey];
-            var appName = appSettings[AppSettingsConstants.AppNameKey];
-            var appVersion = appSettings[AppSettingsConstants.AppVersionKey];
-            SetupLogging(baseDirectory, environment, LogEventLevel.Debug);
             _applicationBootstrapper = new ApplicationStartupBootstrapper(
                 cultureManager,
                 applicationTerminator,
                 message => { },
                 CreateMutex,
-                containerBuilder => registerDependencies?.Invoke(containerBuilder, Configuration),
+                containerBuilder => registerDependencies?.Invoke(containerBuilder, configuration ?? throw new InvalidOperationException("Configuration was not initialized")),
                 _assemblyInfoProvider,
                 hostBuilder =>
                 {
@@ -64,6 +59,13 @@ namespace Scar.Common.WebApi.Startup
                 },
                 services =>
                 {
+                    // Build the intermediate service provider
+                    var sp = services.BuildServiceProvider();
+                    configuration = sp.GetService<IConfiguration>();
+                    var appSettings = configuration.GetSection("AppSettings");
+                    var appName = appSettings[AppSettingsConstants.AppNameKey];
+                    var appVersion = appSettings[AppSettingsConstants.AppVersionKey];
+
                     ApiHostingHelper.RegisterServices(
                             services,
                             webApiAssembly,
@@ -87,17 +89,20 @@ namespace Scar.Common.WebApi.Startup
                 },
                 (hostBuilderContext, loggingBuilder) =>
                 {
+                    SetupLogging(baseDirectory, hostBuilderContext.HostingEnvironment.EnvironmentName, LogEventLevel.Debug);
                     loggingBuilder.AddSerilog();
                     configureLogging?.Invoke(hostBuilderContext, loggingBuilder);
                 },
                 alreadyRunningMessage,
                 waitAfterOldInstanceKillMilliseconds,
                 newInstanceHandling,
-                startupCulture);
+                startupCulture,
+                baseDirectory);
             _applicationBootstrapper.BeforeStart();
+            Configuration = configuration ?? throw new InvalidOperationException("Configuration was not initialized");
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
         public async Task BuildAndRunHostAsync(string[] args)
         {
