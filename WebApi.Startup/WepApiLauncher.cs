@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -17,7 +18,6 @@ using Microsoft.OpenApi.Models;
 using Scar.Common.ApplicationLifetime.Core;
 using Serilog;
 using Serilog.Events;
-using Swashbuckle.AspNetCore.Filters;
 
 namespace Scar.Common.WebApi.Startup
 {
@@ -35,7 +35,8 @@ namespace Scar.Common.WebApi.Startup
             int waitAfterOldInstanceKillMilliseconds = 0,
             NewInstanceHandling newInstanceHandling = NewInstanceHandling.AllowMultiple,
             CultureInfo? startupCulture = null,
-            Assembly? webApiAssembly = null)
+            Assembly? webApiAssembly = null,
+            IReadOnlyCollection<Assembly>? additionalXmlCommentsAssemblies = null)
         {
             IConfiguration? configuration = null;
             var cultureManager = new ConsoleCultureManager();
@@ -77,8 +78,23 @@ namespace Scar.Common.WebApi.Startup
                                 }),
                             configureSwagger: swaggerGenOptions =>
                             {
-                                swaggerGenOptions.ExampleFilters();
                                 swaggerGenOptions.SwaggerDoc("v1", new OpenApiInfo { Title = appName, Version = appVersion });
+
+                                var xmlDocAssemblies = new List<Assembly>
+                                {
+                                    webApiAssembly
+                                };
+                                if (additionalXmlCommentsAssemblies != null)
+                                {
+                                    xmlDocAssemblies.AddRange(additionalXmlCommentsAssemblies);
+                                }
+
+                                foreach (var xmlFilePath in xmlDocAssemblies.Select(assembly => assembly.GetName().Name + ".xml")
+                                    .Select(xmlFileName => Path.Combine(baseDirectory, xmlFileName))
+                                    .Where(File.Exists))
+                                {
+                                    swaggerGenOptions.IncludeXmlComments(xmlFilePath);
+                                }
 
                                 // If there are two similar routes - this will fix the collision by choosing the first one
                                 swaggerGenOptions.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());

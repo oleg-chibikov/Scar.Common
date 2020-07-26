@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using Scar.Common.WebApi.ActionFilters;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -47,7 +50,14 @@ namespace Scar.Common.WebApi
                         mvcOptions.Filters.Add(new ValidateModelStateAttribute());
                         configureControllers?.Invoke(mvcOptions);
                     })
-                .AddApplicationPart(webApiAssembly);
+                .AddApplicationPart(webApiAssembly)
+                .AddNewtonsoftJson(
+                    mvcNewtonsoftJsonOptions =>
+                    {
+                        mvcNewtonsoftJsonOptions.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                        mvcNewtonsoftJsonOptions.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                        mvcNewtonsoftJsonOptions.SerializerSettings.Converters.Add(new StringEnumConverter());
+                    });
             configureMvc?.Invoke(mvcBuilder);
             return mvcBuilder.Services.AddSwaggerExamplesFromAssemblies().AddSwaggerGen(configureSwagger);
         }
