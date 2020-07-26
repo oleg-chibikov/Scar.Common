@@ -67,6 +67,7 @@ namespace Scar.Common.DAL.LiteDB
             typeof(bool),
             typeof(Guid),
             typeof(DateTime),
+            typeof(DateTimeOffset),
             typeof(byte[]),
             typeof(ObjectId),
             typeof(double),

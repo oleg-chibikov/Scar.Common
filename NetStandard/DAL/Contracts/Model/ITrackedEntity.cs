@@ -4,8 +4,8 @@ namespace Scar.Common.DAL.Contracts.Model
 {
     public interface ITrackedEntity
     {
-        DateTime ModifiedDate { get; set; }
+        DateTimeOffset ModifiedDate { get; set; }
 
-        DateTime CreatedDate { get; set; }
+        DateTimeOffset CreatedDate { get; set; }
     }
 }

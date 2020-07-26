@@ -6,16 +6,16 @@ namespace Scar.Common.DAL.Contracts
 {
     public interface ITrackedRepository
     {
-        ICollection<ITrackedEntity> GetModifiedAfter(DateTime startExclusive);
+        ICollection<ITrackedEntity> GetModifiedAfter(DateTimeOffset startExclusive);
 
-        ICollection<ITrackedEntity> GetModifiedBefore(DateTime endExclusive);
+        ICollection<ITrackedEntity> GetModifiedBefore(DateTimeOffset endExclusive);
 
-        ICollection<ITrackedEntity> GetModifiedBetween(DateTime startInclusive, DateTime endExclusive);
+        ICollection<ITrackedEntity> GetModifiedBetween(DateTimeOffset startInclusive, DateTimeOffset endExclusive);
 
-        ICollection<ITrackedEntity> GetCreatedAfter(DateTime startExclusive);
+        ICollection<ITrackedEntity> GetCreatedAfter(DateTimeOffset startExclusive);
 
-        ICollection<ITrackedEntity> GetCreatedBefore(DateTime endExclusive);
+        ICollection<ITrackedEntity> GetCreatedBefore(DateTimeOffset endExclusive);
 
-        ICollection<ITrackedEntity> GetCreatedBetween(DateTime startInclusive, DateTime endExclusive);
+        ICollection<ITrackedEntity> GetCreatedBetween(DateTimeOffset startInclusive, DateTimeOffset endExclusive);
     }
 }

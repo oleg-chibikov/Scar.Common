@@ -18,13 +18,19 @@ namespace Scar.Common.DAL.Contracts
 
         int Delete(IEnumerable<TId> ids);
 
-        ICollection<T> Find(Expression<Func<T, bool>> predicate, int pageNumber = 0, int pageSize = int.MaxValue);
+        IReadOnlyCollection<T> GetAll();
 
-        ICollection<T> GetAll();
+        IReadOnlyCollection<T> Find(Expression<Func<T, bool>> predicate, int pageNumber = 0, int pageSize = int.MaxValue);
+
+        IReadOnlyCollection<T> GetPage(int pageNumber, int pageSize, string? sortField = null, SortOrder sortOrder = SortOrder.Ascending);
+
+        public IEnumerable<T> EnumerateAll();
+
+        IEnumerable<T> Enumerate(Expression<Func<T, bool>> predicate, int pageNumber = 0, int pageSize = int.MaxValue);
+
+        IEnumerable<T> EnumeratePage(int pageNumber, int pageSize, string? sortField = null, SortOrder sortOrder = SortOrder.Ascending);
 
         T GetById(TId id);
-
-        ICollection<T> GetPage(int pageNumber, int pageSize, string? sortField = null, SortOrder sortOrder = SortOrder.Ascending);
 
         TId Insert(T entity, bool skipCustomAction = false);
 

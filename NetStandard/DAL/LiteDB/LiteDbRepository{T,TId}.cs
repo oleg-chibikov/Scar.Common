@@ -105,16 +105,21 @@ namespace Scar.Common.DAL.LiteDB
             return deletedCount;
         }
 
-        public ICollection<T> Find(Expression<Func<T, bool>> predicate, int pageNumber, int pageSize)
+        public IReadOnlyCollection<T> Find(Expression<Func<T, bool>> predicate, int pageNumber, int pageSize) => Enumerate(predicate, pageNumber, pageSize).ToArray();
+
+        public IReadOnlyCollection<T> GetAll() => EnumerateAll().ToArray();
+
+        public IReadOnlyCollection<T> GetPage(int pageNumber, int pageSize, string? sortField, SortOrder sortOrder) => EnumeratePage(pageNumber, pageSize, sortField, sortOrder).ToArray();
+
+        public IEnumerable<T> Enumerate(Expression<Func<T, bool>> predicate, int pageNumber, int pageSize)
         {
             _ = predicate ?? throw new ArgumentNullException(nameof(predicate));
-            return Collection.Find(predicate, pageNumber * pageSize, pageSize).ToArray();
+            return Collection.Find(predicate, pageNumber * pageSize, pageSize);
         }
 
-        public ICollection<T> GetAll()
-        {
-            return Collection.FindAll().ToArray();
-        }
+        public IEnumerable<T> EnumerateAll() => Collection.FindAll();
+
+        public IEnumerable<T> EnumeratePage(int pageNumber, int pageSize, string? sortField, SortOrder sortOrder) => Collection.Find(Query.All(sortField ?? "_id", sortOrder == SortOrder.Ascending ? Query.Ascending : Query.Descending), pageNumber * pageSize, pageSize);
 
         public T GetById(TId id)
         {
@@ -126,11 +131,6 @@ namespace Scar.Common.DAL.LiteDB
 
             // ReSharper disable once AssignNullToNotNullAttribute
             return entity;
-        }
-
-        public ICollection<T> GetPage(int pageNumber, int pageSize, string? sortField, SortOrder sortOrder)
-        {
-            return Collection.Find(Query.All(sortField ?? "_id", sortOrder == SortOrder.Ascending ? Query.Ascending : Query.Descending), pageNumber * pageSize, pageSize).ToArray();
         }
 
         public TId Insert(T entity, bool skipCustomAction = false)

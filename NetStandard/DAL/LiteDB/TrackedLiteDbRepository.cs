@@ -24,32 +24,32 @@ namespace Scar.Common.DAL.LiteDB
             }
         }
 
-        public ICollection<ITrackedEntity> GetModifiedAfter(DateTime startExclusive)
+        public ICollection<ITrackedEntity> GetModifiedAfter(DateTimeOffset startExclusive)
         {
             return Collection.Find(x => x.ModifiedDate > startExclusive).Cast<ITrackedEntity>().ToArray();
         }
 
-        public ICollection<ITrackedEntity> GetModifiedBefore(DateTime endExclusive)
+        public ICollection<ITrackedEntity> GetModifiedBefore(DateTimeOffset endExclusive)
         {
             return Collection.Find(x => x.ModifiedDate < endExclusive).Cast<ITrackedEntity>().ToArray();
         }
 
-        public ICollection<ITrackedEntity> GetModifiedBetween(DateTime startInclusive, DateTime endExclusive)
+        public ICollection<ITrackedEntity> GetModifiedBetween(DateTimeOffset startInclusive, DateTimeOffset endExclusive)
         {
             return Collection.Find(x => (x.ModifiedDate >= startInclusive) && (x.ModifiedDate < endExclusive)).Cast<ITrackedEntity>().ToArray();
         }
 
-        public ICollection<ITrackedEntity> GetCreatedAfter(DateTime startExclusive)
+        public ICollection<ITrackedEntity> GetCreatedAfter(DateTimeOffset startExclusive)
         {
             return Collection.Find(x => x.CreatedDate > startExclusive).Cast<ITrackedEntity>().ToArray();
         }
 
-        public ICollection<ITrackedEntity> GetCreatedBefore(DateTime endExclusive)
+        public ICollection<ITrackedEntity> GetCreatedBefore(DateTimeOffset endExclusive)
         {
             return Collection.Find(x => x.CreatedDate < endExclusive).Cast<ITrackedEntity>().ToArray();
         }
 
-        public ICollection<ITrackedEntity> GetCreatedBetween(DateTime startInclusive, DateTime endExclusive)
+        public ICollection<ITrackedEntity> GetCreatedBetween(DateTimeOffset startInclusive, DateTimeOffset endExclusive)
         {
             return Collection.Find(x => (x.CreatedDate >= startInclusive) && (x.CreatedDate < endExclusive)).Cast<ITrackedEntity>().ToArray();
         }
@@ -66,7 +66,7 @@ namespace Scar.Common.DAL.LiteDB
 
         protected override void UpdateBeforeSave(T entity, bool isUpdate)
         {
-            var now = DateTime.Now;
+            var now = DateTimeOffset.Now;
             if (!isUpdate && entity.CreatedDate == default)
             {
                 entity.CreatedDate = now;
