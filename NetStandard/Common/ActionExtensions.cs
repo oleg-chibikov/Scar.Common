@@ -13,6 +13,8 @@ namespace Scar.Common
             bool throwOnAttemptLimit = false,
             bool configureAwait = false)
         {
+            _ = func ?? throw new ArgumentNullException(nameof(func));
+
             var attempt = 0;
             while (true)
             {
@@ -50,6 +52,8 @@ namespace Scar.Common
             bool throwOnAttemptLimit = false,
             bool configureAwait = false)
         {
+            _ = taskFactory ?? throw new ArgumentNullException(nameof(taskFactory));
+
             var attempt = 0;
             while (true)
             {

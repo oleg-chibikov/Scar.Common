@@ -24,16 +24,6 @@ namespace Scar.Common.WPF.View.Core
             return (Orientation?)dependencyObject.GetValue(OrientationProperty);
         }
 
-        public static void MarginChangedCallback(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (!(sender is Panel panel))
-            {
-                return;
-            }
-
-            panel.Loaded += Panel_Loaded;
-        }
-
         public static void SetMargin(DependencyObject dependencyObject, double value)
         {
             _ = dependencyObject ?? throw new ArgumentNullException(nameof(dependencyObject));
@@ -46,6 +36,16 @@ namespace Scar.Common.WPF.View.Core
             _ = dependencyObject ?? throw new ArgumentNullException(nameof(dependencyObject));
 
             dependencyObject.SetValue(OrientationProperty, value);
+        }
+
+        static void MarginChangedCallback(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(sender is Panel panel))
+            {
+                return;
+            }
+
+            panel.Loaded += Panel_Loaded;
         }
 
         static void Panel_Loaded(object sender, RoutedEventArgs e)

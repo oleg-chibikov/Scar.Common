@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.5" />
-    <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7481.37114" />
-    <PackageReference Include="Scar.Common" Version="1.1.7481.37130" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.7" />
+    <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7546.21914" />
+    <PackageReference Include="Scar.Common" Version="1.1.7546.36694" />
     <PackageReference Include="Scar.Common.ImageProcessing.Metadata" Version="1.1.7481.37096" />
-    <PackageReference Include="Scar.Common.IO" Version="1.1.7481.37098" />
+    <PackageReference Include="Scar.Common.IO" Version="1.1.7546.22683" />
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
   </ItemGroup>
 

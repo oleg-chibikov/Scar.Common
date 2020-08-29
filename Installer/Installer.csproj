@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WixSharp" Version="1.14.6" />
+    <PackageReference Include="WixSharp" Version="1.14.7" />
   </ItemGroup>
 
 </Project>

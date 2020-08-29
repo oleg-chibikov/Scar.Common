@@ -9,7 +9,7 @@ namespace Scar.Common.DAL.LiteDB
 {
     public abstract class FileBasedLiteDbRepository<TId> : IFileBasedRepository, IDisposable
     {
-        bool _disposedValue = false;
+        bool _disposedValue;
 
         protected FileBasedLiteDbRepository(string directoryPath, string fileName, bool shrink = true, bool isShared = false, bool isReadonly = false, bool requireUpgrade = true)
         {
