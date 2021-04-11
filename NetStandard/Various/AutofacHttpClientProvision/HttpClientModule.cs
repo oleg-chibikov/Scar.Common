@@ -1,9 +1,9 @@
 using System;
-using System.Linq;
 using System.Net.Http;
 using Autofac;
 using Autofac.Core;
 using Autofac.Core.Registration;
+using Autofac.Core.Resolving.Pipeline;
 
 namespace Scar.Common.AutofacHttpClientProvision
 {
@@ -24,20 +24,22 @@ namespace Scar.Common.AutofacHttpClientProvision
 
             if (registration.Activator.LimitType == typeof(TService))
             {
-                registration.Preparing += (sender, e) =>
+                registration.PipelineBuilding += (sender, pipeline) =>
                 {
-                    e.Parameters = e.Parameters.Union(
-                        new[]
-                        {
-                            new ResolvedParameter(
-                                (p, i) => p.ParameterType == typeof(HttpClient),
-                                (p, i) =>
-                                {
-                                    var client = i.Resolve<IHttpClientFactory>().CreateClient();
-                                    _clientConfigurator?.Invoke(client);
-                                    return client;
-                                })
-                        });
+                    pipeline.Use(
+                        PipelinePhase.ParameterSelection,
+                        (context, next) => context.ChangeParameters(
+                            new[]
+                            {
+                                new ResolvedParameter(
+                                    (p, i) => p.ParameterType == typeof(HttpClient),
+                                    (p, i) =>
+                                    {
+                                        var client = i.Resolve<IHttpClientFactory>().CreateClient();
+                                        _clientConfigurator?.Invoke(client);
+                                        return client;
+                                    })
+                            }));
                 };
             }
         }

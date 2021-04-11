@@ -23,7 +23,7 @@ namespace Scar.Common.Sync.Windows
 
         public string? GetOneDrivePath()
         {
-            var path = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\OneDrive", "UserFolder", OneDriveNotDetected);
+            var path = (string?)Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\OneDrive", "UserFolder", OneDriveNotDetected);
             return (path == OneDriveNotDetected) || string.IsNullOrWhiteSpace(path) ? null : path;
         }
     }

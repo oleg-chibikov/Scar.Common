@@ -9,9 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.ApplicationLifetime.Core" Version="1.1.7546.37465" />
+    <PackageReference Include="Scar.Common.ApplicationLifetime.Core" Version="1.1.7771.42690" />
     <PackageReference Include="Scar.Common.Localization" Version="1.1.7481.37120" />
-    <PackageReference Include="Scar.Common.WebApi" Version="1.1.7546.36685" />
+    <PackageReference Include="Scar.Common.WebApi" Version="1.1.7772.1553" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />

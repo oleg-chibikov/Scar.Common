@@ -62,7 +62,7 @@ namespace Scar.Common.WebApi.Startup
                 {
                     // Build the intermediate service provider
                     var sp = services.BuildServiceProvider();
-                    configuration = sp.GetService<IConfiguration>();
+                    configuration = sp.GetRequiredService<IConfiguration>();
                     var appSettings = configuration.GetSection("AppSettings");
                     var appName = appSettings[AppSettingsConstants.AppNameKey];
                     var appVersion = appSettings[AppSettingsConstants.AppVersionKey];
