@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net.Http;
 using Autofac;
 using Autofac.Core;
@@ -28,18 +29,23 @@ namespace Scar.Common.AutofacHttpClientProvision
                 {
                     pipeline.Use(
                         PipelinePhase.ParameterSelection,
-                        (context, next) => context.ChangeParameters(
-                            new[]
-                            {
-                                new ResolvedParameter(
-                                    (p, i) => p.ParameterType == typeof(HttpClient),
-                                    (p, i) =>
+                        (context, next) =>
+                        {
+                            context.ChangeParameters(
+                                context.Parameters.Union(
+                                    new[]
                                     {
-                                        var client = i.Resolve<IHttpClientFactory>().CreateClient();
-                                        _clientConfigurator?.Invoke(client);
-                                        return client;
-                                    })
-                            }));
+                                        new ResolvedParameter(
+                                            (p, i) => p.ParameterType == typeof(HttpClient),
+                                            (p, i) =>
+                                            {
+                                                var client = i.Resolve<IHttpClientFactory>().CreateClient();
+                                                _clientConfigurator?.Invoke(client);
+                                                return client;
+                                            })
+                                    }));
+                            next(context);
+                        });
                 };
             }
         }
