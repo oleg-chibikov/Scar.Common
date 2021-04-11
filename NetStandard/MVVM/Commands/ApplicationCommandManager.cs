@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading;
 
 namespace Scar.Common.MVVM.Commands
@@ -9,7 +10,6 @@ namespace Scar.Common.MVVM.Commands
     {
         readonly IList<Action> _raiseCanExecuteChangedActions = new List<Action>();
         readonly SynchronizationContext _synchronizationContext;
-        readonly object _locker = new object();
 
         public ApplicationCommandManager(SynchronizationContext synchronizationContext)
         {
@@ -18,18 +18,12 @@ namespace Scar.Common.MVVM.Commands
 
         public void AddRaiseCanExecuteChangedAction(ref Action raiseCanExecuteChangedAction)
         {
-            lock (_locker)
-            {
-                _raiseCanExecuteChangedActions.Add(raiseCanExecuteChangedAction);
-            }
+            _raiseCanExecuteChangedActions.Add(raiseCanExecuteChangedAction);
         }
 
         public void RemoveRaiseCanExecuteChangedAction(Action raiseCanExecuteChangedAction)
         {
-            lock (_locker)
-            {
-                _raiseCanExecuteChangedActions.Remove(raiseCanExecuteChangedAction);
-            }
+            _raiseCanExecuteChangedActions.Remove(raiseCanExecuteChangedAction);
         }
 
         public void AssignOnPropertyChanged(ref PropertyChangedEventHandler propertyEventHandler)
@@ -39,15 +33,13 @@ namespace Scar.Common.MVVM.Commands
 
         public void RefreshCommandStates()
         {
-            _synchronizationContext.Send(
+            _synchronizationContext.Post(
                 x =>
                 {
-                    lock (_locker)
+                    // ToList prevents CollectionModifiedException as it is a new object and the original collection can be modified during the enumeration
+                    foreach (var raiseCanExecuteChangedAction in _raiseCanExecuteChangedActions.ToList())
                     {
-                        foreach (var raiseCanExecuteChangedAction in _raiseCanExecuteChangedActions)
-                        {
-                            raiseCanExecuteChangedAction?.Invoke();
-                        }
+                        raiseCanExecuteChangedAction?.Invoke();
                     }
                 },
                 null);
