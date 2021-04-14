@@ -14,7 +14,7 @@ namespace Scar.Common.WPF.Controls
             RequestNavigate += OnRequestNavigate;
         }
 
-        static void OnRequestNavigate(object sender, RequestNavigateEventArgs e)
+        static void OnRequestNavigate(object? sender, RequestNavigateEventArgs e)
         {
             using var process = new Process { StartInfo = new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true } };
             process.Start();

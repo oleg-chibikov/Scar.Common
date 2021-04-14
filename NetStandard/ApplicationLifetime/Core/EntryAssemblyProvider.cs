@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using Scar.Common.ApplicationLifetime.Contracts;
 
@@ -7,7 +8,7 @@ namespace Scar.Common.ApplicationLifetime.Core
     {
         public Assembly ProvideEntryAssembly()
         {
-            return Assembly.GetEntryAssembly();
+            return Assembly.GetEntryAssembly() ?? throw new InvalidOperationException("Entry assembly is null");
         }
     }
 }

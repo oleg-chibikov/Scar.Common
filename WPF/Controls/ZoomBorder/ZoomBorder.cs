@@ -82,12 +82,12 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        void ZoomBorder_MouseWheel(object sender, MouseWheelEventArgs e)
+        void ZoomBorder_MouseWheel(object? sender, MouseWheelEventArgs e)
         {
             Zoom(e.Delta > 0 ? DefaultZoom : -DefaultZoom, e, false);
         }
 
-        void ZoomBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void ZoomBorder_MouseLeftButtonDown(object? sender, MouseButtonEventArgs e)
         {
             if (_child == null)
             {
@@ -109,7 +109,7 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        void ZoomBorder_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        void ZoomBorder_MouseLeftButtonUp(object? sender, MouseButtonEventArgs e)
         {
             if ((_child == null) || (e.LeftButton == MouseButtonState.Pressed))
             {
@@ -120,7 +120,7 @@ namespace Scar.Common.WPF.Controls
             Cursor = Cursors.Arrow;
         }
 
-        void ZoomBorder_PreviewMouseButtonDown(object sender, MouseButtonEventArgs e)
+        void ZoomBorder_PreviewMouseButtonDown(object? sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Middle)
             {
@@ -128,7 +128,7 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        void ZoomBorder_MouseMove(object sender, MouseEventArgs e)
+        void ZoomBorder_MouseMove(object? sender, MouseEventArgs e)
         {
             // ReSharper disable once MergeSequentialChecksWhenPossible
             if ((_child == null) || !_child.IsMouseCaptured || (e.LeftButton != MouseButtonState.Pressed))
@@ -196,7 +196,7 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        void ZoomBorder_SizeChanged(object sender, SizeChangedEventArgs e)
+        void ZoomBorder_SizeChanged(object? sender, SizeChangedEventArgs e)
         {
             const double tolerance = 0.1;
             if (!e.PreviousSize.Height.Equals(0) && (Math.Abs(e.PreviousSize.Height - e.NewSize.Height) >= tolerance))

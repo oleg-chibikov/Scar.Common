@@ -24,7 +24,7 @@ namespace Scar.Common.WPF.CollectionView
             remove => _adaptee.CurrentChanged -= value;
         }
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged
+        public event NotifyCollectionChangedEventHandler? CollectionChanged
         {
             add => _adaptee.CollectionChanged += value;
             remove => _adaptee.CollectionChanged -= value;

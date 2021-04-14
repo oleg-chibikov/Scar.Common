@@ -13,11 +13,11 @@ namespace Scar.Common.ApplicationLifetime.Core
             var entryAssembly = entryAssemblyProvider?.ProvideEntryAssembly() ?? throw new ArgumentNullException(nameof(entryAssemblyProvider));
             var localAppSettingsPath = specialPathsProvider?.ProvideSpecialPath(Environment.SpecialFolder.LocalApplicationData) ?? throw new ArgumentNullException(nameof(specialPathsProvider));
 
-            Company = ((AssemblyCompanyAttribute)Attribute.GetCustomAttribute(entryAssembly, typeof(AssemblyCompanyAttribute), false)).Company;
-            Product = ((AssemblyProductAttribute)Attribute.GetCustomAttribute(entryAssembly, typeof(AssemblyProductAttribute), false)).Product;
+            Company = GetCustomAttribute<AssemblyCompanyAttribute>(entryAssembly).Company;
+            Product = GetCustomAttribute<AssemblyProductAttribute>(entryAssembly).Product;
             ProgramName = Path.Combine(Company, Product);
             SettingsPath = Path.Combine(localAppSettingsPath, ProgramName);
-            AppGuid = customGuid != null ? customGuid.ToString() : ((GuidAttribute)Attribute.GetCustomAttribute(entryAssembly, typeof(GuidAttribute), false)).Value;
+            AppGuid = customGuid != null ? customGuid.ToString() ! : GetCustomAttribute<GuidAttribute>(entryAssembly).Value;
         }
 
         public string AppGuid { get; }
@@ -29,5 +29,11 @@ namespace Scar.Common.ApplicationLifetime.Core
         public string ProgramName { get; }
 
         public string SettingsPath { get; }
+
+        static T GetCustomAttribute<T>(Assembly entryAssembly)
+            where T : Attribute
+        {
+            return (T)(Attribute.GetCustomAttribute(entryAssembly, typeof(T), false) ?? throw new InvalidOperationException());
+        }
     }
 }

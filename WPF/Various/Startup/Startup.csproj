@@ -1,12 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>Common tools to simplify WPF application startup</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.ApplicationLifetime.Core" Version="1.1.7771.42690" />
-    <PackageReference Include="Scar.Common.WPF.Localization" Version="1.1.7546.22467" />
+    <PackageReference Include="Scar.Common.ApplicationLifetime.Core" Version="1.1.7773.37090" />
+    <PackageReference Include="Scar.Common.WPF.Localization" Version="1.1.7773.37078" />
   </ItemGroup>
 
 </Project>

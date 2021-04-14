@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>A control to work with integers</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.WPF.Behaviors" Version="1.1.7771.42695" />
+    <PackageReference Include="Scar.Common.WPF.Behaviors" Version="1.1.7773.34365" />
   </ItemGroup>
 
 </Project>

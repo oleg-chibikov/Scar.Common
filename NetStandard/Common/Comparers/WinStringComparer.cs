@@ -5,12 +5,13 @@ namespace Scar.Common.Comparers
 {
     public class WinStringComparer : IComparer<string>
     {
-        public int Compare(string x, string y)
+        public int Compare(string? x, string? y)
         {
             return StrCmpLogicalW(x, y);
         }
 
         [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
-        static extern int StrCmpLogicalW(string x, string y);
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+        static extern int StrCmpLogicalW(string? x, string? y);
     }
 }

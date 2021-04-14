@@ -17,7 +17,7 @@ namespace Scar.Common.WPF.Behaviors
             ((INotifyCollectionChanged)AssociatedObject.Items).CollectionChanged -= OnCollectionChanged;
         }
 
-        void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             if (Mouse.LeftButton == MouseButtonState.Pressed)
             {

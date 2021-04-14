@@ -16,7 +16,7 @@ namespace Scar.Common.AutofacInstantiation
         public T GetInstance<T>(params Parameter[] parameters)
             where T : class
         {
-            return _lifetimeScope.ResolveNamed<T>(typeof(T).FullName, parameters);
+            return _lifetimeScope.ResolveNamed<T>(typeof(T).FullName ?? throw new InvalidOperationException("Name of type is null"), parameters);
         }
     }
 }

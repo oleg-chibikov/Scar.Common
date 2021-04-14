@@ -76,7 +76,7 @@ namespace Scar.Common.WPF.View.Core
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "SA1313:Parameter '_' should begin with lower -case letter", Justification = "Discarded parameter")]
-        void AnimatedWindowWithoutTemplate_Closing(object sender, CancelEventArgs e)
+        void AnimatedWindowWithoutTemplate_Closing(object? sender, CancelEventArgs e)
         {
             _closing = true;
             e.Cancel = true;

@@ -26,6 +26,7 @@ namespace Scar.Common.WebApi.Startup
         readonly IApplicationStartupBootstrapper _applicationBootstrapper;
         readonly AssemblyInfoProvider _assemblyInfoProvider;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Maintainability", "CA1508:Avoid dead conditional code", Justification = "Configuration is set in the callback")]
         public WepApiLauncher(
             Action<ContainerBuilder, IConfiguration>? registerDependencies = null,
             Func<IHostBuilder, IHostBuilder>? configureHost = null,
@@ -43,7 +44,7 @@ namespace Scar.Common.WebApi.Startup
             var applicationTerminator = new ConsoleApplicationTerminator();
             _assemblyInfoProvider = new AssemblyInfoProvider(new EntryAssemblyProvider(), new SpecialPathsProvider());
             webApiAssembly ??= Assembly.GetCallingAssembly();
-            var baseDirectory = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) ?? throw new InvalidOperationException("Cannot get base directory");
+            var baseDirectory = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule?.FileName) ?? throw new InvalidOperationException("Cannot get base directory");
             Directory.SetCurrentDirectory(baseDirectory);
             _applicationBootstrapper = new ApplicationStartupBootstrapper(
                 cultureManager,

@@ -1,11 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>CollectionView adapter for WPF</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.MVVM.CollectionView" Version="1.1.7481.37117" />
+    <PackageReference Include="Scar.Common.MVVM.CollectionView" Version="1.1.7773.29699" />
   </ItemGroup>
 
 </Project>

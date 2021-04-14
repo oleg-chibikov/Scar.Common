@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Windows.Threading;
 using Scar.Common.View.Contracts;
@@ -8,6 +9,7 @@ namespace Scar.Common.WPF.View.WindowCreation
 {
     public class StaThreadWindowDisplayer : IWindowDisplayer
     {
+        [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "Windows-only")]
         public Action<Action<TWindow>> DisplayWindow<TWindow>(Func<TWindow> createWindow)
             where TWindow : class, IDisplayable
         {

@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace Scar.Common.WebApi.ActionFilters
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class CheckModelForNullAttribute : ActionFilterAttribute
+    public sealed class CheckModelForNullAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             _ = context ?? throw new ArgumentNullException(nameof(context));
 
             var requiredParametersWithNullValue = context.ActionDescriptor.Parameters.Cast<ControllerParameterDescriptor>()
-                .Where(i => !i.ParameterInfo.IsOptional && (!context.ActionArguments.TryGetValue(i.ParameterInfo.Name, out var value) || value == null))
+                .Where(i => !i.ParameterInfo.IsOptional && (!context.ActionArguments.TryGetValue(i.ParameterInfo.Name ?? throw new InvalidOperationException("ParameterInfo.Name is null"), out var value) || value == null))
                 .ToArray();
 
             if (requiredParametersWithNullValue.Length == 0)

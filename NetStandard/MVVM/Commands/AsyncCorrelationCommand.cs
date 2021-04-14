@@ -9,12 +9,12 @@ namespace Scar.Common.MVVM.Commands
         {
         }
 
-        public override bool CanExecute(object parameter)
+        public override bool CanExecute(object? parameter)
         {
             return CanExecuteFunc?.Invoke() ?? true;
         }
 
-        public override void ExecuteInternal(object parameter)
+        public override void ExecuteInternal(object? parameter)
         {
             ExecuteFunc();
         }

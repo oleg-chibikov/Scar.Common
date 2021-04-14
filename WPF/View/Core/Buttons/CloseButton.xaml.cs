@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 
 namespace Scar.Common.WPF.View.Core.Buttons
@@ -9,9 +10,9 @@ namespace Scar.Common.WPF.View.Core.Buttons
             InitializeComponent();
         }
 
-        void CloseButton_Click(object sender, RoutedEventArgs e)
+        void CloseButton_Click(object? sender, RoutedEventArgs e)
         {
-            Window.GetWindow((DependencyObject)sender)?.Close();
+            Window.GetWindow(sender as DependencyObject ?? throw new InvalidOperationException("sender is null"))?.Close();
         }
     }
 }

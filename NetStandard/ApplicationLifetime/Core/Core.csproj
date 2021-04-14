@@ -9,9 +9,9 @@
     <PackageReference Include="Easy.MessageHub" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-    <PackageReference Include="Scar.Common" Version="1.1.7546.36694" />
-    <PackageReference Include="Scar.Common.ApplicationLifetime.Contracts" Version="1.1.7481.37120" />
-    <PackageReference Include="Scar.Common.Localization" Version="1.1.7481.37120" />
+    <PackageReference Include="Scar.Common" Version="1.1.7773.36876" />
+    <PackageReference Include="Scar.Common.ApplicationLifetime.Contracts" Version="1.1.7773.25954" />
+    <PackageReference Include="Scar.Common.Localization" Version="1.1.7773.26316" />
   </ItemGroup>
 
 </Project>

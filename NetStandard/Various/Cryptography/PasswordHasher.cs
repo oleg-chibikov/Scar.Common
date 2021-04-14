@@ -8,9 +8,10 @@ namespace Scar.Common.Cryptography
     /// <summary>
     /// The implementation is taken from https://stackoverflow.com/a/20622428.
     /// </summary>
+    [SuppressMessage("Security", "CA5379:Do Not Use Weak Key Derivation Function Algorithm", Justification = "As is")]
+    [SuppressMessage("Security", "CA5387:Use at least 10000 iterations", Justification = "As is")]
     public sealed class PasswordHasher : IPasswordHasher
     {
-        [SuppressMessage("Security", "CA5379:Do Not Use Weak Key Derivation Function Algorithm", Justification = "As is")]
         public string HashPassword(string password)
         {
             _ = password ?? throw new ArgumentNullException(nameof(password));
@@ -28,7 +29,6 @@ namespace Scar.Common.Cryptography
             return Convert.ToBase64String(dst);
         }
 
-        [SuppressMessage("Security", "CA5379:Do Not Use Weak Key Derivation Function Algorithm", Justification = "As is")]
         public bool VerifyHashedPassword(string hashedPassword, string password)
         {
             _ = hashedPassword ?? throw new ArgumentNullException(nameof(hashedPassword));

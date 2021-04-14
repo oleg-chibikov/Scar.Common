@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-    <PackageReference Include="Scar.Common" Version="1.1.7546.36694" />
+    <PackageReference Include="Scar.Common" Version="1.1.7773.36876" />
   </ItemGroup>
 
 </Project>

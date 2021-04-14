@@ -142,7 +142,7 @@ namespace Scar.Common.ImageProcessing.ExifExtraction
             }
         }
 
-        void ProcessUtility_ProcessErrorFired(object sender, EventArgs<string> e)
+        void ProcessUtility_ProcessErrorFired(object? sender, EventArgs<string> e)
         {
             _logger.LogDebug($"Received error from process utility: {e.Parameter}");
             var messages = e.Parameter.Split(MessageSplitters, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
@@ -164,7 +164,7 @@ namespace Scar.Common.ImageProcessing.ExifExtraction
             }
         }
 
-        void ProcessUtility_ProcessMessageFired(object sender, EventArgs<string> e)
+        void ProcessUtility_ProcessMessageFired(object? sender, EventArgs<string> e)
         {
             _logger.LogDebug($"Received message from process utility: {e.Parameter}");
             var messages = e.Parameter.Split(MessageSplitters, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());

@@ -31,7 +31,7 @@ namespace Scar.Common.DAL.LiteDB
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "Analyzer error - it is validated")]
+#pragma warning disable CS8603 // Possible null reference return.
         protected TValue TryGetValue<TValue>(string key, Func<TValue> defaultValueProvider)
         {
             _ = defaultValueProvider ?? throw new ArgumentNullException(nameof(defaultValueProvider));
@@ -40,10 +40,13 @@ namespace Scar.Common.DAL.LiteDB
             return entry == null ? defaultValueProvider() : JsonConvert.DeserializeObject<TValue>(entry.ValueJson);
         }
 
+#pragma warning disable CS8601 // Possible null reference assignment.
         protected TValue TryGetValue<TValue>(string key, TValue defaultValue = default)
+#pragma warning restore CS8601 // Possible null reference assignment.
         {
             var entry = TryGetById(key);
             return entry == null ? defaultValue : JsonConvert.DeserializeObject<TValue>(entry.ValueJson);
         }
+#pragma warning restore CS8603 // Possible null reference return.
     }
 }

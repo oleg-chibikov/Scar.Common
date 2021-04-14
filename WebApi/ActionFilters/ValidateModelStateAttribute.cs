@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace Scar.Common.WebApi.ActionFilters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class ValidateModelStateAttribute : ActionFilterAttribute
+    public sealed class ValidateModelStateAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {

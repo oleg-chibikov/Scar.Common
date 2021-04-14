@@ -55,7 +55,7 @@ namespace Scar.Common.WPF.Behaviors
             DataObject.RemovePastingHandler(AssociatedObject, Pasting);
         }
 
-        void AssociatedObjectPreviewKeyDown(object sender, KeyEventArgs e)
+        void AssociatedObjectPreviewKeyDown(object? sender, KeyEventArgs e)
         {
             if (e.Key == Key.Space)
             {
@@ -67,7 +67,7 @@ namespace Scar.Common.WPF.Behaviors
             }
         }
 
-        void AssociatedObjectPreviewTextInput(object sender, TextCompositionEventArgs e)
+        void AssociatedObjectPreviewTextInput(object? sender, TextCompositionEventArgs e)
         {
             if (!IsValidInput(GetText(e.Text)))
             {
@@ -76,7 +76,7 @@ namespace Scar.Common.WPF.Behaviors
             }
         }
 
-        void AssociatedObjectTextChanged(object sender, TextChangedEventArgs e)
+        void AssociatedObjectTextChanged(object? sender, TextChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(AssociatedObject.Text))
             {
@@ -130,7 +130,7 @@ namespace Scar.Common.WPF.Behaviors
             }
         }
 
-        void Pasting(object sender, DataObjectPastingEventArgs e)
+        void Pasting(object? sender, DataObjectPastingEventArgs e)
         {
             if (e.DataObject.GetDataPresent(typeof(string)))
             {

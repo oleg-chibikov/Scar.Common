@@ -197,7 +197,7 @@ namespace Scar.Common.WPF.View.Core
             SetValue(prop, newValue);
         }
 
-        void BaseWindow_Loaded(object sender, RoutedEventArgs e)
+        void BaseWindow_Loaded(object? sender, RoutedEventArgs e)
         {
             _loaded?.Invoke(sender, e);
         }
@@ -207,7 +207,7 @@ namespace Scar.Common.WPF.View.Core
             Dispose();
         }
 
-        void BaseWindow_Closing(object sender, CancelEventArgs e)
+        void BaseWindow_Closing(object? sender, CancelEventArgs e)
         {
             if (CheckCloseShouldBeCancelled())
             {
@@ -235,7 +235,7 @@ namespace Scar.Common.WPF.View.Core
             }
         }
 
-        void BaseWindow_SizeChanged_Reposition(object sender, SizeChangedEventArgs e)
+        void BaseWindow_SizeChanged_Reposition(object? sender, SizeChangedEventArgs e)
         {
             if (e.PreviousSize.IsEmpty)
             {
@@ -277,7 +277,7 @@ namespace Scar.Common.WPF.View.Core
         /// When the data context of the window is changed (for example, manually, or when it is disposed),
         /// then if DataContext implements IRequestCloseViewModel the window should be closed.
         /// </summary>
-        void BaseWindow_DataContextChanged(object sender, DependencyPropertyChangedEventArgs args)
+        void BaseWindow_DataContextChanged(object? sender, DependencyPropertyChangedEventArgs args)
         {
             if (!(args.NewValue is IRequestCloseViewModel requestCloseViewModel))
             {

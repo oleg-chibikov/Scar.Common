@@ -31,20 +31,20 @@ namespace Scar.Common.MVVM.Commands
             CanExecuteChanged?.Invoke(this, new EventArgs());
         }
 
-        public void Execute(object parameter)
+        public void Execute(object? parameter)
         {
             Trace.CorrelationManager.ActivityId = Guid.NewGuid();
             ExecuteInternal(parameter);
             CommandManager.RefreshCommandStates();
         }
 
-        public abstract bool CanExecute(object parameter);
+        public abstract bool CanExecute(object? parameter);
 
         public void RemoveCommand()
         {
             CommandManager.RemoveRaiseCanExecuteChangedAction(_raiseCanExecuteChangedAction);
         }
 
-        public abstract void ExecuteInternal(object parameter);
+        public abstract void ExecuteInternal(object? parameter);
     }
 }

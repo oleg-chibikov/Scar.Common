@@ -1,12 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <Description>Helpers to perform localization of a WPF project</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.Localization" Version="1.1.7481.37120" />
-    <PackageReference Include="Scar.Common.MVVM.CollectionView" Version="1.1.7481.37117" />
+    <PackageReference Include="Scar.Common.Localization" Version="1.1.7773.26316" />
+    <PackageReference Include="Scar.Common.MVVM.CollectionView" Version="1.1.7773.29699" />
     <PackageReference Include="WpfLocalizeExtension" Version="3.8.0" />
   </ItemGroup>
 

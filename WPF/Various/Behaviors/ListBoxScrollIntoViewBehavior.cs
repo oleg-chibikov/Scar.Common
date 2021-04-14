@@ -27,7 +27,7 @@ namespace Scar.Common.WPF.Behaviors
         /// <summary>
         /// On Selection Changed.
         /// </summary>
-        static void AssociatedObject_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        static void AssociatedObject_SelectionChanged(object? sender, SelectionChangedEventArgs e)
         {
             if (!(sender is ListBox listBox))
             {

@@ -28,7 +28,7 @@ namespace Scar.Common
             var instance = Expression.Parameter(typeof(TEntity), "instance");
             var parameter = Expression.Parameter(typeof(TProperty), "param");
 
-            var body = Expression.Call(instance, propertyInfo.GetSetMethod(), parameter);
+            var body = Expression.Call(instance, propertyInfo.GetSetMethod() ?? throw new InvalidOperationException("set method is null"), parameter);
             var parameters = new[]
             {
                 instance,
@@ -45,7 +45,7 @@ namespace Scar.Common
 
             var instance = Expression.Parameter(typeof(TEntity), "instance");
 
-            var body = Expression.Call(instance, propertyInfo.GetGetMethod());
+            var body = Expression.Call(instance, propertyInfo.GetGetMethod() ?? throw new InvalidOperationException("get method is null"));
             var parameters = new[]
             {
                 instance

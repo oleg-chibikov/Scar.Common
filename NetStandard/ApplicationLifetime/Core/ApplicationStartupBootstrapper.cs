@@ -59,7 +59,7 @@ namespace Scar.Common.ApplicationLifetime.Core
             ShowMessage = showMessage ?? throw new ArgumentNullException(nameof(cultureManager));
             CultureManager = cultureManager ?? throw new ArgumentNullException(nameof(cultureManager));
             _applicationTerminator = applicationTerminator ?? throw new ArgumentNullException(nameof(applicationTerminator));
-            baseDirectory ??= Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) ?? throw new InvalidOperationException("Cannot get base directory");
+            baseDirectory ??= Path.GetDirectoryName(Process.GetCurrentProcess().MainModule?.FileName) ?? throw new InvalidOperationException("Cannot get base directory");
 
             if (_newInstanceHandling != NewInstanceHandling.AllowMultiple)
             {
@@ -220,7 +220,7 @@ namespace Scar.Common.ApplicationLifetime.Core
         void KillAnotherInstanceIfExists()
         {
             var anotherInstance = Process.GetProcesses()
-                .SingleOrDefault(proc => proc.ProcessName.Equals(Process.GetCurrentProcess().ProcessName, StringComparison.Ordinal) && (proc.Id != Process.GetCurrentProcess().Id));
+                .SingleOrDefault(proc => proc.ProcessName.Equals(Process.GetCurrentProcess().ProcessName, StringComparison.Ordinal) && (proc.Id != Environment.ProcessId));
             if (anotherInstance != null)
             {
                 anotherInstance.Kill();
@@ -264,9 +264,9 @@ namespace Scar.Common.ApplicationLifetime.Core
             Messenger.Publish(message);
         }
 
-        void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        void TaskScheduler_UnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
         {
-            HandleException(e.Exception.InnerException);
+            HandleException(e.Exception.InnerException ?? e.Exception);
             e.SetObserved();
             e.Exception.Handle(ex => true);
         }

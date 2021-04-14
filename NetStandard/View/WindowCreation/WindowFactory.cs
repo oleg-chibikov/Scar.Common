@@ -91,14 +91,14 @@ namespace Scar.Common.View.WindowCreation
             {
                 var window = await _scopedWindowProvider.GetScopedWindowAsync<TWindow, TParam>(param, cancellationToken).ConfigureAwait(false);
 
-                void WindowClosed(object sender, EventArgs args)
+                void WindowClosed(object? sender, EventArgs args)
                 {
                     _currentWindow = default;
                     _ = window ?? throw new InvalidOperationException("Window is null");
                     window.Closed -= WindowClosed;
                 }
 
-                void ContentRendered(object s, EventArgs e)
+                void ContentRendered(object? sender, EventArgs e)
                 {
                     _ = window ?? throw new InvalidOperationException("Window is null");
                     window.ContentRendered -= ContentRendered;

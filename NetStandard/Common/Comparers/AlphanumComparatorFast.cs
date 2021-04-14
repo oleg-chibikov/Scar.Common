@@ -6,7 +6,7 @@ namespace Scar.Common.Comparers
 {
     public class AlphanumComparatorFast : IComparer<string>
     {
-        public int Compare(string x, string y)
+        public int Compare(string? x, string? y)
         {
             var str1 = x;
             if (str1 == null)

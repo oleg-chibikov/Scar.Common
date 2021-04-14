@@ -16,11 +16,11 @@ namespace Scar.Common.MVVM.ViewModel
         protected BaseViewModel(ICommandManager commandManager)
         {
             _commandManager = commandManager ?? throw new ArgumentNullException(nameof(commandManager));
-            _commandManager.AssignOnPropertyChanged(ref PropertyChanged);
+            _commandManager.AssignOnPropertyChanged(ref PropertyChanged!);
             _commandsList = new HashSet<IRemovableCommand>();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public event EventHandler? RequestClose;
 

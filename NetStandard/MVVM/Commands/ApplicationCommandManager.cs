@@ -45,7 +45,7 @@ namespace Scar.Common.MVVM.Commands
                 null);
         }
 
-        void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             // this if clause is to prevent an infinity loop
             if (e.PropertyName != "CanExecute")

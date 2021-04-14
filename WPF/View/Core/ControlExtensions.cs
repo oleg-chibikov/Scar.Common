@@ -13,7 +13,7 @@ namespace Scar.Common.WPF.View.Core
             uiElement.PreviewLostKeyboardFocus += Control_PreviewLostKeyboardFocus;
         }
 
-        static void Control_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        static void Control_PreviewLostKeyboardFocus(object? sender, KeyboardFocusChangedEventArgs e)
         {
             if ((e.NewFocus != null) && (!e.NewFocus.Focusable || !e.NewFocus.IsEnabled))
             {

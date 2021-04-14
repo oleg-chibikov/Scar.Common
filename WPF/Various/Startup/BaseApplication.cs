@@ -112,7 +112,7 @@ namespace Scar.Common.WPF.Startup
             return attribute.Product;
         }
 
-        void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        void App_DispatcherUnhandledException(object? sender, DispatcherUnhandledExceptionEventArgs e)
         {
             _applicationBootstrapper.HandleException(e.Exception);
 

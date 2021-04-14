@@ -53,7 +53,7 @@ namespace Scar.Common.WPF.View.Core
             BeginAnimation(prop, animation, HandoffBehavior.SnapshotAndReplace);
         }
 
-        void HeaderPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        void HeaderPanel_MouseDown(object? sender, MouseButtonEventArgs e)
         {
             if ((ResizeMode != ResizeMode.CanResize) && (ResizeMode != ResizeMode.CanResizeWithGrip))
             {
@@ -66,7 +66,7 @@ namespace Scar.Common.WPF.View.Core
             }
         }
 
-        void AnimatedWindow_Loaded(object sender, RoutedEventArgs e)
+        void AnimatedWindow_Loaded(object? sender, RoutedEventArgs e)
         {
             if (!CustomShell)
             {

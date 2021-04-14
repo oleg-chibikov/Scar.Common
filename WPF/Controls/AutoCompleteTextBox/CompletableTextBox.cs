@@ -112,7 +112,7 @@ namespace Scar.Common.WPF.Controls
             Text = item?.ToString() ?? string.Empty;
         }
 
-        void CompletableTextBox_Initialized(object sender, EventArgs e)
+        void CompletableTextBox_Initialized(object? sender, EventArgs e)
         {
             if (Application.Current.Resources.FindName("AutoCompleteTextBoxListBoxStyle") == null)
             {
@@ -182,7 +182,7 @@ namespace Scar.Common.WPF.Controls
             _popup.IsOpen = false;
         }
 
-        void ListBox_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        void ListBox_MouseLeftButtonUp(object? sender, MouseButtonEventArgs e)
         {
             ListBoxItem? item = null;
             var d = e.OriginalSource as DependencyObject;
@@ -211,7 +211,7 @@ namespace Scar.Common.WPF.Controls
           |                     ListBox Event Handling                          |
           |                                                                     |
           +---------------------------------------------------------------------*/
-        void ListBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        void ListBox_PreviewMouseLeftButtonDown(object? sender, MouseButtonEventArgs e)
         {
             var pos = e.GetPosition(_listBox);
             var hitTestResult = VisualTreeHelper.HitTest(_listBox, pos);
@@ -233,7 +233,7 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        void ListBox_PreviewMouseMove(object sender, MouseEventArgs e)
+        void ListBox_PreviewMouseMove(object? sender, MouseEventArgs e)
         {
             if (Mouse.Captured != null)
             {
@@ -272,7 +272,7 @@ namespace Scar.Common.WPF.Controls
             _popup.IsOpen = false;
         }
 
-        void OwnerWindow_Loaded(object sender, RoutedEventArgs e)
+        void OwnerWindow_Loaded(object? sender, RoutedEventArgs e)
         {
             Initialize();
         }
@@ -287,7 +287,7 @@ namespace Scar.Common.WPF.Controls
             _popup.IsOpen = false;
         }
 
-        void OwnerWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        void OwnerWindow_PreviewMouseDown(object? sender, MouseButtonEventArgs e)
         {
             if (!Equals(e.Source, this))
             {
@@ -332,7 +332,7 @@ namespace Scar.Common.WPF.Controls
                 {
                     // ReSharper disable once SuspiciousTypeConversion.Global
                     var firstSuggestionString = firstSuggestion.ToString() ?? throw new InvalidOperationException("firstSuggestion.ToString() is null");
-                    var appendText = DataProvider is IAutoAppendDataProvider appendProvider ? appendProvider.GetAppendText(text, firstSuggestionString) : firstSuggestionString.Substring(Text.Length);
+                    var appendText = DataProvider is IAutoAppendDataProvider appendProvider ? appendProvider.GetAppendText(text, firstSuggestionString) : firstSuggestionString[Text.Length..];
                     if (!string.IsNullOrEmpty(appendText))
                     {
                         SelectedText = appendText;
@@ -381,7 +381,7 @@ namespace Scar.Common.WPF.Controls
             _popup.IsOpen = true;
         }
 
-        void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        void TextBox_LostFocus(object? sender, RoutedEventArgs e)
         {
             _popup.IsOpen = false;
             _cancellationTokenSource.Cancel();
@@ -389,7 +389,7 @@ namespace Scar.Common.WPF.Controls
             // Text = SelectedItem?.ToString() ?? string.Empty;
         }
 
-        void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        void TextBox_PreviewKeyDown(object? sender, KeyEventArgs e)
         {
             _rateLimiter.ThrottleAsync(
                 TimeSpan.FromMilliseconds(20),
@@ -459,7 +459,7 @@ namespace Scar.Common.WPF.Controls
           |                   TextBox Event Handling                            |
           |                                                                     |
           +---------------------------------------------------------------------*/
-        void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        void TextBox_TextChanged(object? sender, TextChangedEventArgs e)
         {
             _rateLimiter.DebounceAsync(
                 TimeSpan.FromMilliseconds(300),

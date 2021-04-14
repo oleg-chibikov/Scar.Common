@@ -29,7 +29,7 @@ namespace Scar.Common.Processes
                     async () =>
                     {
                         _logger.LogTrace($"Running {commandPath} with arguments {arguments}");
-                        var processInfo = new ProcessStartInfo(commandPath, arguments)
+                        var processInfo = new ProcessStartInfo(commandPath, arguments ?? string.Empty)
                         {
                             CreateNoWindow = true,
                             WindowStyle = ProcessWindowStyle.Hidden,
@@ -53,7 +53,7 @@ namespace Scar.Common.Processes
                         var outputStringBuilder = new StringBuilder();
                         var errorStringBuilder = new StringBuilder();
 
-                        void OutputHandler(object sender, DataReceivedEventArgs e)
+                        void OutputHandler(object? sender, DataReceivedEventArgs e)
                         {
                             _ = outputStringBuilder ?? throw new InvalidOperationException("outputStringBuilder is null");
 
@@ -65,7 +65,7 @@ namespace Scar.Common.Processes
                             }
                         }
 
-                        void ErrorHandler(object sender, DataReceivedEventArgs e)
+                        void ErrorHandler(object? sender, DataReceivedEventArgs e)
                         {
                             _ = errorStringBuilder ?? throw new InvalidOperationException("errorStringBuilder is null");
 
@@ -163,7 +163,7 @@ namespace Scar.Common.Processes
             var taskCompletionSource = new TaskCompletionSource<object?>();
             process.EnableRaisingEvents = true;
 
-            void OnProcessExited(object sender, EventArgs args)
+            void OnProcessExited(object? sender, EventArgs args)
             {
                 _logger.LogTrace($"Handling process {name} exit...");
 

@@ -30,6 +30,7 @@ namespace Scar.Common.WPF.Converters
         }
 
         [DllImport("gdi32.dll", SetLastError = true)]
+        [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
 
         // ReSharper disable once StyleCop.SA1305
         static extern bool DeleteObject(IntPtr hObject);

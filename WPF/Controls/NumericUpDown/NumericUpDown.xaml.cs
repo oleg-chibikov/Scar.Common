@@ -1,3 +1,4 @@
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -61,12 +62,12 @@ namespace Scar.Common.WPF.Controls
             return dVal > max ? max : dVal < min ? min : value;
         }
 
-        void BtnDown_Click(object sender, RoutedEventArgs e)
+        void BtnDown_Click(object? sender, RoutedEventArgs e)
         {
             Decrement();
         }
 
-        void BtnUp_Click(object sender, RoutedEventArgs e)
+        void BtnUp_Click(object? sender, RoutedEventArgs e)
         {
             Increment();
         }
@@ -91,7 +92,7 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        void TextBox_PreviewKeyDown(object? sender, KeyEventArgs e)
         {
             switch (e.Key)
             {
@@ -104,19 +105,19 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        void TextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        void TextBox_PreviewMouseDown(object? sender, MouseButtonEventArgs e)
         {
             _start = e.GetPosition(this);
-            var el = (TextBox)sender;
+            var el = (TextBox)(sender ?? throw new InvalidOperationException("sender is null"));
             el.CaptureMouse();
             Cursor = Cursors.SizeNS;
             el.IsTabStop = false;
             el.IsReadOnly = true;
         }
 
-        void TextBox_PreviewMouseMove(object sender, MouseEventArgs e)
+        void TextBox_PreviewMouseMove(object? sender, MouseEventArgs e)
         {
-            var el = (TextBox)sender;
+            var el = (TextBox)(sender ?? throw new InvalidOperationException("sender is null"));
             if (!el.IsMouseCaptured)
             {
                 return;
@@ -139,9 +140,9 @@ namespace Scar.Common.WPF.Controls
             }
         }
 
-        void TextBox_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        void TextBox_PreviewMouseUp(object? sender, MouseButtonEventArgs e)
         {
-            var el = (TextBox)sender;
+            var el = (TextBox)(sender ?? throw new InvalidOperationException("sender is null"));
             el.ReleaseMouseCapture();
             Cursor = Cursors.Arrow;
             el.IsTabStop = true;
