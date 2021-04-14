@@ -18,12 +18,18 @@ namespace Scar.Common.MVVM.Commands
 
         public void AddRaiseCanExecuteChangedAction(ref Action raiseCanExecuteChangedAction)
         {
-            _raiseCanExecuteChangedActions.Add(raiseCanExecuteChangedAction);
+            lock (_raiseCanExecuteChangedActions)
+            {
+                _raiseCanExecuteChangedActions.Add(raiseCanExecuteChangedAction);
+            }
         }
 
         public void RemoveRaiseCanExecuteChangedAction(Action raiseCanExecuteChangedAction)
         {
-            _raiseCanExecuteChangedActions.Remove(raiseCanExecuteChangedAction);
+            lock (_raiseCanExecuteChangedActions)
+            {
+                _raiseCanExecuteChangedActions.Remove(raiseCanExecuteChangedAction);
+            }
         }
 
         public void AssignOnPropertyChanged(ref PropertyChangedEventHandler propertyEventHandler)
@@ -33,11 +39,17 @@ namespace Scar.Common.MVVM.Commands
 
         public void RefreshCommandStates()
         {
-            _synchronizationContext.Post(
+            IList<Action> copy;
+            lock (_raiseCanExecuteChangedActions)
+            {
+                // ToList prevents CollectionModifiedException as it is a new object and the original collection can be modified during the enumeration
+                copy = _raiseCanExecuteChangedActions.ToList();
+            }
+
+            _synchronizationContext.Send(
                 x =>
                 {
-                    // ToList prevents CollectionModifiedException as it is a new object and the original collection can be modified during the enumeration
-                    foreach (var raiseCanExecuteChangedAction in _raiseCanExecuteChangedActions.ToList())
+                    foreach (var raiseCanExecuteChangedAction in copy)
                     {
                         raiseCanExecuteChangedAction?.Invoke();
                     }
@@ -47,7 +59,7 @@ namespace Scar.Common.MVVM.Commands
 
         void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            // this if clause is to prevent an infinity loop
+            // this if clause is to prevent an infinite loop
             if (e.PropertyName != "CanExecute")
             {
                 RefreshCommandStates();
