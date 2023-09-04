@@ -31,6 +31,8 @@ namespace Scar.Common.WPF.View.WindowCreation
             thread.IsBackground = true;
             thread.Start();
 
+            return ExecuteWithDispatcher;
+
             void ExecuteWithDispatcher(Action<TWindow> action)
             {
                 _ = window ?? throw new InvalidOperationException("Window is null");
@@ -38,8 +40,6 @@ namespace Scar.Common.WPF.View.WindowCreation
 
                 threadDispatcher.BeginInvoke(() => { action(window); });
             }
-
-            return ExecuteWithDispatcher;
         }
     }
 }

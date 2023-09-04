@@ -15,7 +15,7 @@ namespace Scar.Common.WPF.Screen
             _screen = screen;
         }
 
-        public static WPFScreen Primary => new WPFScreen(System.Windows.Forms.Screen.PrimaryScreen);
+        public static WPFScreen Primary => new (System.Windows.Forms.Screen.PrimaryScreen!);
 
         public Rect DeviceBounds => GetRect(_screen.Bounds);
 

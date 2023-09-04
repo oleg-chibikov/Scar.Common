@@ -25,7 +25,7 @@ namespace Scar.Common.AutofacHttpClientProvision
 
             if (registration.Activator.LimitType == typeof(TService))
             {
-                registration.PipelineBuilding += (sender, pipeline) =>
+                registration.PipelineBuilding += (_, pipeline) =>
                 {
                     pipeline.Use(
                         PipelinePhase.ParameterSelection,
@@ -36,8 +36,8 @@ namespace Scar.Common.AutofacHttpClientProvision
                                     new[]
                                     {
                                         new ResolvedParameter(
-                                            (p, i) => p.ParameterType == typeof(HttpClient),
-                                            (p, i) =>
+                                            (p, _) => p.ParameterType == typeof(HttpClient),
+                                            (_, i) =>
                                             {
                                                 var client = i.Resolve<IHttpClientFactory>().CreateClient();
                                                 _clientConfigurator?.Invoke(client);

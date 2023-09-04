@@ -40,7 +40,7 @@ namespace Scar.Common.WPF.View.Core
 
         static void MarginChangedCallback(object? sender, DependencyPropertyChangedEventArgs e)
         {
-            if (!(sender is Panel panel))
+            if (sender is not Panel panel)
             {
                 return;
             }
@@ -50,7 +50,7 @@ namespace Scar.Common.WPF.View.Core
 
         static void Panel_Loaded(object? sender, RoutedEventArgs e)
         {
-            if (!(sender is Panel panel))
+            if (sender is not Panel panel)
             {
                 return;
             }

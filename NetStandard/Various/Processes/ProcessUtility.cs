@@ -53,32 +53,6 @@ namespace Scar.Common.Processes
                         var outputStringBuilder = new StringBuilder();
                         var errorStringBuilder = new StringBuilder();
 
-                        void OutputHandler(object? sender, DataReceivedEventArgs e)
-                        {
-                            _ = outputStringBuilder ?? throw new InvalidOperationException("outputStringBuilder is null");
-
-                            if (!string.IsNullOrWhiteSpace(e.Data))
-                            {
-                                OnMessage(e.Data);
-                                outputStringBuilder.AppendLine(e.Data);
-                                _logger.LogTrace(e.Data);
-                            }
-                        }
-
-                        void ErrorHandler(object? sender, DataReceivedEventArgs e)
-                        {
-                            _ = errorStringBuilder ?? throw new InvalidOperationException("errorStringBuilder is null");
-
-                            if (string.IsNullOrWhiteSpace(e.Data))
-                            {
-                                return;
-                            }
-
-                            OnError(e.Data);
-                            errorStringBuilder.AppendLine(e.Data);
-                            _logger.LogWarning(e.Data);
-                        }
-
                         process.OutputDataReceived += OutputHandler;
                         process.ErrorDataReceived += ErrorHandler;
                         try
@@ -114,6 +88,32 @@ namespace Scar.Common.Processes
                         var output = outputStringBuilder.ToString();
                         var error = errorStringBuilder.ToString();
                         return new ProcessResult(string.IsNullOrEmpty(output) ? null : output, string.IsNullOrEmpty(error) ? null : error, process.ExitCode);
+
+                        void OutputHandler(object? sender, DataReceivedEventArgs e)
+                        {
+                            _ = outputStringBuilder ?? throw new InvalidOperationException("outputStringBuilder is null");
+
+                            if (!string.IsNullOrWhiteSpace(e.Data))
+                            {
+                                OnMessage(e.Data);
+                                outputStringBuilder.AppendLine(e.Data);
+                                _logger.LogTrace(e.Data);
+                            }
+                        }
+
+                        void ErrorHandler(object? sender, DataReceivedEventArgs e)
+                        {
+                            _ = errorStringBuilder ?? throw new InvalidOperationException("errorStringBuilder is null");
+
+                            if (string.IsNullOrWhiteSpace(e.Data))
+                            {
+                                return;
+                            }
+
+                            OnError(e.Data);
+                            errorStringBuilder.AppendLine(e.Data);
+                            _logger.LogWarning(e.Data);
+                        }
                     },
                     token)
                 .ConfigureAwait(false);
@@ -163,24 +163,6 @@ namespace Scar.Common.Processes
             var taskCompletionSource = new TaskCompletionSource<object?>();
             process.EnableRaisingEvents = true;
 
-            void OnProcessExited(object? sender, EventArgs args)
-            {
-                _logger.LogTrace($"Handling process {name} exit...");
-
-                var setResult = taskCompletionSource?.TrySetResult(null) ?? throw new InvalidOperationException("taskCompletionSource is null");
-                if (setResult)
-                {
-                    _logger.LogTrace($"The process {name} has exited successfully");
-                }
-                else
-                {
-                    _logger.LogWarning($"The process {name} result cannot be set");
-                }
-
-                // ReSharper disable once AccessToModifiedClosure - the outer code needs to await the returning task before disposal
-                process.Exited -= OnProcessExited;
-            }
-
             // No need to wait for the already exited process;
             if (process.HasExited)
             {
@@ -213,6 +195,25 @@ namespace Scar.Common.Processes
                 });
 
             await taskCompletionSource.Task.ConfigureAwait(false);
+            return;
+
+            void OnProcessExited(object? sender, EventArgs args)
+            {
+                _logger.LogTrace($"Handling process {name} exit...");
+
+                var setResult = taskCompletionSource?.TrySetResult(null) ?? throw new InvalidOperationException("taskCompletionSource is null");
+                if (setResult)
+                {
+                    _logger.LogTrace($"The process {name} has exited successfully");
+                }
+                else
+                {
+                    _logger.LogWarning($"The process {name} result cannot be set");
+                }
+
+                // ReSharper disable once AccessToModifiedClosure - the outer code needs to await the returning task before disposal
+                process.Exited -= OnProcessExited;
+            }
         }
     }
 }

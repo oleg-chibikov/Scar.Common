@@ -8,12 +8,12 @@ using System.Windows.Media.Animation;
 using System.Windows.Shell;
 using Scar.Common.WPF.Screen;
 
-namespace Scar.Common.WPF.View.Core
+namespace Scar.Common.WPF.View.CustomWindow
 {
     public abstract class AnimatedWindow : AnimatedWindowWithoutTemplate
     {
-        readonly ConcurrentDictionary<DependencyProperty, double> _animations = new ConcurrentDictionary<DependencyProperty, double>();
-        readonly Duration _repositionDuration = new Duration(TimeSpan.FromMilliseconds(150));
+        readonly ConcurrentDictionary<DependencyProperty, double> _animations = new ();
+        readonly Duration _repositionDuration = new (TimeSpan.FromMilliseconds(150));
 
         static AnimatedWindow()
         {
@@ -30,7 +30,7 @@ namespace Scar.Common.WPF.View.Core
             BorderBrush = Brushes.Black;
             BorderThickness = new Thickness(2);
             Loaded += AnimatedWindow_Loaded;
-            StateChanged += (s, e) => CheckBounds();
+            StateChanged += (_, _) => CheckBounds();
 
             // Prevent coverage of Taskbar when maximized
             MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
@@ -45,7 +45,7 @@ namespace Scar.Common.WPF.View.Core
                 return;
             }
 
-            var newValue = _animations.AddOrUpdate(prop, p => (double)GetValue(p) + change, (p, val) => val + change);
+            var newValue = _animations.AddOrUpdate(prop, p => (double)GetValue(p) + change, (_, val) => val + change);
 
             var animation = new DoubleAnimation { To = newValue, Duration = _repositionDuration };
 

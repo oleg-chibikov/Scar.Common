@@ -6,7 +6,7 @@ namespace Scar.Common.Async
 {
     public sealed class CancellationTokenSourceProvider : IDisposable, ICancellationTokenSourceProvider
     {
-        CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+        CancellationTokenSource _cancellationTokenSource = new ();
 
         public Task CurrentTask { get; private set; } = Task.CompletedTask;
 

@@ -8,8 +8,8 @@ namespace Scar.Common.Sync.Windows
 {
     public class WindowsSyncSoftwarePathsProvider : IOneDrivePathProvider, IDropBoxPathProvider
     {
-        const string DropboxInfoPath = @"Dropbox\info.json";
         const string OneDriveNotDetected = @"ND";
+        static readonly string DropboxInfoPath = Path.Combine("Dropbox", "info.json");
 
         public string? GetDropBoxPath()
         {

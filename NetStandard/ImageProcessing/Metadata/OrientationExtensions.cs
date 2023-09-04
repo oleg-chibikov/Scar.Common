@@ -4,7 +4,7 @@ namespace Scar.Common.ImageProcessing.Metadata
 {
     public static class OrientationExtensions
     {
-        static readonly LinkedList<Orientation> Orientations = new LinkedList<Orientation>(
+        static readonly LinkedList<Orientation> Orientations = new (
             new[]
             {
                 Orientation.Straight,

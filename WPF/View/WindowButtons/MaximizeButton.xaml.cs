@@ -1,7 +1,7 @@
 using System;
 using System.Windows;
 
-namespace Scar.Common.WPF.View.Core.Buttons
+namespace Scar.Common.WPF.View.WindowButtons
 {
     public partial class MaximizeButton
     {

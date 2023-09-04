@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28711.60
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Async", "NetStandard\Various\Async\Async.csproj", "{AB0BD04C-9A70-4913-899C-E8C07792F76A}"
 EndProject
@@ -72,7 +72,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CodeAnalysis.ruleset = CodeAnalysis.ruleset
 		CodeAnalysis.Test.ruleset = CodeAnalysis.Test.ruleset
 		Directory.Build.props = Directory.Build.props
-		nuget.config = nuget.config
 		Scar.sln.DotSettings = Scar.sln.DotSettings
 		stylecop.json = stylecop.json
 	EndProjectSection
@@ -170,6 +169,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Startup", "WebApi.Startup\WebApi.Startup.csproj", "{880C5E04-AD75-4240-8FA0-C2391FE25F4E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.Startup.Launcher", "WebApi.Startup.Launcher\WebApi.Startup.Launcher.csproj", "{E8336420-338B-4BAA-B8AF-EE619037C56E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomWindow", "WPF\View\CustomWindow\CustomWindow.csproj", "{E99009E5-D6F6-4D20-99C3-3BDC139AEAAF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowButtons", "WPF\View\WindowButtons\WindowButtons.csproj", "{42DBDE1C-FB20-47A7-8709-44A2E80EF490}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -369,6 +372,14 @@ Global
 		{E8336420-338B-4BAA-B8AF-EE619037C56E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8336420-338B-4BAA-B8AF-EE619037C56E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8336420-338B-4BAA-B8AF-EE619037C56E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E99009E5-D6F6-4D20-99C3-3BDC139AEAAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E99009E5-D6F6-4D20-99C3-3BDC139AEAAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E99009E5-D6F6-4D20-99C3-3BDC139AEAAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E99009E5-D6F6-4D20-99C3-3BDC139AEAAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42DBDE1C-FB20-47A7-8709-44A2E80EF490}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42DBDE1C-FB20-47A7-8709-44A2E80EF490}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42DBDE1C-FB20-47A7-8709-44A2E80EF490}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42DBDE1C-FB20-47A7-8709-44A2E80EF490}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -427,6 +438,8 @@ Global
 		{60752259-FF52-424A-8925-26A4A9E4115A} = {E2471E03-945B-41CE-9B3A-4F89E7FAF5D9}
 		{D1378417-BBBE-41A0-83E2-C06D1DB66EC5} = {14C96378-1FB2-46C2-81B0-5B14A8C1D3D7}
 		{0DC0D4B8-49AD-4B8B-9114-248A1CFBE6AF} = {F752453B-42C6-426E-AF51-C871C261B07C}
+		{E99009E5-D6F6-4D20-99C3-3BDC139AEAAF} = {14C96378-1FB2-46C2-81B0-5B14A8C1D3D7}
+		{42DBDE1C-FB20-47A7-8709-44A2E80EF490} = {14C96378-1FB2-46C2-81B0-5B14A8C1D3D7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {24C9D89F-376A-40CA-9846-76B97230738A}

@@ -59,7 +59,7 @@ namespace Scar.Common.DAL.LiteDB
         protected virtual bool IsBson => false;
 
         // direct bson types
-        protected HashSet<Type> BsonTypes { get; } = new HashSet<Type>
+        protected HashSet<Type> BsonTypes { get; } = new ()
         {
             typeof(string),
             typeof(int),

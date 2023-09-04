@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7773.26310" />
+    <ProjectReference Include="..\..\..\NetStandard\View\Contracts\Contracts.csproj" />
   </ItemGroup>
 
 </Project>

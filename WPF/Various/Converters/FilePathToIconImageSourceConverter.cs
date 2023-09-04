@@ -12,7 +12,7 @@ namespace Scar.Common.WPF.Converters
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            return !(value is string filePath) ? null : File.Exists(filePath) ? Icon.ExtractAssociatedIcon(filePath)?.ToImageSource() : null;
+            return value is not string filePath ? null : File.Exists(filePath) ? Icon.ExtractAssociatedIcon(filePath)?.ToImageSource() : null;
         }
 
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

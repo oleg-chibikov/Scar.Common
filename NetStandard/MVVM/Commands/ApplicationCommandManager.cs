@@ -47,7 +47,7 @@ namespace Scar.Common.MVVM.Commands
             }
 
             _synchronizationContext.Send(
-                x =>
+                _ =>
                 {
                     foreach (var raiseCanExecuteChangedAction in copy)
                     {

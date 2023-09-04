@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.View.WindowCreation" Version="1.1.7773.37089" />
+    <ProjectReference Include="..\..\..\NetStandard\View\Contracts\Contracts.csproj" />
+    <ProjectReference Include="..\..\..\NetStandard\View\WindowCreation\WindowCreation.csproj" />
   </ItemGroup>
 
 </Project>

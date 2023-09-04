@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 namespace Scar.Common.WPF.Controls
 {
-    class TextEditorWrapper
+    sealed class TextEditorWrapper
     {
         static readonly Type TextEditorType = Type.GetType("System.Windows.Documents.TextEditor, PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35") ??
                                               throw new InvalidOperationException("TextEditorType is null");

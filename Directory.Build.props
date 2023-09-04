@@ -1,6 +1,6 @@
 ﻿<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="5.0.3">
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -8,7 +8,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="WTG.Analyzers" Version="2.10.4">
+    <PackageReference Include="WTG.Analyzers" Version="3.7.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <IsPackable>true</IsPackable>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSet Condition="$(MSBuildProjectFile.Contains('Tests'))">$(MSBuildThisFileDirectory)\CodeAnalysis.Test.ruleset</CodeAnalysisRuleSet>
@@ -28,19 +28,12 @@
     <DebugType Condition=" '$(Configuration)' == 'Release' ">None</DebugType>
     <SignAssembly>false</SignAssembly>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <GeneratePackageOnBuild Condition="! $(MSBuildProjectFile.Contains('Tests'))">true</GeneratePackageOnBuild>
-    <IncludeSymbols Condition=" '$(Configuration)' == 'Debug' ">true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>11.0</LangVersion>
     <Nullable>enable</Nullable>
     <Company>Scar</Company>
     <Authors>Scar</Authors>
     <AssemblyName>$(Company).Common</AssemblyName>
     <RootNamespace>$(Company).Common</RootNamespace>
-    <Build>$([System.DateTime]::op_Subtraction($([System.DateTime]::get_Now().get_Date()),$([System.DateTime]::new(2000,1,1))).get_TotalDays())</Build>
-    <Revision>$([MSBuild]::Divide($([System.DateTime]::get_Now().get_TimeOfDay().get_TotalSeconds()), 2).ToString('F0'))</Revision>
-    <Version>1.1.$(Build).$(Revision)</Version>
-    <OutputPath>$(SolutionDir)bin\</OutputPath>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
   </PropertyGroup>
 
@@ -48,9 +41,4 @@
     <Compile Include="$(MSBuildThisFileDirectory)\Assembly.cs" Link="Assembly.cs" />
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)\stylecop.json" Link="Properties\stylecop.json" />
   </ItemGroup>
-
-  <Target Name="PublishPackage" AfterTargets="Pack">
-    <!--According to https://docs.microsoft.com/en-us/nuget/create-packages/symbol-packages-snupkg it pushes both symbols and a real package-->
-    <Exec Command="$(SolutionDir)Tools\NugetPusher\Scar.NugetPusher.exe $(TargetDir)" />
-  </Target>
 </Project>

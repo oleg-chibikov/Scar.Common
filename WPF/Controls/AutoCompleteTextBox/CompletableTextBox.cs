@@ -27,7 +27,7 @@ namespace Scar.Common.WPF.Controls
 
         readonly IRateLimiter _rateLimiter;
         bool _disposedValue;
-        CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+        CancellationTokenSource _cancellationTokenSource = new ();
         bool _disabled;
         ListBox _listBox;
         Popup _popup;
@@ -95,6 +95,7 @@ namespace Scar.Common.WPF.Controls
                 if (disposing)
                 {
                     _cancellationTokenSource.Dispose();
+                    _rateLimiter.Dispose();
                 }
 
                 _disposedValue = true;

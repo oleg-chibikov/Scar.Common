@@ -4,7 +4,6 @@
   <PropertyGroup>
     <AssemblyName>$(AssemblyName).MVVM.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>$(RootNamespace).MVVM.$(MSBuildProjectName)</RootNamespace>
-    <OutputPath>$(OutputPath)$(AssemblyName)\</OutputPath>
   </PropertyGroup>
 
 </Project>

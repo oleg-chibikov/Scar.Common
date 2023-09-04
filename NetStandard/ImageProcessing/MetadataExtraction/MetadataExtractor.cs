@@ -33,7 +33,7 @@ namespace Scar.Common.ImageProcessing.MetadataExtraction
                 return new ExifMetadata();
             }
 
-            Func<AttemptInfo, ExifMetadata> func = attemptInfo =>
+            Func<AttemptInfo, ExifMetadata> func = _ =>
             {
                 using var reader = new ExifReader(filePath);
                 DateTime? dateImageTaken = null;

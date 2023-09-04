@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <Description>Various most common tools</Description>
-    <OutputPath>$(OutputPath)$(AssemblyName)\</OutputPath>
   </PropertyGroup>
 
 </Project>

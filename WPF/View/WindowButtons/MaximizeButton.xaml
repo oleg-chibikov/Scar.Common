@@ -1,5 +1,5 @@
 <Button
-    x:Class="Scar.Common.WPF.View.Core.Buttons.RestoreButton"
+    x:Class="Scar.Common.WPF.View.WindowButtons.MaximizeButton"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
@@ -8,13 +8,13 @@
     lex:LocalizeDictionary.OutputMissingKeys="True"
     lex:ResxLocalizationProvider.DefaultAssembly="Scar.Common.WPF.View.Core"
     lex:ResxLocalizationProvider.DefaultDictionary="Tooltips"
-    Click="RestoreButton_Click"
-    ToolTip="{lex:Loc Restore}">
+    Click="MaximizeButton_Click"
+    ToolTip="{lex:Loc Maximize}">
     <Button.Resources>
         <ResourceDictionary Source="pack://application:,,,/Scar.Common.WPF.View.Core;component/Styles.xaml" />
     </Button.Resources>
     <Button.Style>
         <Style BasedOn="{StaticResource ButtonStyle}" TargetType="Button" />
     </Button.Style>
-    <materialDesign:PackIcon Kind="WindowRestore" />
+    <materialDesign:PackIcon Kind="WindowMaximize" />
 </Button>

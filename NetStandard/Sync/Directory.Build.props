@@ -4,7 +4,6 @@
   <PropertyGroup>
     <AssemblyName>$(AssemblyName).Sync.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>$(RootNamespace).Sync.$(MSBuildProjectName)</RootNamespace>
-    <OutputPath>$(OutputPath)$(AssemblyName)\</OutputPath>
   </PropertyGroup>
 
 </Project>

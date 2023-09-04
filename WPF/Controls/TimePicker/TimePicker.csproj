@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.WPF.Controls.NumericUpDown" Version="1.1.7773.37078" />
+    <ProjectReference Include="..\NumericUpDown\NumericUpDown.csproj" />
   </ItemGroup>
 
 </Project>

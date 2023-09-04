@@ -13,7 +13,7 @@ namespace Scar.Common.WebApi.Startup.Launcher
     {
         public static async Task Main(string[] args)
         {
-            await new WepApiLauncher((containerBuilder, config) => containerBuilder.RegisterType<Dependency>().AsSelf().SingleInstance()).BuildAndRunHostAsync(args).ConfigureAwait(false);
+            await new WepApiLauncher((containerBuilder, _) => containerBuilder.RegisterType<Dependency>().AsSelf().SingleInstance()).BuildAndRunHostAsync(args).ConfigureAwait(false);
         }
     }
 }

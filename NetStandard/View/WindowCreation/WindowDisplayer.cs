@@ -17,14 +17,14 @@ namespace Scar.Common.View.WindowCreation
                     {
                         var window = await createWindowAsync().ConfigureAwait(false);
 
+                        return (Action<Action<TWindow>>)ExecuteWithDispatcher;
+
                         void ExecuteWithDispatcher(Action<TWindow> action)
                         {
                             _ = window ?? throw new InvalidOperationException("Window is null");
 
                             action(window);
                         }
-
-                        return (Action<Action<TWindow>>)ExecuteWithDispatcher;
                     },
                     cancellationToken,
                     TaskCreationOptions.None,

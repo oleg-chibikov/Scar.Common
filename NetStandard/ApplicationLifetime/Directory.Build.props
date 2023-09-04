@@ -4,7 +4,6 @@
   <PropertyGroup>
     <AssemblyName>$(AssemblyName).ApplicationLifetime.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>$(RootNamespace).ApplicationLifetime.$(MSBuildProjectName)</RootNamespace>
-    <OutputPath>$(OutputPath)$(AssemblyName)\</OutputPath>
   </PropertyGroup>
 
 </Project>

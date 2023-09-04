@@ -29,7 +29,7 @@ namespace Scar.Common.WPF.Behaviors
         /// </summary>
         static void AssociatedObject_SelectionChanged(object? sender, SelectionChangedEventArgs e)
         {
-            if (!(sender is ListBox listBox))
+            if (sender is not ListBox listBox)
             {
                 return;
             }
@@ -45,14 +45,14 @@ namespace Scar.Common.WPF.Behaviors
             }
 
             listBox.Dispatcher.BeginInvoke(
-                (Action)(() =>
+                () =>
                 {
                     listBox.UpdateLayout();
                     if (listBox.SelectedItem != null)
                     {
                         listBox.ScrollIntoView(listBox.SelectedItem);
                     }
-                }));
+                });
         }
     }
 }

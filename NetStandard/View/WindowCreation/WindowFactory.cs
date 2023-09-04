@@ -10,7 +10,7 @@ namespace Scar.Common.View.WindowCreation
     {
         readonly IScopedWindowProvider _scopedWindowProvider;
         readonly IAsyncWindowDisplayer _windowDisplayer;
-        readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
+        readonly SemaphoreSlim _semaphore = new (1, 1);
         TWindow? _currentWindow;
         bool _disposedValue;
 
@@ -91,6 +91,10 @@ namespace Scar.Common.View.WindowCreation
             {
                 var window = await _scopedWindowProvider.GetScopedWindowAsync<TWindow, TParam>(param, cancellationToken).ConfigureAwait(false);
 
+                window.Closed += WindowClosed;
+                window.ContentRendered += ContentRendered;
+                return window;
+
                 void WindowClosed(object? sender, EventArgs args)
                 {
                     _currentWindow = default;
@@ -105,10 +109,6 @@ namespace Scar.Common.View.WindowCreation
                     _currentWindow = window;
                     _semaphore.Release();
                 }
-
-                window.Closed += WindowClosed;
-                window.ContentRendered += ContentRendered;
-                return window;
             }
             catch
             {

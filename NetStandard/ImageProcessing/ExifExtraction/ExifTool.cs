@@ -15,8 +15,8 @@ namespace Scar.Common.ImageProcessing.ExifExtraction
 {
     public sealed class ExifTool : IExifTool, IDisposable
     {
-        static readonly Regex ProgressRegex = new Regex(@"======== (.*) \[(\d+)\/(\d+)\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        static readonly Regex ErrorRegex = new Regex(@"Error\: (.*) - (.*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static readonly Regex ProgressRegex = new (@"======== (.*) \[(\d+)\/(\d+)\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        static readonly Regex ErrorRegex = new (@"Error\: (.*) - (.*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         static readonly string[] MessageSplitters =
         {
             Environment.NewLine
@@ -26,7 +26,7 @@ namespace Scar.Common.ImageProcessing.ExifExtraction
         /// Allows only one exif operation at a time
         /// //TODO: Allow simultaneous operations for different paths? - dictionary of semaphores.
         /// </summary>
-        readonly SemaphoreSlim _exifOperationSemaphore = new SemaphoreSlim(1, 1);
+        readonly SemaphoreSlim _exifOperationSemaphore = new (1, 1);
         readonly string _exifToolPath = "exiftool.exe";
         readonly ILogger _logger;
         readonly IProcessUtility _processUtility;

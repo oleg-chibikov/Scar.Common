@@ -5,11 +5,10 @@
     <Description>A helper to create an installer for the project</Description>
     <AssemblyName>$(AssemblyName).$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>$(RootNamespace).$(MSBuildProjectName)</RootNamespace>
-    <OutputPath>$(OutputPath)$(AssemblyName)\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="WixSharp" Version="1.16.2" />
+    <PackageReference Include="WixSharp" Version="1.22.1" />
   </ItemGroup>
 
 </Project>

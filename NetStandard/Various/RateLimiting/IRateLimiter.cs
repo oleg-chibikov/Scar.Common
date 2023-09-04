@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Scar.Common.RateLimiting
 {
-    public interface IRateLimiter
+    public interface IRateLimiter : IDisposable
     {
         Task DebounceAsync<T>(TimeSpan interval, Action<T> action, T param);
 

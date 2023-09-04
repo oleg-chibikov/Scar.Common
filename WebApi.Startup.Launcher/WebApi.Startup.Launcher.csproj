@@ -5,10 +5,9 @@
     <OutputType>Exe</OutputType>
     <AssemblyName>$(AssemblyName).$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>$(RootNamespace).$(MSBuildProjectName)</RootNamespace>
-    <OutputPath>$(OutputPath)$(AssemblyName)\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.WebApi.Startup" Version="1.1.7773.37139" />
+    <ProjectReference Include="..\WebApi.Startup\WebApi.Startup.csproj" />
   </ItemGroup>
 </Project>

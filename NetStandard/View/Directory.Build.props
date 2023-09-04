@@ -4,7 +4,6 @@
   <PropertyGroup>
     <AssemblyName>$(AssemblyName).View.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>$(RootNamespace).View.$(MSBuildProjectName)</RootNamespace>
-    <OutputPath>$(OutputPath)$(AssemblyName)\</OutputPath>
   </PropertyGroup>
 
 </Project>

@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace Scar.Common.RateLimiting
 {
-    public class RateLimiter : IRateLimiter, IDisposable
+    public class RateLimiter : IRateLimiter
     {
-        readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
+        readonly SemaphoreSlim _semaphoreSlim = new (1, 1);
         readonly SynchronizationContext? _synchronizationContext;
         Timer? _timer;
         bool _disposedValue;
@@ -21,10 +21,14 @@ namespace Scar.Common.RateLimiting
         public async Task DebounceAsync<T>(TimeSpan interval, Action<T> action, T param)
         {
             await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
-            _timer?.Dispose();
-            _timer = null;
+            if (_timer != null)
+            {
+                await _timer.DisposeAsync().ConfigureAwait(false);
+                _timer = null;
+            }
+
             _timer = new Timer(
-                async s =>
+                async _ =>
                 {
                     await _semaphoreSlim.WaitAsync().ConfigureAwait(true);
                     if (_timer == null)
@@ -46,7 +50,7 @@ namespace Scar.Common.RateLimiting
 
         public async Task DebounceAsync(TimeSpan interval, Action action)
         {
-            await DebounceAsync<object>(interval, x => action(), default!).ConfigureAwait(false);
+            await DebounceAsync<object>(interval, _ => action(), default!).ConfigureAwait(false);
         }
 
         public async Task ThrottleAsync<T>(TimeSpan interval, Action<T> action, T param, bool skipImmediateEvent = false, bool useFirstEvent = false)
@@ -54,9 +58,9 @@ namespace Scar.Common.RateLimiting
             _ = action ?? throw new ArgumentNullException(nameof(action));
 
             await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
-            if (!useFirstEvent)
+            if (!useFirstEvent && _timer != null)
             {
-                _timer?.Dispose();
+                await _timer.DisposeAsync().ConfigureAwait(false);
                 _timer = null;
             }
 
@@ -96,7 +100,7 @@ namespace Scar.Common.RateLimiting
 
         public async Task ThrottleAsync(TimeSpan interval, Action action, bool skipImmediate = false, bool skipLast = false)
         {
-            await ThrottleAsync<object>(interval, x => action(), default!, skipImmediate, skipLast).ConfigureAwait(false);
+            await ThrottleAsync<object>(interval, _ => action(), default!, skipImmediate, skipLast).ConfigureAwait(false);
         }
 
         public void Dispose()
@@ -123,7 +127,7 @@ namespace Scar.Common.RateLimiting
         {
             if (_synchronizationContext != null)
             {
-                _synchronizationContext.Send(state => action(param), null);
+                _synchronizationContext.Send(_ => action(param), null);
             }
             else
             {
@@ -134,7 +138,7 @@ namespace Scar.Common.RateLimiting
         void SetThrottleTimer<T>(TimeSpan interval, Action<T> action, T param, DateTime curTime)
         {
             _timer = new Timer(
-                async s =>
+                async _ =>
                 {
                     await _semaphoreSlim.WaitAsync().ConfigureAwait(true);
                     if (_timer == null)

@@ -3,14 +3,15 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using Scar.Common.WPF.View.Core;
 
-namespace Scar.Common.WPF.View.Core
+namespace Scar.Common.WPF.View.CustomWindow
 {
     public abstract class AnimatedWindowWithoutTemplate : BaseWindow
     {
         public static readonly DependencyProperty DraggableProperty = DependencyProperty.Register(nameof(Draggable), typeof(bool), typeof(Window), new PropertyMetadata(null));
         public static readonly DependencyProperty StayCenteredProperty = DependencyProperty.Register(nameof(StayCentered), typeof(bool), typeof(Window), new PropertyMetadata(null));
-        readonly Duration _fadeDuration = new Duration(TimeSpan.FromMilliseconds(300));
+        readonly Duration _fadeDuration = new (TimeSpan.FromMilliseconds(300));
         bool _closing;
 
         protected AnimatedWindowWithoutTemplate()
@@ -85,14 +86,15 @@ namespace Scar.Common.WPF.View.Core
             Closing -= AnimatedWindowWithoutTemplate_Closing;
             var hideAnimation = new DoubleAnimation { From = 1, To = 0, Duration = _fadeDuration };
 
-            void CompletedHandler(object? s, EventArgs _)
-            {
-                hideAnimation!.Completed -= CompletedHandler;
-                Close();
-            }
-
             hideAnimation.Completed += CompletedHandler;
             BeginAnimation(OpacityProperty, hideAnimation);
+            return;
+
+            void CompletedHandler(object? s, EventArgs _)
+            {
+                hideAnimation.Completed -= CompletedHandler;
+                Close();
+            }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "SA1313:Parameter '_' should begin with lower -case letter", Justification = "Discarded parameter")]
@@ -100,9 +102,13 @@ namespace Scar.Common.WPF.View.Core
         {
             var showAnimation = new DoubleAnimation { From = 0, To = 1, Duration = _fadeDuration };
 
-            void CompletedHandler(object? s, EventArgs _)
+            showAnimation.Completed += CompletedHandler;
+            BeginAnimation(OpacityProperty, showAnimation);
+            return;
+
+            void CompletedHandler(object? s, EventArgs eventArgs)
             {
-                showAnimation!.Completed -= CompletedHandler;
+                showAnimation.Completed -= CompletedHandler;
                 BeginAnimation(TopProperty, null);
                 BeginAnimation(LeftProperty, null);
                 if (Focusable && ShowActivated && !_closing)
@@ -110,11 +116,8 @@ namespace Scar.Common.WPF.View.Core
                     Restore();
                 }
 
-                ContentRenderAnimationFinished?.Invoke(this, _);
+                ContentRenderAnimationFinished?.Invoke(this, eventArgs);
             }
-
-            showAnimation.Completed += CompletedHandler;
-            BeginAnimation(OpacityProperty, showAnimation);
         }
     }
 }

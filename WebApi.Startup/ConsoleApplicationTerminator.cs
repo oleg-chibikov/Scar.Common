@@ -3,7 +3,7 @@ using Scar.Common.ApplicationLifetime.Contracts;
 
 namespace Scar.Common.WebApi.Startup
 {
-    class ConsoleApplicationTerminator : IApplicationTerminator
+    sealed class ConsoleApplicationTerminator : IApplicationTerminator
     {
         public void Terminate()
         {

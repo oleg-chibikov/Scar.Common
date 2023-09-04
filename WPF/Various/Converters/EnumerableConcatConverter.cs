@@ -10,7 +10,7 @@ namespace Scar.Common.WPF.Converters
     {
         public virtual object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            return !(value is IEnumerable<string> strings) ? null : string.Join(", ", strings);
+            return value is not IEnumerable<string> strings ? null : string.Join(", ", strings);
         }
 
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

@@ -99,7 +99,7 @@ namespace Scar.Common.ApplicationLifetime.Core
                     new AutofacServiceProviderFactory(
                         containerBuilder =>
                         {
-                            containerBuilder.Register(x => SynchronizationContext ?? throw new InvalidOperationException("SyncContext should not be null at the moment of registration"))
+                            containerBuilder.Register(_ => SynchronizationContext ?? throw new InvalidOperationException("SyncContext should not be null at the moment of registration"))
                                 .AsSelf()
                                 .SingleInstance();
                             containerBuilder.RegisterInstance(new MessageHub()).AsImplementedInterfaces().SingleInstance();
@@ -268,7 +268,7 @@ namespace Scar.Common.ApplicationLifetime.Core
         {
             HandleException(e.Exception.InnerException ?? e.Exception);
             e.SetObserved();
-            e.Exception.Handle(ex => true);
+            e.Exception.Handle(_ => true);
         }
     }
 }

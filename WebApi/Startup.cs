@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Scar.Common.WebApi
 {
-    class Startup
+    public sealed class Startup
     {
         public static void Configure(IApplicationBuilder app, IHostApplicationLifetime applicationLifetime, IWebHostEnvironment env)
         {

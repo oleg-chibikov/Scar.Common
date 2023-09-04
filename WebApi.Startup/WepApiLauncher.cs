@@ -49,7 +49,7 @@ namespace Scar.Common.WebApi.Startup
             _applicationBootstrapper = new ApplicationStartupBootstrapper(
                 cultureManager,
                 applicationTerminator,
-                message => { },
+                _ => { },
                 CreateMutex,
                 containerBuilder => registerDependencies?.Invoke(containerBuilder, configuration ?? throw new InvalidOperationException("Configuration was not initialized")),
                 _assemblyInfoProvider,
@@ -126,14 +126,12 @@ namespace Scar.Common.WebApi.Startup
             await _applicationBootstrapper.OnStartAsync().ConfigureAwait(false);
         }
 
-        static void SetupLogging(string baseDirectory, string environment, LogEventLevel logLevel)
-        {
+        static void SetupLogging(string baseDirectory, string environment, LogEventLevel logLevel) =>
             Log.Logger = new LoggerConfiguration().MinimumLevel.Is(logLevel)
-                .WriteTo.Console()
-                .WriteTo.File(Path.Combine(baseDirectory, "logs", "log.log"), rollingInterval: RollingInterval.Hour, shared: true, rollOnFileSizeLimit: true, retainedFileCountLimit: 10)
+                .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture)
+                .WriteTo.File(Path.Combine(baseDirectory, "logs", "log.log"), rollingInterval: RollingInterval.Hour, shared: true, rollOnFileSizeLimit: true, retainedFileCountLimit: 10, formatProvider: CultureInfo.InvariantCulture)
                 .Enrich.WithProperty(AppSettingsConstants.EnvironmentKey, environment)
                 .CreateLogger();
-        }
 
         Mutex CreateMutex()
         {

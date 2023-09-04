@@ -2,12 +2,12 @@ using System;
 
 namespace Scar.Common.Notification
 {
-    public class NotificationSuppresser : IDisposable
+    public class NotificationSuppressor : IDisposable
     {
         readonly INotificationSupressable _notificationSuppressible;
         bool _disposedValue;
 
-        public NotificationSuppresser(INotificationSupressable notificationSuppressible)
+        public NotificationSuppressor(INotificationSupressable notificationSuppressible)
         {
             _notificationSuppressible = notificationSuppressible ?? throw new ArgumentNullException(nameof(notificationSuppressible));
             notificationSuppressible.NotificationIsSupressed = true;

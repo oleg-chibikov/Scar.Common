@@ -13,9 +13,9 @@ namespace Scar.Common.WPF.Controls
         const double MaxScaleToZoomIn = MaxScale - 1;
         const double DefaultScale = 1;
         const double DefaultZoom = .4;
-        readonly ScaleTransform _st = new ScaleTransform();
-        readonly TranslateTransform _tt = new TranslateTransform();
-        readonly Duration _zoomAnimationDuration = new Duration(TimeSpan.FromMilliseconds(200));
+        readonly ScaleTransform _st = new ();
+        readonly TranslateTransform _tt = new ();
+        readonly Duration _zoomAnimationDuration = new (TimeSpan.FromMilliseconds(200));
         UIElement _child;
         bool _isReset;
         Point _originBottomRight;

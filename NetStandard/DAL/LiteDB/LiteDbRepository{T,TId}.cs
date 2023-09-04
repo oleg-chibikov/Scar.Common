@@ -271,7 +271,7 @@ namespace Scar.Common.DAL.LiteDB
 
         void GenerateIdIfNeeded(T entity)
         {
-            if (!(entity is IMutableEntity<TId> mutableEntity) || !Equals(entity.Id, default))
+            if (entity is not IMutableEntity<TId> mutableEntity || !Equals(entity.Id, default))
             {
                 return;
             }

@@ -18,7 +18,7 @@ namespace Scar.Common.WPF.View.Core
         readonly IList<IDisposable> _associatedDisposables = new List<IDisposable>();
         readonly RateLimiter _sizeChangedRateLimiter;
         readonly TimeSpan _sizeChangedThrottleInterval = TimeSpan.FromMilliseconds(50);
-        readonly object _loadedLock = new object();
+        readonly object _loadedLock = new ();
         double _cumulativeHeightChange;
         double _cumulativeWidthChange;
         EventHandler? _loaded;
@@ -270,7 +270,7 @@ namespace Scar.Common.WPF.View.Core
                             break;
                     }
                 },
-                true); // skipping immediate action as it makes little sense due to the small-increment nature of sizeChanged
+                true).Wait(); // skipping immediate action as it makes little sense due to the small-increment nature of sizeChanged
         }
 
         /// <summary>
@@ -279,24 +279,31 @@ namespace Scar.Common.WPF.View.Core
         /// </summary>
         void BaseWindow_DataContextChanged(object? sender, DependencyPropertyChangedEventArgs args)
         {
-            if (!(args.NewValue is IRequestCloseViewModel requestCloseViewModel))
+            if (args.NewValue is not IRequestCloseViewModel requestCloseViewModel)
             {
                 return;
             }
+
+            requestCloseViewModel.RequestClose += CloseHandler;
+            return;
 
             void CloseHandler(object? s, EventArgs e)
             {
                 requestCloseViewModel.RequestClose -= CloseHandler;
                 Close();
             }
-
-            requestCloseViewModel.RequestClose += CloseHandler;
         }
 
         void HandleDisposableViewModel()
         {
             RoutedEventHandler? unloadedHandler = null;
             EventHandler? shutdownStartedHandler = null;
+
+            unloadedHandler = (_, _) => Dispose();
+            shutdownStartedHandler = (_, _) => Dispose();
+            Unloaded += unloadedHandler;
+            Dispatcher.ShutdownStarted += shutdownStartedHandler;
+            return;
 
             void Dispose()
             {
@@ -309,11 +316,6 @@ namespace Scar.Common.WPF.View.Core
                 // ReSharper disable once AccessToModifiedClosure
                 Dispatcher.ShutdownStarted -= shutdownStartedHandler;
             }
-
-            unloadedHandler = (s, ea) => Dispose();
-            shutdownStartedHandler = (s, ea) => Dispose();
-            Unloaded += unloadedHandler;
-            Dispatcher.ShutdownStarted += shutdownStartedHandler;
         }
     }
 }

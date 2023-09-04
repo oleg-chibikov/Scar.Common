@@ -5,12 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-    <PackageReference Include="Scar.Common.View.Contracts" Version="1.1.7773.26310" />
-    <PackageReference Include="Scar.Common" Version="1.1.7773.36876" />
-    <PackageReference Include="Scar.Common.ImageProcessing.Metadata" Version="1.1.7773.35004" />
-    <PackageReference Include="Scar.Common.IO" Version="1.1.7773.26297" />
-    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\NetStandard\Common\Common.csproj" />
+    <ProjectReference Include="..\..\..\NetStandard\ImageProcessing\Metadata\Metadata.csproj" />
+    <ProjectReference Include="..\..\..\NetStandard\Various\IO\IO.csproj" />
   </ItemGroup>
 
 </Project>

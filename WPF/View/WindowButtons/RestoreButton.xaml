@@ -1,5 +1,5 @@
 <Button
-    x:Class="Scar.Common.WPF.View.Core.Buttons.CloseButton"
+    x:Class="Scar.Common.WPF.View.WindowButtons.RestoreButton"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
@@ -8,14 +8,13 @@
     lex:LocalizeDictionary.OutputMissingKeys="True"
     lex:ResxLocalizationProvider.DefaultAssembly="Scar.Common.WPF.View.Core"
     lex:ResxLocalizationProvider.DefaultDictionary="Tooltips"
-    Click="CloseButton_Click"
-    IsCancel="True"
-    ToolTip="{lex:Loc Close}">
+    Click="RestoreButton_Click"
+    ToolTip="{lex:Loc Restore}">
     <Button.Resources>
         <ResourceDictionary Source="pack://application:,,,/Scar.Common.WPF.View.Core;component/Styles.xaml" />
     </Button.Resources>
     <Button.Style>
         <Style BasedOn="{StaticResource ButtonStyle}" TargetType="Button" />
     </Button.Style>
-    <materialDesign:PackIcon Kind="WindowClose" />
+    <materialDesign:PackIcon Kind="WindowRestore" />
 </Button>

@@ -4,16 +4,18 @@
     <Description>Common tools for WebApi</Description>
     <AssemblyName>$(AssemblyName).$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>$(RootNamespace).$(MSBuildProjectName)</RootNamespace>
-    <OutputPath>$(OutputPath)$(AssemblyName)\</OutputPath>
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Scar.Common.ApplicationLifetime.Core" Version="1.1.7773.37090" />
-    <PackageReference Include="Scar.Common.Localization" Version="1.1.7773.26316" />
-    <PackageReference Include="Scar.Common.WebApi" Version="1.1.7773.37089" />
-    <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
-    <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NetStandard\ApplicationLifetime\Contracts\Contracts.csproj" />
+    <ProjectReference Include="..\NetStandard\ApplicationLifetime\Core\Core.csproj" />
+    <ProjectReference Include="..\WebApi\WebApi.csproj" />
   </ItemGroup>
 </Project>

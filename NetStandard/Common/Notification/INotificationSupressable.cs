@@ -4,6 +4,6 @@ namespace Scar.Common.Notification
     {
         bool NotificationIsSupressed { get; set; }
 
-        NotificationSuppresser SupressNotification();
+        NotificationSuppressor SupressNotification();
     }
 }

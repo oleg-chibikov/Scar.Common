@@ -32,10 +32,10 @@ namespace Scar.Common.WPF.Behaviors
                 return;
             }
 
-            frameworkElement.Loaded += (s, e) =>
+            frameworkElement.Loaded += (_, _) =>
             {
                 var parent = VisualTreeHelper.GetParent(frameworkElement);
-                while ((parent != null) && !(parent is Window))
+                while ((parent != null) && parent is not Window)
                 {
                     parent = VisualTreeHelper.GetParent(parent);
                 }

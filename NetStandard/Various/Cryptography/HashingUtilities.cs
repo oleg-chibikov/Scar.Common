@@ -9,8 +9,7 @@ namespace Scar.Common.Cryptography
     {
         public static byte[] GetHash(this string inputString)
         {
-            using HashAlgorithm algorithm = SHA512.Create();
-            return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
+            return SHA512.HashData(Encoding.UTF8.GetBytes(inputString));
         }
 
         public static string GetHashString(this string inputString)

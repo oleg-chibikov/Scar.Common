@@ -11,7 +11,7 @@ namespace Scar.Common.Async
     public sealed class TaskQueue : IAppendable<Func<Task>>, IDisposable
     {
         readonly ILogger _logger;
-        readonly BlockingCollection<Func<Task>> _queue = new BlockingCollection<Func<Task>>();
+        readonly BlockingCollection<Func<Task>> _queue = new ();
         readonly Task _worker;
 
         public TaskQueue(ILogger<TaskQueue> logger)

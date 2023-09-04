@@ -26,7 +26,7 @@ namespace Scar.Common.WPF.ImageRetrieval
 
         public async Task<byte[]> GetThumbnailAsync(string filePath, CancellationToken cancellationToken)
         {
-            Func<AttemptInfo, Task<byte[]>> loadFileTaskFactory = attemptInfo => filePath.ReadFileAsync(cancellationToken);
+            Func<AttemptInfo, Task<byte[]>> loadFileTaskFactory = _ => filePath.ReadFileAsync(cancellationToken);
 
             // TODO: token?
             var bytes = await loadFileTaskFactory.RunTaskWithSeveralAttemptsAsync(
