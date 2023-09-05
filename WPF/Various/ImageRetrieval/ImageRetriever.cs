@@ -28,18 +28,18 @@ namespace Scar.Common.WPF.ImageRetrieval
         {
             Func<AttemptInfo, Task<byte[]>> loadFileTaskFactory = _ => filePath.ReadFileAsync(cancellationToken);
 
-            // TODO: token?
+            // TODO: cancellationToken?
             var bytes = await loadFileTaskFactory.RunTaskWithSeveralAttemptsAsync(
-                    (attemptInfo, e) =>
+                    (attemptInfo, ex) =>
                     {
-                        if (e is IOException)
+                        if (ex is IOException)
                         {
                             var attemptLog = attemptInfo.HasAttempts ? $"Retrying ({attemptInfo})..." : "No more attempts left";
-                            _logger.LogDebug($"Failed loading thumbnail for {filePath} with IO exception. {attemptLog}");
+                            _logger.LogDebug("Failed loading thumbnail for {FilePath} with IO exception. {AttemptLog}", filePath, attemptLog);
                             return true;
                         }
 
-                        _logger.LogWarning(e, $"Cannot load thumbnail for {filePath}");
+                        _logger.LogWarning(ex, "Cannot load thumbnail for {FilePath}", filePath);
                         return false;
                     },
                     DefaultAttemptDelay,

@@ -56,7 +56,7 @@ namespace Scar.Common.ApplicationLifetime.Core
             _alreadyRunningMessage = alreadyRunningMessage ?? $"{assemblyInfoProvider.Product} is already launched";
             _waitAfterOldInstanceKillMilliseconds = waitAfterOldInstanceKillMilliseconds;
             _newInstanceHandling = newInstanceHandling;
-            ShowMessage = showMessage ?? throw new ArgumentNullException(nameof(cultureManager));
+            ShowMessage = showMessage ?? throw new ArgumentNullException(nameof(showMessage));
             CultureManager = cultureManager ?? throw new ArgumentNullException(nameof(cultureManager));
             _applicationTerminator = applicationTerminator ?? throw new ArgumentNullException(nameof(applicationTerminator));
             baseDirectory ??= Path.GetDirectoryName(Process.GetCurrentProcess().MainModule?.FileName) ?? throw new InvalidOperationException("Cannot get base directory");
@@ -137,9 +137,9 @@ namespace Scar.Common.ApplicationLifetime.Core
 
         public async Task OnExitAsync()
         {
-            foreach (var token in _subscriptionTokens)
+            foreach (var cancellationToken in _subscriptionTokens)
             {
-                Messenger.Unsubscribe(token);
+                Messenger.Unsubscribe(cancellationToken);
             }
 
             await Container.DisposeAsync().ConfigureAwait(false);
@@ -247,10 +247,10 @@ namespace Scar.Common.ApplicationLifetime.Core
             switch (message.Type)
             {
                 case MessageType.Warning:
-                    _logger.LogWarning(message.Exception, message.Text);
+                    _logger.LogWarning(message.Exception, "{Message}", message.Text);
                     break;
                 case MessageType.Error:
-                    _logger.LogWarning(message.Exception, message.Text);
+                    _logger.LogWarning(message.Exception, "{Message}", message.Text);
                     break;
             }
 

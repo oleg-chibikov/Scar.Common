@@ -5,6 +5,7 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\..\..\NetStandard\Common\Common.csproj" />
     <ProjectReference Include="..\..\..\NetStandard\MVVM\ViewModel\ViewModel.csproj" />
     <ProjectReference Include="..\..\..\NetStandard\Various\RateLimiting\RateLimiting.csproj" />
     <ProjectReference Include="..\..\..\NetStandard\View\Contracts\Contracts.csproj" />

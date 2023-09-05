@@ -11,8 +11,8 @@ namespace Scar.Common.Processes
 
         event EventHandler<EventArgs<string>> ProcessMessageFired;
 
-        Task<ProcessResult> ExecuteCommandAsync(string commandPath, string? arguments, CancellationToken token, TimeSpan? timeout = null, string? workingDirectory = null);
+        Task<ProcessResult> ExecuteCommandAsync(string commandPath, string? arguments, CancellationToken cancellationToken, TimeSpan? timeout = null, string? workingDirectory = null);
 
-        Task TaskKillAsync(string processName, CancellationToken token);
+        Task TaskKillAsync(string processName, CancellationToken cancellationToken);
     }
 }

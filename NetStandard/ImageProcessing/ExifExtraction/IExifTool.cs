@@ -13,12 +13,12 @@ namespace Scar.Common.ImageProcessing.ExifExtraction
 
         event EventHandler<FilePathProgressEventArgs> Progress;
 
-        Task SetOrientationAsync(Orientation orientation, string[] paths, bool backup, CancellationToken token);
+        Task SetOrientationAsync(Orientation orientation, string[] paths, bool backup, CancellationToken cancellationToken);
 
-        Task SetOrientationAsync(Orientation orientation, string path, bool backup, CancellationToken token);
+        Task SetOrientationAsync(Orientation orientation, string path, bool backup, CancellationToken cancellationToken);
 
-        Task ShiftDateAsync(TimeSpan shiftBy, bool plus, string[] paths, bool backup, CancellationToken token);
+        Task ShiftDateAsync(TimeSpan shiftBy, bool plus, string[] paths, bool backup, CancellationToken cancellationToken);
 
-        Task ShiftDateAsync(TimeSpan shiftBy, bool plus, string path, bool backup, CancellationToken token);
+        Task ShiftDateAsync(TimeSpan shiftBy, bool plus, string path, bool backup, CancellationToken cancellationToken);
     }
 }

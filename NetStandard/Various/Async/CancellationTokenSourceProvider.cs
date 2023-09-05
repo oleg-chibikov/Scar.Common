@@ -15,7 +15,7 @@ namespace Scar.Common.Async
         public async Task StartNewTaskAsync(Action<CancellationToken> action, bool cancelCurrent)
         {
             _ = action ?? throw new ArgumentNullException(nameof(action));
-            await ExecuteOperationAsync(token => Task.Run(() => action(token), token), cancelCurrent).ConfigureAwait(false);
+            await ExecuteOperationAsync(cancellationToken => Task.Run(() => action(cancellationToken), cancellationToken), cancelCurrent).ConfigureAwait(false);
         }
 
         public bool CheckCompleted()
@@ -33,8 +33,8 @@ namespace Scar.Common.Async
 
             try
             {
-                var token = ResetToken();
-                CurrentTask = func(token);
+                var cancellationToken = ResetToken();
+                CurrentTask = func(cancellationToken);
                 await CurrentTask.ConfigureAwait(false);
             }
             catch (ObjectDisposedException)
@@ -57,7 +57,14 @@ namespace Scar.Common.Async
 
         public void Cancel()
         {
-            _cancellationTokenSource.Cancel();
+            try
+            {
+                _cancellationTokenSource.Cancel();
+            }
+            catch (ObjectDisposedException)
+            {
+                // ignore
+            }
         }
 
         public void Dispose()

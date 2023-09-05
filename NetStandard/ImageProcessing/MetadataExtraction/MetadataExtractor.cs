@@ -62,16 +62,16 @@ namespace Scar.Common.ImageProcessing.MetadataExtraction
             };
 
             return await func.RunFuncWithSeveralAttemptsAsync(
-                           (attemptInfo, e) =>
+                           (attemptInfo, ex) =>
                            {
-                               if (e is IOException)
+                               if (ex is IOException)
                                {
                                    var attemptLog = attemptInfo.HasAttempts ? $"Retrying ({attemptInfo})..." : "No more attempts left";
-                                   _logger.LogDebug($"Failed extracting metadata for {filePath} with IO exception. {attemptLog}");
+                                   _logger.LogDebug("Failed extracting metadata for {FilePath} with IO exception. {AttemptLog}", filePath, attemptLog);
                                    return true;
                                }
 
-                               _logger.LogWarning(e, $"Cannot extract metadata for {filePath}");
+                               _logger.LogWarning(ex, "Cannot extract metadata for {FilePath}", filePath);
                                return false;
                            },
                            DefaultAttemptDelay)

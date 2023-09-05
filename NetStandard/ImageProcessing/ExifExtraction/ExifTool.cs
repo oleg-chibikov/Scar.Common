@@ -44,14 +44,14 @@ namespace Scar.Common.ImageProcessing.ExifExtraction
 
         public event EventHandler<FilePathErrorEventArgs>? Error;
 
-        public async Task SetOrientationAsync(Orientation orientation, string[] paths, bool backup, CancellationToken token)
+        public async Task SetOrientationAsync(Orientation orientation, string[] paths, bool backup, CancellationToken cancellationToken)
         {
             _ = paths ?? throw new ArgumentNullException(nameof(paths));
-            _logger.LogInformation($"Setting orientation to {orientation} for {paths.Length} paths...");
-            await PerformExifOperationAsync(paths, backup, $"-Orientation={(int)orientation}", token).ConfigureAwait(false);
+            _logger.LogInformation("Setting orientation to {Orientation} for {PathsLength} paths...", orientation, paths.Length);
+            await PerformExifOperationAsync(paths, backup, $"-Orientation={(int)orientation}", cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task SetOrientationAsync(Orientation orientation, string path, bool backup, CancellationToken token)
+        public async Task SetOrientationAsync(Orientation orientation, string path, bool backup, CancellationToken cancellationToken)
         {
             await SetOrientationAsync(
                     orientation,
@@ -60,19 +60,19 @@ namespace Scar.Common.ImageProcessing.ExifExtraction
                         path
                     },
                     backup,
-                    token)
+                    cancellationToken)
                 .ConfigureAwait(false);
         }
 
-        public async Task ShiftDateAsync(TimeSpan shiftBy, bool plus, string[] paths, bool backup, CancellationToken token)
+        public async Task ShiftDateAsync(TimeSpan shiftBy, bool plus, string[] paths, bool backup, CancellationToken cancellationToken)
         {
             _ = paths ?? throw new ArgumentNullException(nameof(paths));
             var sign = GetSign(plus);
-            _logger.LogInformation($"Shifting date by {sign}{shiftBy} for {paths.Length} paths...");
-            await PerformExifOperationAsync(paths, backup, $"-AllDates{sign}=\"{shiftBy:dd\\ hh\\:mm\\:ss}\"", token).ConfigureAwait(false);
+            _logger.LogInformation("Shifting date by {Sign}{ShiftBy} for {PathsLength} paths...", sign, shiftBy, paths.Length);
+            await PerformExifOperationAsync(paths, backup, $"-AllDates{sign}=\"{shiftBy:dd\\ hh\\:mm\\:ss}\"", cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task ShiftDateAsync(TimeSpan shiftBy, bool plus, string path, bool backup, CancellationToken token)
+        public async Task ShiftDateAsync(TimeSpan shiftBy, bool plus, string path, bool backup, CancellationToken cancellationToken)
         {
             await ShiftDateAsync(
                     shiftBy,
@@ -82,7 +82,7 @@ namespace Scar.Common.ImageProcessing.ExifExtraction
                         path
                     },
                     backup,
-                    token)
+                    cancellationToken)
                 .ConfigureAwait(false);
         }
 
@@ -118,19 +118,19 @@ namespace Scar.Common.ImageProcessing.ExifExtraction
             Progress?.Invoke(this, eventArgs);
         }
 
-        async Task PerformExifOperationAsync(string[] paths, bool backup, string operation, CancellationToken token)
+        async Task PerformExifOperationAsync(string[] paths, bool backup, string operation, CancellationToken cancellationToken)
         {
             _ = paths ?? throw new ArgumentNullException(nameof(paths));
             _ = operation ?? throw new ArgumentNullException(nameof(operation));
             var backupArg = backup ? null : " -overwrite_original -progress";
-            await _exifOperationSemaphore.WaitAsync(token).ConfigureAwait(false);
+            await _exifOperationSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
 
             // By default exif tool receives ??? instead of valid cyrillic paths - need to reencode
             var encodedPaths = paths.Select(path => $"\"{EncodeToUtf8(path)}\"");
             var command = $"-charset filename=utf8 {operation}{backupArg} -n {string.Join(" ", encodedPaths)}";
             try
             {
-                var processResult = await _processUtility.ExecuteCommandAsync(_exifToolPath, command, token).ConfigureAwait(false);
+                var processResult = await _processUtility.ExecuteCommandAsync(_exifToolPath, command, cancellationToken).ConfigureAwait(false);
                 if (processResult.IsError)
                 {
                     throw new InvalidOperationException(processResult.Error);
@@ -144,11 +144,11 @@ namespace Scar.Common.ImageProcessing.ExifExtraction
 
         void ProcessUtility_ProcessErrorFired(object? sender, EventArgs<string> e)
         {
-            _logger.LogDebug($"Received error from process utility: {e.Parameter}");
+            _logger.LogDebug("Received error from process utility: {Parameter}", e.Parameter);
             var messages = e.Parameter.Split(MessageSplitters, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
             foreach (var message in messages)
             {
-                _logger.LogTrace($"Processing {message}...");
+                _logger.LogTrace("Processing {Message}...", message);
                 var match = ErrorRegex.Match(message);
                 if (!match.Success)
                 {
@@ -159,18 +159,18 @@ namespace Scar.Common.ImageProcessing.ExifExtraction
                 var filePath = DecodeFromUtf8(groups[2].Value).Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
                 var errorMessage = groups[1].Value;
                 var eventArgs = new FilePathErrorEventArgs(errorMessage, filePath);
-                _logger.LogTrace($"Reporting error: {eventArgs}...");
+                _logger.LogTrace("Reporting error: {EventArgs}...", eventArgs);
                 OnError(eventArgs);
             }
         }
 
         void ProcessUtility_ProcessMessageFired(object? sender, EventArgs<string> e)
         {
-            _logger.LogDebug($"Received message from process utility: {e.Parameter}");
+            _logger.LogDebug("Received message from process utility: {Parameter}", e.Parameter);
             var messages = e.Parameter.Split(MessageSplitters, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
             foreach (var message in messages)
             {
-                _logger.LogTrace($"Processing {message}...");
+                _logger.LogTrace("Processing {Message}...", message);
                 var match = ProgressRegex.Match(message);
                 if (!match.Success)
                 {
@@ -181,7 +181,7 @@ namespace Scar.Common.ImageProcessing.ExifExtraction
                 var filePath = DecodeFromUtf8(groups[1].Value).Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
                 var current = int.Parse(groups[2].Value, CultureInfo.InvariantCulture);
                 var total = int.Parse(groups[3].Value, CultureInfo.InvariantCulture);
-                _logger.LogTrace($"Progress detected:  {current} of {total}");
+                _logger.LogTrace("Progress detected: {Current} of {Total}", current, total);
                 if (current > total)
                 {
                     _logger.LogWarning("Incorrect percentage");
@@ -189,7 +189,7 @@ namespace Scar.Common.ImageProcessing.ExifExtraction
                 }
 
                 var eventArgs = new FilePathProgressEventArgs(current, total, filePath);
-                _logger.LogTrace($"Reporting progress: {eventArgs}...");
+                _logger.LogTrace("Reporting progress: {EventArgs}...", eventArgs);
                 OnProgress(eventArgs);
             }
         }

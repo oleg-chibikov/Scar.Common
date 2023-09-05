@@ -7,6 +7,29 @@ namespace Scar.Common
 {
     public static class EnumerableExtensions
     {
+        public static void ForEach<T>(this IEnumerable<T> list, Action<T> action)
+        {
+            _ = action ?? throw new ArgumentNullException(nameof(action));
+            _ = list ?? throw new ArgumentNullException(nameof(list));
+
+            foreach (var item in list)
+            {
+                action(item);
+            }
+        }
+
+        public static void ForEachIndexed<T>(this IEnumerable<T> list, Action<T, int> action)
+        {
+            _ = action ?? throw new ArgumentNullException(nameof(action));
+            _ = list ?? throw new ArgumentNullException(nameof(list));
+
+            var i = 0;
+            foreach (var item in list)
+            {
+                action(item, i++);
+            }
+        }
+
         public static void RunByBlocks<T>(this IEnumerable<T> items, int maxBlockSize, Func<T[], int, int, bool> action)
         {
             _ = items ?? throw new ArgumentNullException(nameof(items));
