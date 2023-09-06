@@ -40,7 +40,8 @@ namespace Scar.Common.IO
                 return;
             }
 
-            using var process = new Process { StartInfo = new ProcessStartInfo(filePath) { UseShellExecute = false } };
+            using var process = new Process();
+            process.StartInfo = new ProcessStartInfo(filePath) { UseShellExecute = false };
             process.Start();
         }
 
@@ -52,7 +53,10 @@ namespace Scar.Common.IO
                 return;
             }
 
-            using var process = new Process { StartInfo = { UseShellExecute = true, FileName = "explorer.exe", Arguments = $"/select,\"{filePath}\"" } };
+            using var process = new Process();
+            process.StartInfo.UseShellExecute = true;
+            process.StartInfo.FileName = "explorer.exe";
+            process.StartInfo.Arguments = $"/select,\"{filePath}\"";
             process.Start();
         }
 

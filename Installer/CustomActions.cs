@@ -59,7 +59,8 @@ namespace Scar.Common.Installer
 
                     session.Log($"Executing '{filePath}'...");
 
-                    using var process = new Process { StartInfo = new ProcessStartInfo(filePath) { UseShellExecute = true } };
+                    using var process = new Process();
+                    process.StartInfo = new ProcessStartInfo(filePath) { UseShellExecute = true };
                     process.Start();
                 });
         }
@@ -74,7 +75,8 @@ namespace Scar.Common.Installer
                     var installDir = session.Property("INSTALLDIR");
                     session.Log($"Executing '{installDir}'...");
 
-                    using var process = new Process { StartInfo = new ProcessStartInfo(installDir) { UseShellExecute = true } };
+                    using var process = new Process();
+                    process.StartInfo = new ProcessStartInfo(installDir) { UseShellExecute = true };
                     process.Start();
                 });
         }

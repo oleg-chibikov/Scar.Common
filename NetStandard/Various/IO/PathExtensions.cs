@@ -16,7 +16,8 @@ namespace Scar.Common.IO
         public static void OpenPathWithDefaultAction(this string path)
         {
             _ = path ?? throw new ArgumentNullException(nameof(path));
-            using var process = new Process { StartInfo = new ProcessStartInfo(path) { UseShellExecute = true } };
+            using var process = new Process();
+            process.StartInfo = new ProcessStartInfo(path) { UseShellExecute = true };
             process.Start();
         }
 
