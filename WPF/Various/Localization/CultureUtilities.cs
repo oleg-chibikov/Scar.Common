@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using WPFLocalizeExtension.Engine;
 
@@ -39,13 +38,16 @@ namespace Scar.Common.WPF.Localization
             }
         }
 
-        [return: MaybeNull]
-        public static T GetLocalizedValue<T, TResources>(string key)
+        public static T? GetLocalizedValue<T, TResources>(string key)
         {
             _ = key ?? throw new ArgumentNullException(nameof(key));
             var type = typeof(TResources);
-            var obj = LocalizeDictionary.Instance.GetLocalizedObject($"{type.Assembly.GetName().Name}:{type.Name}:" + key, null, LocalizeDictionary.Instance.Culture);
-            return obj == null ? default! : (T)obj;
+            var obj = LocalizeDictionary.Instance.GetLocalizedObject(
+                type.Assembly.GetName().Name,
+                type.Name,
+                key,
+                LocalizeDictionary.Instance.Culture);
+            return obj == null ? default : (T)obj;
         }
     }
 }

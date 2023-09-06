@@ -17,7 +17,7 @@ namespace Scar.Common.WPF.View.CustomWindow
 
         static AnimatedWindow()
         {
-            var resourceDictionary = new ResourceDictionary { Source = new Uri("pack://application:,,/Scar.Common.WPF.View.Core;component/AnimatedWindowTemplate.xaml", UriKind.Absolute) };
+            var resourceDictionary = new ResourceDictionary { Source = new Uri("pack://application:,,/Scar.Common.WPF.View.CustomWindow;component/AnimatedWindowTemplate.xaml", UriKind.Absolute) };
             Application.Current.Resources.MergedDictionaries.Insert(0, resourceDictionary);
         }
 

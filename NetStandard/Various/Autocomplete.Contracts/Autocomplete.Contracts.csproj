@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Contracts for autocomplete</Description>
+  </PropertyGroup>
+
+</Project>

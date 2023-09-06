@@ -174,6 +174,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomWindow", "WPF\View\Cu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowButtons", "WPF\View\WindowButtons\WindowButtons.csproj", "{42DBDE1C-FB20-47A7-8709-44A2E80EF490}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autocomplete.Contracts", "NetStandard\Various\Autocomplete.Contracts\Autocomplete.Contracts.csproj", "{88A31D32-CC95-4B2E-B1A0-85BA9B5B1DDE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -380,6 +382,10 @@ Global
 		{42DBDE1C-FB20-47A7-8709-44A2E80EF490}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42DBDE1C-FB20-47A7-8709-44A2E80EF490}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42DBDE1C-FB20-47A7-8709-44A2E80EF490}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88A31D32-CC95-4B2E-B1A0-85BA9B5B1DDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88A31D32-CC95-4B2E-B1A0-85BA9B5B1DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88A31D32-CC95-4B2E-B1A0-85BA9B5B1DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88A31D32-CC95-4B2E-B1A0-85BA9B5B1DDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -440,6 +446,7 @@ Global
 		{0DC0D4B8-49AD-4B8B-9114-248A1CFBE6AF} = {F752453B-42C6-426E-AF51-C871C261B07C}
 		{E99009E5-D6F6-4D20-99C3-3BDC139AEAAF} = {14C96378-1FB2-46C2-81B0-5B14A8C1D3D7}
 		{42DBDE1C-FB20-47A7-8709-44A2E80EF490} = {14C96378-1FB2-46C2-81B0-5B14A8C1D3D7}
+		{88A31D32-CC95-4B2E-B1A0-85BA9B5B1DDE} = {F752453B-42C6-426E-AF51-C871C261B07C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {24C9D89F-376A-40CA-9846-76B97230738A}

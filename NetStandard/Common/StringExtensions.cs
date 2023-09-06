@@ -16,7 +16,7 @@ namespace Scar.Common
             str = str.Trim();
             if (str.Length > 1)
             {
-                return char.ToUpperInvariant(str[0]) + str.Substring(1);
+                return char.ToUpperInvariant(str[0]) + str[1..];
             }
 
             return str.ToUpperInvariant();

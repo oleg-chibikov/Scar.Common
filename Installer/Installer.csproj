@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net48</TargetFramework>
     <Description>A helper to create an installer for the project</Description>
     <AssemblyName>$(AssemblyName).$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>$(RootNamespace).$(MSBuildProjectName)</RootNamespace>
@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="WixSharp" Version="1.22.1" />
+    <PackageReference Include="WixSharp.wix.bin" Version="3.14.0" />
   </ItemGroup>
 
 </Project>

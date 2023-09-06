@@ -14,10 +14,7 @@ namespace Scar.Common.WPF.View.Core
         public DesignTimeResourceDictionary()
         {
             var fieldInfo = typeof(ResourceDictionary).GetField("_mergedDictionaries", BindingFlags.Instance | BindingFlags.NonPublic);
-            if (fieldInfo != null)
-            {
-                fieldInfo.SetValue(this, _noopMergedDictionaries);
-            }
+            fieldInfo?.SetValue(this, _noopMergedDictionaries);
         }
 
         sealed class NoopObservableCollection<T> : ObservableCollection<T>

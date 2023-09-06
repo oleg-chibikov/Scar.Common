@@ -36,7 +36,7 @@ namespace Scar.Common.DAL.Contracts
 
         int Insert(IEnumerable<T> entities, bool skipCustomAction = false);
 
-        T TryGetById(TId id);
+        T? TryGetById(TId id);
 
         bool Update(T entity, bool skipCustomAction = false);
 

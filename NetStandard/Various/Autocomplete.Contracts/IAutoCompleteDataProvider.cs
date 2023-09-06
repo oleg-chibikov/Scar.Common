@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Scar.Common.WPF.Controls
+namespace Scar.Common.Autocomplete.Contracts
 {
     public interface IAutoCompleteDataProvider
     {
