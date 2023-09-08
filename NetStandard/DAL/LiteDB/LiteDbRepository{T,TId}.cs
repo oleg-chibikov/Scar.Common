@@ -50,7 +50,7 @@ namespace Scar.Common.DAL.LiteDB
             var deleted = Collection.Delete(ToBson(id));
             if (deleted)
             {
-                Changed?.Invoke(this, new EventArgs());
+                Changed?.Invoke(this, EventArgs.Empty);
             }
 
             return deleted;
@@ -71,7 +71,7 @@ namespace Scar.Common.DAL.LiteDB
             var deleted = Collection.Delete(ToBson(entity.Id));
             if (deleted)
             {
-                Changed?.Invoke(this, new EventArgs());
+                Changed?.Invoke(this, EventArgs.Empty);
             }
 
             return deleted;
@@ -85,7 +85,7 @@ namespace Scar.Common.DAL.LiteDB
             var deletedCount = Collection.DeleteMany(Query.In("_id", entities.Select(entity => ToBson(entity.Id))));
             if (deletedCount > 0)
             {
-                Changed?.Invoke(this, new EventArgs());
+                Changed?.Invoke(this, EventArgs.Empty);
             }
 
             return deletedCount;
@@ -99,7 +99,7 @@ namespace Scar.Common.DAL.LiteDB
             var deletedCount = Collection.DeleteMany(Query.In("_id", ids.Select(id => ToBson(id))));
             if (deletedCount > 0)
             {
-                Changed?.Invoke(this, new EventArgs());
+                Changed?.Invoke(this, EventArgs.Empty);
             }
 
             return deletedCount;
@@ -148,7 +148,7 @@ namespace Scar.Common.DAL.LiteDB
             GenerateIdIfNeeded(entity);
 
             var insertedId = Collection.Insert(entity);
-            Changed?.Invoke(this, new EventArgs());
+            Changed?.Invoke(this, EventArgs.Empty);
 
             return FromBson(insertedId);
         }
@@ -164,7 +164,7 @@ namespace Scar.Common.DAL.LiteDB
             }
 
             var countInserted = Collection.Insert(array);
-            Changed?.Invoke(this, new EventArgs());
+            Changed?.Invoke(this, EventArgs.Empty);
             return countInserted;
         }
 
@@ -193,7 +193,7 @@ namespace Scar.Common.DAL.LiteDB
             var updated = Collection.Update(entity);
             if (updated)
             {
-                Changed?.Invoke(this, new EventArgs());
+                Changed?.Invoke(this, EventArgs.Empty);
             }
 
             return updated;
@@ -212,7 +212,7 @@ namespace Scar.Common.DAL.LiteDB
             var countUpdated = Collection.Update(arr);
             if (countUpdated > 0)
             {
-                Changed?.Invoke(this, new EventArgs());
+                Changed?.Invoke(this, EventArgs.Empty);
             }
 
             return countUpdated;
@@ -233,7 +233,7 @@ namespace Scar.Common.DAL.LiteDB
             GenerateIdIfNeeded(entity);
 
             var inserted = Collection.Upsert(entity);
-            Changed?.Invoke(this, new EventArgs());
+            Changed?.Invoke(this, EventArgs.Empty);
             return inserted;
         }
 
@@ -248,7 +248,7 @@ namespace Scar.Common.DAL.LiteDB
             }
 
             var countInserted = Collection.Upsert(arr);
-            Changed?.Invoke(this, new EventArgs());
+            Changed?.Invoke(this, EventArgs.Empty);
             return countInserted;
         }
 

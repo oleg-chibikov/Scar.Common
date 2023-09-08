@@ -86,7 +86,7 @@ namespace Scar.Common.MVVM.ViewModel
 
         protected void CloseWindow()
         {
-            RequestClose?.Invoke(this, new EventArgs());
+            RequestClose?.Invoke(this, EventArgs.Empty);
         }
 
         protected virtual void Dispose(bool disposing)

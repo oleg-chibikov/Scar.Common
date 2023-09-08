@@ -4,13 +4,13 @@ namespace Scar.Common.Notification
 {
     public class NotificationSuppressor : IDisposable
     {
-        readonly INotificationSupressable _notificationSuppressible;
+        readonly INotificationSuppressable _notificationSuppressible;
         bool _disposedValue;
 
-        public NotificationSuppressor(INotificationSupressable notificationSuppressible)
+        public NotificationSuppressor(INotificationSuppressable notificationSuppressible)
         {
             _notificationSuppressible = notificationSuppressible ?? throw new ArgumentNullException(nameof(notificationSuppressible));
-            notificationSuppressible.NotificationIsSupressed = true;
+            notificationSuppressible.NotificationIsSuppressed = true;
         }
 
         public void Dispose()
@@ -25,7 +25,7 @@ namespace Scar.Common.Notification
             {
                 if (disposing)
                 {
-                    _notificationSuppressible.NotificationIsSupressed = false;
+                    _notificationSuppressible.NotificationIsSuppressed = false;
                 }
 
                 _disposedValue = true;

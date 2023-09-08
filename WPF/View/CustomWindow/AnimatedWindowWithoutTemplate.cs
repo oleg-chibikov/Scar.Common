@@ -9,6 +9,7 @@ namespace Scar.Common.WPF.View.CustomWindow
 {
     public abstract class AnimatedWindowWithoutTemplate : BaseWindow
     {
+        public static readonly DependencyProperty InitialOpacityProperty = DependencyProperty.Register(nameof(InitialOpacity), typeof(double), typeof(Window), new PropertyMetadata(1D));
         public static readonly DependencyProperty DraggableProperty = DependencyProperty.Register(nameof(Draggable), typeof(bool), typeof(Window), new PropertyMetadata(null));
         public static readonly DependencyProperty StayCenteredProperty = DependencyProperty.Register(nameof(StayCentered), typeof(bool), typeof(Window), new PropertyMetadata(null));
         readonly Duration _fadeDuration = new (TimeSpan.FromMilliseconds(300));
@@ -40,6 +41,12 @@ namespace Scar.Common.WPF.View.CustomWindow
         {
             get => (bool)GetValue(StayCenteredProperty);
             set => SetValue(StayCenteredProperty, value);
+        }
+
+        public double InitialOpacity
+        {
+            get => (double)GetValue(InitialOpacityProperty);
+            set => SetValue(InitialOpacityProperty, value);
         }
 
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
@@ -84,7 +91,7 @@ namespace Scar.Common.WPF.View.CustomWindow
 
             // Unsubscribe to prevent recurring call of this method after animation completes
             Closing -= AnimatedWindowWithoutTemplate_Closing;
-            var hideAnimation = new DoubleAnimation { From = 1, To = 0, Duration = _fadeDuration };
+            var hideAnimation = new DoubleAnimation { From = InitialOpacity, To = 0, Duration = _fadeDuration };
 
             hideAnimation.Completed += CompletedHandler;
             BeginAnimation(OpacityProperty, hideAnimation);
@@ -97,10 +104,9 @@ namespace Scar.Common.WPF.View.CustomWindow
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "SA1313:Parameter '_' should begin with lower -case letter", Justification = "Discarded parameter")]
         void AnimatedWindowWithoutTemplate_ContentRendered(object? sender, EventArgs e)
         {
-            var showAnimation = new DoubleAnimation { From = 0, To = 1, Duration = _fadeDuration };
+            var showAnimation = new DoubleAnimation { From = 0, To = InitialOpacity, Duration = _fadeDuration };
 
             showAnimation.Completed += CompletedHandler;
             BeginAnimation(OpacityProperty, showAnimation);
