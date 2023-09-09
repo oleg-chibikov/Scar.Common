@@ -121,9 +121,9 @@ namespace Scar.Common.WPF.Behaviors
                 case TextBoxInputMode.None:
                     return true;
                 case TextBoxInputMode.IntInput:
-                    return int.TryParse(input, OnlyPositive ? IntNumberStyles : IntNumberStyles | NumberStyles.AllowLeadingSign, CultureInfo.CurrentCulture, out _);
+                    return int.TryParse(input, OnlyPositive ? IntNumberStyles : IntNumberStyles | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out _);
                 case TextBoxInputMode.DecimalInput:
-                    var result = decimal.TryParse(input, OnlyPositive ? DecimalNumberStyles : DecimalNumberStyles | NumberStyles.AllowLeadingSign, CultureInfo.CurrentCulture, out _);
+                    var result = decimal.TryParse(input, OnlyPositive ? DecimalNumberStyles : DecimalNumberStyles | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out _);
                     return result;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(InputMode));

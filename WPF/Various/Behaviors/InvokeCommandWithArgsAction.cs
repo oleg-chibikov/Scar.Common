@@ -60,7 +60,7 @@ namespace Scar.Common.WPF.Behaviors
 
                 if (CommandParameterConverter != null)
                 {
-                    parameter = CommandParameterConverter.Convert(parameter, typeof(object), null, CultureInfo.CurrentCulture);
+                    parameter = CommandParameterConverter.Convert(parameter, typeof(object), null, CultureInfo.InvariantCulture);
                 }
 
                 if (command?.CanExecute(parameter) == true)
