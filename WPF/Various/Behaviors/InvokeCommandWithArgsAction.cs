@@ -12,9 +12,9 @@ namespace Scar.Common.WPF.Behaviors
     public class InvokeCommandWithArgsAction : TriggerAction<DependencyObject>
     {
         // Using a DependencyProperty as the backing store for Command.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(InvokeCommandWithArgsAction), new UIPropertyMetadata(null));
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(InvokeCommandWithArgsAction), new UIPropertyMetadata(null));
         public static readonly DependencyProperty CommandParameterConverterProperty = DependencyProperty.Register(
-            "CommandParameterConverter",
+            nameof(CommandParameterConverter),
             typeof(IValueConverter),
             typeof(InvokeCommandWithArgsAction),
             new UIPropertyMetadata(null));
@@ -52,21 +52,24 @@ namespace Scar.Common.WPF.Behaviors
             set => SetValue(CommandParameterConverterProperty, value);
         }
 
-        protected override void Invoke(object parameter)
+        protected override void Invoke(object? parameter)
         {
-            if (AssociatedObject != null)
+            if (AssociatedObject == null)
             {
-                var command = ResolveCommand();
+                return;
+            }
 
-                if (CommandParameterConverter != null)
-                {
-                    parameter = CommandParameterConverter.Convert(parameter, typeof(object), null, CultureInfo.InvariantCulture);
-                }
+            var command = ResolveCommand();
 
-                if (command?.CanExecute(parameter) == true)
-                {
-                    command.Execute(parameter);
-                }
+            var converter = CommandParameterConverter;
+            if (converter != null)
+            {
+                parameter = converter.Convert(parameter, typeof(object), null, CultureInfo.InvariantCulture);
+            }
+
+            if (command?.CanExecute(parameter) == true)
+            {
+                command.Execute(parameter);
             }
         }
 
