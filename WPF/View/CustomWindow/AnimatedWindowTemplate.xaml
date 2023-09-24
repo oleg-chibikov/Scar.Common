@@ -44,6 +44,9 @@
                 <Setter TargetName="Maximize" Property="Visibility" Value="Collapsed" />
                 <Setter TargetName="Restore" Property="Visibility" Value="Visible" />
             </Trigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Draggable}" Value="True">
+                <Setter Property="Cursor" Value="Hand" />
+            </DataTrigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="WindowState" Value="Normal" />
