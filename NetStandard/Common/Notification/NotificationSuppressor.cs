@@ -1,35 +1,34 @@
 using System;
 
-namespace Scar.Common.Notification
+namespace Scar.Common.Notification;
+
+public class NotificationSuppressor : IDisposable
 {
-    public class NotificationSuppressor : IDisposable
+    readonly INotificationSuppressable _notificationSuppressible;
+    bool _disposedValue;
+
+    public NotificationSuppressor(INotificationSuppressable notificationSuppressible)
     {
-        readonly INotificationSuppressable _notificationSuppressible;
-        bool _disposedValue;
+        _notificationSuppressible = notificationSuppressible ?? throw new ArgumentNullException(nameof(notificationSuppressible));
+        notificationSuppressible.NotificationIsSuppressed = true;
+    }
 
-        public NotificationSuppressor(INotificationSuppressable notificationSuppressible)
-        {
-            _notificationSuppressible = notificationSuppressible ?? throw new ArgumentNullException(nameof(notificationSuppressible));
-            notificationSuppressible.NotificationIsSuppressed = true;
-        }
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
 
-        public void Dispose()
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposedValue)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
+            if (disposing)
             {
-                if (disposing)
-                {
-                    _notificationSuppressible.NotificationIsSuppressed = false;
-                }
-
-                _disposedValue = true;
+                _notificationSuppressible.NotificationIsSuppressed = false;
             }
+
+            _disposedValue = true;
         }
     }
 }

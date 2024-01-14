@@ -1,14 +1,13 @@
 using System.Globalization;
 using Scar.Common.Localization;
 
-namespace Scar.Common.WebApi.Startup
+namespace Scar.Common.WebApi.Startup;
+
+sealed class ConsoleCultureManager : ICultureManager
 {
-    sealed class ConsoleCultureManager : ICultureManager
+    public void ChangeCulture(CultureInfo cultureInfo)
     {
-        public void ChangeCulture(CultureInfo cultureInfo)
-        {
-            CultureInfo.CurrentCulture = cultureInfo;
-            CultureInfo.CurrentUICulture = cultureInfo;
-        }
+        CultureInfo.CurrentCulture = cultureInfo;
+        CultureInfo.CurrentUICulture = cultureInfo;
     }
 }

@@ -1,7 +1,6 @@
-namespace Scar.Common.MVVM.Commands
+namespace Scar.Common.MVVM.Commands;
+
+public interface IRemovableCommand
 {
-    public interface IRemovableCommand
-    {
-        void RemoveCommand();
-    }
+    void RemoveCommand();
 }

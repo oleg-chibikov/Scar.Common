@@ -1,9 +1,8 @@
 using System;
 
-namespace Scar.Common.MVVM.ViewModel
+namespace Scar.Common.MVVM.ViewModel;
+
+public interface IRequestCloseViewModel
 {
-    public interface IRequestCloseViewModel
-    {
-        event EventHandler RequestClose;
-    }
+    event EventHandler RequestClose;
 }

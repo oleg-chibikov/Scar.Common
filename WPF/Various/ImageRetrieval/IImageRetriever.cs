@@ -4,14 +4,13 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Scar.Common.ImageProcessing.Metadata;
 
-namespace Scar.Common.WPF.ImageRetrieval
+namespace Scar.Common.WPF.ImageRetrieval;
+
+public interface IImageRetriever
 {
-    public interface IImageRetriever
-    {
-        BitmapSource ApplyRotateTransform(int angle, BitmapSource image);
+    BitmapSource ApplyRotateTransform(int angle, BitmapSource image);
 
-        Task<byte[]> GetThumbnailAsync(string filePath, CancellationToken cancellationToken);
+    Task<byte[]> GetThumbnailAsync(string filePath, CancellationToken cancellationToken);
 
-        Task<BitmapSource?> LoadImageAsync(IReadOnlyCollection<byte>? imageData, CancellationToken cancellationToken, Orientation? orientation = default, int sizeAnchor = 0);
-    }
+    Task<BitmapSource?> LoadImageAsync(IReadOnlyCollection<byte>? imageData, CancellationToken cancellationToken, Orientation? orientation = default, int sizeAnchor = 0);
 }

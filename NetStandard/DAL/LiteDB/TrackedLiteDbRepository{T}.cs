@@ -1,26 +1,22 @@
 using LiteDB;
 using Scar.Common.DAL.Contracts.Model;
 
-namespace Scar.Common.DAL.LiteDB
+namespace Scar.Common.DAL.LiteDB;
+
+public abstract class TrackedLiteDbRepository<T>(string directoryPath, string? fileName = null, bool shrink = true,
+        bool isShared = false, bool isReadonly = false, bool requireUpgrade = true)
+    : TrackedLiteDbRepository<T, object>(directoryPath,
+        fileName,
+        shrink,
+        isShared,
+        isReadonly,
+        requireUpgrade)
+    where T : IEntity, ITrackedEntity
 {
-    public abstract class TrackedLiteDbRepository<T> : TrackedLiteDbRepository<T, object>
-        where T : IEntity, ITrackedEntity
+    protected override bool IsBson => true;
+
+    protected override object GenerateId()
     {
-        protected TrackedLiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true, bool isShared = false, bool isReadonly = false, bool requireUpgrade = true) : base(
-            directoryPath,
-            fileName,
-            shrink,
-            isShared,
-            isReadonly,
-            requireUpgrade)
-        {
-        }
-
-        protected override bool IsBson => true;
-
-        protected override object GenerateId()
-        {
-            return ObjectId.NewObjectId();
-        }
+        return ObjectId.NewObjectId();
     }
 }

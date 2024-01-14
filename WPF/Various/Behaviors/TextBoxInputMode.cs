@@ -1,9 +1,8 @@
-namespace Scar.Common.WPF.Behaviors
+namespace Scar.Common.WPF.Behaviors;
+
+public enum TextBoxInputMode
 {
-    public enum TextBoxInputMode
-    {
-        None,
-        DecimalInput,
-        IntInput
-    }
+    None,
+    DecimalInput,
+    IntInput
 }

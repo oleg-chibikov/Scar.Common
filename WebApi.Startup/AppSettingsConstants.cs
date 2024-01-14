@@ -1,9 +1,8 @@
-namespace Scar.Common.WebApi.Startup
+namespace Scar.Common.WebApi.Startup;
+
+static class AppSettingsConstants
 {
-    static class AppSettingsConstants
-    {
-        internal const string EnvironmentKey = "Environment";
-        internal const string AppNameKey = "AppName";
-        internal const string AppVersionKey = "AppVersion";
-    }
+    internal const string EnvironmentKey = "Environment";
+    internal const string AppNameKey = "AppName";
+    internal const string AppVersionKey = "AppVersion";
 }

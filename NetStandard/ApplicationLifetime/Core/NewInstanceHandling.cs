@@ -1,9 +1,8 @@
-namespace Scar.Common.ApplicationLifetime.Core
+namespace Scar.Common.ApplicationLifetime.Core;
+
+public enum NewInstanceHandling
 {
-    public enum NewInstanceHandling
-    {
-        AllowMultiple,
-        Restart,
-        Throw
-    }
+    AllowMultiple,
+    Restart,
+    Throw
 }

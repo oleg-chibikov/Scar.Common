@@ -1,9 +1,8 @@
 using System.Globalization;
 
-namespace Scar.Common.Localization
+namespace Scar.Common.Localization;
+
+public interface ICultureManager
 {
-    public interface ICultureManager
-    {
-        void ChangeCulture(CultureInfo cultureInfo);
-    }
+    void ChangeCulture(CultureInfo cultureInfo);
 }

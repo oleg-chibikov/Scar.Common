@@ -1,9 +1,8 @@
 using System.Reflection;
 
-namespace Scar.Common.ApplicationLifetime.Contracts
+namespace Scar.Common.ApplicationLifetime.Contracts;
+
+public interface IEntryAssemblyProvider
 {
-    public interface IEntryAssemblyProvider
-    {
-        Assembly ProvideEntryAssembly();
-    }
+    Assembly ProvideEntryAssembly();
 }

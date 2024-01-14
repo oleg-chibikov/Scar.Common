@@ -1,11 +1,10 @@
 using System;
 
-namespace Scar.Common.DAL.Contracts.Model
-{
-    public interface ITrackedEntity
-    {
-        DateTimeOffset ModifiedDate { get; set; }
+namespace Scar.Common.DAL.Contracts.Model;
 
-        DateTimeOffset CreatedDate { get; set; }
-    }
+public interface ITrackedEntity
+{
+    DateTimeOffset ModifiedDate { get; set; }
+
+    DateTimeOffset CreatedDate { get; set; }
 }

@@ -1,7 +1,6 @@
-namespace Scar.Common.DAL.Contracts.Model
+namespace Scar.Common.DAL.Contracts.Model;
+
+public interface IEntity<out TId>
 {
-    public interface IEntity<out TId>
-    {
-        TId Id { get; }
-    }
+    TId Id { get; }
 }

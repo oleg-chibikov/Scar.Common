@@ -1,14 +1,13 @@
 ﻿using System.Windows;
 using System.Windows.Data;
 
-namespace Scar.Common.WPF.Converters
+namespace Scar.Common.WPF.Converters;
+
+[ValueConversion(typeof(bool), typeof(Visibility))]
+public sealed class ReverseBoolToVisibilityConverter : ValueToVisibilityConverter<bool?>
 {
-    [ValueConversion(typeof(bool), typeof(Visibility))]
-    public sealed class ReverseBoolToVisibilityConverter : ValueToVisibilityConverter<bool?>
+    protected override bool IsVisible(bool? value)
     {
-        protected override bool IsVisible(bool? value)
-        {
-            return value == false;
-        }
+        return value == false;
     }
 }

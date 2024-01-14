@@ -1,9 +1,8 @@
-namespace Scar.Common.DAL.Contracts
+namespace Scar.Common.DAL.Contracts;
+
+public enum SortOrder
 {
-    public enum SortOrder
-    {
-        None = 0,
-        Ascending = 1,
-        Descending = -1
-    }
+    None = 0,
+    Ascending = 1,
+    Descending = -1
 }

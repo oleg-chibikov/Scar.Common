@@ -1,7 +1,6 @@
-﻿namespace Scar.Common.Cryptography
+﻿namespace Scar.Common.Cryptography;
+
+public interface IFileHasher
 {
-    public interface IFileHasher
-    {
-        byte[] GetSha512Hash(string filePath);
-    }
+    byte[] GetSha512Hash(string filePath);
 }

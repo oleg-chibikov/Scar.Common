@@ -1,7 +1,6 @@
-namespace Scar.Common.DAL.Contracts.Model
+namespace Scar.Common.DAL.Contracts.Model;
+
+public interface IMutableEntity<TId> : IEntity<TId>
 {
-    public interface IMutableEntity<TId> : IEntity<TId>
-    {
-        void SetId(TId id);
-    }
+    void SetId(TId id);
 }

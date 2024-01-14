@@ -1,10 +1,9 @@
 using System.Threading.Tasks;
 using Scar.Common.ImageProcessing.Metadata;
 
-namespace Scar.Common.ImageProcessing.MetadataExtraction
+namespace Scar.Common.ImageProcessing.MetadataExtraction;
+
+public interface IMetadataExtractor
 {
-    public interface IMetadataExtractor
-    {
-        Task<ExifMetadata> ExtractAsync(string filePath);
-    }
+    Task<ExifMetadata> ExtractAsync(string filePath);
 }

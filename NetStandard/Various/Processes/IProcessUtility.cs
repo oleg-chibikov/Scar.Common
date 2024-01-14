@@ -3,16 +3,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using Scar.Common.Events;
 
-namespace Scar.Common.Processes
+namespace Scar.Common.Processes;
+
+public interface IProcessUtility
 {
-    public interface IProcessUtility
-    {
-        event EventHandler<EventArgs<string>> ProcessErrorFired;
+    event EventHandler<EventArgs<string>> ProcessErrorFired;
 
-        event EventHandler<EventArgs<string>> ProcessMessageFired;
+    event EventHandler<EventArgs<string>> ProcessMessageFired;
 
-        Task<ProcessResult> ExecuteCommandAsync(string commandPath, string? arguments, CancellationToken cancellationToken, TimeSpan? timeout = null, string? workingDirectory = null);
+    Task<ProcessResult> ExecuteCommandAsync(string commandPath, string? arguments, CancellationToken cancellationToken, TimeSpan? timeout = null, string? workingDirectory = null);
 
-        Task TaskKillAsync(string processName, CancellationToken cancellationToken);
-    }
+    Task TaskKillAsync(string processName, CancellationToken cancellationToken);
 }

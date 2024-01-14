@@ -3,50 +3,49 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Scar.Common.WPF.Behaviors
+namespace Scar.Common.WPF.Behaviors;
+
+public static class KeyboardFocusBehavior
 {
-    public static class KeyboardFocusBehavior
+    public static readonly DependencyProperty OnProperty = DependencyProperty.RegisterAttached("On", typeof(FrameworkElement), typeof(KeyboardFocusBehavior), new PropertyMetadata(OnSetCallback));
+
+    public static FrameworkElement? GetOn(UIElement element)
     {
-        public static readonly DependencyProperty OnProperty = DependencyProperty.RegisterAttached("On", typeof(FrameworkElement), typeof(KeyboardFocusBehavior), new PropertyMetadata(OnSetCallback));
+        _ = element ?? throw new ArgumentNullException(nameof(element));
 
-        public static FrameworkElement? GetOn(UIElement element)
+        return (FrameworkElement)element.GetValue(OnProperty);
+    }
+
+    public static void SetOn(UIElement element, FrameworkElement value)
+    {
+        _ = element ?? throw new ArgumentNullException(nameof(element));
+        element.SetValue(OnProperty, value);
+    }
+
+    static void OnSetCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+    {
+        var frameworkElement = (FrameworkElement)dependencyObject;
+        var target = GetOn(frameworkElement);
+
+        if (target == null)
         {
-            _ = element ?? throw new ArgumentNullException(nameof(element));
-
-            return (FrameworkElement)element.GetValue(OnProperty);
+            return;
         }
 
-        public static void SetOn(UIElement element, FrameworkElement value)
+        frameworkElement.Loaded += (_, _) =>
         {
-            _ = element ?? throw new ArgumentNullException(nameof(element));
-            element.SetValue(OnProperty, value);
-        }
-
-        static void OnSetCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        {
-            var frameworkElement = (FrameworkElement)dependencyObject;
-            var target = GetOn(frameworkElement);
-
-            if (target == null)
+            var parent = VisualTreeHelper.GetParent(frameworkElement);
+            while ((parent != null) && parent is not Window)
             {
-                return;
+                parent = VisualTreeHelper.GetParent(parent);
             }
 
-            frameworkElement.Loaded += (_, _) =>
+            var window = parent as Window;
+            if ((window?.ShowActivated == true) || (window == null))
             {
-                var parent = VisualTreeHelper.GetParent(frameworkElement);
-                while ((parent != null) && parent is not Window)
-                {
-                    parent = VisualTreeHelper.GetParent(parent);
-                }
-
-                var window = parent as Window;
-                if ((window?.ShowActivated == true) || (window == null))
-                {
-                    target.Focus();
-                    Keyboard.Focus(target);
-                }
-            };
-        }
+                target.Focus();
+                Keyboard.Focus(target);
+            }
+        };
     }
 }

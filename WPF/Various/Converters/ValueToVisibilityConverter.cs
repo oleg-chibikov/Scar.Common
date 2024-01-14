@@ -3,21 +3,20 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace Scar.Common.WPF.Converters
+namespace Scar.Common.WPF.Converters;
+
+[ValueConversion(typeof(object), typeof(Visibility))]
+public abstract class ValueToVisibilityConverter<T> : IValueConverter
 {
-    [ValueConversion(typeof(object), typeof(Visibility))]
-    public abstract class ValueToVisibilityConverter<T> : IValueConverter
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            return IsVisible(value == null ? default! : (T)value) ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected abstract bool IsVisible(T value);
+        return IsVisible(value == null ? default! : (T)value) ? Visibility.Visible : Visibility.Collapsed;
     }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotSupportedException();
+    }
+
+    protected abstract bool IsVisible(T value);
 }

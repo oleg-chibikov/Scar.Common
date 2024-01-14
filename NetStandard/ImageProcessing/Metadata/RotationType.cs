@@ -1,9 +1,8 @@
-namespace Scar.Common.ImageProcessing.Metadata
+namespace Scar.Common.ImageProcessing.Metadata;
+
+public enum RotationType
 {
-    public enum RotationType
-    {
-        None,
-        Clockwise = 1,
-        CounterClockwise = 2
-    }
+    None,
+    Clockwise = 1,
+    CounterClockwise = 2
 }

@@ -1,7 +1,6 @@
-namespace Scar.Common.Sync.Contracts
+namespace Scar.Common.Sync.Contracts;
+
+public interface IOneDrivePathProvider
 {
-    public interface IOneDrivePathProvider
-    {
-        string? GetOneDrivePath();
-    }
+    string? GetOneDrivePath();
 }

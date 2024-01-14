@@ -2,160 +2,159 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Scar.Common.RateLimiting
+namespace Scar.Common.RateLimiting;
+
+public class RateLimiter : IRateLimiter
 {
-    public class RateLimiter : IRateLimiter
+    readonly SemaphoreSlim _semaphoreSlim = new (1, 1);
+    readonly SynchronizationContext? _synchronizationContext;
+    Timer? _timer;
+    bool _disposedValue;
+
+    public RateLimiter(SynchronizationContext? synchronizationContext = null)
     {
-        readonly SemaphoreSlim _semaphoreSlim = new (1, 1);
-        readonly SynchronizationContext? _synchronizationContext;
-        Timer? _timer;
-        bool _disposedValue;
+        _synchronizationContext = synchronizationContext;
+    }
 
-        public RateLimiter(SynchronizationContext? synchronizationContext = null)
+    DateTime LastExecutionTime { get; set; } = DateTime.MinValue;
+
+    public async Task DebounceAsync<T>(TimeSpan interval, Action<T> action, T param)
+    {
+        await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
+        if (_timer != null)
         {
-            _synchronizationContext = synchronizationContext;
+            await _timer.DisposeAsync().ConfigureAwait(false);
+            _timer = null;
         }
 
-        DateTime LastExecutionTime { get; set; } = DateTime.MinValue;
-
-        public async Task DebounceAsync<T>(TimeSpan interval, Action<T> action, T param)
-        {
-            await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
-            if (_timer != null)
+        _timer = new Timer(
+            async _ =>
             {
-                await _timer.DisposeAsync().ConfigureAwait(false);
-                _timer = null;
-            }
-
-            _timer = new Timer(
-                async _ =>
-                {
-                    await _semaphoreSlim.WaitAsync().ConfigureAwait(true);
-                    if (_timer == null)
-                    {
-                        _semaphoreSlim.Release();
-                        return;
-                    }
-
-                    _timer?.Dispose();
-                    _timer = null;
-                    _semaphoreSlim.Release();
-                    ExecuteAction(action, param);
-                },
-                null,
-                interval,
-                TimeSpan.FromMilliseconds(-1));
-            _semaphoreSlim.Release();
-        }
-
-        public async Task DebounceAsync(TimeSpan interval, Action action)
-        {
-            await DebounceAsync<object>(interval, _ => action(), default!).ConfigureAwait(false);
-        }
-
-        public async Task ThrottleAsync<T>(TimeSpan interval, Action<T> action, T param, bool skipImmediateEvent = false, bool useFirstEvent = false)
-        {
-            _ = action ?? throw new ArgumentNullException(nameof(action));
-
-            await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
-            if (!useFirstEvent && _timer != null)
-            {
-                await _timer.DisposeAsync().ConfigureAwait(false);
-                _timer = null;
-            }
-
-            var curTime = DateTime.UtcNow;
-
-            var timePassed = curTime - LastExecutionTime;
-
-            if (timePassed > interval)
-            {
-                LastExecutionTime = curTime;
-                if (!skipImmediateEvent)
+                await _semaphoreSlim.WaitAsync().ConfigureAwait(true);
+                if (_timer == null)
                 {
                     _semaphoreSlim.Release();
-                    ExecuteAction(action, param);
+                    return;
                 }
-                else
-                {
-                    SetThrottleTimer(interval, action, param, curTime);
-                    _semaphoreSlim.Release();
-                }
+
+                _timer?.Dispose();
+                _timer = null;
+                _semaphoreSlim.Release();
+                ExecuteAction(action, param);
+            },
+            null,
+            interval,
+            TimeSpan.FromMilliseconds(-1));
+        _semaphoreSlim.Release();
+    }
+
+    public async Task DebounceAsync(TimeSpan interval, Action action)
+    {
+        await DebounceAsync<object>(interval, _ => action(), default!).ConfigureAwait(false);
+    }
+
+    public async Task ThrottleAsync<T>(TimeSpan interval, Action<T> action, T param, bool skipImmediateEvent = false, bool useFirstEvent = false)
+    {
+        _ = action ?? throw new ArgumentNullException(nameof(action));
+
+        await _semaphoreSlim.WaitAsync().ConfigureAwait(false);
+        if (!useFirstEvent && _timer != null)
+        {
+            await _timer.DisposeAsync().ConfigureAwait(false);
+            _timer = null;
+        }
+
+        var curTime = DateTime.UtcNow;
+
+        var timePassed = curTime - LastExecutionTime;
+
+        if (timePassed > interval)
+        {
+            LastExecutionTime = curTime;
+            if (!skipImmediateEvent)
+            {
+                _semaphoreSlim.Release();
+                ExecuteAction(action, param);
             }
             else
             {
-                if (!useFirstEvent)
-                {
-                    if (timePassed <= interval)
-                    {
-                        interval -= timePassed;
-                    }
-
-                    SetThrottleTimer(interval, action, param, curTime);
-                }
-
+                SetThrottleTimer(interval, action, param, curTime);
                 _semaphoreSlim.Release();
             }
         }
-
-        public async Task ThrottleAsync(TimeSpan interval, Action action, bool skipImmediate = false, bool skipLast = false)
+        else
         {
-            await ThrottleAsync<object>(interval, _ => action(), default!, skipImmediate, skipLast).ConfigureAwait(false);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
+            if (!useFirstEvent)
             {
-                if (disposing)
+                if (timePassed <= interval)
                 {
-                    _semaphoreSlim.Dispose();
-                    _timer?.Dispose();
+                    interval -= timePassed;
                 }
 
-                _disposedValue = true;
+                SetThrottleTimer(interval, action, param, curTime);
             }
-        }
 
-        void ExecuteAction<T>(Action<T> action, T param)
-        {
-            if (_synchronizationContext != null)
-            {
-                _synchronizationContext.Send(_ => action(param), null);
-            }
-            else
-            {
-                action(param);
-            }
+            _semaphoreSlim.Release();
         }
+    }
 
-        void SetThrottleTimer<T>(TimeSpan interval, Action<T> action, T param, DateTime curTime)
+    public async Task ThrottleAsync(TimeSpan interval, Action action, bool skipImmediate = false, bool skipLast = false)
+    {
+        await ThrottleAsync<object>(interval, _ => action(), default!, skipImmediate, skipLast).ConfigureAwait(false);
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposedValue)
         {
-            _timer = new Timer(
-                async _ =>
+            if (disposing)
+            {
+                _semaphoreSlim.Dispose();
+                _timer?.Dispose();
+            }
+
+            _disposedValue = true;
+        }
+    }
+
+    void ExecuteAction<T>(Action<T> action, T param)
+    {
+        if (_synchronizationContext != null)
+        {
+            _synchronizationContext.Send(_ => action(param), null);
+        }
+        else
+        {
+            action(param);
+        }
+    }
+
+    void SetThrottleTimer<T>(TimeSpan interval, Action<T> action, T param, DateTime curTime)
+    {
+        _timer = new Timer(
+            async _ =>
+            {
+                await _semaphoreSlim.WaitAsync().ConfigureAwait(true);
+                if (_timer == null)
                 {
-                    await _semaphoreSlim.WaitAsync().ConfigureAwait(true);
-                    if (_timer == null)
-                    {
-                        _semaphoreSlim.Release();
-                        return;
-                    }
-
-                    _timer?.Dispose();
-                    _timer = null;
-                    LastExecutionTime = curTime;
                     _semaphoreSlim.Release();
-                    ExecuteAction(action, param);
-                },
-                null,
-                interval,
-                TimeSpan.FromMilliseconds(-1));
-        }
+                    return;
+                }
+
+                _timer?.Dispose();
+                _timer = null;
+                LastExecutionTime = curTime;
+                _semaphoreSlim.Release();
+                ExecuteAction(action, param);
+            },
+            null,
+            interval,
+            TimeSpan.FromMilliseconds(-1));
     }
 }

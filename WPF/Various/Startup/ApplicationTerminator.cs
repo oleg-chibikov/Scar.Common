@@ -1,13 +1,12 @@
 using System.Windows;
 using Scar.Common.ApplicationLifetime.Contracts;
 
-namespace Scar.Common.WPF.Startup
+namespace Scar.Common.WPF.Startup;
+
+public class ApplicationTerminator : IApplicationTerminator
 {
-    public class ApplicationTerminator : IApplicationTerminator
+    public void Terminate()
     {
-        public void Terminate()
-        {
-            Application.Current.Shutdown();
-        }
+        Application.Current.Shutdown();
     }
 }

@@ -4,28 +4,27 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Windows;
 
-namespace Scar.Common.WPF.View.Core
+namespace Scar.Common.WPF.View.Core;
+
+[SuppressMessage("Design", "CA1010:Collections should implement generic interface", Justification = "No need")]
+public class DesignTimeResourceDictionary : ResourceDictionary
 {
-    [SuppressMessage("Design", "CA1010:Collections should implement generic interface", Justification = "No need")]
-    public class DesignTimeResourceDictionary : ResourceDictionary
+    readonly ObservableCollection<ResourceDictionary> _noopMergedDictionaries = new NoopObservableCollection<ResourceDictionary>();
+
+    public DesignTimeResourceDictionary()
     {
-        readonly ObservableCollection<ResourceDictionary> _noopMergedDictionaries = new NoopObservableCollection<ResourceDictionary>();
+        var fieldInfo = typeof(ResourceDictionary).GetField("_mergedDictionaries", BindingFlags.Instance | BindingFlags.NonPublic);
+        fieldInfo?.SetValue(this, _noopMergedDictionaries);
+    }
 
-        public DesignTimeResourceDictionary()
+    sealed class NoopObservableCollection<T> : ObservableCollection<T>
+    {
+        protected override void InsertItem(int index, T item)
         {
-            var fieldInfo = typeof(ResourceDictionary).GetField("_mergedDictionaries", BindingFlags.Instance | BindingFlags.NonPublic);
-            fieldInfo?.SetValue(this, _noopMergedDictionaries);
-        }
-
-        sealed class NoopObservableCollection<T> : ObservableCollection<T>
-        {
-            protected override void InsertItem(int index, T item)
+            // Only insert items while in Design Mode (VS is hosting the visualization)
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
             {
-                // Only insert items while in Design Mode (VS is hosting the visualization)
-                if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
-                {
-                    base.InsertItem(index, item);
-                }
+                base.InsertItem(index, item);
             }
         }
     }

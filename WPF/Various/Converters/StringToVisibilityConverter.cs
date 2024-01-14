@@ -1,14 +1,13 @@
 ﻿using System.Windows;
 using System.Windows.Data;
 
-namespace Scar.Common.WPF.Converters
+namespace Scar.Common.WPF.Converters;
+
+[ValueConversion(typeof(string), typeof(Visibility))]
+public sealed class StringToVisibilityConverter : ValueToVisibilityConverter<string>
 {
-    [ValueConversion(typeof(string), typeof(Visibility))]
-    public sealed class StringToVisibilityConverter : ValueToVisibilityConverter<string>
+    protected override bool IsVisible(string value)
     {
-        protected override bool IsVisible(string value)
-        {
-            return !string.IsNullOrWhiteSpace(value);
-        }
+        return !string.IsNullOrWhiteSpace(value);
     }
 }

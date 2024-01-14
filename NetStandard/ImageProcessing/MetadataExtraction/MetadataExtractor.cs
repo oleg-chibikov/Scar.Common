@@ -7,76 +7,75 @@ using ExifLib;
 using Microsoft.Extensions.Logging;
 using Scar.Common.ImageProcessing.Metadata;
 
-namespace Scar.Common.ImageProcessing.MetadataExtraction
+namespace Scar.Common.ImageProcessing.MetadataExtraction;
+
+public sealed class MetadataExtractor : IMetadataExtractor
 {
-    public sealed class MetadataExtractor : IMetadataExtractor
+    static readonly string[] JpegExtensions =
     {
-        static readonly string[] JpegExtensions =
-        {
-            ".jpg",
-            ".jpeg"
-        };
+        ".jpg",
+        ".jpeg"
+    };
 
-        static readonly TimeSpan DefaultAttemptDelay = TimeSpan.FromMilliseconds(100);
-        readonly ILogger _logger;
+    static readonly TimeSpan DefaultAttemptDelay = TimeSpan.FromMilliseconds(100);
+    readonly ILogger _logger;
 
-        public MetadataExtractor(ILogger<MetadataExtractor> logger)
+    public MetadataExtractor(ILogger<MetadataExtractor> logger)
+    {
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
+
+    public async Task<ExifMetadata> ExtractAsync(string filePath)
+    {
+        _ = filePath ?? throw new ArgumentNullException(nameof(filePath));
+        if (!JpegExtensions.Any(x => filePath.EndsWith(x, ignoreCase: true, CultureInfo.CurrentCulture)))
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            return new ExifMetadata();
         }
 
-        public async Task<ExifMetadata> ExtractAsync(string filePath)
+        Func<AttemptInfo, ExifMetadata> func = _ =>
         {
-            _ = filePath ?? throw new ArgumentNullException(nameof(filePath));
-            if (!JpegExtensions.Any(x => filePath.EndsWith(x, true, CultureInfo.CurrentCulture)))
+            using var reader = new ExifReader(filePath);
+            DateTime? dateImageTaken = null;
+            var orientation = Orientation.Straight;
+            reader.GetTagValue(ExifTags.DateTimeOriginal, out DateTime d);
+            if (d != default)
             {
-                return new ExifMetadata();
+                dateImageTaken = d;
             }
 
-            Func<AttemptInfo, ExifMetadata> func = _ =>
+            reader.GetTagValue(ExifTags.PixelXDimension, out object width);
+            reader.GetTagValue(ExifTags.PixelYDimension, out object height);
+            reader.GetTagValue(ExifTags.Model, out string cameraModel);
+            reader.GetTagValue(ExifTags.MaxApertureValue, out object lensAperture);
+            reader.GetTagValue(ExifTags.FocalLength, out object focalLength);
+            reader.GetTagValue(ExifTags.PhotographicSensitivity, out object isoSpeed);
+            reader.GetTagValue(ExifTags.ExposureTime, out object exposureTime);
+            reader.GetTagValue(ExifTags.Orientation, out ushort o);
+            if (o != default(ushort))
             {
-                using var reader = new ExifReader(filePath);
-                DateTime? dateImageTaken = null;
-                var orientation = Orientation.Straight;
-                reader.GetTagValue(ExifTags.DateTimeOriginal, out DateTime d);
-                if (d != default)
-                {
-                    dateImageTaken = d;
-                }
+                orientation = (Orientation)o;
+            }
 
-                reader.GetTagValue(ExifTags.PixelXDimension, out object width);
-                reader.GetTagValue(ExifTags.PixelYDimension, out object height);
-                reader.GetTagValue(ExifTags.Model, out string cameraModel);
-                reader.GetTagValue(ExifTags.MaxApertureValue, out object lensAperture);
-                reader.GetTagValue(ExifTags.FocalLength, out object focalLength);
-                reader.GetTagValue(ExifTags.PhotographicSensitivity, out object isoSpeed);
-                reader.GetTagValue(ExifTags.ExposureTime, out object exposureTime);
-                reader.GetTagValue(ExifTags.Orientation, out ushort o);
-                if (o != default(ushort))
-                {
-                    orientation = (Orientation)o;
-                }
+            var thumbnailBytes = reader.GetJpegThumbnailBytes();
+            return new ExifMetadata(width, height, cameraModel, lensAperture, focalLength, isoSpeed, exposureTime, dateImageTaken, orientation, thumbnailBytes);
+        };
 
-                var thumbnailBytes = reader.GetJpegThumbnailBytes();
-                return new ExifMetadata(width, height, cameraModel, lensAperture, focalLength, isoSpeed, exposureTime, dateImageTaken, orientation, thumbnailBytes);
-            };
-
-            return await func.RunFuncWithSeveralAttemptsAsync(
-                           (attemptInfo, ex) =>
+        return await func.RunFuncWithSeveralAttemptsAsync(
+                       (attemptInfo, ex) =>
+                       {
+                           if (ex is IOException)
                            {
-                               if (ex is IOException)
-                               {
-                                   var attemptLog = attemptInfo.HasAttempts ? $"Retrying ({attemptInfo})..." : "No more attempts left";
-                                   _logger.LogDebug("Failed extracting metadata for {FilePath} with IO exception. {AttemptLog}", filePath, attemptLog);
-                                   return true;
-                               }
+                               var attemptLog = attemptInfo.HasAttempts ? $"Retrying ({attemptInfo})..." : "No more attempts left";
+                               _logger.LogDebug("Failed extracting metadata for {FilePath} with IO exception. {AttemptLog}", filePath, attemptLog);
+                               return true;
+                           }
 
-                               _logger.LogWarning(ex, "Cannot extract metadata for {FilePath}", filePath);
-                               return false;
-                           },
-                           DefaultAttemptDelay)
-                       .ConfigureAwait(false) ??
-                   new ExifMetadata();
-        }
+                           _logger.LogWarning(ex, "Cannot extract metadata for {FilePath}", filePath);
+                           return false;
+                       },
+                       DefaultAttemptDelay)
+                   .ConfigureAwait(false) ??
+               new ExifMetadata();
     }
 }

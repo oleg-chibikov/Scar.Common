@@ -1,25 +1,24 @@
 using System;
 
-namespace Scar.Common.View.Contracts
+namespace Scar.Common.View.Contracts;
+
+public interface IDisplayable
 {
-    public interface IDisplayable
-    {
-        event EventHandler Closed;
+    event EventHandler Closed;
 
-        event EventHandler Loaded;
+    event EventHandler Loaded;
 
-        event EventHandler ContentRendered;
+    event EventHandler ContentRendered;
 
-        bool? ShowDialog();
+    bool? ShowDialog();
 
-        void Show();
+    void Show();
 
-        void Close();
+    void Close();
 
-        void Restore();
+    void Restore();
 
-        void AssociateDisposable(IDisposable disposable);
+    void AssociateDisposable(IDisposable disposable);
 
-        bool UnassociateDisposable(IDisposable disposable);
-    }
+    bool UnassociateDisposable(IDisposable disposable);
 }

@@ -1,11 +1,10 @@
-namespace Scar.Common.DAL.Contracts
+namespace Scar.Common.DAL.Contracts;
+
+public interface IFileBasedRepository
 {
-    public interface IFileBasedRepository
-    {
-        string DbDirectoryPath { get; }
+    string DbDirectoryPath { get; }
 
-        string DbFileExtension { get; }
+    string DbFileExtension { get; }
 
-        string DbFileName { get; }
-    }
+    string DbFileName { get; }
 }

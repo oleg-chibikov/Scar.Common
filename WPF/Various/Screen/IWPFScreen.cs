@@ -1,15 +1,14 @@
 using System.Windows;
 
-namespace Scar.Common.WPF.Screen
+namespace Scar.Common.WPF.Screen;
+
+public interface IWPFScreen
 {
-    public interface IWPFScreen
-    {
-        Rect DeviceBounds { get; }
+    Rect DeviceBounds { get; }
 
-        string DeviceName { get; }
+    string DeviceName { get; }
 
-        bool IsPrimary { get; }
+    bool IsPrimary { get; }
 
-        Rect WorkingArea { get; }
-    }
+    Rect WorkingArea { get; }
 }

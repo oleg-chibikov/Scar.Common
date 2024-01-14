@@ -1,13 +1,12 @@
 using System.Windows.Data;
 using Scar.Common.MVVM.CollectionView;
 
-namespace Scar.Common.WPF.CollectionView
+namespace Scar.Common.WPF.CollectionView;
+
+public class CollectionViewSourceAdapter : ICollectionViewSource
 {
-    public class CollectionViewSourceAdapter : ICollectionViewSource
+    public ICollectionView GetDefaultView(object source)
     {
-        public ICollectionView GetDefaultView(object source)
-        {
-            return new CollectionViewAdapter(CollectionViewSource.GetDefaultView(source));
-        }
+        return new CollectionViewAdapter(CollectionViewSource.GetDefaultView(source));
     }
 }

@@ -4,66 +4,65 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 
-namespace Scar.Common.MVVM.Commands
+namespace Scar.Common.MVVM.Commands;
+
+public class ApplicationCommandManager : ICommandManager
 {
-    public class ApplicationCommandManager : ICommandManager
+    readonly IList<Action> _raiseCanExecuteChangedActions = new List<Action>();
+    readonly SynchronizationContext _synchronizationContext;
+
+    public ApplicationCommandManager(SynchronizationContext synchronizationContext)
     {
-        readonly IList<Action> _raiseCanExecuteChangedActions = new List<Action>();
-        readonly SynchronizationContext _synchronizationContext;
+        _synchronizationContext = synchronizationContext ?? throw new ArgumentNullException(nameof(synchronizationContext));
+    }
 
-        public ApplicationCommandManager(SynchronizationContext synchronizationContext)
+    public void AddRaiseCanExecuteChangedAction(ref Action raiseCanExecuteChangedAction)
+    {
+        lock (_raiseCanExecuteChangedActions)
         {
-            _synchronizationContext = synchronizationContext ?? throw new ArgumentNullException(nameof(synchronizationContext));
+            _raiseCanExecuteChangedActions.Add(raiseCanExecuteChangedAction);
+        }
+    }
+
+    public void RemoveRaiseCanExecuteChangedAction(Action raiseCanExecuteChangedAction)
+    {
+        lock (_raiseCanExecuteChangedActions)
+        {
+            _raiseCanExecuteChangedActions.Remove(raiseCanExecuteChangedAction);
+        }
+    }
+
+    public void AssignOnPropertyChanged(ref PropertyChangedEventHandler propertyEventHandler)
+    {
+        propertyEventHandler += OnPropertyChanged;
+    }
+
+    public void RefreshCommandStates()
+    {
+        IList<Action> copy;
+        lock (_raiseCanExecuteChangedActions)
+        {
+            // ToList prevents CollectionModifiedException as it is a new object and the original collection can be modified during the enumeration
+            copy = _raiseCanExecuteChangedActions.ToList();
         }
 
-        public void AddRaiseCanExecuteChangedAction(ref Action raiseCanExecuteChangedAction)
-        {
-            lock (_raiseCanExecuteChangedActions)
+        _synchronizationContext.Send(
+            _ =>
             {
-                _raiseCanExecuteChangedActions.Add(raiseCanExecuteChangedAction);
-            }
-        }
-
-        public void RemoveRaiseCanExecuteChangedAction(Action raiseCanExecuteChangedAction)
-        {
-            lock (_raiseCanExecuteChangedActions)
-            {
-                _raiseCanExecuteChangedActions.Remove(raiseCanExecuteChangedAction);
-            }
-        }
-
-        public void AssignOnPropertyChanged(ref PropertyChangedEventHandler propertyEventHandler)
-        {
-            propertyEventHandler += OnPropertyChanged;
-        }
-
-        public void RefreshCommandStates()
-        {
-            IList<Action> copy;
-            lock (_raiseCanExecuteChangedActions)
-            {
-                // ToList prevents CollectionModifiedException as it is a new object and the original collection can be modified during the enumeration
-                copy = _raiseCanExecuteChangedActions.ToList();
-            }
-
-            _synchronizationContext.Send(
-                _ =>
+                foreach (var raiseCanExecuteChangedAction in copy)
                 {
-                    foreach (var raiseCanExecuteChangedAction in copy)
-                    {
-                        raiseCanExecuteChangedAction?.Invoke();
-                    }
-                },
-                null);
-        }
+                    raiseCanExecuteChangedAction?.Invoke();
+                }
+            },
+            null);
+    }
 
-        void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        // this if clause is to prevent an infinite loop
+        if (e.PropertyName != "CanExecute")
         {
-            // this if clause is to prevent an infinite loop
-            if (e.PropertyName != "CanExecute")
-            {
-                RefreshCommandStates();
-            }
+            RefreshCommandStates();
         }
     }
 }

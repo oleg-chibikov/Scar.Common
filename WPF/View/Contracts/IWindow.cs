@@ -2,36 +2,35 @@ using System;
 using System.Windows;
 using Scar.Common.View.Contracts;
 
-namespace Scar.Common.WPF.View.Contracts
+namespace Scar.Common.WPF.View.Contracts;
+
+public interface IWindow : IDisplayable
 {
-    public interface IWindow : IDisplayable
-    {
-        double Top { get; set; }
+    double Top { get; set; }
 
-        double Left { get; set; }
+    double Left { get; set; }
 
-        double Width { get; set; }
+    double Width { get; set; }
 
-        double Height { get; set; }
+    double Height { get; set; }
 
-        WindowState WindowState { get; set; }
+    WindowState WindowState { get; set; }
 
-        WindowStartupLocation WindowStartupLocation { get; set; }
+    WindowStartupLocation WindowStartupLocation { get; set; }
 
-        WindowStyle WindowStyle { get; set; }
+    WindowStyle WindowStyle { get; set; }
 
-        ResizeMode ResizeMode { get; set; }
+    ResizeMode ResizeMode { get; set; }
 
-        Visibility Visibility { get; set; }
+    Visibility Visibility { get; set; }
 
-        bool Topmost { get; set; }
+    bool Topmost { get; set; }
 
-        bool ShowActivated { get; set; }
+    bool ShowActivated { get; set; }
 
-        TimeSpan? AutoCloseTimeout { get; set; }
+    TimeSpan? AutoCloseTimeout { get; set; }
 
-        AdvancedWindowStartupLocation AdvancedWindowStartupLocation { get; set; }
+    AdvancedWindowStartupLocation AdvancedWindowStartupLocation { get; set; }
 
-        bool Draggable { get; set; }
-    }
+    bool Draggable { get; set; }
 }

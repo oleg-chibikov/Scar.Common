@@ -2,74 +2,73 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Scar.Common.Async
+namespace Scar.Common.Async;
+
+public sealed class CancellationTokenSourceProvider : IDisposable, ICancellationTokenSourceProvider
 {
-    public sealed class CancellationTokenSourceProvider : IDisposable, ICancellationTokenSourceProvider
+    CancellationTokenSource _cancellationTokenSource = new();
+
+    public Task CurrentTask { get; private set; } = Task.CompletedTask;
+
+    public CancellationToken Token => _cancellationTokenSource.Token;
+
+    public async Task StartNewTaskAsync(Action<CancellationToken> action, bool cancelCurrent)
     {
-        CancellationTokenSource _cancellationTokenSource = new ();
+        _ = action ?? throw new ArgumentNullException(nameof(action));
+        await ExecuteOperationAsync(cancellationToken => Task.Run(() => action(cancellationToken), cancellationToken), cancelCurrent).ConfigureAwait(false);
+    }
 
-        public Task CurrentTask { get; private set; } = Task.CompletedTask;
+    public bool CheckCompleted()
+    {
+        return CurrentTask.IsCompleted;
+    }
 
-        public CancellationToken Token => _cancellationTokenSource.Token;
-
-        public async Task StartNewTaskAsync(Action<CancellationToken> action, bool cancelCurrent)
+    public async Task ExecuteOperationAsync(Func<CancellationToken, Task> func, bool cancelCurrent)
+    {
+        _ = func ?? throw new ArgumentNullException(nameof(func));
+        if (!cancelCurrent && !CheckCompleted())
         {
-            _ = action ?? throw new ArgumentNullException(nameof(action));
-            await ExecuteOperationAsync(cancellationToken => Task.Run(() => action(cancellationToken), cancellationToken), cancelCurrent).ConfigureAwait(false);
+            return;
         }
 
-        public bool CheckCompleted()
+        try
         {
-            return CurrentTask.IsCompleted;
+            var cancellationToken = ResetToken();
+            CurrentTask = func(cancellationToken);
+            await CurrentTask.ConfigureAwait(false);
         }
-
-        public async Task ExecuteOperationAsync(Func<CancellationToken, Task> func, bool cancelCurrent)
+        catch (ObjectDisposedException)
         {
-            _ = func ?? throw new ArgumentNullException(nameof(func));
-            if (!cancelCurrent && !CheckCompleted())
-            {
-                return;
-            }
-
-            try
-            {
-                var cancellationToken = ResetToken();
-                CurrentTask = func(cancellationToken);
-                await CurrentTask.ConfigureAwait(false);
-            }
-            catch (ObjectDisposedException)
-            {
-            }
         }
+    }
 
-        public CancellationToken ResetTokenIfNeeded()
+    public CancellationToken ResetTokenIfNeeded()
+    {
+        return _cancellationTokenSource.IsCancellationRequested ? ResetToken() : Token;
+    }
+
+    public CancellationToken ResetToken()
+    {
+        var newCts = new CancellationTokenSource();
+        var oldCts = Interlocked.Exchange(ref _cancellationTokenSource, newCts);
+        oldCts?.Cancel();
+        return newCts.Token;
+    }
+
+    public void Cancel()
+    {
+        try
         {
-            return _cancellationTokenSource.IsCancellationRequested ? ResetToken() : Token;
+            _cancellationTokenSource.Cancel();
         }
-
-        public CancellationToken ResetToken()
+        catch (ObjectDisposedException)
         {
-            var newCts = new CancellationTokenSource();
-            var oldCts = Interlocked.Exchange(ref _cancellationTokenSource, newCts);
-            oldCts?.Cancel();
-            return newCts.Token;
+            // ignore
         }
+    }
 
-        public void Cancel()
-        {
-            try
-            {
-                _cancellationTokenSource.Cancel();
-            }
-            catch (ObjectDisposedException)
-            {
-                // ignore
-            }
-        }
-
-        public void Dispose()
-        {
-            _cancellationTokenSource.Dispose();
-        }
+    public void Dispose()
+    {
+        _cancellationTokenSource.Dispose();
     }
 }

@@ -1,7 +1,6 @@
-namespace Scar.Common.ApplicationLifetime.Contracts
+namespace Scar.Common.ApplicationLifetime.Contracts;
+
+public interface IApplicationTerminator
 {
-    public interface IApplicationTerminator
-    {
-        void Terminate();
-    }
+    void Terminate();
 }

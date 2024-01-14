@@ -1,12 +1,11 @@
 using System.Windows.Controls;
 
-namespace Scar.Common.WPF.View.Core
+namespace Scar.Common.WPF.View.Core;
+
+public class BaseControl : UserControl
 {
-    public class BaseControl : UserControl
+    protected BaseControl()
     {
-        protected BaseControl()
-        {
-            this.PreventFocusLoss();
-        }
+        this.PreventFocusLoss();
     }
 }

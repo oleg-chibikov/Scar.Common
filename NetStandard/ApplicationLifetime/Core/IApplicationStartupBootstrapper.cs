@@ -6,28 +6,27 @@ using Easy.MessageHub;
 using Scar.Common.Localization;
 using Scar.Common.Messages;
 
-namespace Scar.Common.ApplicationLifetime.Core
+namespace Scar.Common.ApplicationLifetime.Core;
+
+public interface IApplicationStartupBootstrapper
 {
-    public interface IApplicationStartupBootstrapper
-    {
-        string AppGuid { get; }
+    string AppGuid { get; }
 
-        Action<Message> ShowMessage { get; }
+    Action<Message> ShowMessage { get; }
 
-        ILifetimeScope Container { get; }
+    ILifetimeScope Container { get; }
 
-        IMessageHub Messenger { get; }
+    IMessageHub Messenger { get; }
 
-        ICultureManager CultureManager { get; }
+    ICultureManager CultureManager { get; }
 
-        SynchronizationContext? SynchronizationContext { get; }
+    SynchronizationContext? SynchronizationContext { get; }
 
-        void HandleException(Exception e);
+    void HandleException(Exception e);
 
-        Task OnExitAsync();
+    Task OnExitAsync();
 
-        void BeforeStart();
+    void BeforeStart();
 
-        Task OnStartAsync();
-    }
+    Task OnStartAsync();
 }

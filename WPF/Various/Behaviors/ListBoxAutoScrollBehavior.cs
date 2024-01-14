@@ -3,40 +3,39 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Xaml.Behaviors;
 
-namespace Scar.Common.WPF.Behaviors
+namespace Scar.Common.WPF.Behaviors;
+
+public sealed class ListBoxAutoScrollBehavior : Behavior<ListBox>
 {
-    public sealed class ListBoxAutoScrollBehavior : Behavior<ListBox>
+    protected override void OnAttached()
     {
-        protected override void OnAttached()
+        ((INotifyCollectionChanged)AssociatedObject.Items).CollectionChanged += OnCollectionChanged;
+    }
+
+    protected override void OnDetaching()
+    {
+        ((INotifyCollectionChanged)AssociatedObject.Items).CollectionChanged -= OnCollectionChanged;
+    }
+
+    void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (Mouse.LeftButton == MouseButtonState.Pressed)
         {
-            ((INotifyCollectionChanged)AssociatedObject.Items).CollectionChanged += OnCollectionChanged;
+            return;
         }
 
-        protected override void OnDetaching()
+        if (e.Action != NotifyCollectionChangedAction.Add)
         {
-            ((INotifyCollectionChanged)AssociatedObject.Items).CollectionChanged -= OnCollectionChanged;
+            return;
         }
 
-        void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        var count = AssociatedObject.Items.Count;
+        if (count == 0)
         {
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
-            {
-                return;
-            }
-
-            if (e.Action != NotifyCollectionChangedAction.Add)
-            {
-                return;
-            }
-
-            var count = AssociatedObject.Items.Count;
-            if (count == 0)
-            {
-                return;
-            }
-
-            var item = AssociatedObject.Items[count - 1];
-            AssociatedObject.ScrollIntoView(item);
+            return;
         }
+
+        var item = AssociatedObject.Items[count - 1];
+        AssociatedObject.ScrollIntoView(item);
     }
 }

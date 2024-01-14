@@ -1,9 +1,8 @@
 using System;
 
-namespace Scar.Common.DAL.Contracts
+namespace Scar.Common.DAL.Contracts;
+
+public interface IChangeableRepository
 {
-    public interface IChangeableRepository
-    {
-        event EventHandler Changed;
-    }
+    event EventHandler Changed;
 }

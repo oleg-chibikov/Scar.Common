@@ -2,24 +2,23 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Scar.Common.Async
+namespace Scar.Common.Async;
+
+public interface ICancellationTokenSourceProvider
 {
-    public interface ICancellationTokenSourceProvider
-    {
-        CancellationToken Token { get; }
+    CancellationToken Token { get; }
 
-        Task CurrentTask { get; }
+    Task CurrentTask { get; }
 
-        void Cancel();
+    void Cancel();
 
-        CancellationToken ResetTokenIfNeeded();
+    CancellationToken ResetTokenIfNeeded();
 
-        CancellationToken ResetToken();
+    CancellationToken ResetToken();
 
-        Task ExecuteOperationAsync(Func<CancellationToken, Task> func, bool cancelCurrent = true);
+    Task ExecuteOperationAsync(Func<CancellationToken, Task> func, bool cancelCurrent = true);
 
-        Task StartNewTaskAsync(Action<CancellationToken> action, bool cancelCurrent = true);
+    Task StartNewTaskAsync(Action<CancellationToken> action, bool cancelCurrent = true);
 
-        bool CheckCompleted();
-    }
+    bool CheckCompleted();
 }

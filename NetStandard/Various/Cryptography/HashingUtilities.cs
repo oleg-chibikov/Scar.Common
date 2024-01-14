@@ -3,30 +3,29 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Scar.Common.Cryptography
+namespace Scar.Common.Cryptography;
+
+public static class HashingUtilities
 {
-    public static class HashingUtilities
+    public static byte[] GetHash(this string inputString)
     {
-        public static byte[] GetHash(this string inputString)
+        return SHA512.HashData(Encoding.UTF8.GetBytes(inputString));
+    }
+
+    public static string GetHashString(this string inputString)
+    {
+        return GetHashString(GetHash(inputString));
+    }
+
+    public static string GetHashString(this byte[] bytes)
+    {
+        _ = bytes ?? throw new ArgumentNullException(nameof(bytes));
+        var sb = new StringBuilder();
+        foreach (var b in bytes)
         {
-            return SHA512.HashData(Encoding.UTF8.GetBytes(inputString));
+            sb.Append(b.ToString("X2", CultureInfo.InvariantCulture));
         }
 
-        public static string GetHashString(this string inputString)
-        {
-            return GetHashString(GetHash(inputString));
-        }
-
-        public static string GetHashString(this byte[] bytes)
-        {
-            _ = bytes ?? throw new ArgumentNullException(nameof(bytes));
-            var sb = new StringBuilder();
-            foreach (var b in bytes)
-            {
-                sb.Append(b.ToString("X2", CultureInfo.InvariantCulture));
-            }
-
-            return sb.ToString();
-        }
+        return sb.ToString();
     }
 }

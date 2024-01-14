@@ -1,22 +1,21 @@
 using System;
 using System.Windows;
 
-namespace Scar.Common.WPF.View.WindowButtons
-{
-    public partial class MinimizeButton
-    {
-        public MinimizeButton()
-        {
-            InitializeComponent();
-        }
+namespace Scar.Common.WPF.View.WindowButtons;
 
-        void MinimizeButton_Click(object? sender, RoutedEventArgs e)
+public partial class MinimizeButton
+{
+    public MinimizeButton()
+    {
+        InitializeComponent();
+    }
+
+    void MinimizeButton_Click(object? sender, RoutedEventArgs e)
+    {
+        var window = Window.GetWindow(sender as DependencyObject ?? throw new InvalidOperationException("sender is null"));
+        if (window != null)
         {
-            var window = Window.GetWindow(sender as DependencyObject ?? throw new InvalidOperationException("sender is null"));
-            if (window != null)
-            {
-                window.WindowState = WindowState.Minimized;
-            }
+            window.WindowState = WindowState.Minimized;
         }
     }
 }

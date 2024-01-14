@@ -1,22 +1,21 @@
 using System;
 
-namespace Scar.Common.ImageProcessing.ExifExtraction
+namespace Scar.Common.ImageProcessing.ExifExtraction;
+
+public sealed class FilePathErrorEventArgs : EventArgs
 {
-    public sealed class FilePathErrorEventArgs : EventArgs
+    public FilePathErrorEventArgs(string message, string filePath)
     {
-        public FilePathErrorEventArgs(string message, string filePath)
-        {
-            FilePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
-            Message = message ?? throw new ArgumentNullException(nameof(message));
-        }
+        FilePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
+        Message = message ?? throw new ArgumentNullException(nameof(message));
+    }
 
-        public string FilePath { get; }
+    public string FilePath { get; }
 
-        public string Message { get; }
+    public string Message { get; }
 
-        public override string ToString()
-        {
-            return $"[{FilePath}] {Message}";
-        }
+    public override string ToString()
+    {
+        return $"[{FilePath}] {Message}";
     }
 }

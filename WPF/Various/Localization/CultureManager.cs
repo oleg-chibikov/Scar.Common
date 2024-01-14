@@ -1,13 +1,12 @@
 using System.Globalization;
 using Scar.Common.Localization;
 
-namespace Scar.Common.WPF.Localization
+namespace Scar.Common.WPF.Localization;
+
+public class CultureManager : ICultureManager
 {
-    public class CultureManager : ICultureManager
+    public void ChangeCulture(CultureInfo cultureInfo)
     {
-        public void ChangeCulture(CultureInfo cultureInfo)
-        {
-            CultureUtilities.ChangeCulture(cultureInfo);
-        }
+        CultureUtilities.ChangeCulture(cultureInfo);
     }
 }

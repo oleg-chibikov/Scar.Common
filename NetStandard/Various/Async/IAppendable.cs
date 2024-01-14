@@ -1,7 +1,6 @@
-namespace Scar.Common.Async
+namespace Scar.Common.Async;
+
+public interface IAppendable<in T>
 {
-    public interface IAppendable<in T>
-    {
-        void Append(T t);
-    }
+    void Append(T t);
 }

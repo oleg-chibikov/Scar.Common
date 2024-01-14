@@ -1,11 +1,10 @@
-namespace Scar.Common.WPF.View.Contracts
+namespace Scar.Common.WPF.View.Contracts;
+
+public enum AdvancedWindowStartupLocation
 {
-    public enum AdvancedWindowStartupLocation
-    {
-        Default,
-        TopLeft,
-        TopRight,
-        BottomLeft,
-        BottomRight
-    }
+    Default,
+    TopLeft,
+    TopRight,
+    BottomLeft,
+    BottomRight
 }

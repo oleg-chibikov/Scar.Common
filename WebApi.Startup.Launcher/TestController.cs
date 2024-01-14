@@ -1,23 +1,22 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Scar.Common.WebApi.Startup.Launcher
+namespace Scar.Common.WebApi.Startup.Launcher;
+
+[Route("api/[controller]")]
+public class TestController : Controller
 {
-    [Route("api/[controller]")]
-    public class TestController : Controller
+    readonly Dependency _dependency;
+
+    public TestController(Dependency dependency)
     {
-        readonly Dependency _dependency;
+        _dependency = dependency ?? throw new ArgumentNullException(nameof(dependency));
+    }
 
-        public TestController(Dependency dependency)
-        {
-            _dependency = dependency ?? throw new ArgumentNullException(nameof(dependency));
-        }
-
-        [HttpGet]
-        public int Add(int i = 0)
-        {
-            _dependency.Method();
-            return i + 1;
-        }
+    [HttpGet]
+    public int Add(int i = 0)
+    {
+        _dependency.Method();
+        return i + 1;
     }
 }

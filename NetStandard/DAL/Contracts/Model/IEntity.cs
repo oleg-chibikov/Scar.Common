@@ -1,6 +1,5 @@
-namespace Scar.Common.DAL.Contracts.Model
+namespace Scar.Common.DAL.Contracts.Model;
+
+public interface IEntity : IMutableEntity<object>
 {
-    public interface IEntity : IMutableEntity<object>
-    {
-    }
 }

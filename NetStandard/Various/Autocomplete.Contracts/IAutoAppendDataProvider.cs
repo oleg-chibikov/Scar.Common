@@ -1,7 +1,6 @@
-namespace Scar.Common.Autocomplete.Contracts
+namespace Scar.Common.Autocomplete.Contracts;
+
+public interface IAutoAppendDataProvider
 {
-    public interface IAutoAppendDataProvider
-    {
-        string GetAppendText(string textPattern, string firstMatch);
-    }
+    string GetAppendText(string textPattern, string firstMatch);
 }

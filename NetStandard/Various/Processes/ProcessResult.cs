@@ -1,20 +1,12 @@
-namespace Scar.Common.Processes
+namespace Scar.Common.Processes;
+
+public sealed class ProcessResult(string? output, string? error, int exitCode)
 {
-    public sealed class ProcessResult
-    {
-        public ProcessResult(string? output, string? error, int exitCode)
-        {
-            Output = output;
-            Error = error;
-            ExitCode = exitCode;
-        }
+    public string? Output { get; } = output;
 
-        public string? Output { get; }
+    public string? Error { get; } = error;
 
-        public string? Error { get; }
+    public int ExitCode { get; } = exitCode;
 
-        public int ExitCode { get; }
-
-        public bool IsError => ExitCode != 0;
-    }
+    public bool IsError => ExitCode != 0;
 }

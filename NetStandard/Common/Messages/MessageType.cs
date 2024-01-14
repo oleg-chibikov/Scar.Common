@@ -1,10 +1,9 @@
-namespace Scar.Common.Messages
+namespace Scar.Common.Messages;
+
+public enum MessageType
 {
-    public enum MessageType
-    {
-        Message,
-        Warning,
-        Error,
-        Success
-    }
+    Message,
+    Warning,
+    Error,
+    Success
 }

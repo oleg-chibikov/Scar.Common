@@ -1,7 +1,6 @@
-﻿namespace Scar.Common.Sync.Contracts
+﻿namespace Scar.Common.Sync.Contracts;
+
+public interface IDropBoxPathProvider
 {
-    public interface IDropBoxPathProvider
-    {
-        string? GetDropBoxPath();
-    }
+    string? GetDropBoxPath();
 }

@@ -1,9 +1,8 @@
-namespace Scar.Common.Notification
-{
-    public interface INotificationSuppressable
-    {
-        bool NotificationIsSuppressed { get; set; }
+namespace Scar.Common.Notification;
 
-        NotificationSuppressor SuppressNotification();
-    }
+public interface INotificationSuppressable
+{
+    bool NotificationIsSuppressed { get; set; }
+
+    NotificationSuppressor SuppressNotification();
 }

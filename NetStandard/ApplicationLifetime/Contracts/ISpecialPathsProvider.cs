@@ -1,9 +1,8 @@
 using System;
 
-namespace Scar.Common.ApplicationLifetime.Contracts
+namespace Scar.Common.ApplicationLifetime.Contracts;
+
+public interface ISpecialPathsProvider
 {
-    public interface ISpecialPathsProvider
-    {
-        string ProvideSpecialPath(Environment.SpecialFolder specialFolderType);
-    }
+    string ProvideSpecialPath(Environment.SpecialFolder specialFolderType);
 }

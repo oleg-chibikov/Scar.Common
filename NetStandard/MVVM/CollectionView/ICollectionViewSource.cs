@@ -1,7 +1,6 @@
-namespace Scar.Common.MVVM.CollectionView
+namespace Scar.Common.MVVM.CollectionView;
+
+public interface ICollectionViewSource
 {
-    public interface ICollectionViewSource
-    {
-        ICollectionView GetDefaultView(object source);
-    }
+    ICollectionView GetDefaultView(object source);
 }
