@@ -11,13 +11,14 @@ namespace Scar.Common.DAL.LiteDB;
 public abstract class LiteDbRepository<T, TId> : FileBasedLiteDbRepository<TId>, IDisposableRepository<T, TId>, IChangeableRepository
     where T : IEntity<TId>
 {
-    protected LiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true, bool isShared = false, bool isReadonly = false, bool requireUpgrade = true) : base(
+    protected LiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true, bool isShared = false, bool isReadonly = false, bool requireUpgrade = true, bool keepInMemory = false) : base(
         directoryPath,
         fileName ?? typeof(T).Name,
         shrink,
         isShared,
         isReadonly,
-        requireUpgrade)
+        requireUpgrade,
+        keepInMemory)
     {
         Collection = Db.GetCollection<T>();
         if (!isReadonly)

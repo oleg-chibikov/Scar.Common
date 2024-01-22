@@ -11,7 +11,7 @@ public abstract class FileBasedLiteDbRepository<TId> : IFileBasedRepository, IDi
 {
     bool _disposedValue;
 
-    protected FileBasedLiteDbRepository(string directoryPath, string fileName, bool shrink = true, bool isShared = false, bool isReadonly = false, bool requireUpgrade = true)
+    protected FileBasedLiteDbRepository(string directoryPath, string fileName, bool shrink = true, bool isShared = false, bool isReadonly = false, bool requireUpgrade = true, bool keepInMemory = false)
     {
         DbFileName = fileName ?? throw new ArgumentNullException(nameof(fileName));
         DbDirectoryPath = directoryPath ?? throw new ArgumentNullException(nameof(directoryPath));
@@ -36,8 +36,18 @@ public abstract class FileBasedLiteDbRepository<TId> : IFileBasedRepository, IDi
 
         var filePath = Path.Combine(DbDirectoryPath, $"{DbFileName}{DbFileExtension}");
 
-        Db = new LiteDatabase(
-            $"filename={filePath};upgrade={requireUpgrade.ToString(CultureInfo.InvariantCulture)};readonly={isReadonly.ToString(CultureInfo.InvariantCulture)};connection={(isShared ? "shared" : "direct")}");
+        if (keepInMemory)
+        {
+            var mem = ReadStream(filePath);
+
+            Db = new LiteDatabase(mem);
+        }
+        else
+        {
+            Db = new LiteDatabase(
+                $"filename={filePath};upgrade={requireUpgrade.ToString(CultureInfo.InvariantCulture)};readonly={isReadonly.ToString(CultureInfo.InvariantCulture)};connection={(isShared ? "shared" : "direct")}");
+        }
+
         if (shrink)
         {
             Db.Rebuild();
@@ -96,5 +106,14 @@ public abstract class FileBasedLiteDbRepository<TId> : IFileBasedRepository, IDi
 
             _disposedValue = true;
         }
+    }
+
+    static MemoryStream ReadStream(string path)
+    {
+        using var temp = new MemoryStream(File.ReadAllBytes(path));
+        var ms = new MemoryStream();
+        temp.CopyTo(ms);
+
+        return ms;
     }
 }

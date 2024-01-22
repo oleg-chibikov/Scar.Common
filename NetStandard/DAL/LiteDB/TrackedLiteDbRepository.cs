@@ -9,13 +9,14 @@ namespace Scar.Common.DAL.LiteDB;
 public abstract class TrackedLiteDbRepository<T, TId> : LiteDbRepository<T, TId>, ITrackedRepository
     where T : IEntity<TId>, ITrackedEntity
 {
-    protected TrackedLiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true, bool isShared = false, bool isReadonly = false, bool requireUpgrade = true) : base(
+    protected TrackedLiteDbRepository(string directoryPath, string? fileName = null, bool shrink = true, bool isShared = false, bool isReadonly = false, bool requireUpgrade = true, bool keepInMemory = false) : base(
         directoryPath,
         fileName,
         shrink,
         isShared,
         isReadonly,
-        requireUpgrade)
+        requireUpgrade,
+        keepInMemory)
     {
         if (!isReadonly)
         {

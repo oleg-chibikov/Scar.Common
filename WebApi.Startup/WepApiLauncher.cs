@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -10,6 +9,7 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -45,7 +45,7 @@ public class WepApiLauncher : IWepApiLauncher
         var applicationTerminator = new ConsoleApplicationTerminator();
         _assemblyInfoProvider = new AssemblyInfoProvider(new EntryAssemblyProvider(), new SpecialPathsProvider());
         webApiAssembly ??= Assembly.GetCallingAssembly();
-        var baseDirectory = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule?.FileName) ?? throw new InvalidOperationException("Cannot get base directory");
+        var baseDirectory = AppContext.BaseDirectory ?? throw new InvalidOperationException("Cannot get base directory");
         Directory.SetCurrentDirectory(baseDirectory);
         _applicationBootstrapper = new ApplicationStartupBootstrapper(
             cultureManager,
@@ -62,12 +62,21 @@ public class WepApiLauncher : IWepApiLauncher
             },
             services =>
             {
-                // Build the intermediate service provider
                 var sp = services.BuildServiceProvider();
                 configuration = sp.GetRequiredService<IConfiguration>();
                 var appSettings = configuration.GetSection("AppSettings");
                 var appName = appSettings[AppSettingsConstants.AppNameKey];
                 var appVersion = appSettings[AppSettingsConstants.AppVersionKey];
+                var environment = appSettings[AppSettingsConstants.EnvironmentKey];
+
+                if (environment == "Production")
+                {
+                    services.AddHttpsRedirection(
+                        options =>
+                        {
+                            options.HttpsPort = 8443;
+                        });
+                }
 
                 ApiHostingHelper.RegisterServices(
                         services,

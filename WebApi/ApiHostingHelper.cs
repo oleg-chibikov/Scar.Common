@@ -16,15 +16,38 @@ namespace Scar.Common.WebApi;
 
 public static class ApiHostingHelper
 {
-    public static IHostBuilder RegisterWebApiHost(IHostBuilder hostBuilder, Uri? baseUrl = null, string? baseDirectory = null, string? applicationKey = null)
+    public static IHostBuilder RegisterWebApiHost(
+        IHostBuilder hostBuilder,
+        Uri? baseUrl = null,
+        string? baseDirectory = null,
+        string? applicationKey = null)
     {
         return hostBuilder.ConfigureWebHost(
             x =>
             {
-                x.UseKestrel().UseContentRoot(baseDirectory ?? Directory.GetCurrentDirectory()).UseIISIntegration().UseStartup<StartupConfig>();
+                x.UseKestrel(
+                        options =>
+                        {
+                            var sslSettings = options.ApplicationServices.GetService(typeof(ISslSettings)) as ISslSettings;
+                            options.ListenAnyIP(80);
+                            options.ListenAnyIP(
+                                8443,
+                                listenOptions =>
+                                {
+                                    if (sslSettings?.PfxCertificatePath != null)
+                                    {
+                                        listenOptions.UseHttps(
+                                            sslSettings.PfxCertificatePath,
+                                            sslSettings.PfxPassword);
+                                    }
+                                });
+                        }).UseContentRoot(baseDirectory ?? Directory.GetCurrentDirectory()).UseIISIntegration().
+                    UseStartup<StartupConfig>();
                 if (!string.IsNullOrEmpty(applicationKey))
                 {
-                    x.UseSetting(WebHostDefaults.ApplicationKey, applicationKey);
+                    x.UseSetting(
+                        WebHostDefaults.ApplicationKey,
+                        applicationKey);
                 }
 
                 if (baseUrl != null)
@@ -41,23 +64,20 @@ public static class ApiHostingHelper
         Action<IMvcBuilder>? configureMvc = null,
         Action<SwaggerGenOptions>? configureSwagger = null)
     {
-        var mvcBuilder = servicesCollection.AddOptions()
-            .AddRouting()
-            .AddControllers(
-                mvcOptions =>
-                {
-                    mvcOptions.Filters.Add(new CheckModelForNullAttribute());
-                    mvcOptions.Filters.Add(new ValidateModelStateAttribute());
-                    configureControllers?.Invoke(mvcOptions);
-                })
-            .AddApplicationPart(webApiAssembly)
-            .AddNewtonsoftJson(
-                mvcNewtonsoftJsonOptions =>
-                {
-                    mvcNewtonsoftJsonOptions.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    mvcNewtonsoftJsonOptions.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    mvcNewtonsoftJsonOptions.SerializerSettings.Converters.Add(new StringEnumConverter());
-                });
+        var mvcBuilder = servicesCollection.AddOptions().AddRouting().AddControllers(
+            mvcOptions =>
+            {
+                mvcOptions.Filters.Add(new CheckModelForNullAttribute());
+                mvcOptions.Filters.Add(new ValidateModelStateAttribute());
+                configureControllers?.Invoke(mvcOptions);
+            }).AddApplicationPart(webApiAssembly).AddNewtonsoftJson(
+            mvcNewtonsoftJsonOptions =>
+            {
+                mvcNewtonsoftJsonOptions.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                mvcNewtonsoftJsonOptions.SerializerSettings.ContractResolver =
+                    new CamelCasePropertyNamesContractResolver();
+                mvcNewtonsoftJsonOptions.SerializerSettings.Converters.Add(new StringEnumConverter());
+            });
         configureMvc?.Invoke(mvcBuilder);
         return mvcBuilder.Services.AddSwaggerExamplesFromAssemblies().AddSwaggerGen(configureSwagger);
     }

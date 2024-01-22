@@ -64,8 +64,10 @@ public class ApplicationStartupBootstrapper : IApplicationStartupBootstrapper
         CultureManager = cultureManager ?? throw new ArgumentNullException(nameof(cultureManager));
         _applicationTerminator =
             applicationTerminator ?? throw new ArgumentNullException(nameof(applicationTerminator));
-        baseDirectory ??= Path.GetDirectoryName(Process.GetCurrentProcess().MainModule?.FileName) ??
+        baseDirectory ??= AppContext.BaseDirectory ??
                           throw new InvalidOperationException("Cannot get base directory");
+
+        Console.WriteLine("Base directory of Bootstrapper: " + baseDirectory);
 
         if (_newInstanceHandling != NewInstanceHandling.AllowMultiple)
         {
