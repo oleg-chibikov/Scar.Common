@@ -6,9 +6,10 @@
     xmlns:behaviors="clr-namespace:Scar.Common.WPF.Behaviors;assembly=Scar.Common.WPF.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="clr-namespace:Scar.Common.WPF.Controls"
     Height="23"
     mc:Ignorable="d">
-    <StackPanel DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=numericUpDown:NumericUpDown}}" Orientation="Horizontal">
+    <StackPanel DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:NumericUpDown}}" Orientation="Horizontal">
 
         <TextBox
             Height="{Binding Height}"

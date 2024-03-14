@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -23,7 +22,6 @@ public abstract class BaseApplication : Application
 {
     readonly ApplicationStartupBootstrapper _applicationBootstrapper;
 
-    [SuppressMessage("Usage", "CA2214:Do not call overridable methods in constructors", Justification = "Intended")]
     protected BaseApplication(
         Func<IHostBuilder, IHostBuilder>? configureHost = null,
         Action<IServiceCollection>? configureServices = null,
@@ -112,16 +110,16 @@ public abstract class BaseApplication : Application
         return attribute.Product;
     }
 
+    static Mutex CreateMutex()
+    {
+        return new Mutex(false, $"Global\\{GetAppGuid()}", out _);
+    }
+
     void App_DispatcherUnhandledException(object? sender, DispatcherUnhandledExceptionEventArgs e)
     {
         _applicationBootstrapper.HandleException(e.Exception);
 
         // Prevent default unhandled exception processing
         e.Handled = true;
-    }
-
-    Mutex CreateMutex()
-    {
-        return new Mutex(false, $"Global\\{GetAppGuid()}", out _);
     }
 }
