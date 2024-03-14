@@ -1,9 +1,0 @@
-﻿<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
-
-  <PropertyGroup>
-    <AssemblyName>$(AssemblyName).Sync.$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>$(RootNamespace).Sync.$(MSBuildProjectName)</RootNamespace>
-  </PropertyGroup>
-
-</Project>

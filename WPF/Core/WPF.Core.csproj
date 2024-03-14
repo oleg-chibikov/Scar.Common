@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Common base types for WPF views</Description>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.csproj" />
+    <ProjectReference Include="..\..\MVVM\ViewModel\MVVM.ViewModel.csproj" />
+    <ProjectReference Include="..\..\RateLimiting\RateLimiting.csproj" />
+    <ProjectReference Include="..\Contracts\WPF.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Scar.Common.WebApi.Startup.Launcher;
+namespace Scar.Common.WebApi.Startup.Launcher.WebApi.Startup.Launcher;
 
 [Route("api/[controller]")]
 public class TestController : Controller

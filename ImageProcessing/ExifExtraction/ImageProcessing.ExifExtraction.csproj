@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-16"?><Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>An exiftool.exe wrapper</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.csproj" />
+    <ProjectReference Include="..\..\Processes\Processes.csproj" />
+    <ProjectReference Include="..\Metadata\ImageProcessing.Metadata.csproj" />
+  </ItemGroup>
+
+</Project>

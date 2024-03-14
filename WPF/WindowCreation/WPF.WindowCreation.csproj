@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Description>WPF tools for working with WindowCreation</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\View\Contracts\View.Contracts.csproj" />
+    <ProjectReference Include="..\..\View\WindowCreation\View.WindowCreation.csproj" />
+  </ItemGroup>
+
+</Project>

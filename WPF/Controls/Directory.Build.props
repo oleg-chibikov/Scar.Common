@@ -2,8 +2,7 @@
   <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
 
   <PropertyGroup>
-    <AssemblyName>$(AssemblyName).Controls.$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>$(RootNamespace).Controls</RootNamespace>
+    <RootNamespace>Scar.Common.WPF.Controls</RootNamespace>
   </PropertyGroup>
 
 </Project>

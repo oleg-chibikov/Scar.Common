@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <Description>A launcher for console applications</Description>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+  <PackageReference Include="Autofac" Version="8.0.0" />
+  <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="9.0.0" />
+  <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+  <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
+  <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.0" />
+  <PackageReference Include="Serilog" Version="3.1.1" />
+  <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
+  <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
+  <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ApplicationLifetime\Contracts\ApplicationLifetime.Contracts.csproj" />
+    <ProjectReference Include="..\ApplicationLifetime\Core\ApplicationLifetime.Core.csproj" />
+    <ProjectReference Include="..\Localization\Localization.csproj" />
+    <ProjectReference Include="..\WebApi\WebApi.csproj" />
+  </ItemGroup>
+</Project>

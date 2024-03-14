@@ -16,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Scar.Common.ApplicationLifetime.Core;
+using Scar.Common.Localization;
 using Serilog;
 using Serilog.Events;
 
@@ -30,7 +31,7 @@ public class WepApiLauncher : IWepApiLauncher
         Action<ContainerBuilder, IConfiguration>? registerDependencies = null,
         Func<IHostBuilder, IHostBuilder>? configureHost = null,
         Action<IServiceCollection>? configureServices = null,
-        Action<ILifetimeScope>? afterBuild = null,
+        Func<ILifetimeScope, Task>? afterBuild = null,
         Action<HostBuilderContext, ILoggingBuilder>? configureLogging = null,
         string? alreadyRunningMessage = null,
         int waitAfterOldInstanceKillMilliseconds = 0,

@@ -4,7 +4,7 @@ using Moq;
 using NUnit.Framework;
 using Scar.Common.Caching;
 
-namespace Scar.Common.Tests;
+namespace Scar.Common.Tests.Tests;
 
 public partial class CacheTests
 {

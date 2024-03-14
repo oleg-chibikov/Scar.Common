@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <PropertyGroup>
+    <OutputType>Library</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <IsPackable>true</IsPackable>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\CodeAnalysis.ruleset</CodeAnalysisRuleSet>
@@ -32,8 +33,8 @@
     <Nullable>enable</Nullable>
     <Company>Scar</Company>
     <Authors>Scar</Authors>
-    <AssemblyName>$(Company).Common</AssemblyName>
-    <RootNamespace>$(Company).Common</RootNamespace>
+    <AssemblyName>Scar.Common.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Scar.Common.$(MSBuildProjectName)</RootNamespace>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
   </PropertyGroup>
 

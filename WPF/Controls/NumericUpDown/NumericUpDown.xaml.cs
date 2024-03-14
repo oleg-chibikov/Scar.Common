@@ -2,6 +2,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+#pragma warning disable CA1822
 
 namespace Scar.Common.WPF.Controls;
 

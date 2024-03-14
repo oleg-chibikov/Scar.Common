@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Common tools to simplify WPF application startup</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ApplicationLifetime\Contracts\ApplicationLifetime.Contracts.csproj" />
+    <ProjectReference Include="..\..\ApplicationLifetime\Core\ApplicationLifetime.Core.csproj" />
+    <ProjectReference Include="..\..\Localization\Localization.csproj" />
+    <ProjectReference Include="..\Localization\WPF.Localization.csproj" />
+  </ItemGroup>
+
+</Project>

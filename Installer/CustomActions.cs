@@ -6,7 +6,7 @@ using WixSharp;
 using WixSharp.CommonTasks;
 using File = System.IO.File;
 
-namespace Scar.Common.Installer;
+namespace Scar.Common.Installer.Installer;
 
 public static class CustomActions
 {

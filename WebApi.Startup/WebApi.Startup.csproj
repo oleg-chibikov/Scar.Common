@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <Description>Common tools for WebApi</Description>
-    <AssemblyName>$(AssemblyName).$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>$(RootNamespace).$(MSBuildProjectName)</RootNamespace>
     <OutputType>Library</OutputType>
   </PropertyGroup>
 
@@ -14,8 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NetStandard\ApplicationLifetime\Contracts\Contracts.csproj" />
-    <ProjectReference Include="..\NetStandard\ApplicationLifetime\Core\Core.csproj" />
+    <ProjectReference Include="..\ApplicationLifetime\Contracts\ApplicationLifetime.Contracts.csproj" />
+    <ProjectReference Include="..\ApplicationLifetime\Core\ApplicationLifetime.Core.csproj" />
+    <ProjectReference Include="..\Localization\Localization.csproj" />
     <ProjectReference Include="..\WebApi\WebApi.csproj" />
   </ItemGroup>
 </Project>

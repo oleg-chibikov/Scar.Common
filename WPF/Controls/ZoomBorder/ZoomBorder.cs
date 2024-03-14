@@ -34,6 +34,7 @@ public class ZoomBorder : Border
         SizeChanged += ZoomBorder_SizeChanged;
         MouseMove += ZoomBorder_MouseMove;
         PreviewMouseDown += ZoomBorder_PreviewMouseButtonDown;
+        PreviewMouseWheel += ZoomBorder_PreviewMouseWheel;
     }
 
     public override UIElement Child
@@ -41,7 +42,7 @@ public class ZoomBorder : Border
         get => base.Child;
         set
         {
-            if ((value != null) && !Equals(value, Child))
+            if (value != null && !Equals(value, Child))
             {
                 Initialize(value);
             }
@@ -52,7 +53,7 @@ public class ZoomBorder : Border
 
     public void Reset()
     {
-        if (_isReset || (_child == null))
+        if (_isReset || _child == null)
         {
             return;
         }
@@ -80,6 +81,12 @@ public class ZoomBorder : Border
             _child.RenderTransform = group;
             _child.RenderTransformOrigin = new Point(0.0, 0.0);
         }
+    }
+
+    void ZoomBorder_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        e.Handled = true; // Mark the event as handled to prevent default scroll action
+        ZoomBorder_MouseWheel(sender, e); // Call your existing method for zooming
     }
 
     void ZoomBorder_MouseWheel(object? sender, MouseWheelEventArgs e)
@@ -111,7 +118,7 @@ public class ZoomBorder : Border
 
     void ZoomBorder_MouseLeftButtonUp(object? sender, MouseButtonEventArgs e)
     {
-        if ((_child == null) || (e.LeftButton == MouseButtonState.Pressed))
+        if (_child == null || e.LeftButton == MouseButtonState.Pressed)
         {
             return;
         }
@@ -131,7 +138,7 @@ public class ZoomBorder : Border
     void ZoomBorder_MouseMove(object? sender, MouseEventArgs e)
     {
         // ReSharper disable once MergeSequentialChecksWhenPossible
-        if ((_child == null) || !_child.IsMouseCaptured || (e.LeftButton != MouseButtonState.Pressed))
+        if (_child == null || !_child.IsMouseCaptured || e.LeftButton != MouseButtonState.Pressed)
         {
             return;
         }
@@ -199,7 +206,7 @@ public class ZoomBorder : Border
     void ZoomBorder_SizeChanged(object? sender, SizeChangedEventArgs e)
     {
         const double tolerance = 0.1;
-        if (!e.PreviousSize.Height.Equals(0) && (Math.Abs(e.PreviousSize.Height - e.NewSize.Height) >= tolerance))
+        if (!e.PreviousSize.Height.Equals(0) && Math.Abs(e.PreviousSize.Height - e.NewSize.Height) >= tolerance)
         {
             Reset();
         }

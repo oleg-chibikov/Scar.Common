@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>NumericUpDown control</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NumericUpDown\WPF.Controls.NumericUpDown.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Helpers to perform localization of a WPF project</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WpfLocalizeExtension" Version="3.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Localization\Localization.csproj" />
+  </ItemGroup>
+
+</Project>

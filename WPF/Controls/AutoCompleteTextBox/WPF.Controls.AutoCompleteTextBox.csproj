@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>AutoComplete textbox control for WPF</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Autocomplete.Contracts\Autocomplete.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\RateLimiting\RateLimiting.csproj" />
+  </ItemGroup>
+
+</Project>

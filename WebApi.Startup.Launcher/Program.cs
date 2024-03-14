@@ -7,7 +7,7 @@ using Autofac;
 [assembly: Guid("bac04c25-8738-47e5-a776-85a3f57fc088")]
 [assembly: AssemblyProduct("Common")]
 
-namespace Scar.Common.WebApi.Startup.Launcher;
+namespace Scar.Common.WebApi.Startup.Launcher.WebApi.Startup.Launcher;
 
 static class Program
 {

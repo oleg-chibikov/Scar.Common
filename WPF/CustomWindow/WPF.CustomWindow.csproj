@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Animated window for WPF views</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\WPF.Core.csproj" />
+    <ProjectReference Include="..\Screen\WPF.Screen.csproj" />
+    <ProjectReference Include="..\WindowButtons\WPF.WindowButtons.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>An Autofac scoped (disposed when out of scope) window provider</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="7.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Contracts\View.Contracts.csproj" />
+    <ProjectReference Include="..\WindowCreation\View.WindowCreation.csproj" />
+  </ItemGroup>
+
+</Project>

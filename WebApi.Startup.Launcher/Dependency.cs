@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Extensions.Logging;
 
-namespace Scar.Common.WebApi.Startup.Launcher;
+namespace Scar.Common.WebApi.Startup.Launcher.WebApi.Startup.Launcher;
 
 public sealed class Dependency : IDisposable
 {

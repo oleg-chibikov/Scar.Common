@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>$(AssemblyName).$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>$(RootNamespace).$(MSBuildProjectName)</RootNamespace>
   </PropertyGroup>
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NetStandard\Various\Caching\Caching.csproj" />
+    <ProjectReference Include="..\Caching\Caching.csproj" />
   </ItemGroup>
 
 </Project>

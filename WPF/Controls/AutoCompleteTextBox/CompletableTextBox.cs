@@ -26,7 +26,7 @@ public class CompletableTextBox : TextBox, IDisposable
         typeof(CompletableTextBox),
         new PropertyMetadata(null));
 
-    readonly IRateLimiter _rateLimiter;
+    readonly RateLimiter _rateLimiter;
     bool _disposedValue;
     CancellationTokenSource _cancellationTokenSource = new ();
     bool _disabled;
@@ -391,9 +391,9 @@ public class CompletableTextBox : TextBox, IDisposable
         // Text = SelectedItem?.ToString() ?? string.Empty;
     }
 
-    void TextBox_PreviewKeyDown(object? sender, KeyEventArgs e)
+    async void TextBox_PreviewKeyDown(object? sender, KeyEventArgs e)
     {
-        _rateLimiter.ThrottleAsync(
+        await _rateLimiter.ThrottleAsync(
             TimeSpan.FromMilliseconds(20),
             () =>
             {
@@ -453,7 +453,7 @@ public class CompletableTextBox : TextBox, IDisposable
 
                     e.Handled = true;
                 }
-            });
+            }).ConfigureAwait(false);
     }
 
     /*+---------------------------------------------------------------------+
@@ -461,9 +461,9 @@ public class CompletableTextBox : TextBox, IDisposable
       |                   TextBox Event Handling                            |
       |                                                                     |
       +---------------------------------------------------------------------*/
-    void TextBox_TextChanged(object? sender, TextChangedEventArgs e)
+    async void TextBox_TextChanged(object? sender, TextChangedEventArgs e)
     {
-        _rateLimiter.DebounceAsync(
+        await _rateLimiter.DebounceAsync(
             TimeSpan.FromMilliseconds(300),
             async text =>
             {
@@ -489,7 +489,7 @@ public class CompletableTextBox : TextBox, IDisposable
                 {
                 }
             },
-            Text);
+            Text).ConfigureAwait(false);
     }
 
     void UpdateItem(object item, bool selectAll)

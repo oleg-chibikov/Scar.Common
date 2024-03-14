@@ -9,7 +9,7 @@ using WixSharp.Forms;
 using Action = WixSharp.Action;
 using Assembly = System.Reflection.Assembly;
 
-namespace Scar.Common.Installer;
+namespace Scar.Common.Installer.Installer;
 
 public class InstallBuilder
 {

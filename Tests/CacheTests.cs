@@ -1,6 +1,6 @@
 using System;
 
-namespace Scar.Common.Tests;
+namespace Scar.Common.Tests.Tests;
 
 public partial class CacheTests
 {

@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Scar.Common</AssemblyName>
+    <RootNamespace>Scar.Common</RootNamespace>
+    <Description>Various most common tools</Description>
+  </PropertyGroup>
+
+</Project>
