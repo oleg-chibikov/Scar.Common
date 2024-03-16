@@ -15,6 +15,7 @@
     <ProjectReference Include="..\..\Common\Common.csproj" />
     <ProjectReference Include="..\..\Localization\Localization.csproj" />
     <ProjectReference Include="..\..\Localization\Localization.csproj" />
+    <ProjectReference Include="..\..\MVVM\Commands\MVVM.Commands.csproj" />
     <ProjectReference Include="..\Contracts\ApplicationLifetime.Contracts.csproj" />
   </ItemGroup>
 

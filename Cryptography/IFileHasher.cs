@@ -1,4 +1,4 @@
-﻿namespace Scar.Common.Cryptography;
+namespace Scar.Common.Cryptography;
 
 public interface IFileHasher
 {

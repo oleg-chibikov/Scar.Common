@@ -3,14 +3,10 @@ using Scar.Common.Events;
 
 namespace Scar.Common.ImageProcessing.ExifExtraction;
 
-public sealed class FilePathProgressEventArgs : ProgressEventArgs
+public sealed class FilePathProgressEventArgs(int current, int total, string filePath) : ProgressEventArgs(
+    current, total)
 {
-    public FilePathProgressEventArgs(int current, int total, string filePath) : base(current, total)
-    {
-        FilePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
-    }
-
-    public string FilePath { get; }
+    public string FilePath { get; } = filePath ?? throw new ArgumentNullException(nameof(filePath));
 
     public override string ToString()
     {

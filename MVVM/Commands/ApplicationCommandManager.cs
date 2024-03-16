@@ -2,14 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 
 namespace Scar.Common.MVVM.Commands;
 
-public class ApplicationCommandManager(SynchronizationContext synchronizationContext) : ICommandManager
+public class ApplicationCommandManager(IUiThreadRunner uiThreadRunner) : ICommandManager
 {
     readonly List<Action> _raiseCanExecuteChangedActions = new();
-    readonly SynchronizationContext _synchronizationContext = synchronizationContext ?? throw new ArgumentNullException(nameof(synchronizationContext));
 
     public void AddRaiseCanExecuteChangedAction(ref Action raiseCanExecuteChangedAction)
     {
@@ -41,15 +39,14 @@ public class ApplicationCommandManager(SynchronizationContext synchronizationCon
             copy = _raiseCanExecuteChangedActions.ToList();
         }
 
-        _synchronizationContext.Send(
-            _ =>
+        uiThreadRunner.Run(
+            () =>
             {
                 foreach (var raiseCanExecuteChangedAction in copy)
                 {
                     raiseCanExecuteChangedAction?.Invoke();
                 }
-            },
-            null);
+            });
     }
 
     void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)

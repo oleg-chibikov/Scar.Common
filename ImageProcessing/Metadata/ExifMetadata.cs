@@ -15,7 +15,8 @@ public class ExifMetadata
         object? exposureTime,
         DateTime? dateImageTaken,
         Orientation orientation,
-        IReadOnlyCollection<byte>? thumbnailBytes) : this(dateImageTaken)
+        IReadOnlyCollection<byte>? thumbnailBytes,
+        GeoLocation? geoLocation) : this(dateImageTaken)
     {
         Width = width;
         Height = height;
@@ -26,6 +27,7 @@ public class ExifMetadata
         ExposureTime = exposureTime;
         Orientation = orientation;
         ThumbnailBytes = thumbnailBytes;
+        GeoLocation = geoLocation;
     }
 
     public ExifMetadata(DateTime? dateImageTaken)
@@ -50,6 +52,8 @@ public class ExifMetadata
     public object? IsoSpeed { get; }
 
     public object? ExposureTime { get; }
+
+    public GeoLocation? GeoLocation { get; set; }
 
     public DateTime? DateImageTaken { get; set; }
 

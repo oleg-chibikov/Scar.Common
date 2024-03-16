@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Various WPF Converters for images</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ImageProcessing\Metadata\ImageProcessing.Metadata.csproj" />
+  </ItemGroup>
+
+</Project>

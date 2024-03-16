@@ -30,7 +30,31 @@ public sealed class MetadataExtractor(ILogger<MetadataExtractor>? logger = null)
     };
 
     static readonly TimeSpan DefaultAttemptDelay = TimeSpan.FromMilliseconds(100);
+    static readonly TimeSpan GeocoderDefaultAttemptDelay = TimeSpan.FromSeconds(1);
     readonly ILogger? _logger = logger;
+    readonly ReverseGeocoder _reverseGeocoder = new();
+
+    public async Task LoadLocationInfoAsync(ExifMetadata exifMetadata, Action<string?>? onComplete = null)
+    {
+        _ = exifMetadata ?? throw new ArgumentNullException(nameof(exifMetadata));
+        if (exifMetadata.GeoLocation != null)
+        {
+            Func<AttemptInfo, Task> func = async _ =>
+            {
+                var locationData = await _reverseGeocoder.ReverseGeocodeAsync(
+                    exifMetadata.GeoLocation.Latitude,
+                    exifMetadata.GeoLocation.Longitude).ConfigureAwait(false);
+
+                exifMetadata.GeoLocation = new GeoLocation(
+                    exifMetadata.GeoLocation.Latitude,
+                    exifMetadata.GeoLocation.Longitude,
+                    locationData);
+                onComplete?.Invoke(locationData);
+            };
+
+            await func.RunFuncWithSeveralAttemptsAsync(delay: GeocoderDefaultAttemptDelay).ConfigureAwait(false);
+        }
+    }
 
     public async Task<ExifMetadata> ExtractAsync(string filePath, MetadataOptions options = MetadataOptions.All)
     {
@@ -115,6 +139,38 @@ public sealed class MetadataExtractor(ILogger<MetadataExtractor>? logger = null)
                 }
             }
 
+            double? latitude = null;
+            double? longitude = null;
+
+            if (options.HasFlag(MetadataOptions.Location))
+            {
+                reader.GetTagValue(ExifTags.GPSLatitude, out double[] lat);
+                reader.GetTagValue(ExifTags.GPSLongitude, out double[] lon);
+
+                if (lat != null && lon != null && lat.Length == 3 && lon.Length == 3)
+                {
+                    latitude = lat[0] + (lat[1] / 60) + (lat[2] / 3600);
+                    longitude = lon[0] + (lon[1] / 60) + (lon[2] / 3600);
+                    if (reader.GetTagValue(ExifTags.GPSLatitudeRef, out string? latRef) &&
+                        reader.GetTagValue(ExifTags.GPSLongitudeRef, out string? lonRef))
+                    {
+                        if (latRef == "S")
+                        {
+                            latitude = -latitude;
+                        }
+
+                        if (lonRef == "W")
+                        {
+                            longitude = -longitude;
+                        }
+                    }
+                }
+            }
+
+            var geoLocation = latitude != null && longitude != null
+                ? new GeoLocation(latitude.Value, longitude.Value)
+                : null;
+
             return new ExifMetadata(
                 width,
                 height,
@@ -125,7 +181,8 @@ public sealed class MetadataExtractor(ILogger<MetadataExtractor>? logger = null)
                 exposureTime,
                 dateImageTaken,
                 orientation,
-                thumbnailBytes as byte[]);
+                thumbnailBytes as byte[],
+                geoLocation);
         };
 
         return await func.RunFuncWithSeveralAttemptsAsync(

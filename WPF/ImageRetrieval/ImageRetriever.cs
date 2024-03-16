@@ -14,15 +14,10 @@ using Scar.Common.IO;
 
 namespace Scar.Common.WPF.ImageRetrieval;
 
-public class ImageRetriever : IImageRetriever
+public class ImageRetriever(ILogger<ImageRetriever> logger) : IImageRetriever
 {
     static readonly TimeSpan DefaultAttemptDelay = TimeSpan.FromMilliseconds(100);
-    readonly ILogger _logger;
-
-    public ImageRetriever(ILogger<ImageRetriever> logger)
-    {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    }
+    readonly ILogger _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
     public async Task<byte[]> GetThumbnailAsync(string filePath, CancellationToken cancellationToken)
     {

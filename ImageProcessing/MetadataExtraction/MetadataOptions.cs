@@ -10,6 +10,7 @@ public enum MetadataOptions
     Dimensions = 2,
     CameraInfo = 4,
     Thumbnail = 8,
-    Orientation = 16, // New flag for orientation
-    All = DateTaken | Dimensions | CameraInfo | Thumbnail | Orientation
+    Orientation = 16,
+    Location = 32,
+    All = DateTaken | Dimensions | CameraInfo | Orientation | Location
 }

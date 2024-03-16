@@ -7,14 +7,9 @@ using Scar.Common.View.WindowCreation;
 
 namespace Scar.Common.View.AutofacWindowProvision;
 
-public class AutofacScopedWindowProvider : IScopedWindowProvider
+public class AutofacScopedWindowProvider(ILifetimeScope lifetimeScope) : IScopedWindowProvider
 {
-    readonly ILifetimeScope _lifetimeScope;
-
-    public AutofacScopedWindowProvider(ILifetimeScope lifetimeScope)
-    {
-        _lifetimeScope = lifetimeScope ?? throw new ArgumentNullException(nameof(lifetimeScope));
-    }
+    readonly ILifetimeScope _lifetimeScope = lifetimeScope ?? throw new ArgumentNullException(nameof(lifetimeScope));
 
     public async Task<TWindow> GetScopedWindowAsync<TWindow, TParam>(TParam param, CancellationToken cancellationToken)
         where TWindow : IDisplayable

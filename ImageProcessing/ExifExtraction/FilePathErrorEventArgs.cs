@@ -2,17 +2,11 @@ using System;
 
 namespace Scar.Common.ImageProcessing.ExifExtraction;
 
-public sealed class FilePathErrorEventArgs : EventArgs
+public sealed class FilePathErrorEventArgs(string message, string filePath) : EventArgs
 {
-    public FilePathErrorEventArgs(string message, string filePath)
-    {
-        FilePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
-        Message = message ?? throw new ArgumentNullException(nameof(message));
-    }
+    public string FilePath { get; } = filePath ?? throw new ArgumentNullException(nameof(filePath));
 
-    public string FilePath { get; }
-
-    public string Message { get; }
+    public string Message { get; } = message ?? throw new ArgumentNullException(nameof(message));
 
     public override string ToString()
     {

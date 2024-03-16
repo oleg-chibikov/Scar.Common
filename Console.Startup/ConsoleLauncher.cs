@@ -28,7 +28,7 @@ public class ConsoleLauncher
     public async Task SetupAsync(
         Action<ContainerBuilder> registerDependencies,
         Func<ILifetimeScope, Task> launch,
-        Func<IConfigurationSection, object> readConfig)
+        Func<IConfigurationSection, object>? readConfig = null)
     {
         // Some boilerplate to react to close window event, CTRL-C, kill, etc
         _appExitHandler += AppExitHandler;
@@ -78,7 +78,11 @@ public class ConsoleLauncher
             {
                 var configuration = hostBuilderContext.Configuration;
                 var appSettings = configuration.GetSection("AppSettings");
-                config = readConfig(appSettings);
+                if (readConfig != null)
+                {
+                    config = readConfig(appSettings);
+                }
+
                 SetupSerilogLogger(
                     appDirectory,
                     appSettings["Environment"] ?? "Development");

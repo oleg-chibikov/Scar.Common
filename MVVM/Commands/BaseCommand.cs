@@ -9,16 +9,19 @@ public abstract class BaseCommand<TExecute, TCanExecute> : IRefreshableCommand, 
 {
     readonly Action _raiseCanExecuteChangedAction;
 
-    protected BaseCommand(ICommandManager commandManager, TExecute executeFunc, TCanExecute? canExecuteFunc = null)
+    protected BaseCommand(ICommandManager commandManager, TExecute executeFunc, TCanExecute? canExecuteFunc = null, string? debugName = null)
     {
         ExecuteFunc = executeFunc ?? throw new ArgumentNullException(nameof(executeFunc));
         CommandManager = commandManager ?? throw new ArgumentNullException(nameof(commandManager));
         CanExecuteFunc = canExecuteFunc;
         _raiseCanExecuteChangedAction = RaiseCanExecuteChanged;
         CommandManager.AddRaiseCanExecuteChangedAction(ref _raiseCanExecuteChangedAction);
+        DebugName = debugName;
     }
 
     public event EventHandler? CanExecuteChanged;
+
+    public string? DebugName { get; }
 
     protected TCanExecute? CanExecuteFunc { get; }
 
@@ -28,7 +31,7 @@ public abstract class BaseCommand<TExecute, TCanExecute> : IRefreshableCommand, 
 
     public void RaiseCanExecuteChanged()
     {
-        CanExecuteChanged?.Invoke(this, new EventArgs());
+        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void Execute(object? parameter)

@@ -5,20 +5,15 @@ using Scar.Common.View.Contracts;
 
 namespace Scar.Common.View.WindowCreation;
 
-public class WindowFactory<TWindow> : IWindowFactory<TWindow>, IDisposable
+public class WindowFactory<TWindow>(IScopedWindowProvider scopedWindowProvider, IAsyncWindowDisplayer windowDisplayer)
+    : IWindowFactory<TWindow>, IDisposable
     where TWindow : class, IDisplayable
 {
-    readonly IScopedWindowProvider _scopedWindowProvider;
-    readonly IAsyncWindowDisplayer _windowDisplayer;
+    readonly IScopedWindowProvider _scopedWindowProvider = scopedWindowProvider ?? throw new ArgumentNullException(nameof(scopedWindowProvider));
+    readonly IAsyncWindowDisplayer _windowDisplayer = windowDisplayer ?? throw new ArgumentNullException(nameof(windowDisplayer));
     readonly SemaphoreSlim _semaphore = new (1, 1);
     TWindow? _currentWindow;
     bool _disposedValue;
-
-    public WindowFactory(IScopedWindowProvider scopedWindowProvider, IAsyncWindowDisplayer windowDisplayer)
-    {
-        _scopedWindowProvider = scopedWindowProvider ?? throw new ArgumentNullException(nameof(scopedWindowProvider));
-        _windowDisplayer = windowDisplayer ?? throw new ArgumentNullException(nameof(windowDisplayer));
-    }
 
     public async Task<TWindow> GetWindowAsync(CancellationToken cancellationToken)
     {

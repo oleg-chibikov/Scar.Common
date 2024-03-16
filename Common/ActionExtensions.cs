@@ -5,7 +5,7 @@ namespace Scar.Common;
 
 public static class ActionExtensions
 {
-    public static async Task<TReturn> RunFuncWithSeveralAttemptsAsync<TReturn>(
+    public static async Task<TReturn?> RunFuncWithSeveralAttemptsAsync<TReturn>(
         this Func<AttemptInfo, TReturn> func,
         Func<AttemptInfo, Exception, bool>? canRetryAtException = null,
         TimeSpan? delay = null,

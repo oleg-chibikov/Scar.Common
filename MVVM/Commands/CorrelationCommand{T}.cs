@@ -5,9 +5,10 @@ namespace Scar.Common.MVVM.Commands;
 public class CorrelationCommand<T>(
         ICommandManager commandManager,
         Action<T> executeFunc,
-        Predicate<T>? canExecuteFunc = null)
+        Predicate<T>? canExecuteFunc = null,
+        string? debugName = null)
     : BaseCommand<Action<T>, Predicate<T>>(
-    commandManager, executeFunc, canExecuteFunc)
+        commandManager, executeFunc, canExecuteFunc, debugName)
 {
     public override bool CanExecute(object? parameter)
     {

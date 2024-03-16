@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Data;
 
 namespace Scar.Common.WPF.Converters;

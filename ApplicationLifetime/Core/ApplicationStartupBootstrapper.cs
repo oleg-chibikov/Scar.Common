@@ -17,6 +17,7 @@ using Scar.Common.ApplicationLifetime.Contracts;
 using Scar.Common.Exceptions;
 using Scar.Common.Localization;
 using Scar.Common.Messages;
+using Scar.Common.MVVM.Commands;
 
 namespace Scar.Common.ApplicationLifetime.Core;
 
@@ -123,6 +124,7 @@ public class ApplicationStartupBootstrapper : IApplicationStartupBootstrapper
                         SingleInstance();
                     containerBuilder.RegisterInstance(new MessageHub()).AsImplementedInterfaces().SingleInstance();
                     containerBuilder.RegisterInstance(_assemblyInfoProvider).AsImplementedInterfaces().SingleInstance();
+                    containerBuilder.RegisterType<UiThreadRunner>().AsImplementedInterfaces().SingleInstance();
                     registerDependencies(containerBuilder);
                 }));
 
@@ -186,10 +188,10 @@ public class ApplicationStartupBootstrapper : IApplicationStartupBootstrapper
 
                 return;
             case NewInstanceHandling.Restart:
-                {
-                    KillAnotherInstanceIfExists();
-                    break;
-                }
+            {
+                KillAnotherInstanceIfExists();
+                break;
+            }
         }
     }
 

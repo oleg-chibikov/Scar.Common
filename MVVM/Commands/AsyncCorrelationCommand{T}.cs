@@ -6,9 +6,10 @@ namespace Scar.Common.MVVM.Commands;
 public class AsyncCorrelationCommand<T>(
         ICommandManager commandManager,
         Func<T, Task> executeFunc,
-        Predicate<T>? canExecuteFunc = null)
+        Predicate<T>? canExecuteFunc = null,
+        string? debugName = null)
     : BaseCommand<Func<T, Task>, Predicate<T>>(
-    commandManager, executeFunc, canExecuteFunc)
+        commandManager, executeFunc, canExecuteFunc, debugName)
 {
     public override bool CanExecute(object? parameter)
     {
