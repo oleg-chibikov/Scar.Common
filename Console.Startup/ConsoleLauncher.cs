@@ -1,13 +1,13 @@
 using System;
 using System.Globalization;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Scar.Common.ApplicationLifetime.Core;
 using Scar.Common.Localization;
 using Serilog;
@@ -17,25 +17,34 @@ namespace Scar.Common.Console.Startup;
 
 public class ConsoleLauncher
 {
-    static EventHandler? _appExitHandler;
-
     static bool _exitSystem;
 
     ApplicationStartupBootstrapper? _bootstrapper;
-
-    delegate bool EventHandler(CtrlType sig);
 
     public async Task SetupAsync(
         Action<ContainerBuilder> registerDependencies,
         Func<ILifetimeScope, Task> launch,
         Func<IConfigurationSection, object>? readConfig = null)
     {
-        // Some boilerplate to react to close window event, CTRL-C, kill, etc
-        _appExitHandler += AppExitHandler;
-        SetConsoleCtrlHandler(
-            _appExitHandler,
-            true);
         System.Console.OutputEncoding = Encoding.UTF8;
+
+        try
+        {
+            var platform = Environment.OSVersion.Platform;
+            System.Console.WriteLine("Registering exit signal handler for {0}...", platform);
+            IExitSignal exitSignalHandler =
+                // Some boilerplate to react to close window event, CTRL-C, kill, etc
+                platform is PlatformID.Win32NT or PlatformID.Win32S or PlatformID.Win32Windows
+                ? new WinExitSignal()
+                : new UnixExitSignal();
+
+            exitSignalHandler.Exit += AppExitHandler;
+        }
+        catch (Exception ex)
+        {
+            System.Console.Write("Cannot set app exit handler : {0}", ex);
+        }
+
         var appDirectory = AppContext.BaseDirectory ?? throw new InvalidOperationException("Cannot get base directory");
         Directory.SetCurrentDirectory(appDirectory);
         object? config = null;
@@ -81,11 +90,15 @@ public class ConsoleLauncher
                 if (readConfig != null)
                 {
                     config = readConfig(appSettings);
+                    System.Console.WriteLine(
+                        "Config {0}",
+                        config);
                 }
 
                 SetupSerilogLogger(
                     appDirectory,
                     appSettings["Environment"] ?? "Development");
+                loggingBuilder.ClearProviders();
                 loggingBuilder.AddSerilog();
             },
             afterBuild: launch);
@@ -97,11 +110,6 @@ public class ConsoleLauncher
             await Task.Delay(500).ConfigureAwait(false);
         }
     }
-
-    [DllImport("Kernel32")]
-#pragma warning disable CA5392 // Use DefaultDllImportSearchPaths attribute for P/Invokes
-    static extern bool SetConsoleCtrlHandler(EventHandler handler, bool add);
-#pragma warning restore CA5392 // Use DefaultDllImportSearchPaths attribute for P/Invokes
 
     static void SetupSerilogLogger(string appDirectory, string environment)
     {
@@ -120,7 +128,7 @@ public class ConsoleLauncher
                 environment).CreateLogger();
     }
 
-    bool AppExitHandler(CtrlType sig)
+    void AppExitHandler(object? sender, EventArgs args)
     {
         System.Console.WriteLine("Exiting system due to external CTRL-C, or process kill, or shutdown");
 
@@ -134,7 +142,5 @@ public class ConsoleLauncher
 
         //shutdown right away so there are no lingering threads
         Environment.Exit(-1);
-
-        return true;
     }
 }

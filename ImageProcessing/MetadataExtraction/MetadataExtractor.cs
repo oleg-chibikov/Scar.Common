@@ -30,7 +30,6 @@ public sealed class MetadataExtractor(ILogger<MetadataExtractor>? logger = null)
     };
 
     static readonly TimeSpan DefaultAttemptDelay = TimeSpan.FromMilliseconds(100);
-    static readonly TimeSpan GeocoderDefaultAttemptDelay = TimeSpan.FromSeconds(1);
     readonly ILogger? _logger = logger;
     readonly ReverseGeocoder _reverseGeocoder = new();
 
@@ -39,7 +38,7 @@ public sealed class MetadataExtractor(ILogger<MetadataExtractor>? logger = null)
         _ = exifMetadata ?? throw new ArgumentNullException(nameof(exifMetadata));
         if (exifMetadata.GeoLocation != null)
         {
-            Func<AttemptInfo, Task> func = async _ =>
+            try
             {
                 var locationData = await _reverseGeocoder.ReverseGeocodeAsync(
                     exifMetadata.GeoLocation.Latitude,
@@ -50,9 +49,13 @@ public sealed class MetadataExtractor(ILogger<MetadataExtractor>? logger = null)
                     exifMetadata.GeoLocation.Longitude,
                     locationData);
                 onComplete?.Invoke(locationData);
-            };
-
-            await func.RunFuncWithSeveralAttemptsAsync(delay: GeocoderDefaultAttemptDelay).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(
+                    ex,
+                    "Cannot get location");
+            }
         }
     }
 
@@ -88,6 +91,7 @@ public sealed class MetadataExtractor(ILogger<MetadataExtractor>? logger = null)
             object? width = null,
                 height = null,
                 cameraModel = null,
+                cameraManufacturer = null,
                 lensAperture = null,
                 focalLength = null,
                 isoSpeed = null,
@@ -109,6 +113,9 @@ public sealed class MetadataExtractor(ILogger<MetadataExtractor>? logger = null)
                 reader.GetTagValue(
                     ExifTags.Model,
                     out cameraModel);
+                reader.GetTagValue(
+                    ExifTags.Make,
+                    out cameraManufacturer);
                 reader.GetTagValue(
                     ExifTags.MaxApertureValue,
                     out lensAperture);
@@ -174,7 +181,8 @@ public sealed class MetadataExtractor(ILogger<MetadataExtractor>? logger = null)
             return new ExifMetadata(
                 width,
                 height,
-                cameraModel?.ToString(),
+                cameraModel?.ToString()?.Capitalize(),
+                cameraManufacturer?.ToString()?.Capitalize(),
                 lensAperture,
                 focalLength,
                 isoSpeed,

@@ -9,6 +9,7 @@ public class ExifMetadata
         object? width,
         object? height,
         string? cameraModel,
+        string? cameraManufacturer,
         object? lensAperture,
         object? focalLength,
         object? isoSpeed,
@@ -21,6 +22,7 @@ public class ExifMetadata
         Width = width;
         Height = height;
         CameraModel = cameraModel;
+        CameraManufacturer = cameraManufacturer;
         LensAperture = lensAperture;
         FocalLength = focalLength;
         IsoSpeed = isoSpeed;
@@ -44,6 +46,8 @@ public class ExifMetadata
     public object? Height { get; }
 
     public string? CameraModel { get; }
+
+    public string? CameraManufacturer { get; }
 
     public object? LensAperture { get; }
 

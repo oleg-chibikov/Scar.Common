@@ -20,6 +20,8 @@ public interface IRepository<T, TId>
 
     IReadOnlyCollection<T> GetAll();
 
+    int Count();
+
     IReadOnlyCollection<T> Find(Expression<Func<T, bool>> predicate, int pageNumber = 0, int pageSize = int.MaxValue);
 
     IReadOnlyCollection<T> GetPage(int pageNumber, int pageSize, string? sortField = null, SortOrder sortOrder = SortOrder.Ascending);

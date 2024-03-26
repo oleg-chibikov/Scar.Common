@@ -14,7 +14,7 @@ public class GeoLocationConverter : IValueConverter
     {
         if (value is GeoLocation geoLocation)
         {
-            return geoLocation.Name ?? $"{FormatCoordinate(geoLocation.Latitude)}, {FormatCoordinate(geoLocation.Longitude)}";
+            return $"{FormatCoordinate(geoLocation.Latitude)},{FormatCoordinate(geoLocation.Longitude)}";
         }
 
         return null;

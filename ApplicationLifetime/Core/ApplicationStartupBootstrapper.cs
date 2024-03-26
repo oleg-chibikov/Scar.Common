@@ -72,18 +72,23 @@ public class ApplicationStartupBootstrapper : IApplicationStartupBootstrapper
 
         if (_newInstanceHandling != NewInstanceHandling.AllowMultiple)
         {
+            Console.WriteLine("Creating mutex...");
             _mutex = createMutex == null ? CreateCommonMutex() : createMutex();
+            Console.WriteLine("Created mutex");
         }
 
+        Console.WriteLine("Creating host builder...");
         var hostBuilder = Host.CreateDefaultBuilder().ConfigureServices(
             serviceCollection =>
             {
+                Console.WriteLine("Configuring services...");
                 configureServices?.Invoke(serviceCollection);
-
                 serviceCollection.AddLogging();
+                Console.WriteLine("Configured services");
             }).ConfigureAppConfiguration(
             (hostingContext, config) =>
             {
+                Console.WriteLine("Configuring environment...");
                 var env = hostingContext.HostingEnvironment;
 
                 var mainAppSettingsFilePath = Path.Combine(
@@ -102,21 +107,27 @@ public class ApplicationStartupBootstrapper : IApplicationStartupBootstrapper
 
                 if (File.Exists(environmentSpecificAppSettingsFilePath))
                 {
+                    Console.WriteLine("Using {0} config", env.EnvironmentName);
                     config.AddJsonFile(
                         environmentSpecificAppSettingsFilePath,
                         true,
                         true);
                 }
+
+                Console.WriteLine("Configured environment");
             }).ConfigureLogging(
             (hostBuilderContext, loggingBuilder) =>
             {
+                Console.WriteLine("Configuring logging...");
                 configureLogging?.Invoke(
                     hostBuilderContext,
                     loggingBuilder);
+                Console.WriteLine("Configured logging");
             }).UseServiceProviderFactory(
             new AutofacServiceProviderFactory(
                 containerBuilder =>
                 {
+                    Console.WriteLine("Registering dependencies...");
                     containerBuilder.
                         Register(
                             _ => SynchronizationContext ?? throw new InvalidOperationException(
@@ -126,14 +137,19 @@ public class ApplicationStartupBootstrapper : IApplicationStartupBootstrapper
                     containerBuilder.RegisterInstance(_assemblyInfoProvider).AsImplementedInterfaces().SingleInstance();
                     containerBuilder.RegisterType<UiThreadRunner>().AsImplementedInterfaces().SingleInstance();
                     registerDependencies(containerBuilder);
+                    Console.WriteLine("Registered dependencies");
                 }));
 
         if (configureHost != null)
         {
+            Console.WriteLine("Configuring host...");
             hostBuilder = configureHost(hostBuilder);
+            Console.WriteLine("Configured host");
         }
 
+        Console.WriteLine("Building host...");
         _host = hostBuilder.Build();
+        Console.WriteLine("Built host");
         Container = _host.Services.GetAutofacRoot();
         CultureManager.ChangeCulture(startupCulture ?? Thread.CurrentThread.CurrentUICulture);
         Messenger = Container.Resolve<IMessageHub>();
@@ -141,7 +157,9 @@ public class ApplicationStartupBootstrapper : IApplicationStartupBootstrapper
         _subscriptionTokens.Add(Messenger.Subscribe<CultureInfo>(CultureManager.ChangeCulture));
         _logger = Container.Resolve<ILogger<ApplicationStartupBootstrapper>>();
         TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+        Console.WriteLine("Invoking AfterBuild...");
         afterBuild?.Invoke(Container);
+        Console.WriteLine("Invoked AfterBuild");
     }
 
     public SynchronizationContext? SynchronizationContext { get; private set; }
@@ -188,10 +206,10 @@ public class ApplicationStartupBootstrapper : IApplicationStartupBootstrapper
 
                 return;
             case NewInstanceHandling.Restart:
-            {
-                KillAnotherInstanceIfExists();
-                break;
-            }
+                {
+                    KillAnotherInstanceIfExists();
+                    break;
+                }
         }
     }
 

@@ -11,7 +11,7 @@ public interface IProcessUtility
 
     event EventHandler<EventArgs<string>> ProcessMessageFired;
 
-    Task<ProcessResult> ExecuteCommandAsync(string commandPath, string? arguments, CancellationToken cancellationToken, TimeSpan? timeout = null, string? workingDirectory = null);
+    Task<ProcessResult> ExecuteCommandAsync(string commandPath, string? arguments, TimeSpan? timeout = null, string? workingDirectory = null, bool ui = false, CancellationToken cancellationToken = default);
 
     Task TaskKillAsync(string processName, CancellationToken cancellationToken);
 }

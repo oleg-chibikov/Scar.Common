@@ -110,6 +110,8 @@ public abstract class LiteDbRepository<T, TId> : FileBasedLiteDbRepository<TId>,
 
     public IReadOnlyCollection<T> GetAll() => EnumerateAll().ToArray();
 
+    public int Count() => Collection.Count();
+
     public IReadOnlyCollection<T> GetPage(int pageNumber, int pageSize, string? sortField, SortOrder sortOrder) => EnumeratePage(pageNumber, pageSize, sortField, sortOrder).ToArray();
 
     public IEnumerable<T> Enumerate(Expression<Func<T, bool>> predicate, int pageNumber, int pageSize)

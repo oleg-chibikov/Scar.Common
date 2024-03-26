@@ -17,7 +17,7 @@ public sealed class ProcessUtility(ILogger<ProcessUtility> logger) : IProcessUti
 
     public event EventHandler<EventArgs<string>>? ProcessErrorFired;
 
-    public async Task<ProcessResult> ExecuteCommandAsync(string commandPath, string? arguments, CancellationToken cancellationToken, TimeSpan? timeout = null, string? workingDirectory = null)
+    public async Task<ProcessResult> ExecuteCommandAsync(string commandPath, string? arguments, TimeSpan? timeout = null, string? workingDirectory = null, bool ui = false, CancellationToken cancellationToken = default)
     {
         _ = commandPath ?? throw new ArgumentNullException(nameof(commandPath));
         return await Task.Run(
@@ -26,8 +26,8 @@ public sealed class ProcessUtility(ILogger<ProcessUtility> logger) : IProcessUti
                     _logger.LogTrace("Running {CommandPath} with arguments {Arguments}", commandPath, arguments);
                     var processInfo = new ProcessStartInfo(commandPath, arguments ?? string.Empty)
                     {
-                        CreateNoWindow = true,
-                        WindowStyle = ProcessWindowStyle.Hidden,
+                        CreateNoWindow = !ui,
+                        WindowStyle = ui ? ProcessWindowStyle.Normal : ProcessWindowStyle.Hidden,
                         UseShellExecute = false,
                         RedirectStandardError = true,
                         RedirectStandardOutput = true

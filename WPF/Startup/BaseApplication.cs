@@ -1,5 +1,6 @@
 using System;
 using System.Globalization;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -9,12 +10,15 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using Autofac;
 using Easy.MessageHub;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Scar.Common.ApplicationLifetime.Core;
 using Scar.Common.Messages;
 using Scar.Common.WPF.Localization;
+using Serilog;
+using Serilog.Events;
 
 namespace Scar.Common.WPF.Startup;
 
@@ -29,22 +33,70 @@ public abstract class BaseApplication : Application
         string? alreadyRunningMessage = null,
         int waitAfterOldInstanceKillMilliseconds = 0,
         NewInstanceHandling newInstanceHandling = NewInstanceHandling.Restart,
-        CultureInfo? startupCulture = null)
+        CultureInfo? startupCulture = null,
+        Func<IConfigurationSection, object>? readConfig = null)
     {
+        var appDirectory = AppContext.BaseDirectory ?? throw new InvalidOperationException("Cannot get base directory");
         var cultureManager = new CultureManager();
         var applicationTerminator = new ApplicationTerminator();
         var assemblyInfoProvider = new AssemblyInfoProvider(new EntryAssemblyProvider(), new SpecialPathsProvider());
+        object? config = null;
+
+        void AddLogging(HostBuilderContext hostBuilderContext, ILoggingBuilder loggingBuilder)
+        {
+            var configuration = hostBuilderContext.Configuration;
+            var appSettings = configuration.GetSection("AppSettings");
+            if (readConfig != null)
+            {
+                config = readConfig(appSettings);
+            }
+
+            if (configureLogging != null)
+            {
+                configureLogging(
+                    hostBuilderContext,
+                    loggingBuilder);
+            }
+            else
+            {
+                Log.Logger = new LoggerConfiguration().MinimumLevel.Is(LogEventLevel.Debug).
+                    WriteTo.Console(formatProvider: CultureInfo.CurrentCulture).
+                    WriteTo.File(
+                        Path.Combine(
+                            appDirectory,
+                            "logs",
+                            "log.log"),
+                        rollingInterval: RollingInterval.Hour,
+                        shared: true,
+                        rollOnFileSizeLimit: true,
+                        retainedFileCountLimit: 10,
+                        formatProvider: CultureInfo.CurrentCulture).
+                    Enrich.WithProperty(
+                        "Environment",
+                        appSettings["Environment"] ?? "Development").
+                    CreateLogger();
+                loggingBuilder.AddSerilog();
+            }
+        }
 
         _applicationBootstrapper = new ApplicationStartupBootstrapper(
             cultureManager,
             applicationTerminator,
             ShowMessage,
             CreateMutex,
-            RegisterDependencies,
+            containerBuilder =>
+            {
+                if (config != null)
+                {
+                    containerBuilder.RegisterInstance(config).AsSelf().AsImplementedInterfaces().SingleInstance();
+                }
+
+                RegisterDependencies(containerBuilder);
+            },
             assemblyInfoProvider,
             configureHost,
             configureServices,
-            configureLogging,
+            AddLogging,
             alreadyRunningMessage,
             waitAfterOldInstanceKillMilliseconds,
             newInstanceHandling,

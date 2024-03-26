@@ -6,7 +6,10 @@ namespace Scar.Common.Quartz;
 public enum JobScheduleOptions
 {
     None = 0,
-    Immediate = 1,
-    Daily = 2,
-    Both = Immediate | Daily
+    Weekly = 1,
+    Immediate = 2,
+    Daily = 4,
+    TwiceDaily = 8,
+    Hourly = 16,
+    EveryMinute = 32
 }

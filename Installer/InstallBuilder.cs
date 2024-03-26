@@ -25,7 +25,7 @@ public class InstallBuilder
     {
         _ = buildDir ?? throw new ArgumentNullException(nameof(buildDir));
         _productName = productName ?? throw new ArgumentNullException(nameof(productName));
-        _exeFileName = _productName + ".exe";
+        _exeFileName = $"{_productName}.exe";
         var assembly = Assembly.GetEntryAssembly() ?? throw new InvalidOperationException("EntryAssembly is null");
         var assemblyName = assembly.GetName();
         var version = assemblyName.Version;
